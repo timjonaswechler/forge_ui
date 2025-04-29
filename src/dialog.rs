@@ -8,8 +8,8 @@ use uuid::Uuid;
 
 use std::hash::Hash;
 
-use crate::theme::UiTheme;
-use crate::ui_elements::button::{ButtonBuilder, ButtonSize, ButtonVariant}; // Für Schließen-Button
+use crate::components::button::{ButtonBuilder, ButtonSize, ButtonVariant};
+use crate::theme::UiTheme; // Für Schließen-Button
 
 // --- Ressourcen (ggf. global definieren) ---
 #[derive(Resource, Default, Debug)]

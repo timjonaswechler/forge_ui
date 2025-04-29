@@ -4,8 +4,8 @@ use bevy::prelude::*;
 use std::collections::HashMap; // Für Content-Bereiche
 use std::hash::Hash; // Für generischen Wert-Typ
 
-use crate::theme::UiTheme;
-use crate::ui_elements::button::{ButtonBuilder, ButtonSize, ButtonVariant}; // Nutzen Button als Basis für Trigger
+use crate::components::button::{ButtonBuilder, ButtonSize, ButtonVariant};
+use crate::theme::UiTheme; // Nutzen Button als Basis für Trigger
 
 // --- Komponenten ---
 

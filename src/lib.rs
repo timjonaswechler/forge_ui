@@ -1,6 +1,6 @@
 // forge_ui/src/lib.rs
-pub mod ui_elements;
-pub use ui_elements::button::{
+pub mod components;
+pub use components::button::{
     handle_button_clicks_event, handle_button_clicks_fn, update_button_visuals, ButtonClickedEvent,
 };
 pub mod card;
