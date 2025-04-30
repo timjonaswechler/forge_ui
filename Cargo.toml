@@ -23,8 +23,5 @@ bevy_common_assets = { workspace = true }
 
 [features]
 default = []
-# UI-spezifische Features
-fancy_ui = []
-minimal_ui = []
 # Integration mit Debug-Tools
 debug_inspector = ["bevy/bevy_dev_tools"]
