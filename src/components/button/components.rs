@@ -13,7 +13,7 @@ pub struct ButtonState {
     pub variant: ButtonVariant,
     pub size: ButtonSize,
     pub disabled: bool,
-    pub style_def: ButtonStyleDef,
+    // pub style_def: ButtonStyleDef,
 }
 
 /// Optional: Component to hold a direct callback closure.

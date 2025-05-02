@@ -1,23 +1,34 @@
 use super::components::{ButtonMarker, ButtonState, OnClick};
 use super::events::ButtonClickedEvent;
+use crate::theme::UiTheme;
 use bevy::prelude::*;
 
 /// System to update the button's background, border, and children's colors
 pub fn update_button_visuals(
+    theme_opt: Option<Res<UiTheme>>,
     mut buttons: Query<
         (
             &Interaction,
             &mut BackgroundColor,
             &mut BorderColor,
-            &ButtonState, // << Enthält die style_def
+            &ButtonState,
             Option<&Children>,
         ),
-        (Changed<Interaction>, With<ButtonMarker>),
+        (
+            Or<(Changed<Interaction>, Changed<ButtonState>, Res<UiTheme>)>, // <<< MODIFIED Check if theme changed
+            With<ButtonMarker>,
+        ),
     >,
     mut text_query: Query<&mut TextColor>, // TextColor direkt ändern
     // Zugriff auf BackgroundColor der ImageBundle Node
     mut image_bg_color_query: Query<&mut BackgroundColor, (With<ImageNode>, Without<ButtonMarker>)>,
 ) {
+    // --- ADD THIS GUARD ---
+    let Some(theme) = theme_opt else {
+        warn!("UiTheme not available for update_button_visuals, skipping frame.");
+        return;
+    };
+    // --- END GUARD ---
     for (interaction, mut bg_color, mut border_color, state, children_opt) in buttons.iter_mut() {
         // 1. Update Button Background and Border using ButtonState.style_def methods
         // Diese Methoden enthalten jetzt die neue Overlay-Logik

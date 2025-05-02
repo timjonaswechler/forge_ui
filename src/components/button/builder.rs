@@ -196,7 +196,7 @@ impl<F: Fn() + Send + Sync + 'static> ButtonBuilder<F> {
                 variant: self.variant,
                 size: self.size,
                 disabled: self.disabled,
-                style_def: style_def.clone(),
+                // style_def: style_def.clone(),
             },
             BorderRadius::all(final_radius), // <<< Setze den BorderRadius
         ));
