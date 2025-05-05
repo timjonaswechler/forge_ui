@@ -6,6 +6,8 @@ use serde::{Deserialize, Serialize};
 #[derive(Serialize, Deserialize, Debug, Clone, Asset, TypePath)]
 pub struct UiThemeData {
     pub ui_scaling: f32,
+    pub rem: f32,
+    pub spacing: f32,
     pub font: UiTypographyData,
     pub layout: UiLayoutData,
     pub color: UiColorDatas,
@@ -56,7 +58,6 @@ pub struct FontVariantsData {
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct UiLayoutData {
-    pub spacing: f32,
     pub padding: UiSpacingData,
     pub margin: UiSpacingData,
     pub gap: UiSpacingData,
@@ -88,22 +89,6 @@ pub struct UiRadiusData {
     pub x3l: f32,
     pub x4l: f32,
     pub full: f32,
-}
-
-#[derive(Serialize, Deserialize, Debug, Clone)]
-pub struct UiColorData {
-    pub background_primary: [f32; 4],
-    pub background_secondary: [f32; 4],
-    pub interaction_primary: [f32; 4],
-    pub interaction_secondary: [f32; 4],
-    pub interaction_tertiary: [f32; 4],
-    pub border_primary: [f32; 4],
-    pub border_secondary: [f32; 4],
-    pub border_tertiary: [f32; 4],
-    pub solid_primary: [f32; 4],
-    pub solid_secondary: [f32; 4],
-    pub text_primary: [f32; 4],
-    pub text_secondary: [f32; 4],
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -141,4 +126,20 @@ pub struct UiColorDatas {
     pub lime: UiColorData,
     pub mint: UiColorData,
     pub sky: UiColorData,
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct UiColorData {
+    pub background_primary: [f32; 4],
+    pub background_secondary: [f32; 4],
+    pub interaction_primary: [f32; 4],
+    pub interaction_secondary: [f32; 4],
+    pub interaction_tertiary: [f32; 4],
+    pub border_primary: [f32; 4],
+    pub border_secondary: [f32; 4],
+    pub border_tertiary: [f32; 4],
+    pub solid_primary: [f32; 4],
+    pub solid_secondary: [f32; 4],
+    pub text_primary: [f32; 4],
+    pub text_secondary: [f32; 4],
 }

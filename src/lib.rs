@@ -1,53 +1,55 @@
 // forge_ui/src/lib.rs
 pub mod components;
-pub use components::button::{
-    handle_button_clicks_event, handle_button_clicks_fn, update_button_visuals, ButtonClickedEvent,
-};
-pub mod card;
-pub use card::{
-    // -- Builder Pattern --
-    CardBuilder,  // << Der Haupt-Builder
-    ElementStyle, // << Enum für Text-Stile
-    NodeElement,  // << Enum für Kind-Elemente
-};
-
-pub mod label;
-pub use label::{
-    LabelBuilder, // << Builder exportieren
-    LabelMarker,  // << Marker exportieren
-};
-
-pub mod checkbox;
-pub use checkbox::{
-    CheckboxBuilder,      // Der Builder
-    CheckboxChangedEvent, // Das Event bei Änderung
-    CheckboxMarker,       // Marker-Komponente
-    CheckboxState,        // Die Zustandskomponente
-};
-
-pub mod tabs;
-pub use tabs::{
-    TabChangedEvent, // Event bei Tab-Wechsel
-    TabId,           // Re-export TabId for use in this file
-    // Marker-Komponenten weniger wichtig, wenn Builder verwendet wird
-    TabsBuilder, // Der Haupt-Builder
-};
-
-pub mod badge;
-pub use badge::{
-    BadgeBuilder, // Der Builder
-    BadgeMarker,  // Der Marker
-    BadgeVariant, // Das Varianten-Enum
-};
-
-pub mod dialog;
-pub use dialog::{
-    CloseDialogEvent,   // Event zum Schließen
-    DialogBuilder,      // Der Builder
-    DialogCloseTrigger, // Marker für Schließen-Buttons
-    // Marker wie DialogRoot, DialogContent weniger oft direkt gebraucht
-    DialogId,        // ID-Komponente
-    OpenDialogEvent, // Event zum Öffnen
+pub use components::{
+    badge::{
+        BadgeBuilder, // Der Builder
+        BadgeMarker,  // Der Marker
+        BadgeVariant, // Das Varianten-Enum
+    },
+    button::{
+        handle_button_clicks_event, handle_button_clicks_fn, update_button_visuals,
+        ButtonClickedEvent,
+    },
+    // << Enum für die Stile
+    card::{
+        // -- Builder Pattern --
+        CardBuilder,  // << Der Haupt-Builder
+        ElementStyle, // << Enum für Text-Stile
+        NodeElement,  // << Enum für Kind-Elemente
+    },
+    checkbox::{
+        handle_checkbox_clicks,
+        update_checkbox_visuals,
+        update_checkmark_visibility_on_state_change,
+        CheckboxBuilder,      // Der Builder
+        CheckboxChangedEvent, // Das Event bei Änderung
+        CheckboxMarker,       // Marker-Komponente
+        CheckboxState,        // Die Zustandskomponente
+    },
+    dialog::{
+        close_dialog_system,
+        handle_overlay_click_system,
+        open_dialog_system,
+        register_initially_open_dialogs,
+        ActiveDialogs,
+        CloseDialogEvent,   // Event zum Schließen
+        DialogBuilder,      // Der Builder
+        DialogCloseTrigger, // Marker für Schließen-Buttons
+        DialogId,           // ID-Komponente
+        OpenDialogEvent,    // Event zum Öffnen
+    },
+    label::{
+        LabelBuilder, // << Builder exportieren
+        LabelMarker,  // << Marker exportieren
+    },
+    tabs::{
+        handle_tab_triggers,
+        populate_initial_tab_content,
+        update_tabs_visuals,
+        TabChangedEvent, // Event bei Tab-Wechsel
+        TabId,           // Re-export TabId for use in this file
+        TabsBuilder,     // Der Haupt-Builder
+    },
 };
 
 pub mod layout;
@@ -62,7 +64,7 @@ pub mod theme;
 use bevy::prelude::*;
 
 use crate::theme::{
-    data::*,
+    data::UiThemeData, // Theme-Daten
     runtime::*,
     // We will move the setup logic into a loading state system
     // systems::{hot_reload_theme_system, setup_theme_resource},
@@ -70,22 +72,51 @@ use crate::theme::{
 };
 
 use bevy_common_assets::ron::RonAssetPlugin;
-use checkbox::{
-    handle_checkbox_clicks, update_checkbox_visuals, update_checkmark_visibility_on_state_change,
-};
-use dialog::{
-    close_dialog_system, handle_overlay_click_system, open_dialog_system,
-    register_initially_open_dialogs, ActiveDialogs,
-};
-use tabs::{handle_tab_triggers, populate_initial_tab_content, update_tabs_visuals};
+
+#[derive(Resource, Debug, Clone)]
+pub struct UiConfig {
+    /// Der REM-Basiswert, in Pixeln. Wenn `None`, wird `ui_scaling` aus theme.ron genutzt.
+    pub rem: Option<f32>,
+}
+
+impl Default for UiConfig {
+    fn default() -> Self {
+        UiConfig { rem: None }
+    }
+}
 
 /// Plugin für die Kernfunktionalität der Forge UI Widgets.
 /// Fügt Interaktionssysteme und Events hinzu.
-pub struct ForgeUiPlugin;
+pub struct ForgeUiPlugin {
+    /// Konfiguration für das Plugin.
+    pub config: UiConfig,
+}
+
+impl ForgeUiPlugin {
+    /// Erstelle das Plugin mit Standard-Config (kein Override).
+    pub fn new() -> Self {
+        ForgeUiPlugin {
+            config: UiConfig::default(),
+        }
+    }
+
+    /// Überschreibe den REM-Wert (in Pixeln).
+    pub fn with_rem(mut self, rem: f32) -> Self {
+        self.config.rem = Some(rem);
+        self
+    }
+}
 
 impl Plugin for ForgeUiPlugin {
     fn build(&self, app: &mut App) {
-        // Nur Events registrieren
+        // 1) Config als Resource einfügen
+        app.insert_resource(self.config.clone());
+        app.register_asset_reflect::<UiThemeData>();
+        app.init_asset::<UiThemeData>();
+        app.insert_resource(UiConfig {
+            rem: self.config.rem,
+        });
+
         app.add_plugins(RonAssetPlugin::<UiThemeData>::new(&["theme.ron"]))
             // --- Asset Loading Logic ---
             // 1. Load the asset during PreStartup and store the handle
@@ -105,11 +136,11 @@ impl Plugin for ForgeUiPlugin {
             )
             // --- End Asset Loading Logic ---
             .add_systems(Update, hot_reload_theme_system) // Keep hot reload
-            .add_event::<checkbox::CheckboxChangedEvent>()
+            .add_event::<CheckboxChangedEvent>()
             // --- NEU: Tabs spezifisch (Generisch über Typ T) ---
             // Man muss das Event und die Systeme für JEDEN verwendeten Wert-Typ T registrieren.
             // Hier ein Beispiel für TabId als Wert-Typ:
-            .add_event::<TabChangedEvent<tabs::TabId>>() // <-- Beispiel mit TabId
+            .add_event::<TabChangedEvent<TabId>>() // <-- Beispiel mit TabId
             .init_resource::<ActiveDialogs>() // WICHTIG: Ressource initialisieren
             .add_event::<OpenDialogEvent>()
             .add_event::<CloseDialogEvent>()
@@ -118,25 +149,17 @@ impl Plugin for ForgeUiPlugin {
                 PostUpdate,
                 (
                     // PostUpdate, um Inhalt nach dem Bauen zu füllen
-                    populate_initial_tab_content::<tabs::TabId>, // <-- Beispiel mit TabId
+                    populate_initial_tab_content::<TabId>, // <-- Beispiel mit TabId
                 ),
             )
             .add_systems(
                 Update,
                 (
-                    // Button Systems
-                    update_button_visuals,
+                    handle_tab_triggers::<TabId>, // <-- Beispiel mit TabId
                     handle_button_clicks_event,
-                    handle_button_clicks_fn, // Optional
-                    register_initially_open_dialogs,
-                    update_checkbox_visuals, // <<< Uses Option<Res<UiTheme>> now
                     handle_checkbox_clicks,
-                    update_checkmark_visibility_on_state_change,
-                    open_dialog_system,                 // Öffnet Dialoge per Event
-                    close_dialog_system, // Schließt Dialoge (ESC, Event, Close Button)
-                    handle_overlay_click_system, // Schließt bei Klick aufs Overlay
-                    handle_tab_triggers::<tabs::TabId>, // <-- Beispiel mit TabId
-                    update_tabs_visuals::<tabs::TabId>, // <-- Beispiel mit TabId
+                    handle_overlay_click_system,
+                    close_dialog_system,
                 ),
             );
         #[cfg(debug_assertions)]

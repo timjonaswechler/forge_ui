@@ -1,18 +1,25 @@
 // crates/forge_ui/src/theme/systems.rs
 
 use crate::theme::{data::*, runtime::*, UiTheme};
-use bevy::{asset::LoadState, prelude::*}; // Import LoadState
+use crate::UiConfig;
+use bevy::{asset::LoadState, prelude::*};
 
 // Define a handle resource to track the theme asset
 #[derive(Resource)]
 pub struct ThemeAssetHandle(Handle<UiThemeData>);
+
+// System to load the asset handle during PreStartup
+pub fn load_theme_asset(mut commands: Commands, asset_server: Res<AssetServer>) {
+    let handle = asset_server.load("theme/default.theme.ron");
+    commands.insert_resource(ThemeAssetHandle(handle));
+    info!("Initiated loading theme/default.theme.ron");
+}
 
 // Keep hot_reload_theme_system
 pub fn hot_reload_theme_system(
     mut ev_asset: EventReader<AssetEvent<UiThemeData>>,
     asset_server: Res<AssetServer>,
     theme_data_assets: Res<Assets<UiThemeData>>,
-
     theme_opt: Option<ResMut<UiTheme>>,
 ) {
     // --- ADD GUARD ---
@@ -29,7 +36,23 @@ pub fn hot_reload_theme_system(
             AssetEvent::Modified { id } => {
                 info!("UiThemeData asset modified: {:?}. Reloading...", id);
                 if let Some(data) = theme_data_assets.get(*id) {
-                    // Re-run the conversion logic, but update the existing resource
+                    // --- Werte für Neuberechnung holen ---
+                    // Wichtig: Benutze den *gespeicherten* rem-Wert aus dem Theme!
+                    let effective_rem = theme.rem;
+                    // Nimm den *neuen* ui_scaling-Wert aus den geladenen Daten
+                    let effective_ui_scaling = data.ui_scaling;
+                    // Berechne die neue Basis-Spacing-Einheit
+                    let base_spacing_unit = data.spacing * effective_rem * effective_ui_scaling;
+
+                    info!(
+                        "Hot Reload Effective Values: rem={}, ui_scaling={}, base_spacing_unit={}",
+                        effective_rem, effective_ui_scaling, base_spacing_unit
+                    );
+                    // --- Felder in `theme` aktualisieren ---
+                    theme.ui_scaling = effective_ui_scaling; // Neuen Skalierungsfaktor speichern
+                                                             // theme.rem bleibt unverändert!
+                                                             // Re-run the conversion logic, but update the existing resource
+
                     let load_font = |path: &str| -> Handle<Font> {
                         if path.is_empty() {
                             Handle::default()
@@ -42,19 +65,19 @@ pub fn hot_reload_theme_system(
                     // Update typography
                     theme.font.font_size = UiFontSize {
                         /* ... copy from plugin's check_theme_asset_readiness ... */
-                        xs: data.font.font_size.xs,
-                        sm: data.font.font_size.sm,
-                        base: data.font.font_size.base,
-                        lg: data.font.font_size.lg,
-                        xl: data.font.font_size.xl,
-                        x2l: data.font.font_size.x2l,
-                        x3l: data.font.font_size.x3l,
-                        x4l: data.font.font_size.x4l,
-                        x5l: data.font.font_size.x5l,
-                        x6l: data.font.font_size.x6l,
-                        x7l: data.font.font_size.x7l,
-                        x8l: data.font.font_size.x8l,
-                        x9l: data.font.font_size.x9l,
+                        xs: data.font.font_size.xs * effective_rem * effective_ui_scaling,
+                        sm: data.font.font_size.sm * effective_rem * effective_ui_scaling,
+                        base: data.font.font_size.base * effective_rem * effective_ui_scaling,
+                        lg: data.font.font_size.lg * effective_rem * effective_ui_scaling,
+                        xl: data.font.font_size.xl * effective_rem * effective_ui_scaling,
+                        x2l: data.font.font_size.x2l * effective_rem * effective_ui_scaling,
+                        x3l: data.font.font_size.x3l * effective_rem * effective_ui_scaling,
+                        x4l: data.font.font_size.x4l * effective_rem * effective_ui_scaling,
+                        x5l: data.font.font_size.x5l * effective_rem * effective_ui_scaling,
+                        x6l: data.font.font_size.x6l * effective_rem * effective_ui_scaling,
+                        x7l: data.font.font_size.x7l * effective_rem * effective_ui_scaling,
+                        x8l: data.font.font_size.x8l * effective_rem * effective_ui_scaling,
+                        x9l: data.font.font_size.x9l * effective_rem * effective_ui_scaling,
                     };
                     theme.font.font_family = UiFontFamilies {
                         /* ... copy from plugin's check_theme_asset_readiness ... */
@@ -93,50 +116,56 @@ pub fn hot_reload_theme_system(
                     // Update layout
                     theme.layout = UiLayout {
                         /* ... copy from plugin's check_theme_asset_readiness ... */
-                        spacing: data.layout.spacing,
+                        spacing: base_spacing_unit,
                         padding: UiSpacing {
-                            xs: data.layout.padding.xs,
-                            sm: data.layout.padding.sm,
-                            base: data.layout.padding.base,
-                            lg: data.layout.padding.lg,
-                            xl: data.layout.padding.xl,
-                            x2l: data.layout.padding.x2l,
-                            x3l: data.layout.padding.x3l,
-                            x4l: data.layout.padding.x4l,
-                            x5l: data.layout.padding.x5l,
+                            xs: data.layout.padding.xs * base_spacing_unit,
+                            sm: data.layout.padding.sm * base_spacing_unit,
+                            base: data.layout.padding.base * base_spacing_unit,
+                            lg: data.layout.padding.lg * base_spacing_unit,
+                            xl: data.layout.padding.xl * base_spacing_unit,
+                            x2l: data.layout.padding.x2l * base_spacing_unit,
+                            x3l: data.layout.padding.x3l * base_spacing_unit,
+                            x4l: data.layout.padding.x4l * base_spacing_unit,
+                            x5l: data.layout.padding.x5l * base_spacing_unit,
                         },
                         margin: UiSpacing {
-                            xs: data.layout.margin.xs,
-                            sm: data.layout.margin.sm,
-                            base: data.layout.margin.base,
-                            lg: data.layout.margin.lg,
-                            xl: data.layout.margin.xl,
-                            x2l: data.layout.margin.x2l,
-                            x3l: data.layout.margin.x3l,
-                            x4l: data.layout.margin.x4l,
-                            x5l: data.layout.margin.x5l,
+                            xs: data.layout.margin.xs * base_spacing_unit,
+                            sm: data.layout.margin.sm * base_spacing_unit,
+                            base: data.layout.margin.base * base_spacing_unit,
+                            lg: data.layout.margin.lg * base_spacing_unit,
+                            xl: data.layout.margin.xl * base_spacing_unit,
+                            x2l: data.layout.margin.x2l * base_spacing_unit,
+                            x3l: data.layout.margin.x3l * base_spacing_unit,
+                            x4l: data.layout.margin.x4l * base_spacing_unit,
+                            x5l: data.layout.margin.x5l * base_spacing_unit,
                         },
                         gap: UiSpacing {
-                            xs: data.layout.gap.xs,
-                            sm: data.layout.gap.sm,
-                            base: data.layout.gap.base,
-                            lg: data.layout.gap.lg,
-                            xl: data.layout.gap.xl,
-                            x2l: data.layout.gap.x2l,
-                            x3l: data.layout.gap.x3l,
-                            x4l: data.layout.gap.x4l,
-                            x5l: data.layout.gap.x5l,
+                            xs: data.layout.gap.xs * base_spacing_unit,
+                            sm: data.layout.gap.sm * base_spacing_unit,
+                            base: data.layout.gap.base * base_spacing_unit,
+                            lg: data.layout.gap.lg * base_spacing_unit,
+                            xl: data.layout.gap.xl * base_spacing_unit,
+                            x2l: data.layout.gap.x2l * base_spacing_unit,
+                            x3l: data.layout.gap.x3l * base_spacing_unit,
+                            x4l: data.layout.gap.x4l * base_spacing_unit,
+                            x5l: data.layout.gap.x5l * base_spacing_unit,
                         },
                         radius: UiRadius {
-                            xs: data.layout.radius.xs,
-                            sm: data.layout.radius.sm,
-                            base: data.layout.radius.base,
-                            lg: data.layout.radius.lg,
-                            xl: data.layout.radius.xl,
-                            x2l: data.layout.radius.x2l,
-                            x3l: data.layout.radius.x3l,
-                            x4l: data.layout.radius.x4l,
-                            full: data.layout.radius.full,
+                            xs: data.layout.radius.xs * base_spacing_unit,
+                            sm: data.layout.radius.sm * base_spacing_unit,
+                            base: data.layout.radius.base * base_spacing_unit,
+                            lg: data.layout.radius.lg * base_spacing_unit,
+                            xl: data.layout.radius.xl * base_spacing_unit,
+                            x2l: data.layout.radius.x2l * base_spacing_unit,
+                            x3l: data.layout.radius.x3l * base_spacing_unit,
+                            x4l: data.layout.radius.x4l * base_spacing_unit,
+                            full: if data.layout.radius.full > 0.0
+                                && data.layout.radius.full < f32::MAX / 2.0
+                            {
+                                data.layout.radius.full * effective_rem * effective_ui_scaling
+                            } else {
+                                9999.0
+                            },
                         },
                         border: UiSpacing {
                             xs: data.layout.border.xs,
@@ -721,11 +750,6 @@ pub fn hot_reload_theme_system(
     }
 }
 
-// REMOVE the old setup_theme_resource function from this file.
-// It's replaced by check_theme_asset_readiness in plugin.rs
-
-// Helper to convert runtime Handle<Font> back to String path for saving
-// Note: This relies on the handle still having a valid AssetPath.
 fn font_handle_to_path_string(handle: &Handle<Font>) -> String {
     handle
         .path()
@@ -740,33 +764,58 @@ fn to_data_color(c: &Color) -> [f32; 4] {
     [srgba.red, srgba.green, srgba.blue, srgba.alpha]
 }
 
-// System to save the current runtime theme back to the data format (theme.ron)
-// Only run this if needed, e.g., for a theme editor feature.
-// Make sure UiTheme is derived Resource
 #[cfg(debug_assertions)]
-pub fn save_theme_system(
-    theme: Res<UiTheme>,
-    // asset_server: Res<AssetServer>, // Needed if you want to resolve paths more robustly
-) {
+pub fn save_theme_system(theme: Res<UiTheme>) {
     info!("Attempting to save theme...");
+    // Hole die effektiven Werte aus dem Theme
+    let effective_rem = theme.rem;
+    let effective_ui_scaling = theme.ui_scaling;
+
+    // Rückwärtsrechnung vermeiden, wenn die Werte 0 sind (um Division durch Null zu verhindern)
+    let scale_factor = if effective_rem * effective_ui_scaling != 0.0 {
+        effective_rem * effective_ui_scaling
+    } else {
+        1.0 // Fallback, sollte nicht passieren
+    };
+    let base_spacing_unit = theme.layout.spacing; // Nimm die gespeicherte absolute Basiseinheit
+    let spacing_scale_factor = if base_spacing_unit != 0.0 {
+        base_spacing_unit
+    } else {
+        1.0 // Fallback
+    };
+    let border_scale_factor = if effective_ui_scaling != 0.0 {
+        effective_ui_scaling
+    } else {
+        1.0 // Fallback
+    };
+
+    // Berechne den Basis-Spacing-Multiplikator zurück
+    let data_spacing = if scale_factor != 0.0 {
+        base_spacing_unit / scale_factor
+    } else {
+        0.25 // Fallback auf Standard (rem/4)
+    };
+
     let data = UiThemeData {
         ui_scaling: theme.ui_scaling,
+        rem: theme.rem,
+        spacing: data_spacing,
         font: UiTypographyData {
             font_size: UiFontSizeData {
                 // Direct copy is fine for f32 values
-                xs: theme.font.font_size.xs,
-                sm: theme.font.font_size.sm,
-                base: theme.font.font_size.base,
-                lg: theme.font.font_size.lg,
-                xl: theme.font.font_size.xl,
-                x2l: theme.font.font_size.x2l,
-                x3l: theme.font.font_size.x3l,
-                x4l: theme.font.font_size.x4l,
-                x5l: theme.font.font_size.x5l,
-                x6l: theme.font.font_size.x6l,
-                x7l: theme.font.font_size.x7l,
-                x8l: theme.font.font_size.x8l,
-                x9l: theme.font.font_size.x9l,
+                xs: theme.font.font_size.xs / scale_factor,
+                sm: theme.font.font_size.sm / scale_factor,
+                base: theme.font.font_size.base / scale_factor,
+                lg: theme.font.font_size.lg / scale_factor,
+                xl: theme.font.font_size.xl / scale_factor,
+                x2l: theme.font.font_size.x2l / scale_factor,
+                x3l: theme.font.font_size.x3l / scale_factor,
+                x4l: theme.font.font_size.x4l / scale_factor,
+                x5l: theme.font.font_size.x5l / scale_factor,
+                x6l: theme.font.font_size.x6l / scale_factor,
+                x7l: theme.font.font_size.x7l / scale_factor,
+                x8l: theme.font.font_size.x8l / scale_factor,
+                x9l: theme.font.font_size.x9l / scale_factor,
             },
             font_family: UiFontFamiliesData {
                 // Convert Handles back to paths
@@ -829,61 +878,64 @@ pub fn save_theme_system(
         },
         layout: UiLayoutData {
             // Direct copy
-            spacing: theme.layout.spacing,
             padding: UiSpacingData {
-                xs: theme.layout.padding.xs,
-                sm: theme.layout.padding.sm,
-                base: theme.layout.padding.base,
-                lg: theme.layout.padding.lg,
-                xl: theme.layout.padding.xl,
-                x2l: theme.layout.padding.x2l,
-                x3l: theme.layout.padding.x3l,
-                x4l: theme.layout.padding.x4l,
-                x5l: theme.layout.padding.x5l,
+                xs: theme.layout.padding.xs / spacing_scale_factor,
+                sm: theme.layout.padding.sm / spacing_scale_factor,
+                base: theme.layout.padding.base / spacing_scale_factor,
+                lg: theme.layout.padding.lg / spacing_scale_factor,
+                xl: theme.layout.padding.xl / spacing_scale_factor,
+                x2l: theme.layout.padding.x2l / spacing_scale_factor,
+                x3l: theme.layout.padding.x3l / spacing_scale_factor,
+                x4l: theme.layout.padding.x4l / spacing_scale_factor,
+                x5l: theme.layout.padding.x5l / spacing_scale_factor,
             },
             margin: UiSpacingData {
-                xs: theme.layout.margin.xs,
-                sm: theme.layout.margin.sm,
-                base: theme.layout.margin.base,
-                lg: theme.layout.margin.lg,
-                xl: theme.layout.margin.xl,
-                x2l: theme.layout.margin.x2l,
-                x3l: theme.layout.margin.x3l,
-                x4l: theme.layout.margin.x4l,
-                x5l: theme.layout.margin.x5l,
+                xs: theme.layout.margin.xs / spacing_scale_factor,
+                sm: theme.layout.margin.sm / spacing_scale_factor,
+                base: theme.layout.margin.base / spacing_scale_factor,
+                lg: theme.layout.margin.lg / spacing_scale_factor,
+                xl: theme.layout.margin.xl / spacing_scale_factor,
+                x2l: theme.layout.margin.x2l / spacing_scale_factor,
+                x3l: theme.layout.margin.x3l / spacing_scale_factor,
+                x4l: theme.layout.margin.x4l / spacing_scale_factor,
+                x5l: theme.layout.margin.x5l / spacing_scale_factor,
             },
             gap: UiSpacingData {
-                xs: theme.layout.gap.xs,
-                sm: theme.layout.gap.sm,
-                base: theme.layout.gap.base,
-                lg: theme.layout.gap.lg,
-                xl: theme.layout.gap.xl,
-                x2l: theme.layout.gap.x2l,
-                x3l: theme.layout.gap.x3l,
-                x4l: theme.layout.gap.x4l,
-                x5l: theme.layout.gap.x5l,
+                xs: theme.layout.gap.xs / spacing_scale_factor,
+                sm: theme.layout.gap.sm / spacing_scale_factor,
+                base: theme.layout.gap.base / spacing_scale_factor,
+                lg: theme.layout.gap.lg / spacing_scale_factor,
+                xl: theme.layout.gap.xl / spacing_scale_factor,
+                x2l: theme.layout.gap.x2l / spacing_scale_factor,
+                x3l: theme.layout.gap.x3l / spacing_scale_factor,
+                x4l: theme.layout.gap.x4l / spacing_scale_factor,
+                x5l: theme.layout.gap.x5l / spacing_scale_factor,
             },
             radius: UiRadiusData {
-                xs: theme.layout.radius.xs,
-                sm: theme.layout.radius.sm,
-                base: theme.layout.radius.base,
-                lg: theme.layout.radius.lg,
-                xl: theme.layout.radius.xl,
-                x2l: theme.layout.radius.x2l,
-                x3l: theme.layout.radius.x3l,
-                x4l: theme.layout.radius.x4l,
-                full: theme.layout.radius.full,
+                xs: theme.layout.radius.xs / scale_factor,
+                sm: theme.layout.radius.sm / scale_factor,
+                base: theme.layout.radius.base / scale_factor,
+                lg: theme.layout.radius.lg / scale_factor,
+                xl: theme.layout.radius.xl / scale_factor,
+                x2l: theme.layout.radius.x2l / scale_factor,
+                x3l: theme.layout.radius.x3l / scale_factor,
+                x4l: theme.layout.radius.x4l / scale_factor,
+                full: if theme.layout.radius.full >= 9999.0 {
+                    f32::MAX
+                } else {
+                    theme.layout.radius.full / scale_factor
+                }, // Annahme: 9
             },
             border: UiSpacingData {
-                xs: theme.layout.border.xs,
-                sm: theme.layout.border.sm,
-                base: theme.layout.border.base,
-                lg: theme.layout.border.lg,
-                xl: theme.layout.border.xl,
-                x2l: theme.layout.border.x2l,
-                x3l: theme.layout.border.x3l,
-                x4l: theme.layout.border.x4l,
-                x5l: theme.layout.border.x5l,
+                xs: theme.layout.border.xs / border_scale_factor,
+                sm: theme.layout.border.sm / border_scale_factor,
+                base: theme.layout.border.base / border_scale_factor,
+                lg: theme.layout.border.lg / border_scale_factor,
+                xl: theme.layout.border.xl / border_scale_factor,
+                x2l: theme.layout.border.x2l / border_scale_factor,
+                x3l: theme.layout.border.x3l / border_scale_factor,
+                x4l: theme.layout.border.x4l / border_scale_factor,
+                x5l: theme.layout.border.x5l / border_scale_factor,
             },
         },
         // Use the correct struct name: UiColorDatas
@@ -1370,26 +1422,35 @@ pub fn save_theme_system(
     }
 }
 
-// System to load the asset handle during PreStartup
-pub fn load_theme_asset(mut commands: Commands, asset_server: Res<AssetServer>) {
-    let handle = asset_server.load("theme/default.theme.ron");
-    commands.insert_resource(ThemeAssetHandle(handle));
-    info!("Initiated loading theme/default.theme.ron");
-}
-
 // System to check if the theme asset is loaded and then insert the UiTheme resource
 pub fn check_theme_asset_readiness(
     mut commands: Commands,
     theme_handle_res: Option<Res<ThemeAssetHandle>>, // Make handle optional to avoid panic if removed early
+    config_res: Option<Res<UiConfig>>,
     asset_server: Res<AssetServer>,
     theme_data_assets: Res<Assets<UiThemeData>>,
+    existing_theme: Option<Res<UiTheme>>,
 ) {
+    if existing_theme.is_some() {
+        // Theme existiert bereits, nichts tun (run_if sollte dies verhindern)
+        // Handle und Config evtl. trotzdem entfernen, falls sie noch da sind
+        if theme_handle_res.is_some() {
+            commands.remove_resource::<ThemeAssetHandle>();
+        }
+        if config_res.is_some() {
+            commands.remove_resource::<UiConfig>();
+        }
+        return;
+    }
+
     // Check if the handle resource exists
     let Some(theme_handle) = theme_handle_res else {
         // Should not happen if run_if condition is correct, but good practice
         // info!("ThemeAssetHandle resource not found."); // Optional log
         return;
     };
+
+    let config = config_res.map(|r| r.clone()).unwrap_or_default();
 
     let handle_id = &theme_handle.0;
     let load_state = asset_server.load_state(handle_id);
@@ -1410,7 +1471,19 @@ pub fn check_theme_asset_readiness(
                                                                            // Asset is loaded, proceed with conversion and resource insertion
             if let Some(data) = theme_data_assets.get(handle_id) {
                 info!("Successfully retrieved theme data from asset."); // Log data retrieval
-                                                                        // --- Conversion Logic (Copied from old setup_theme_resource) ---
+                                                                        // --- Effektive Werte bestimmen ---
+                let effective_rem = config.rem.unwrap_or(data.rem);
+                let ui_scaling = data.ui_scaling;
+
+                // data.spacing ist der Basis-Spacing-Multiplikator (z.B. 0.25 für rem/4)
+                let spacing = data.spacing * effective_rem;
+
+                info!(
+                    "Effective Theme Values: rem={}, ui_scaling={}, base_spacing_unit={}",
+                    effective_rem, ui_scaling, spacing
+                );
+
+                // --- Conversion Logic (Copied from old setup_theme_resource) ---
                 let load_font = |path: &str| -> Handle<Font> {
                     if path.is_empty() {
                         Handle::default()
@@ -1423,19 +1496,19 @@ pub fn check_theme_asset_readiness(
                 let typography = UiTypography {
                     /* ... copy from previous theme/systems.rs ... */
                     font_size: UiFontSize {
-                        xs: data.font.font_size.xs,
-                        sm: data.font.font_size.sm,
-                        base: data.font.font_size.base,
-                        lg: data.font.font_size.lg,
-                        xl: data.font.font_size.xl,
-                        x2l: data.font.font_size.x2l,
-                        x3l: data.font.font_size.x3l,
-                        x4l: data.font.font_size.x4l,
-                        x5l: data.font.font_size.x5l,
-                        x6l: data.font.font_size.x6l,
-                        x7l: data.font.font_size.x7l,
-                        x8l: data.font.font_size.x8l,
-                        x9l: data.font.font_size.x9l,
+                        xs: data.font.font_size.xs * effective_rem * ui_scaling,
+                        sm: data.font.font_size.sm * effective_rem * ui_scaling,
+                        base: data.font.font_size.base * effective_rem * ui_scaling,
+                        lg: data.font.font_size.lg * effective_rem * ui_scaling,
+                        xl: data.font.font_size.xl * effective_rem * ui_scaling,
+                        x2l: data.font.font_size.x2l * effective_rem * ui_scaling,
+                        x3l: data.font.font_size.x3l * effective_rem * ui_scaling,
+                        x4l: data.font.font_size.x4l * effective_rem * ui_scaling,
+                        x5l: data.font.font_size.x5l * effective_rem * ui_scaling,
+                        x6l: data.font.font_size.x6l * effective_rem * ui_scaling,
+                        x7l: data.font.font_size.x7l * effective_rem * ui_scaling,
+                        x8l: data.font.font_size.x8l * effective_rem * ui_scaling,
+                        x9l: data.font.font_size.x9l * effective_rem * ui_scaling,
                     },
                     font_family: UiFontFamilies {
                         default: load_font(&data.font.font_family.default),
@@ -1473,49 +1546,49 @@ pub fn check_theme_asset_readiness(
                 };
                 let layout = UiLayout {
                     /* ... copy from previous theme/systems.rs ... */
-                    spacing: data.layout.spacing,
+                    spacing: spacing,
                     padding: UiSpacing {
-                        xs: data.layout.padding.xs,
-                        sm: data.layout.padding.sm,
-                        base: data.layout.padding.base,
-                        lg: data.layout.padding.lg,
-                        xl: data.layout.padding.xl,
-                        x2l: data.layout.padding.x2l,
-                        x3l: data.layout.padding.x3l,
-                        x4l: data.layout.padding.x4l,
-                        x5l: data.layout.padding.x5l,
+                        xs: data.layout.padding.xs * spacing * ui_scaling,
+                        sm: data.layout.padding.sm * spacing * ui_scaling,
+                        base: data.layout.padding.base * spacing * ui_scaling,
+                        lg: data.layout.padding.lg * spacing * ui_scaling,
+                        xl: data.layout.padding.xl * spacing * ui_scaling,
+                        x2l: data.layout.padding.x2l * spacing * ui_scaling,
+                        x3l: data.layout.padding.x3l * spacing * ui_scaling,
+                        x4l: data.layout.padding.x4l * spacing * ui_scaling,
+                        x5l: data.layout.padding.x5l * spacing * ui_scaling,
                     },
                     margin: UiSpacing {
-                        xs: data.layout.margin.xs,
-                        sm: data.layout.margin.sm,
-                        base: data.layout.margin.base,
-                        lg: data.layout.margin.lg,
-                        xl: data.layout.margin.xl,
-                        x2l: data.layout.margin.x2l,
-                        x3l: data.layout.margin.x3l,
-                        x4l: data.layout.margin.x4l,
-                        x5l: data.layout.margin.x5l,
+                        xs: data.layout.margin.xs * spacing * ui_scaling,
+                        sm: data.layout.margin.sm * spacing * ui_scaling,
+                        base: data.layout.margin.base * spacing * ui_scaling,
+                        lg: data.layout.margin.lg * spacing * ui_scaling,
+                        xl: data.layout.margin.xl * spacing * ui_scaling,
+                        x2l: data.layout.margin.x2l * spacing * ui_scaling,
+                        x3l: data.layout.margin.x3l * spacing * ui_scaling,
+                        x4l: data.layout.margin.x4l * spacing * ui_scaling,
+                        x5l: data.layout.margin.x5l * spacing * ui_scaling,
                     },
                     gap: UiSpacing {
-                        xs: data.layout.gap.xs,
-                        sm: data.layout.gap.sm,
-                        base: data.layout.gap.base,
-                        lg: data.layout.gap.lg,
-                        xl: data.layout.gap.xl,
-                        x2l: data.layout.gap.x2l,
-                        x3l: data.layout.gap.x3l,
-                        x4l: data.layout.gap.x4l,
-                        x5l: data.layout.gap.x5l,
+                        xs: data.layout.gap.xs * spacing * ui_scaling,
+                        sm: data.layout.gap.sm * spacing * ui_scaling,
+                        base: data.layout.gap.base * spacing * ui_scaling,
+                        lg: data.layout.gap.lg * spacing * ui_scaling,
+                        xl: data.layout.gap.xl * spacing * ui_scaling,
+                        x2l: data.layout.gap.x2l * spacing * ui_scaling,
+                        x3l: data.layout.gap.x3l * spacing * ui_scaling,
+                        x4l: data.layout.gap.x4l * spacing * ui_scaling,
+                        x5l: data.layout.gap.x5l * spacing * ui_scaling,
                     },
                     radius: UiRadius {
-                        xs: data.layout.radius.xs,
-                        sm: data.layout.radius.sm,
-                        base: data.layout.radius.base,
-                        lg: data.layout.radius.lg,
-                        xl: data.layout.radius.xl,
-                        x2l: data.layout.radius.x2l,
-                        x3l: data.layout.radius.x3l,
-                        x4l: data.layout.radius.x4l,
+                        xs: data.layout.radius.xs * spacing * ui_scaling,
+                        sm: data.layout.radius.sm * spacing * ui_scaling,
+                        base: data.layout.radius.base * spacing * ui_scaling,
+                        lg: data.layout.radius.lg * spacing * ui_scaling,
+                        xl: data.layout.radius.xl * spacing * ui_scaling,
+                        x2l: data.layout.radius.x2l * spacing * ui_scaling,
+                        x3l: data.layout.radius.x3l * spacing * ui_scaling,
+                        x4l: data.layout.radius.x4l * spacing * ui_scaling,
                         full: data.layout.radius.full,
                     },
                     border: UiSpacing {
@@ -1998,7 +2071,8 @@ pub fn check_theme_asset_readiness(
                 // --- End Conversion Logic ---
 
                 let theme = UiTheme {
-                    ui_scaling: data.ui_scaling,
+                    ui_scaling: ui_scaling,
+                    rem: effective_rem,
                     font: typography,
                     layout,
                     color: colors,
@@ -2008,25 +2082,32 @@ pub fn check_theme_asset_readiness(
                 // Remove the handle *after* inserting the resource
                 // Use remove_resource::<ThemeAssetHandle>() directly on commands
                 commands.remove_resource::<ThemeAssetHandle>();
+                commands.remove_resource::<UiConfig>();
                 info!("UiTheme resource inserted and ThemeAssetHandle removed.");
-
-                // Optional: Transition to the next app state if needed
-                // commands.insert_resource(NextState(Some(AppState::MainMenu)));
             } else {
-                // This case should ideally not happen if LoadState::Loaded is true,
-                // but handle it just in case.
-                error!("UiThemeData asset data not found for handle {:?} even though LoadState is Loaded. Asset might be empty or invalid.", handle_id.id());
+                error!("UiThemeData asset data not found for handle {:?} even though LoadState is Loaded.", handle_id.id());
+                // Handle und Config trotzdem entfernen, um Endlosschleife zu vermeiden
+                commands.remove_resource::<ThemeAssetHandle>();
+                if config_res.is_some() {
+                    // Nur entfernen, wenn es existiert
+                    commands.remove_resource::<UiConfig>();
+                }
             }
         }
         LoadState::Failed(error) => {
-            // Log the failure and the error details
             error!(
                 "Failed to load theme asset {:?}: {:?}",
                 handle_id.id(),
-                error // Log the specific asset error
+                error
             );
-            // Consider removing the handle so we don't check it anymore
+            // Fehlerhafte Ressourcen entfernen
             commands.remove_resource::<ThemeAssetHandle>();
+            if config_res.is_some() {
+                commands.remove_resource::<UiConfig>();
+            }
+            // Optional: Hier Default-Theme einfügen oder App anders behandeln
+            // commands.insert_resource(UiTheme::default());
+            // warn!("Inserted default UiTheme due to loading failure.");
         }
         LoadState::Loading => {
             // Still loading, do nothing - the debug log above shows this state

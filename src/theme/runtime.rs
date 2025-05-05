@@ -1,12 +1,10 @@
 // crates/forge_ui/src/theme/runtime.rs
 use bevy::{color::Srgba, prelude::*, reflect::TypePath}; // <<< TypePath hinzufügen
 
-const REM: f32 = 16.0;
-const SPACING: f32 = 4.0;
-
 #[derive(Debug, Clone, Asset, TypePath, Resource)]
 pub struct UiTheme {
     pub ui_scaling: f32,
+    pub rem: f32,
     pub font: UiTypography,
     pub layout: UiLayout,
     pub color: UiColors,
@@ -153,11 +151,16 @@ pub struct UiColor {
 // file and ensure the resource exists before using it.
 impl Default for UiTheme {
     fn default() -> Self {
+        const DEFAULT_REM: f32 = 16.0; // Standard-REM, falls kein Theme geladen wird
+        const DEFAULT_UI_SCALING: f32 = 1.0;
+        const DEFAULT_SPACING: f32 = DEFAULT_REM / 4.0; // Basis-Spacing
+
         // Placeholder handles - these WILL NOT WORK unless assets with these exact IDs exist!
         let placeholder_font = Handle::default(); // Use default handle as placeholder
 
         Self {
             ui_scaling: 1.0,
+            rem: 16.0,
             color: UiColors {
                 white: UiColor {
                     background_primary: Color::WHITE.with_alpha(0.05),
@@ -623,49 +626,49 @@ impl Default for UiTheme {
                 },
             },
             layout: UiLayout {
-                spacing: SPACING,
+                spacing: DEFAULT_SPACING,
                 padding: UiSpacing {
-                    xs: 1.0 * SPACING,
-                    sm: 2.0 * SPACING,
-                    base: 3.0 * SPACING,
-                    lg: 4.0 * SPACING,
-                    xl: 5.0 * SPACING,
-                    x2l: 6.0 * SPACING,
-                    x3l: 7.0 * SPACING,
-                    x4l: 8.0 * SPACING,
-                    x5l: 9.0 * SPACING,
+                    xs: 1.0 * DEFAULT_SPACING,
+                    sm: 2.0 * DEFAULT_SPACING,
+                    base: 3.0 * DEFAULT_SPACING,
+                    lg: 4.0 * DEFAULT_SPACING,
+                    xl: 5.0 * DEFAULT_SPACING,
+                    x2l: 6.0 * DEFAULT_SPACING,
+                    x3l: 7.0 * DEFAULT_SPACING,
+                    x4l: 8.0 * DEFAULT_SPACING,
+                    x5l: 9.0 * DEFAULT_SPACING,
                 },
                 margin: UiSpacing {
-                    xs: 1.0 * SPACING,
-                    sm: 2.0 * SPACING,
-                    base: 3.0 * SPACING,
-                    lg: 4.0 * SPACING,
-                    xl: 5.0 * SPACING,
-                    x2l: 6.0 * SPACING,
-                    x3l: 7.0 * SPACING,
-                    x4l: 8.0 * SPACING,
-                    x5l: 9.0 * SPACING,
+                    xs: 1.0 * DEFAULT_SPACING,
+                    sm: 2.0 * DEFAULT_SPACING,
+                    base: 3.0 * DEFAULT_SPACING,
+                    lg: 4.0 * DEFAULT_SPACING,
+                    xl: 5.0 * DEFAULT_SPACING,
+                    x2l: 6.0 * DEFAULT_SPACING,
+                    x3l: 7.0 * DEFAULT_SPACING,
+                    x4l: 8.0 * DEFAULT_SPACING,
+                    x5l: 9.0 * DEFAULT_SPACING,
                 },
                 gap: UiSpacing {
-                    xs: 1.0 * SPACING,
-                    sm: 2.0 * SPACING,
-                    base: 3.0 * SPACING,
-                    lg: 4.0 * SPACING,
-                    xl: 5.0 * SPACING,
-                    x2l: 6.0 * SPACING,
-                    x3l: 7.0 * SPACING,
-                    x4l: 8.0 * SPACING,
-                    x5l: 9.0 * SPACING,
+                    xs: 1.0 * DEFAULT_SPACING,
+                    sm: 2.0 * DEFAULT_SPACING,
+                    base: 3.0 * DEFAULT_SPACING,
+                    lg: 4.0 * DEFAULT_SPACING,
+                    xl: 5.0 * DEFAULT_SPACING,
+                    x2l: 6.0 * DEFAULT_SPACING,
+                    x3l: 7.0 * DEFAULT_SPACING,
+                    x4l: 8.0 * DEFAULT_SPACING,
+                    x5l: 9.0 * DEFAULT_SPACING,
                 },
                 radius: UiRadius {
-                    xs: 0.125 * REM,
-                    sm: 0.25 * REM,
-                    base: 0.375 * REM,
-                    lg: 0.5 * REM,
-                    xl: 0.75 * REM,
-                    x2l: 1.0 * REM,
-                    x3l: 1.5 * REM,
-                    x4l: 2.0 * REM,
+                    xs: 0.125 * DEFAULT_REM,
+                    sm: 0.25 * DEFAULT_REM,
+                    base: 0.375 * DEFAULT_REM,
+                    lg: 0.5 * DEFAULT_REM,
+                    xl: 0.75 * DEFAULT_REM,
+                    x2l: 1.0 * DEFAULT_REM,
+                    x3l: 1.5 * DEFAULT_REM,
+                    x4l: 2.0 * DEFAULT_REM,
                     full: f32::MAX,
                 },
                 border: UiSpacing {
@@ -682,19 +685,19 @@ impl Default for UiTheme {
             },
             font: UiTypography {
                 font_size: UiFontSize {
-                    xs: 0.75 * REM,
-                    sm: 0.875 * REM,
-                    base: 1.0 * REM,
-                    lg: 1.125 * REM,
-                    xl: 1.25 * REM,
-                    x2l: 1.5 * REM,
-                    x3l: 1.875 * REM,
-                    x4l: 2.25 * REM,
-                    x5l: 3.0 * REM,
-                    x6l: 3.75 * REM,
-                    x7l: 4.5 * REM,
-                    x8l: 6.0 * REM,
-                    x9l: 8.0 * REM,
+                    xs: 0.75 * DEFAULT_REM,
+                    sm: 0.875 * DEFAULT_REM,
+                    base: 1.0 * DEFAULT_REM,
+                    lg: 1.125 * DEFAULT_REM,
+                    xl: 1.25 * DEFAULT_REM,
+                    x2l: 1.5 * DEFAULT_REM,
+                    x3l: 1.875 * DEFAULT_REM,
+                    x4l: 2.25 * DEFAULT_REM,
+                    x5l: 3.0 * DEFAULT_REM,
+                    x6l: 3.75 * DEFAULT_REM,
+                    x7l: 4.5 * DEFAULT_REM,
+                    x8l: 6.0 * DEFAULT_REM,
+                    x9l: 8.0 * DEFAULT_REM,
                 },
                 font_family: UiFontFamilies {
                     default: placeholder_font.clone(),
