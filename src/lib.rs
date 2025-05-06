@@ -7,6 +7,8 @@ pub use layout::*;
 pub mod theme;
 pub use theme::UiTheme;
 
+pub mod assets;
+
 /// Haupt-Plugin-Auslagerung
 mod plugin;
-pub use plugin::ForgeUiPlugin;
+pub use plugin::{ForgeUiPlugin, UiState};

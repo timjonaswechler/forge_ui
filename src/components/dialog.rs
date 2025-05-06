@@ -1,6 +1,4 @@
 // crates/forge_ui/src/dialog.rs
-
-use bevy::audio::*;
 use bevy::ecs::system::EntityCommands;
 use bevy::prelude::*;
 use bevy::ui::FocusPolicy;
@@ -16,7 +14,6 @@ use crate::theme::UiTheme; // Für Schließen-Button
 pub struct ActiveDialogs {
     pub current_modal: Option<Entity>,
 }
-struct OpenDialogSound(Handle<AudioSource>);
 
 #[derive(Bundle, Clone, Default)]
 pub struct DialogContentStyle {

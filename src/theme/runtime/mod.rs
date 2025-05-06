@@ -1,6 +1,7 @@
 // crates/forge_ui/src/theme/runtime/mod.rs
 use bevy::{prelude::*, reflect::TypePath};
 
+use crate::assets::FontAssets;
 use crate::plugin::UiConfig;
 use crate::theme::data::UiThemeData;
 
@@ -24,14 +25,14 @@ pub struct UiTheme {
 impl UiTheme {
     /// Baut aus den rohen Theme-Daten und der Config das Runtime-Theme
     pub fn build_from_data(
-        asset_server: &AssetServer,
+        font_assets: Res<FontAssets>,
         data: &UiThemeData,
         config: &UiConfig,
     ) -> Self {
         let ui_scaling = data.ui_scaling;
         let rem = config.rem.unwrap_or(data.rem);
 
-        let font = typography::build(asset_server, &data.font, rem, ui_scaling);
+        let font = typography::build(&font_assets, &data.font, rem, ui_scaling);
         let layout = layout::build(&data.layout, rem, ui_scaling);
         let color = color::build(&data.color);
 

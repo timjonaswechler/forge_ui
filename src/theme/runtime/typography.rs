@@ -1,7 +1,8 @@
 // src/theme/runtime/typography.rs
 
+use crate::assets::FontAssets;
 use crate::theme::data::UiTypographyData;
-use bevy::{asset::AssetServer, prelude::*};
+use bevy::prelude::*;
 
 #[derive(Debug, Clone)]
 pub struct UiTypography {
@@ -47,18 +48,11 @@ pub struct FontVariants {
 }
 
 pub fn build(
-    asset_server: &AssetServer,
+    assets: &FontAssets,
     data: &UiTypographyData,
     rem: f32,
     ui_scaling: f32,
 ) -> UiTypography {
-    let load_font = |path: &str| {
-        if path.is_empty() {
-            Handle::default()
-        } else {
-            asset_server.load(path)
-        }
-    };
     let size = |v: f32| v * rem * ui_scaling;
 
     UiTypography {
@@ -78,36 +72,36 @@ pub fn build(
             x9l: size(data.font_size.x9l),
         },
         font_family: UiFontFamilies {
-            default: load_font(&data.font_family.default),
+            default: assets.default.clone(),
             sans: FontVariants {
-                light: load_font(&data.font_family.sans.light),
-                light_italic: load_font(&data.font_family.sans.light_italic),
-                regular: load_font(&data.font_family.sans.regular),
-                regular_italic: load_font(&data.font_family.sans.regular_italic),
-                medium: load_font(&data.font_family.sans.medium),
-                medium_italic: load_font(&data.font_family.sans.medium_italic),
-                bold: load_font(&data.font_family.sans.bold),
-                bold_italic: load_font(&data.font_family.sans.bold_italic),
+                light: assets.sans_light.clone(),
+                light_italic: assets.sans_light_italic.clone(),
+                regular: assets.sans_regular.clone(),
+                regular_italic: assets.sans_regular_italic.clone(),
+                medium: assets.sans_medium.clone(),
+                medium_italic: assets.sans_medium_italic.clone(),
+                bold: assets.sans_bold.clone(),
+                bold_italic: assets.sans_bold_italic.clone(),
             },
             serif: FontVariants {
-                light: load_font(&data.font_family.serif.light),
-                light_italic: load_font(&data.font_family.serif.light_italic),
-                regular: load_font(&data.font_family.serif.regular),
-                regular_italic: load_font(&data.font_family.serif.regular_italic),
-                medium: load_font(&data.font_family.serif.medium),
-                medium_italic: load_font(&data.font_family.serif.medium_italic),
-                bold: load_font(&data.font_family.serif.bold),
-                bold_italic: load_font(&data.font_family.serif.bold_italic),
+                light: assets.serif_light.clone(),
+                light_italic: assets.serif_light_italic.clone(),
+                regular: assets.serif_regular.clone(),
+                regular_italic: assets.serif_regular_italic.clone(),
+                medium: assets.serif_medium.clone(),
+                medium_italic: assets.serif_medium_italic.clone(),
+                bold: assets.serif_bold.clone(),
+                bold_italic: assets.serif_bold_italic.clone(),
             },
             mono: FontVariants {
-                light: load_font(&data.font_family.mono.light),
-                light_italic: load_font(&data.font_family.mono.light_italic),
-                regular: load_font(&data.font_family.mono.regular),
-                regular_italic: load_font(&data.font_family.mono.regular_italic),
-                medium: load_font(&data.font_family.mono.medium),
-                medium_italic: load_font(&data.font_family.mono.medium_italic),
-                bold: load_font(&data.font_family.mono.bold),
-                bold_italic: load_font(&data.font_family.mono.bold_italic),
+                light: assets.mono_light.clone(),
+                light_italic: assets.mono_light_italic.clone(),
+                regular: assets.mono_regular.clone(),
+                regular_italic: assets.mono_regular_italic.clone(),
+                medium: assets.mono_medium.clone(),
+                medium_italic: assets.mono_medium_italic.clone(),
+                bold: assets.mono_bold.clone(),
+                bold_italic: assets.mono_bold_italic.clone(),
             },
         },
     }

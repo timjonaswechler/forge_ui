@@ -69,7 +69,7 @@ pub fn handle_button_clicks_event(
     for (entity, interaction, state) in interactions.iter() {
         // .iter() statt .iter_mut()
         if *interaction == Interaction::Pressed && !state.disabled {
-            debug!("Button {:?} pressed, sending event.", entity);
+            info!("Button {:?} pressed, sending event.", entity);
             button_clicked_events.write(ButtonClickedEvent {
                 button_entity: entity,
             });
@@ -86,7 +86,7 @@ pub fn handle_button_clicks_fn(
 ) {
     for (interaction, on_click, state) in buttons.iter() {
         if *interaction == Interaction::Pressed && !state.disabled {
-            debug!("Calling fn() callback for button.");
+            info!("Calling fn() callback for button.");
             on_click.call();
         }
     }

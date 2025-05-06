@@ -1,5 +1,6 @@
 // crates/forge_ui/src/theme/systems.rs
 
+use crate::assets::FontAssets;
 use crate::plugin::UiConfig;
 use crate::theme::{data::*, runtime::*, UiTheme};
 use bevy::prelude::*;
@@ -25,36 +26,41 @@ pub fn check_theme_asset_readiness(
     mut commands: Commands,
     handles: Res<ThemeAssetHandle>,
     theme_assets: Res<Assets<UiThemeData>>,
+    font_assets: Option<Res<FontAssets>>,
     asset_server: Res<AssetServer>,
     config: Res<UiConfig>,
 ) {
     use bevy::asset::LoadState;
-
-    match asset_server.get_load_state(&handles.0) {
-        Some(LoadState::Loaded) => {
-            let data = theme_assets.get(&handles.0).unwrap();
-            info!("Loaded dark.theme.ron, verwende Dark-Theme");
-            let theme = UiTheme::build_from_data(&asset_server, data, &config);
-            commands.insert_resource(theme);
-        }
-        Some(LoadState::Failed(_)) => {
-            // Versuche default.theme.ron
-            let default_handle = asset_server.load("theme/default.theme.ron");
-            if let Some(LoadState::Loaded) = asset_server.get_load_state(&default_handle) {
-                let data = theme_assets.get(&default_handle).unwrap();
-                info!("Dark fehlgeschlagen, Loaded default.theme.ron");
-                let theme = UiTheme::build_from_data(&asset_server, data, &config);
-                commands.insert_resource(theme);
-            } else {
-                warn!("Beide RON-Themes fehlgeschlagen, verwende hart-codiertes Default");
-                let data = UiThemeData::default();
-                let theme = UiTheme::build_from_data(&asset_server, &data, &config);
+    if let Some(font_assets) = font_assets {
+        match asset_server.get_load_state(&handles.0) {
+            Some(LoadState::Loaded) => {
+                let data = theme_assets.get(&handles.0).unwrap();
+                // Nutze jetzt die bereits geladenen Handles aus font_assets
+                let theme = UiTheme::build_from_data(font_assets, data, &config);
                 commands.insert_resource(theme);
             }
+            Some(LoadState::Failed(_)) => {
+                // Versuche default.theme.ron
+                let default_handle = asset_server.load("theme/default.theme.ron");
+                if let Some(LoadState::Loaded) = asset_server.get_load_state(&default_handle) {
+                    let data = theme_assets.get(&default_handle).unwrap();
+                    info!("Dark fehlgeschlagen, Loaded default.theme.ron");
+                    let theme = UiTheme::build_from_data(font_assets, data, &config);
+                    commands.insert_resource(theme);
+                } else {
+                    warn!("Beide RON-Themes fehlgeschlagen, verwende hart-codiertes Default");
+                    let data = UiThemeData::default();
+                    let theme = UiTheme::build_from_data(font_assets, &data, &config);
+                    commands.insert_resource(theme);
+                }
+            }
+            _ => {
+                // Noch nicht fertig laden oder kein Status verfügbar → nichts tun
+            }
         }
-        _ => {
-            // Noch nicht fertig laden oder kein Status verfügbar → nichts tun
-        }
+    } else {
+        // FontAssets sind nicht verfügbar, also nichts tun
+        error!("FontAssets not available yet, skipping theme loading.");
     }
 }
 
