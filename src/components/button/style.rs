@@ -203,7 +203,7 @@ pub fn base_style() -> Node {
     }
 }
 
-#[derive(Bundle, Clone)]
+#[derive(Bundle, Clone, Resource)]
 pub struct ButtonStyle {
     pub node: Node,
     pub border_radius: BorderRadius,
@@ -235,12 +235,9 @@ impl ButtonStyle {
 }
 
 // Default-Implementierung nutzt die Standard-UiTheme
-impl Default for ButtonStyle {
-    fn default() -> Self {
-        // Nutzt die Default-Resource des Themes
-        let theme = UiTheme::default();
-        ButtonStyle::from_theme(&theme)
-    }
+pub fn setup_button_style(mut commands: Commands, theme: Res<UiTheme>) {
+    let style = ButtonStyle::from_theme(&theme);
+    commands.insert_resource(style);
 }
 
 // --- Function to apply size-specific styling ---
