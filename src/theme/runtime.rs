@@ -1,7 +1,7 @@
 // crates/forge_ui/src/theme/runtime.rs
+use crate::plugin::UiConfig;
 use crate::theme::data::UiThemeData;
-use crate::UiConfig;
-use bevy::{color::Srgba, prelude::*, reflect::TypePath};
+use bevy::{prelude::*, reflect::TypePath};
 
 #[derive(Debug, Clone, Asset, TypePath, Resource)]
 pub struct UiTheme {

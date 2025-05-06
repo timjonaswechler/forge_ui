@@ -301,24 +301,74 @@ pub struct InitialContentBuilders<
 
 // --- Systeme ---
 
-/// System zum initialen Füllen der TabsContent-Bereiche nach dem Spawnen.
-/// Läuft einmalig dank `RemovedComponents`.
-
+/// Populates the initial children of each `TabsContainer` entity according to its registered builder functions.
+///
+/// This system scans for newly inserted `InitialContentBuilders<T>` components, then for each
+/// `TabsContent<T>` marker without existing children, it invokes the corresponding builder
+/// function to spawn UI elements under that content entity.
+/// Finally, the `InitialContentBuilders<T>` component is removed once the builders have run, ensuring
+/// it only executes once per tabs container.
+///
+/// # Type Parameters
+///
+/// * `T` - The tab identifier type. Must implement:
+///   - `Component`
+///   - `PartialEq + Eq + Hash`
+///   - `Clone + Send + Sync + 'static`
+///   - `Debug`
+///
+/// # Parameters
+///
+/// * `commands` - Bevy `Commands` for spawning or modifying entities.
+/// * `content_query` - Query for tuples `(entity, &TabsContent<T>, Option<&Children>)`.
+///   Finds content placeholders lacking children.
+/// * `tabs_container_query` - Query for newly added `(tabs_entity, &mut InitialContentBuilders<T>)`.
+///   Contains the map of builder functions keyed by each tab value.
+/// * `theme_opt` - Optional resource `Res<UiTheme>`. If absent, logs a warning and skips execution.
+///
+/// # Behavior
+///
+/// 1. If `UiTheme` resource is not available, logs a warning and returns early.
+/// 2. Iterates all `tabs_container_query` entries only when `InitialContentBuilders<T>` is newly inserted.
+/// 3. For each content placeholder without children, looks up and removes its builder function:
+///    ```rust
+///    if let Some(builder_fn) = initial_content.builders.remove(&content_marker.value) {
+///        commands.entity(content_entity).with_children(|parent| {
+///            builder_fn(parent, &theme, &initial_content.font_handle);
+///        });
+///    }
+///    ```
+/// 4. Removes the `InitialContentBuilders<T>` component from the `tabs_entity` to prevent re-running.
+///
+/// # Example
+///
+/// ```rust,ignore
+/// // Setup: register builder closures per tab value
+/// commands.entity(tabs_container_entity)
+///     .insert(InitialContentBuilders::new()
+///         .with_builder(TabId::Overview, |parent, theme, font| {
+///             // build overview UI under this parent
+///         })
+///         .with_builder(TabId::Settings, |parent, theme, font| {
+///             // build settings UI under this parent
+///         })
+///     );
+///
+/// // The system will populate the content for each tab on the next update, using the provided theme and font.
+/// ```
 pub fn populate_initial_tab_content<
     T: Component + PartialEq + Eq + Hash + Clone + Send + Sync + 'static + std::fmt::Debug,
 >(
     mut commands: Commands,
     mut content_query: Query<(Entity, &TabsContent<T>, Option<&Children>)>,
-    // Query für die Builder-Komponente, die entfernt wird
+
     mut tabs_container_query: Query<
         (Entity, &mut InitialContentBuilders<T>),
         Added<InitialContentBuilders<T>>,
     >,
     theme_opt: Option<Res<UiTheme>>,
 ) {
-    // --- HIER PRÜFEN ---
     let Some(theme) = theme_opt else {
-        // Wenn das Theme noch nicht verfügbar ist, überspringe die Ausführung dieses Frames.
         warn!(
             "UiTheme resource not yet available in populate_initial_tab_content. Skipping frame."
         );
@@ -329,14 +379,12 @@ pub fn populate_initial_tab_content<
             "Populating initial content for TabsContainer {:?}",
             tabs_entity
         );
-        // Iteriere über alle gespawnten Content-Bereiche
+
         for (content_entity, content_marker, children_opt) in content_query.iter_mut() {
-            // Prüfen, ob Inhalt bereits hinzugefügt wurde (sollte nicht der Fall sein)
             if children_opt.map_or(false, |c| !c.is_empty()) {
                 continue;
             }
 
-            // Finde den passenden Builder und entferne ihn aus der Map
             if let Some(builder_fn) = initial_content.builders.remove(&content_marker.value) {
                 info!(
                     "  -> Populating content for value: {:?}",
@@ -348,14 +396,55 @@ pub fn populate_initial_tab_content<
             }
         }
 
-        // Entferne die temporäre Builder-Komponente vom TabsContainer
         commands
             .entity(tabs_entity)
             .remove::<InitialContentBuilders<T>>();
     }
 }
 
-/// System, das auf Klicks auf TabsTrigger reagiert.
+/// Handles tab button interactions by updating the active tab state and emitting `TabChangedEvent<T>`.
+///
+/// This system listens for `Interaction` changes on tab trigger buttons, and when a button is pressed,
+/// updates the corresponding `TabsState<T>` to the new value if it's different from the current one,
+/// then emits a `TabChangedEvent<T>`.
+///
+/// # Type Parameters
+/// * `T` - The tab identifier type. Must implement:
+///   - `Component`
+///   - `PartialEq + Eq + Hash`
+///   - `Clone + Send + Sync + 'static`
+///   - `Debug`
+///
+/// # Parameters
+/// * `trigger_interactions` - Query for `(Interaction, TabsTrigger<T>)` on button entities,
+///   filtering by `Changed<Interaction>` and `With<Button>`, reacting only on interaction changes.
+/// * `tabs_state_query` - Query for mutable `TabsState<T>` of all tab containers.
+/// * `ev_tab_changed` - `EventWriter<TabChangedEvent<T>>` to emit tab change events.
+///
+/// # Behavior
+/// 1. Iterate over all changed interactions on tab trigger buttons.
+/// 2. If the interaction equals `Interaction::Pressed` and the trigger is not disabled:
+///    - Fetch the `TabsState<T>` for the parent container.
+///    - If the new value differs from the current `active_value`, update it and write `TabChangedEvent<T>`.
+///    - Log an info message about the change.
+/// 3. If the parent container entity is not found, log an error.
+///
+/// # Example
+/// ```rust,ignore
+/// // Initialize the tabs container with an initial active value
+/// commands.entity(tabs_container_entity)
+///     .insert(TabsState::new(TabId::Overview));
+///
+/// // Spawn a button that triggers the "Settings" tab
+/// commands.entity(settings_button)
+///     .insert((
+///         ButtonBundle { /* styling, ... */ },
+///         TabsTrigger { parent_tabs: tabs_container_entity, value: TabId::Settings, disabled: false },
+///     ));
+///
+/// // Add the system to your app:
+/// app.add_system(handle_tab_triggers::<TabId>);
+/// ```
 pub fn handle_tab_triggers<
     T: Component + PartialEq + Eq + Hash + Clone + Send + Sync + 'static + std::fmt::Debug,
 >(

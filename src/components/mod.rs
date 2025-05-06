@@ -1,8 +1,20 @@
-// src/components/mod.rs
-pub mod badge; // <-- Hinzufügen
+pub mod badge;
+pub use badge::*;
+
 pub mod button;
-pub mod card; // <-- Hinzufügen
-pub mod checkbox; // <-- Hinzufügen
-pub mod dialog; // <-- Hinzufügen
-pub mod label; // <-- Hinzufügen
-pub mod tabs; // <-- Hinzufügen
+pub use button::*;
+
+pub mod card;
+pub use card::*;
+
+pub mod checkbox;
+pub use checkbox::*;
+
+pub mod dialog;
+pub use dialog::*;
+
+pub mod label;
+pub use label::*;
+
+pub mod tabs;
+pub use tabs::*;

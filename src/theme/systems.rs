@@ -1,11 +1,16 @@
 // crates/forge_ui/src/theme/systems.rs
 
+use crate::plugin::UiConfig;
 use crate::theme::{data::*, runtime::*, UiTheme};
-use crate::UiConfig;
 use bevy::prelude::*;
 
 // Define a handle resource to track the theme asset
 #[derive(Resource)]
+/// A wrapper struct for a handle to `UiThemeData` assets.
+///
+/// This struct is used to manage and reference UI theme data assets within the application.
+/// By encapsulating the `Handle<UiThemeData>`, it provides type safety and clarity when working
+/// with theme-related resources in the UI system.
 pub struct ThemeAssetHandle(Handle<UiThemeData>);
 
 // System to load the asset handle during PreStartup

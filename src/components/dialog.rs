@@ -415,48 +415,83 @@ pub fn open_dialog_system(
     }
 }
 
-/// System zum Schließen des aktuell offenen (modalen) Dialogs.
+/// System to close modal dialogs via event, button click, or ESC key.
+///
+/// This system listens for three ways to request a dialog close:
+/// 1. A `CloseDialogEvent` is sent.
+/// 2. A click on any entity with `DialogCloseTrigger` and `Button` when its `Interaction` changes to `Pressed`.
+/// 3. The user presses the ESC key (`KeyCode::Escape`).
+///
+/// # Run Condition
+/// This system should only run when a dialog is currently open. To enforce this, register it with:
+///
+/// ```rust,ignore
+/// app.add_systems(
+///     Update,
+///     close_dialog_system.run_if(|active_dialogs: Res<ActiveDialogs>| {
+///         active_dialogs.current_modal.is_some()
+///     }),
+/// );
+/// ```
+///
+/// # Parameters
+/// - `ev_close`: Reader for `CloseDialogEvent`. Cleared after processing.
+/// - `q_close_triggers`: Query for `(Changed<Interaction>, With<DialogCloseTrigger>, With<Button>)`. Detects Pressed interactions.
+/// - `keyboard`: Resource providing key input via `ButtonInput<KeyCode>`, used to detect ESC.
+/// - `active_dialogs`: Mutable resource tracking the currently active modal dialog, if any.
+/// - `q_dialogs`: Query for `(Entity, &mut Visibility, &DialogRoot)` to locate and hide the open dialog.
+///
+/// # Behavior
+/// 1. Check for close request via event, button press, or ESC key.
+/// 2. If a close is requested and `active_dialogs.current_modal` has an `Entity`:
+///    - Hide that dialog by setting its `Visibility` to `Hidden`.
+///    - Log an info message.
+/// 3. If close is requested but no modal is active, log a warning.
+///
+/// # Example
+///
+/// ```rust,ignore
+/// // Register the system with a run condition so it only executes when a dialog is open
+/// app.add_systems(
+///     Update,
+///     close_dialog_system.run_if(|active_dialogs: Res<ActiveDialogs>| {
+///         active_dialogs.current_modal.is_some()
+///     }),
+/// );
+/// ```
 pub fn close_dialog_system(
-    // Trigger für dieses System: Event ODER Klick auf CloseButton ODER ESC
     mut ev_close: EventReader<CloseDialogEvent>,
-    // Query für Close-Buttons, die geklickt wurden
     q_close_triggers: Query<
         &Interaction,
         (Changed<Interaction>, With<DialogCloseTrigger>, With<Button>),
     >,
-    // Tastatureingabe (ESC)
-    keyboard: Res<ButtonInput<KeyCode>>, // Neu: ButtonInput statt Input
+    keyboard: Res<ButtonInput<KeyCode>>,
     mut active_dialogs: ResMut<ActiveDialogs>,
     mut q_dialogs: Query<(Entity, &mut Visibility, &DialogRoot)>,
 ) {
-    let mut close_requested = !ev_close.is_empty(); // Schließen durch Event?
-    ev_close.clear(); // Events verarbeiten
+    let mut close_requested = !ev_close.is_empty();
+    ev_close.clear();
 
-    // Schließen durch Klick auf einen Close-Button?
     for interaction in q_close_triggers.iter() {
         if *interaction == Interaction::Pressed {
-            // War vorher Clicked? Jetzt Pressed!
             close_requested = true;
             break;
         }
     }
 
-    // Schließen durch ESC?
     if keyboard.just_pressed(KeyCode::Escape) {
         close_requested = true;
     }
 
     if close_requested {
         if let Some(modal_entity) = active_dialogs.current_modal.take() {
-            // Nimmt ID und setzt auf None
             if let Ok((_, mut visibility, _)) = q_dialogs.get_mut(modal_entity) {
                 if *visibility != Visibility::Hidden {
                     *visibility = Visibility::Hidden;
                     info!("Closed modal dialog.");
-                    // TODO: Fokus zurück zum Trigger setzen (schwierig)
                 }
             }
-        } else if close_requested {
+        } else {
             warn!("Close requested, but no modal dialog was active.");
         }
     }
