@@ -96,7 +96,7 @@ impl CheckboxBuilder {
     #[must_use = "Commands should generally be used"]
     pub fn spawn<'w, 'a>(
         self,
-        parent: &'a mut ChildBuilder<'w>,
+        parent: &'a mut ChildSpawnerCommands<'w>,
         theme: &UiTheme,
         checkmark_icon_handle: &Handle<Image>,
     ) -> EntityCommands<'a> {
@@ -275,7 +275,7 @@ pub fn handle_checkbox_clicks(
             info!("Checkbox {:?} toggled to {}", entity, state.checked);
 
             // Event senden, damit andere Systeme reagieren können
-            ev_checkbox_changed.send(CheckboxChangedEvent {
+            ev_checkbox_changed.write(CheckboxChangedEvent {
                 checkbox_entity: entity,
                 is_checked: state.checked,
             });

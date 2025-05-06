@@ -148,7 +148,7 @@ impl<F: Fn() + Send + Sync + 'static> ButtonBuilder<F> {
     #[must_use]
     pub fn spawn<'w, 'a>(
         self,
-        parent: &'a mut ChildBuilder<'w>,
+        parent: &'a mut ChildSpawnerCommands<'w>,
         theme: &UiTheme,            // <<< Reihenfolge angepasst
         font_handle: &Handle<Font>, // <<< Name und Reihenfolge angepasst
     ) -> EntityCommands<'a> {

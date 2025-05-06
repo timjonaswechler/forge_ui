@@ -1,5 +1,6 @@
 use super::components::{ButtonMarker, ButtonState, OnClick};
 use super::events::ButtonClickedEvent;
+use crate::components::button::style::get_button_style_def;
 use crate::theme::UiTheme;
 use bevy::prelude::*;
 
@@ -15,7 +16,7 @@ pub fn update_button_visuals(
             Option<&Children>,
         ),
         (
-            Or<(Changed<Interaction>, Changed<ButtonState>, Res<UiTheme>)>, // <<< MODIFIED Check if theme changed
+            Or<(Changed<Interaction>, Changed<ButtonState>)>, // <<< MODIFIED Check if theme changed
             With<ButtonMarker>,
         ),
     >,
@@ -32,16 +33,17 @@ pub fn update_button_visuals(
     for (interaction, mut bg_color, mut border_color, state, children_opt) in buttons.iter_mut() {
         // 1. Update Button Background and Border using ButtonState.style_def methods
         // Diese Methoden enthalten jetzt die neue Overlay-Logik
-        *bg_color = state.style_def.background(*interaction, state.disabled);
-        *border_color = state.style_def.border(*interaction, state.disabled);
+        let style_def = get_button_style_def(state.variant, &theme);
+        *bg_color = style_def.background(*interaction, state.disabled); // <<< MODIFIED
+        *border_color = style_def.border(*interaction, state.disabled); // <<< MODIFIED
 
         // 2. Update Children Colors
         if let Some(children) = children_opt {
             // Hole die korrekte *aktuelle* Textfarbe basierend auf dem Disabled-Status
             // (Interaktion beeinflusst Textfarbe normalerweise nicht, nur Disabled)
-            let child_target_color = state.style_def.text_color(state.disabled);
+            let child_target_color = style_def.text_color(state.disabled); // <<< MODIFIED
 
-            for &child_entity in children.iter() {
+            for child_entity in children.iter() {
                 // Text aktualisieren (direkt TextColor Komponente)
                 if let Ok(mut text_color_component) = text_query.get_mut(child_entity) {
                     *text_color_component = TextColor(child_target_color);
@@ -68,7 +70,7 @@ pub fn handle_button_clicks_event(
         // .iter() statt .iter_mut()
         if *interaction == Interaction::Pressed && !state.disabled {
             debug!("Button {:?} pressed, sending event.", entity);
-            button_clicked_events.send(ButtonClickedEvent {
+            button_clicked_events.write(ButtonClickedEvent {
                 button_entity: entity,
             });
         }

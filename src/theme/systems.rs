@@ -1450,7 +1450,10 @@ pub fn check_theme_asset_readiness(
         return;
     };
 
-    let config = config_res.map(|r| r.clone()).unwrap_or_default();
+    let config = config_res
+        .as_ref()
+        .map(|r| r.as_ref().clone())
+        .unwrap_or_default();
 
     let handle_id = &theme_handle.0;
     let load_state = asset_server.load_state(handle_id);

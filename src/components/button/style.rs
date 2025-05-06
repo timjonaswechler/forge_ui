@@ -1,7 +1,7 @@
 // crates/forge_ui/src/ui_elements/button/style.rs
 
 use super::enums::{ButtonSize, ButtonVariant};
-use crate::theme::{self, UiTheme};
+use crate::theme::UiTheme;
 use bevy::prelude::*; // Import ColorManipulator
 
 // --- NEU ---

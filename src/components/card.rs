@@ -102,7 +102,7 @@ impl CardBuilder {
     #[must_use]
     pub fn spawn<'w, 'a>(
         self,
-        parent: &'a mut ChildBuilder<'w>,
+        parent: &'a mut ChildSpawnerCommands<'w>,
         theme: &UiTheme,
         // Font wird für Text-Elemente benötigt, daher hier übergeben
         font_handle: &Handle<Font>,
@@ -171,7 +171,7 @@ impl CardBuilder {
 
 /// Generische Funktion zum Spawnen einer Karten-Sektion (Header, Content, Footer)
 fn spawn_section<'w, 'a, M: Component + Default>(
-    parent: &'a mut ChildBuilder<'w>,
+    parent: &'a mut ChildSpawnerCommands<'w>,
     theme: &UiTheme,
     font_handle: &Handle<Font>,
     marker: M,   // Der spezifische Marker (CardHeader, CardContent, etc.)
@@ -191,7 +191,7 @@ fn spawn_section<'w, 'a, M: Component + Default>(
 
 /// Spawnt ein einzelnes Element innerhalb einer Sektion
 fn spawn_element<'w, 'a>(
-    parent: &'a mut ChildBuilder<'w>,
+    parent: &'a mut ChildSpawnerCommands<'w>,
     theme: &UiTheme,
     font_handle: &Handle<Font>,
     element: NodeElement,

@@ -58,7 +58,7 @@ impl BadgeBuilder {
     #[must_use]
     pub fn spawn<'w, 'a>(
         self,
-        parent: &'a mut ChildBuilder<'w>,
+        parent: &'a mut ChildSpawnerCommands<'w>,
         theme: &UiTheme,
         font_handle: &Handle<Font>,
     ) -> Entity {

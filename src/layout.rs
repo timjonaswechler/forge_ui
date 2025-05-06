@@ -51,7 +51,7 @@ impl Default for StackBuilderBase {
 
 pub struct VerticalStackBuilder {
     base: StackBuilderBase,
-    children: Vec<Box<dyn FnOnce(&mut ChildBuilder) + Send + Sync>>,
+    children: Vec<Box<dyn FnOnce(&mut ChildSpawnerCommands) + Send + Sync>>,
 }
 
 impl Default for VerticalStackBuilder {
@@ -126,7 +126,7 @@ impl VerticalStackBuilder {
     /// Die Closure erhält einen `&mut ChildBuilder`.
     pub fn add(
         mut self,
-        child_builder: impl FnOnce(&mut ChildBuilder) + Send + Sync + 'static,
+        child_builder: impl FnOnce(&mut ChildSpawnerCommands) + Send + Sync + 'static,
     ) -> Self {
         self.children.push(Box::new(child_builder));
         self
@@ -134,7 +134,7 @@ impl VerticalStackBuilder {
 
     /// Spawnt den vertikalen Stack und seine Kinder.
     #[must_use]
-    pub fn spawn<'w, 'a>(self, parent: &'a mut ChildBuilder<'w>) -> EntityCommands<'a> {
+    pub fn spawn<'w, 'a>(self, parent: &'a mut ChildSpawnerCommands<'w>) -> EntityCommands<'a> {
         let mut style = Node {
             display: Display::Flex,
             flex_direction: FlexDirection::Column, // <<< Vertikal
@@ -173,7 +173,7 @@ impl VerticalStackBuilder {
 
 pub struct HorizontalStackBuilder {
     base: StackBuilderBase,
-    children: Vec<Box<dyn FnOnce(&mut ChildBuilder) + Send + Sync>>,
+    children: Vec<Box<dyn FnOnce(&mut ChildSpawnerCommands) + Send + Sync>>,
 }
 
 impl Default for HorizontalStackBuilder {
@@ -248,7 +248,7 @@ impl HorizontalStackBuilder {
     /// Fügt ein Kind-Element hinzu, das durch eine Closure gespawnt wird.
     pub fn add(
         mut self,
-        child_builder: impl FnOnce(&mut ChildBuilder) + Send + Sync + 'static,
+        child_builder: impl FnOnce(&mut ChildSpawnerCommands) + Send + Sync + 'static,
     ) -> Self {
         self.children.push(Box::new(child_builder));
         self
@@ -256,7 +256,7 @@ impl HorizontalStackBuilder {
 
     /// Spawnt den horizontalen Stack und seine Kinder.
     #[must_use]
-    pub fn spawn<'w, 'a>(self, parent: &'a mut ChildBuilder<'w>) -> EntityCommands<'a> {
+    pub fn spawn<'w, 'a>(self, parent: &'a mut ChildSpawnerCommands<'w>) -> EntityCommands<'a> {
         let mut style = Node {
             display: Display::Flex,
             flex_direction: FlexDirection::Row, // <<< Horizontal

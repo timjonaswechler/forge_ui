@@ -1,9 +1,9 @@
 // crates/forge_ui/src/theme/data.rs
 
-use bevy::{asset::Asset, reflect::TypePath};
+use bevy::{asset::Asset, reflect::Reflect}; // FromReflect importieren
 use serde::{Deserialize, Serialize};
 
-#[derive(Serialize, Deserialize, Debug, Clone, Asset, TypePath)]
+#[derive(Serialize, Deserialize, Debug, Clone, Asset, Reflect)] // <-- Reflect hinzugefügt
 pub struct UiThemeData {
     pub ui_scaling: f32,
     pub rem: f32,
@@ -13,13 +13,13 @@ pub struct UiThemeData {
     pub color: UiColorDatas,
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Reflect)]
 pub struct UiTypographyData {
     pub font_size: UiFontSizeData,
     pub font_family: UiFontFamiliesData,
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Reflect)]
 pub struct UiFontSizeData {
     pub xs: f32,
     pub sm: f32,
@@ -36,7 +36,7 @@ pub struct UiFontSizeData {
     pub x9l: f32,
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Reflect)]
 pub struct UiFontFamiliesData {
     pub default: String,
     pub sans: FontVariantsData,
@@ -44,7 +44,7 @@ pub struct UiFontFamiliesData {
     pub mono: FontVariantsData,
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Reflect)]
 pub struct FontVariantsData {
     pub light: String,
     pub light_italic: String,
@@ -56,7 +56,7 @@ pub struct FontVariantsData {
     pub bold_italic: String,
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Reflect)]
 pub struct UiLayoutData {
     pub padding: UiSpacingData,
     pub margin: UiSpacingData,
@@ -65,7 +65,7 @@ pub struct UiLayoutData {
     pub border: UiSpacingData,
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Reflect)]
 pub struct UiSpacingData {
     pub xs: f32,
     pub sm: f32,
@@ -78,7 +78,7 @@ pub struct UiSpacingData {
     pub x5l: f32,
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Reflect)]
 pub struct UiRadiusData {
     pub xs: f32,
     pub sm: f32,
@@ -91,7 +91,7 @@ pub struct UiRadiusData {
     pub full: f32,
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Reflect)]
 pub struct UiColorDatas {
     pub white: UiColorData,
     pub black: UiColorData,
@@ -128,7 +128,7 @@ pub struct UiColorDatas {
     pub sky: UiColorData,
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Reflect)]
 pub struct UiColorData {
     pub background_primary: [f32; 4],
     pub background_secondary: [f32; 4],

@@ -81,7 +81,7 @@ pub struct CloseDialogEvent {
 
 // Typ für die Funktion, die den Dialog-Inhalt baut
 type DialogContentBuilderFn =
-    Box<dyn FnOnce(&mut ChildBuilder, &UiTheme, &Handle<Font>) + Send + Sync>;
+    Box<dyn FnOnce(&mut ChildSpawnerCommands, &UiTheme, &Handle<Font>) + Send + Sync>;
 
 pub struct DialogBuilder {
     id: DialogId,
@@ -128,7 +128,7 @@ impl DialogBuilder {
     /// Definiert den Inhalt des Dialogs über eine Closure.
     pub fn with_content(
         mut self,
-        builder: impl FnOnce(&mut ChildBuilder, &UiTheme, &Handle<Font>) + Send + Sync + 'static,
+        builder: impl FnOnce(&mut ChildSpawnerCommands, &UiTheme, &Handle<Font>) + Send + Sync + 'static,
     ) -> Self {
         self.content_builder = Some(Box::new(builder));
         self
@@ -239,7 +239,7 @@ impl DialogBuilder {
             GlobalZIndex(10), // Beispielwert, ggf. anpassen
         ));
 
-        let root_entity_id = root_entity_commands.id();
+        let _root_entity_id = root_entity_commands.id();
 
         // Optional: Dialog als Kind eines speziellen Containers spawnen
         let mut pending_parent: Option<Entity> = None;
@@ -364,7 +364,7 @@ impl DialogBuilder {
 
 /// System zum Öffnen eines Dialogs über Event.
 pub fn open_dialog_system(
-    mut commands: Commands,
+    _commands: Commands,
     mut ev_open: EventReader<OpenDialogEvent>,
     mut q_dialogs: Query<(Entity, &DialogRoot, &mut Visibility)>,
     mut active_dialogs: ResMut<ActiveDialogs>,
@@ -465,19 +465,22 @@ pub fn close_dialog_system(
 /// System, das Klicks auf das Overlay abfängt (nur wenn modal).
 /// Wenn ein modaler Dialog offen ist, schließt ein Klick auf das Overlay den Dialog.
 pub fn handle_overlay_click_system(
-    q_overlays: Query<(Entity, &Interaction, &Parent), (Changed<Interaction>, With<DialogOverlay>)>,
+    q_overlays: Query<
+        (Entity, &Interaction, &ChildOf),
+        (Changed<Interaction>, With<DialogOverlay>),
+    >,
     q_dialog_root: Query<&DialogRoot>, // Um Modalität zu prüfen
     mut ev_close: EventWriter<CloseDialogEvent>,
 ) {
-    for (_overlay_entity, interaction, parent) in q_overlays.iter() {
+    for (_overlay_entity, interaction, child_of) in q_overlays.iter() {
         if *interaction == Interaction::Pressed {
             // Oder Clicked, je nach Bevy Version/Verhalten
             // Finde den DialogRoot des Overlays
-            if let Ok(dialog_root) = q_dialog_root.get(parent.get()) {
+            if let Ok(dialog_root) = q_dialog_root.get(child_of.parent()) {
                 // Nur schließen, wenn modal und geklickt
                 if dialog_root.modal {
                     info!("Overlay clicked, sending CloseDialogEvent.");
-                    ev_close.send(CloseDialogEvent {});
+                    ev_close.write(CloseDialogEvent {});
                 }
             }
         }

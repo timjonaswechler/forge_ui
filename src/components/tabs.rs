@@ -66,7 +66,7 @@ pub struct TabItem<T: Component + PartialEq + Eq + Hash + Clone + Send + Sync + 
     value: T,
     trigger_label: String, // Oder NodeElement? Einfachheit halber erstmal String.
     content_builder:
-        Option<Box<dyn FnOnce(&mut ChildBuilder, &UiTheme, &Handle<Font>) + Send + Sync>>, // Closure zum Bauen des Contents
+        Option<Box<dyn FnOnce(&mut ChildSpawnerCommands, &UiTheme, &Handle<Font>) + Send + Sync>>, // Closure zum Bauen des Contents
     disabled: bool,
 }
 
@@ -98,13 +98,16 @@ impl<T: Component + PartialEq + Eq + Hash + Clone + Send + Sync + 'static> TabsB
     }
 
     /// Fügt einen Tab hinzu.
-    /// `content_builder`: Eine Closure, die `&mut ChildBuilder`, `&UiTheme`, `&Handle<Font>` nimmt
+    /// `content_builder`: Eine Closure, die `&mut ChildSpawnerCommands`, `&UiTheme`, `&Handle<Font>` nimmt
     ///                   und den Inhalt für diesen Tab spawnt.
     pub fn add_tab(
         mut self,
         value: T,
         trigger_label: impl Into<String>,
-        content_builder: impl FnOnce(&mut ChildBuilder, &UiTheme, &Handle<Font>) + Send + Sync + 'static,
+        content_builder: impl FnOnce(&mut ChildSpawnerCommands, &UiTheme, &Handle<Font>)
+            + Send
+            + Sync
+            + 'static,
     ) -> Self {
         self.tabs.push(TabItem {
             value,
@@ -132,7 +135,7 @@ impl<T: Component + PartialEq + Eq + Hash + Clone + Send + Sync + 'static> TabsB
     #[must_use]
     pub fn spawn<'w, 'a>(
         self,
-        parent: &'a mut ChildBuilder<'w>,
+        parent: &'a mut ChildSpawnerCommands<'w>,
         theme: &UiTheme,
         font_handle: &Handle<Font>,
     ) -> EntityCommands<'a> {
@@ -143,7 +146,7 @@ impl<T: Component + PartialEq + Eq + Hash + Clone + Send + Sync + 'static> TabsB
 
         let mut content_builders: HashMap<
             T,
-            Box<dyn FnOnce(&mut ChildBuilder, &UiTheme, &Handle<Font>) + Send + Sync>,
+            Box<dyn FnOnce(&mut ChildSpawnerCommands, &UiTheme, &Handle<Font>) + Send + Sync>,
         > = HashMap::new();
 
         // Spawnt den Haupt-Container
@@ -291,7 +294,7 @@ pub struct InitialContentBuilders<
 > {
     builders: HashMap<
         T,
-        Box<dyn FnOnce(&mut ChildBuilder, &UiTheme, &Handle<Font>) + Send + Sync + 'static>,
+        Box<dyn FnOnce(&mut ChildSpawnerCommands, &UiTheme, &Handle<Font>) + Send + Sync + 'static>,
     >,
     font_handle: Handle<Font>,
 }
@@ -375,7 +378,7 @@ pub fn handle_tab_triggers<
                     tabs_state.active_value = trigger.value.clone();
 
                     // Event senden
-                    ev_tab_changed.send(TabChangedEvent {
+                    ev_tab_changed.write(TabChangedEvent {
                         tabs_entity: trigger.parent_tabs,
                         active_value: tabs_state.active_value.clone(),
                     });
@@ -449,7 +452,8 @@ pub fn update_tabs_visuals<
 
                 // Farbe des Trigger-Texts aktualisieren
                 if let Some(children) = children {
-                    for &child in children.iter() {
+                    for child in children.iter() {
+                        // Changed from &_child to &child
                         if let Ok(mut text_color) = text_query.get_mut(child) {
                             // Update color for all sections in the text
                             *text_color = TextColor(target_text_color);
@@ -463,7 +467,7 @@ pub fn update_tabs_visuals<
                     *border_color = BorderColor(Color::NONE);
                     // Textfarbe weiter ausgrauen (durch Alfa)
                     if let Some(children) = children {
-                        for &child in children.iter() {
+                        for child in children.iter() {
                             if let Ok(mut text_color) = text_query.get_mut(child) {
                                 // Update color for all sections in the text
                                 *text_color = TextColor(target_text_color.with_alpha(0.5));

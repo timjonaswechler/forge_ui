@@ -72,7 +72,7 @@ impl LabelBuilder {
     #[must_use = "Commands should generally be used, e.g. to get the entity ID"]
     pub fn spawn<'w, 'a>(
         self,
-        parent: &'a mut ChildBuilder<'w>,
+        parent: &'a mut ChildSpawnerCommands<'w>,
         theme: &UiTheme,
         font_handle: &Handle<Font>,
     ) -> Entity {

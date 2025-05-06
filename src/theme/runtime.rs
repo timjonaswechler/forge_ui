@@ -152,7 +152,7 @@ pub struct UiColor {
 impl Default for UiTheme {
     fn default() -> Self {
         const DEFAULT_REM: f32 = 16.0; // Standard-REM, falls kein Theme geladen wird
-        const DEFAULT_UI_SCALING: f32 = 1.0;
+        const _DEFAULT_UI_SCALING: f32 = 1.0;
         const DEFAULT_SPACING: f32 = DEFAULT_REM / 4.0; // Basis-Spacing
 
         // Placeholder handles - these WILL NOT WORK unless assets with these exact IDs exist!
