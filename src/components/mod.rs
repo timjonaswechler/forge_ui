@@ -18,3 +18,6 @@ pub use label::*;
 
 pub mod tabs;
 pub use tabs::*;
+
+pub mod switch;
+pub use switch::*;

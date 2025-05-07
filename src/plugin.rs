@@ -13,11 +13,24 @@ use crate::theme::{
     UiTheme,
 };
 use crate::{
-    close_dialog_system, handle_button_clicks_event, handle_button_clicks_fn,
-    handle_checkbox_clicks, handle_overlay_click_system, open_dialog_system,
-    register_initially_open_dialogs, update_button_visuals, update_checkbox_visuals,
-    update_checkmark_visibility_on_state_change, ActiveDialogs, ButtonClickedEvent,
-    CheckboxChangedEvent, CloseDialogEvent, OpenDialogEvent,
+    close_dialog_system,
+    handle_button_clicks_event,
+    handle_button_clicks_fn,
+    handle_checkbox_clicks,
+    handle_overlay_click_system,
+    handle_toggle_switch_clicks, // NEU
+    open_dialog_system,
+    register_initially_open_dialogs,
+    update_button_visuals,
+    update_checkbox_visuals,
+    update_checkmark_visibility_on_state_change,
+    update_toggle_switch_visuals, // NEU
+    ActiveDialogs,
+    ButtonClickedEvent,
+    CheckboxChangedEvent,
+    CloseDialogEvent,
+    OpenDialogEvent,
+    ToggleSwitchChangedEvent, // NEU
 };
 
 // UI lifecycle phases for Bevy 0.16
@@ -108,6 +121,7 @@ impl Plugin for ForgeUiPlugin {
             .add_event::<CheckboxChangedEvent>()
             .add_event::<OpenDialogEvent>()
             .add_event::<CloseDialogEvent>()
+            .add_event::<ToggleSwitchChangedEvent>()
             .insert_resource(ActiveDialogs::default())
             .add_systems(
                 Update,
@@ -119,6 +133,8 @@ impl Plugin for ForgeUiPlugin {
                     handle_button_clicks_fn.run_if(in_state(UiState::Ready)),
                     update_checkbox_visuals.run_if(in_state(UiState::Ready)),
                     handle_checkbox_clicks.run_if(in_state(UiState::Ready)),
+                    handle_toggle_switch_clicks.run_if(in_state(UiState::Ready)),
+                    update_toggle_switch_visuals.after(handle_toggle_switch_clicks),
                     update_checkmark_visibility_on_state_change.run_if(in_state(UiState::Ready)),
                     open_dialog_system.run_if(in_state(UiState::Ready)),
                     handle_overlay_click_system.run_if(in_state(UiState::Ready)),
