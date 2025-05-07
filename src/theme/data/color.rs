@@ -5,77 +5,77 @@ use bevy::reflect::Reflect;
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Debug, Clone, Reflect)]
-pub struct UiColorDatas {
+pub struct UiColorPalettesData {
     #[serde(default)]
-    pub white: UiColorData,
+    pub white: UiColorPaletteData,
     #[serde(default)]
-    pub black: UiColorData,
+    pub black: UiColorPaletteData,
     #[serde(default)]
-    pub gray: UiColorData,
+    pub gray: UiColorPaletteData,
     #[serde(default)]
-    pub mauve: UiColorData,
+    pub mauve: UiColorPaletteData,
     #[serde(default)]
-    pub slate: UiColorData,
+    pub slate: UiColorPaletteData,
     #[serde(default)]
-    pub sage: UiColorData,
+    pub sage: UiColorPaletteData,
     #[serde(default)]
-    pub olive: UiColorData,
+    pub olive: UiColorPaletteData,
     #[serde(default)]
-    pub sand: UiColorData,
+    pub sand: UiColorPaletteData,
     #[serde(default)]
-    pub tomato: UiColorData,
+    pub tomato: UiColorPaletteData,
     #[serde(default)]
-    pub red: UiColorData,
+    pub red: UiColorPaletteData,
     #[serde(default)]
-    pub ruby: UiColorData,
+    pub ruby: UiColorPaletteData,
     #[serde(default)]
-    pub crimson: UiColorData,
+    pub crimson: UiColorPaletteData,
     #[serde(default)]
-    pub pink: UiColorData,
+    pub pink: UiColorPaletteData,
     #[serde(default)]
-    pub plum: UiColorData,
+    pub plum: UiColorPaletteData,
     #[serde(default)]
-    pub purple: UiColorData,
+    pub purple: UiColorPaletteData,
     #[serde(default)]
-    pub violet: UiColorData,
+    pub violet: UiColorPaletteData,
     #[serde(default)]
-    pub iris: UiColorData,
+    pub iris: UiColorPaletteData,
     #[serde(default)]
-    pub indigo: UiColorData,
+    pub indigo: UiColorPaletteData,
     #[serde(default)]
-    pub blue: UiColorData,
+    pub blue: UiColorPaletteData,
     #[serde(default)]
-    pub cyan: UiColorData,
+    pub cyan: UiColorPaletteData,
     #[serde(default)]
-    pub teal: UiColorData,
+    pub teal: UiColorPaletteData,
     #[serde(default)]
-    pub jade: UiColorData,
+    pub jade: UiColorPaletteData,
     #[serde(default)]
-    pub green: UiColorData,
+    pub green: UiColorPaletteData,
     #[serde(default)]
-    pub grass: UiColorData,
+    pub grass: UiColorPaletteData,
     #[serde(default)]
-    pub bronze: UiColorData,
+    pub bronze: UiColorPaletteData,
     #[serde(default)]
-    pub gold: UiColorData,
+    pub gold: UiColorPaletteData,
     #[serde(default)]
-    pub brown: UiColorData,
+    pub brown: UiColorPaletteData,
     #[serde(default)]
-    pub orange: UiColorData,
+    pub orange: UiColorPaletteData,
     #[serde(default)]
-    pub amber: UiColorData,
+    pub amber: UiColorPaletteData,
     #[serde(default)]
-    pub yellow: UiColorData,
+    pub yellow: UiColorPaletteData,
     #[serde(default)]
-    pub lime: UiColorData,
+    pub lime: UiColorPaletteData,
     #[serde(default)]
-    pub mint: UiColorData,
+    pub mint: UiColorPaletteData,
     #[serde(default)]
-    pub sky: UiColorData,
+    pub sky: UiColorPaletteData,
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone, Reflect, Default)]
-pub struct UiColorData {
+#[derive(Serialize, Deserialize, Debug, Clone, Reflect)]
+pub struct UiColorPaletteData {
     #[serde(default)]
     pub background_primary: [f32; 4],
     #[serde(default)]
@@ -101,12 +101,122 @@ pub struct UiColorData {
     #[serde(default)]
     pub text_secondary: [f32; 4],
 }
+impl Default for UiColorPaletteData {
+    fn default() -> Self {
+        UiColorPaletteData {
+            background_primary: [1.0, 1.0, 1.0, 0.05],
+            background_secondary: [1.0, 1.0, 1.0, 0.10],
+            interaction_primary: [1.0, 1.0, 1.0, 0.15],
+            interaction_secondary: [1.0, 1.0, 1.0, 0.20],
+            interaction_tertiary: [1.0, 1.0, 1.0, 0.30],
+            border_primary: [1.0, 1.0, 1.0, 0.40],
+            border_secondary: [1.0, 1.0, 1.0, 0.50],
+            border_tertiary: [1.0, 1.0, 1.0, 0.60],
+            solid_primary: [1.0, 1.0, 1.0, 0.70],
+            solid_secondary: [1.0, 1.0, 1.0, 0.80],
+            text_primary: [1.0, 1.0, 1.0, 0.90],
+            text_secondary: [1.0, 1.0, 1.0, 0.95],
+        }
+    }
+}
 
-impl Default for UiColorDatas {
+#[derive(Serialize, Deserialize, Debug, Clone, Reflect)]
+pub struct UiAccentColorPaletteData {
+    #[serde(default)]
+    pub background_primary: [f32; 4],
+    #[serde(default)]
+    pub background_secondary: [f32; 4],
+    #[serde(default)]
+    pub interaction_primary: [f32; 4],
+    #[serde(default)]
+    pub interaction_secondary: [f32; 4],
+    #[serde(default)]
+    pub interaction_tertiary: [f32; 4],
+    #[serde(default)]
+    pub border_primary: [f32; 4],
+    #[serde(default)]
+    pub border_secondary: [f32; 4],
+    #[serde(default)]
+    pub border_tertiary: [f32; 4],
+    #[serde(default)]
+    pub solid_primary: [f32; 4],
+    #[serde(default)]
+    pub solid_secondary: [f32; 4],
+    #[serde(default)]
+    pub text_primary: [f32; 4],
+    #[serde(default)]
+    pub text_secondary: [f32; 4],
+}
+impl Default for UiAccentColorPaletteData {
+    fn default() -> Self {
+        UiAccentColorPaletteData {
+            background_primary: Srgba::hex("181111").unwrap().to_f32_array(),
+            background_secondary: Srgba::hex("1F1513").unwrap().to_f32_array(),
+            interaction_primary: Srgba::hex("391714").unwrap().to_f32_array(),
+            interaction_secondary: Srgba::hex("4E1511").unwrap().to_f32_array(),
+            interaction_tertiary: Srgba::hex("5E1C16").unwrap().to_f32_array(),
+            border_primary: Srgba::hex("6E2920").unwrap().to_f32_array(),
+            border_secondary: Srgba::hex("853A2D").unwrap().to_f32_array(),
+            border_tertiary: Srgba::hex("AC4D39").unwrap().to_f32_array(),
+            solid_primary: Srgba::hex("E54D2E").unwrap().to_f32_array(),
+            solid_secondary: Srgba::hex("EC6142").unwrap().to_f32_array(),
+            text_primary: Srgba::hex("FF977D").unwrap().to_f32_array(),
+            text_secondary: Srgba::hex("FBD3CB").unwrap().to_f32_array(),
+        }
+    }
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone, Reflect)]
+pub struct UiGrayAccentColorPaletteData {
+    #[serde(default)]
+    pub background_primary: [f32; 4],
+    #[serde(default)]
+    pub background_secondary: [f32; 4],
+    #[serde(default)]
+    pub interaction_primary: [f32; 4],
+    #[serde(default)]
+    pub interaction_secondary: [f32; 4],
+    #[serde(default)]
+    pub interaction_tertiary: [f32; 4],
+    #[serde(default)]
+    pub border_primary: [f32; 4],
+    #[serde(default)]
+    pub border_secondary: [f32; 4],
+    #[serde(default)]
+    pub border_tertiary: [f32; 4],
+    #[serde(default)]
+    pub solid_primary: [f32; 4],
+    #[serde(default)]
+    pub solid_secondary: [f32; 4],
+    #[serde(default)]
+    pub text_primary: [f32; 4],
+    #[serde(default)]
+    pub text_secondary: [f32; 4],
+}
+impl Default for UiGrayAccentColorPaletteData {
+    fn default() -> Self {
+        UiGrayAccentColorPaletteData {
+            background_primary: Srgba::hex("111111").unwrap().to_f32_array(),
+            background_secondary: Srgba::hex("191919").unwrap().to_f32_array(),
+            interaction_primary: Srgba::hex("222222").unwrap().to_f32_array(),
+            interaction_secondary: Srgba::hex("2A2A2A").unwrap().to_f32_array(),
+            interaction_tertiary: Srgba::hex("313131").unwrap().to_f32_array(),
+            border_primary: Srgba::hex("3A3A3A").unwrap().to_f32_array(),
+            border_secondary: Srgba::hex("484848").unwrap().to_f32_array(),
+            border_tertiary: Srgba::hex("606060").unwrap().to_f32_array(),
+            solid_primary: Srgba::hex("6E6E6E").unwrap().to_f32_array(),
+            solid_secondary: Srgba::hex("7B7B7B").unwrap().to_f32_array(),
+            text_primary: Srgba::hex("B4B4B4").unwrap().to_f32_array(),
+            text_secondary: Srgba::hex("EEEEEE").unwrap().to_f32_array(),
+        }
+    }
+}
+
+impl Default for UiColorPalettesData {
     fn default() -> Self {
         // Hier nur exemplarisch für white und gray – den Rest analog ergänzen!
-        UiColorDatas {
-            white: UiColorData {
+        UiColorPalettesData {
+            white: UiColorPaletteData {
                 background_primary: [1.0, 1.0, 1.0, 0.05],
                 background_secondary: [1.0, 1.0, 1.0, 0.10],
                 interaction_primary: [1.0, 1.0, 1.0, 0.15],
@@ -120,7 +230,7 @@ impl Default for UiColorDatas {
                 text_primary: [1.0, 1.0, 1.0, 0.90],
                 text_secondary: [1.0, 1.0, 1.0, 0.95],
             },
-            black: UiColorData {
+            black: UiColorPaletteData {
                 background_primary: [0.0, 0.0, 0.0, 0.05],
                 background_secondary: [0.0, 0.0, 0.0, 0.10],
                 interaction_primary: [0.0, 0.0, 0.0, 0.15],
@@ -134,7 +244,7 @@ impl Default for UiColorDatas {
                 text_primary: [0.0, 0.0, 0.0, 0.90],
                 text_secondary: [0.0, 0.0, 0.0, 0.95],
             },
-            gray: UiColorData {
+            gray: UiColorPaletteData {
                 // hex-Farben wandelt Srgba direkt ins [f32;4]-Array um
                 background_primary: Srgba::hex("111111").unwrap().to_f32_array(),
                 background_secondary: Srgba::hex("191919").unwrap().to_f32_array(),
@@ -149,7 +259,7 @@ impl Default for UiColorDatas {
                 text_primary: Srgba::hex("B4B4B4").unwrap().to_f32_array(),
                 text_secondary: Srgba::hex("EEEEEE").unwrap().to_f32_array(),
             },
-            mauve: UiColorData {
+            mauve: UiColorPaletteData {
                 background_primary: Srgba::hex("121113").unwrap().to_f32_array(),
                 background_secondary: Srgba::hex("1a191b").unwrap().to_f32_array(),
                 interaction_primary: Srgba::hex("232225").unwrap().to_f32_array(),
@@ -163,7 +273,7 @@ impl Default for UiColorDatas {
                 text_primary: Srgba::hex("b5b2bc").unwrap().to_f32_array(),
                 text_secondary: Srgba::hex("eeeef0").unwrap().to_f32_array(),
             },
-            slate: UiColorData {
+            slate: UiColorPaletteData {
                 background_primary: Srgba::hex("111113").unwrap().to_f32_array(),
                 background_secondary: Srgba::hex("18191b").unwrap().to_f32_array(),
                 interaction_primary: Srgba::hex("212225").unwrap().to_f32_array(),
@@ -177,7 +287,7 @@ impl Default for UiColorDatas {
                 text_primary: Srgba::hex("b0b4ba").unwrap().to_f32_array(),
                 text_secondary: Srgba::hex("edeef0").unwrap().to_f32_array(),
             },
-            sage: UiColorData {
+            sage: UiColorPaletteData {
                 background_primary: Srgba::hex("101211").unwrap().to_f32_array(),
                 background_secondary: Srgba::hex("171918").unwrap().to_f32_array(),
                 interaction_primary: Srgba::hex("202221").unwrap().to_f32_array(),
@@ -191,7 +301,7 @@ impl Default for UiColorDatas {
                 text_primary: Srgba::hex("adb5b2").unwrap().to_f32_array(),
                 text_secondary: Srgba::hex("eceeed").unwrap().to_f32_array(),
             },
-            olive: UiColorData {
+            olive: UiColorPaletteData {
                 background_primary: Srgba::hex("111210").unwrap().to_f32_array(),
                 background_secondary: Srgba::hex("181917").unwrap().to_f32_array(),
                 interaction_primary: Srgba::hex("212220").unwrap().to_f32_array(),
@@ -205,7 +315,7 @@ impl Default for UiColorDatas {
                 text_primary: Srgba::hex("afb5ad").unwrap().to_f32_array(),
                 text_secondary: Srgba::hex("eceeec").unwrap().to_f32_array(),
             },
-            sand: UiColorData {
+            sand: UiColorPaletteData {
                 background_primary: Srgba::hex("111110").unwrap().to_f32_array(),
                 background_secondary: Srgba::hex("191918").unwrap().to_f32_array(),
                 interaction_primary: Srgba::hex("222221").unwrap().to_f32_array(),
@@ -219,7 +329,7 @@ impl Default for UiColorDatas {
                 text_primary: Srgba::hex("b5b3ad").unwrap().to_f32_array(),
                 text_secondary: Srgba::hex("eeeeec").unwrap().to_f32_array(),
             },
-            tomato: UiColorData {
+            tomato: UiColorPaletteData {
                 background_primary: Srgba::hex("181111").unwrap().to_f32_array(),
                 background_secondary: Srgba::hex("1F1513").unwrap().to_f32_array(),
                 interaction_primary: Srgba::hex("391714").unwrap().to_f32_array(),
@@ -233,7 +343,7 @@ impl Default for UiColorDatas {
                 text_primary: Srgba::hex("FF977D").unwrap().to_f32_array(),
                 text_secondary: Srgba::hex("FBD3CB").unwrap().to_f32_array(),
             },
-            red: UiColorData {
+            red: UiColorPaletteData {
                 background_primary: Srgba::hex("191111").unwrap().to_f32_array(),
                 background_secondary: Srgba::hex("201314").unwrap().to_f32_array(),
                 interaction_primary: Srgba::hex("3b1219").unwrap().to_f32_array(),
@@ -247,7 +357,7 @@ impl Default for UiColorDatas {
                 text_primary: Srgba::hex("ff9592").unwrap().to_f32_array(),
                 text_secondary: Srgba::hex("ffd1d9").unwrap().to_f32_array(),
             },
-            ruby: UiColorData {
+            ruby: UiColorPaletteData {
                 background_primary: Srgba::hex("191113").unwrap().to_f32_array(),
                 background_secondary: Srgba::hex("1e1517").unwrap().to_f32_array(),
                 interaction_primary: Srgba::hex("3a141e").unwrap().to_f32_array(),
@@ -261,7 +371,7 @@ impl Default for UiColorDatas {
                 text_primary: Srgba::hex("ff949d").unwrap().to_f32_array(),
                 text_secondary: Srgba::hex("fed2e1").unwrap().to_f32_array(),
             },
-            crimson: UiColorData {
+            crimson: UiColorPaletteData {
                 background_primary: Srgba::hex("191114").unwrap().to_f32_array(),
                 background_secondary: Srgba::hex("201318").unwrap().to_f32_array(),
                 interaction_primary: Srgba::hex("381525").unwrap().to_f32_array(),
@@ -275,7 +385,7 @@ impl Default for UiColorDatas {
                 text_primary: Srgba::hex("ff92ad").unwrap().to_f32_array(),
                 text_secondary: Srgba::hex("fdd3e8").unwrap().to_f32_array(),
             },
-            pink: UiColorData {
+            pink: UiColorPaletteData {
                 background_primary: Srgba::hex("191117").unwrap().to_f32_array(),
                 background_secondary: Srgba::hex("21121d").unwrap().to_f32_array(),
                 interaction_primary: Srgba::hex("37172f").unwrap().to_f32_array(),
@@ -289,7 +399,7 @@ impl Default for UiColorDatas {
                 text_primary: Srgba::hex("ff8dcc").unwrap().to_f32_array(),
                 text_secondary: Srgba::hex("fdd1ea").unwrap().to_f32_array(),
             },
-            plum: UiColorData {
+            plum: UiColorPaletteData {
                 background_primary: Srgba::hex("181118").unwrap().to_f32_array(),
                 background_secondary: Srgba::hex("201320").unwrap().to_f32_array(),
                 interaction_primary: Srgba::hex("351a35").unwrap().to_f32_array(),
@@ -303,7 +413,7 @@ impl Default for UiColorDatas {
                 text_primary: Srgba::hex("e796f3").unwrap().to_f32_array(),
                 text_secondary: Srgba::hex("f4d4f4").unwrap().to_f32_array(),
             },
-            purple: UiColorData {
+            purple: UiColorPaletteData {
                 background_primary: Srgba::hex("111111").unwrap().to_f32_array(),
                 background_secondary: Srgba::hex("191919").unwrap().to_f32_array(),
                 interaction_primary: Srgba::hex("222222").unwrap().to_f32_array(),
@@ -317,7 +427,7 @@ impl Default for UiColorDatas {
                 text_primary: Srgba::hex("B4B4B4").unwrap().to_f32_array(),
                 text_secondary: Srgba::hex("EEEEEE").unwrap().to_f32_array(),
             },
-            violet: UiColorData {
+            violet: UiColorPaletteData {
                 background_primary: Srgba::hex("111111").unwrap().to_f32_array(),
                 background_secondary: Srgba::hex("191919").unwrap().to_f32_array(),
                 interaction_primary: Srgba::hex("222222").unwrap().to_f32_array(),
@@ -331,7 +441,7 @@ impl Default for UiColorDatas {
                 text_primary: Srgba::hex("B4B4B4").unwrap().to_f32_array(),
                 text_secondary: Srgba::hex("EEEEEE").unwrap().to_f32_array(),
             },
-            iris: UiColorData {
+            iris: UiColorPaletteData {
                 background_primary: Srgba::hex("111111").unwrap().to_f32_array(),
                 background_secondary: Srgba::hex("191919").unwrap().to_f32_array(),
                 interaction_primary: Srgba::hex("222222").unwrap().to_f32_array(),
@@ -345,7 +455,7 @@ impl Default for UiColorDatas {
                 text_primary: Srgba::hex("B4B4B4").unwrap().to_f32_array(),
                 text_secondary: Srgba::hex("EEEEEE").unwrap().to_f32_array(),
             },
-            indigo: UiColorData {
+            indigo: UiColorPaletteData {
                 background_primary: Srgba::hex("111111").unwrap().to_f32_array(),
                 background_secondary: Srgba::hex("191919").unwrap().to_f32_array(),
                 interaction_primary: Srgba::hex("222222").unwrap().to_f32_array(),
@@ -359,7 +469,7 @@ impl Default for UiColorDatas {
                 text_primary: Srgba::hex("B4B4B4").unwrap().to_f32_array(),
                 text_secondary: Srgba::hex("EEEEEE").unwrap().to_f32_array(),
             },
-            blue: UiColorData {
+            blue: UiColorPaletteData {
                 background_primary: Srgba::hex("111111").unwrap().to_f32_array(),
                 background_secondary: Srgba::hex("191919").unwrap().to_f32_array(),
                 interaction_primary: Srgba::hex("222222").unwrap().to_f32_array(),
@@ -373,7 +483,7 @@ impl Default for UiColorDatas {
                 text_primary: Srgba::hex("B4B4B4").unwrap().to_f32_array(),
                 text_secondary: Srgba::hex("EEEEEE").unwrap().to_f32_array(),
             },
-            cyan: UiColorData {
+            cyan: UiColorPaletteData {
                 background_primary: Srgba::hex("111111").unwrap().to_f32_array(),
                 background_secondary: Srgba::hex("191919").unwrap().to_f32_array(),
                 interaction_primary: Srgba::hex("222222").unwrap().to_f32_array(),
@@ -387,7 +497,7 @@ impl Default for UiColorDatas {
                 text_primary: Srgba::hex("B4B4B4").unwrap().to_f32_array(),
                 text_secondary: Srgba::hex("EEEEEE").unwrap().to_f32_array(),
             },
-            teal: UiColorData {
+            teal: UiColorPaletteData {
                 background_primary: Srgba::hex("111111").unwrap().to_f32_array(),
                 background_secondary: Srgba::hex("191919").unwrap().to_f32_array(),
                 interaction_primary: Srgba::hex("222222").unwrap().to_f32_array(),
@@ -401,7 +511,7 @@ impl Default for UiColorDatas {
                 text_primary: Srgba::hex("B4B4B4").unwrap().to_f32_array(),
                 text_secondary: Srgba::hex("EEEEEE").unwrap().to_f32_array(),
             },
-            jade: UiColorData {
+            jade: UiColorPaletteData {
                 background_primary: Srgba::hex("111111").unwrap().to_f32_array(),
                 background_secondary: Srgba::hex("191919").unwrap().to_f32_array(),
                 interaction_primary: Srgba::hex("222222").unwrap().to_f32_array(),
@@ -415,7 +525,7 @@ impl Default for UiColorDatas {
                 text_primary: Srgba::hex("B4B4B4").unwrap().to_f32_array(),
                 text_secondary: Srgba::hex("EEEEEE").unwrap().to_f32_array(),
             },
-            green: UiColorData {
+            green: UiColorPaletteData {
                 background_primary: Srgba::hex("111111").unwrap().to_f32_array(),
                 background_secondary: Srgba::hex("191919").unwrap().to_f32_array(),
                 interaction_primary: Srgba::hex("222222").unwrap().to_f32_array(),
@@ -429,7 +539,7 @@ impl Default for UiColorDatas {
                 text_primary: Srgba::hex("B4B4B4").unwrap().to_f32_array(),
                 text_secondary: Srgba::hex("EEEEEE").unwrap().to_f32_array(),
             },
-            grass: UiColorData {
+            grass: UiColorPaletteData {
                 background_primary: Srgba::hex("111111").unwrap().to_f32_array(),
                 background_secondary: Srgba::hex("191919").unwrap().to_f32_array(),
                 interaction_primary: Srgba::hex("222222").unwrap().to_f32_array(),
@@ -443,7 +553,7 @@ impl Default for UiColorDatas {
                 text_primary: Srgba::hex("B4B4B4").unwrap().to_f32_array(),
                 text_secondary: Srgba::hex("EEEEEE").unwrap().to_f32_array(),
             },
-            bronze: UiColorData {
+            bronze: UiColorPaletteData {
                 background_primary: Srgba::hex("111111").unwrap().to_f32_array(),
                 background_secondary: Srgba::hex("191919").unwrap().to_f32_array(),
                 interaction_primary: Srgba::hex("222222").unwrap().to_f32_array(),
@@ -457,7 +567,7 @@ impl Default for UiColorDatas {
                 text_primary: Srgba::hex("B4B4B4").unwrap().to_f32_array(),
                 text_secondary: Srgba::hex("EEEEEE").unwrap().to_f32_array(),
             },
-            gold: UiColorData {
+            gold: UiColorPaletteData {
                 background_primary: Srgba::hex("111111").unwrap().to_f32_array(),
                 background_secondary: Srgba::hex("191919").unwrap().to_f32_array(),
                 interaction_primary: Srgba::hex("222222").unwrap().to_f32_array(),
@@ -471,7 +581,7 @@ impl Default for UiColorDatas {
                 text_primary: Srgba::hex("B4B4B4").unwrap().to_f32_array(),
                 text_secondary: Srgba::hex("EEEEEE").unwrap().to_f32_array(),
             },
-            brown: UiColorData {
+            brown: UiColorPaletteData {
                 background_primary: Srgba::hex("111111").unwrap().to_f32_array(),
                 background_secondary: Srgba::hex("191919").unwrap().to_f32_array(),
                 interaction_primary: Srgba::hex("222222").unwrap().to_f32_array(),
@@ -485,7 +595,7 @@ impl Default for UiColorDatas {
                 text_primary: Srgba::hex("B4B4B4").unwrap().to_f32_array(),
                 text_secondary: Srgba::hex("EEEEEE").unwrap().to_f32_array(),
             },
-            orange: UiColorData {
+            orange: UiColorPaletteData {
                 background_primary: Srgba::hex("111111").unwrap().to_f32_array(),
                 background_secondary: Srgba::hex("191919").unwrap().to_f32_array(),
                 interaction_primary: Srgba::hex("222222").unwrap().to_f32_array(),
@@ -499,7 +609,7 @@ impl Default for UiColorDatas {
                 text_primary: Srgba::hex("B4B4B4").unwrap().to_f32_array(),
                 text_secondary: Srgba::hex("EEEEEE").unwrap().to_f32_array(),
             },
-            amber: UiColorData {
+            amber: UiColorPaletteData {
                 background_primary: Srgba::hex("111111").unwrap().to_f32_array(),
                 background_secondary: Srgba::hex("191919").unwrap().to_f32_array(),
                 interaction_primary: Srgba::hex("222222").unwrap().to_f32_array(),
@@ -513,7 +623,7 @@ impl Default for UiColorDatas {
                 text_primary: Srgba::hex("B4B4B4").unwrap().to_f32_array(),
                 text_secondary: Srgba::hex("EEEEEE").unwrap().to_f32_array(),
             },
-            yellow: UiColorData {
+            yellow: UiColorPaletteData {
                 background_primary: Srgba::hex("111111").unwrap().to_f32_array(),
                 background_secondary: Srgba::hex("191919").unwrap().to_f32_array(),
                 interaction_primary: Srgba::hex("222222").unwrap().to_f32_array(),
@@ -527,7 +637,7 @@ impl Default for UiColorDatas {
                 text_primary: Srgba::hex("B4B4B4").unwrap().to_f32_array(),
                 text_secondary: Srgba::hex("EEEEEE").unwrap().to_f32_array(),
             },
-            lime: UiColorData {
+            lime: UiColorPaletteData {
                 background_primary: Srgba::hex("111111").unwrap().to_f32_array(),
                 background_secondary: Srgba::hex("191919").unwrap().to_f32_array(),
                 interaction_primary: Srgba::hex("222222").unwrap().to_f32_array(),
@@ -541,7 +651,7 @@ impl Default for UiColorDatas {
                 text_primary: Srgba::hex("B4B4B4").unwrap().to_f32_array(),
                 text_secondary: Srgba::hex("EEEEEE").unwrap().to_f32_array(),
             },
-            mint: UiColorData {
+            mint: UiColorPaletteData {
                 background_primary: Srgba::hex("111111").unwrap().to_f32_array(),
                 background_secondary: Srgba::hex("191919").unwrap().to_f32_array(),
                 interaction_primary: Srgba::hex("222222").unwrap().to_f32_array(),
@@ -555,7 +665,7 @@ impl Default for UiColorDatas {
                 text_primary: Srgba::hex("B4B4B4").unwrap().to_f32_array(),
                 text_secondary: Srgba::hex("EEEEEE").unwrap().to_f32_array(),
             },
-            sky: UiColorData {
+            sky: UiColorPaletteData {
                 background_primary: Srgba::hex("111111").unwrap().to_f32_array(),
                 background_secondary: Srgba::hex("191919").unwrap().to_f32_array(),
                 interaction_primary: Srgba::hex("222222").unwrap().to_f32_array(),

@@ -29,33 +29,7 @@ pub enum UiState {
     HotReload,    // Theme-HotReload Phase
 }
 
-#[derive(Resource, Debug, Clone)]
-pub struct UiConfig {
-    pub rem: Option<f32>,
-}
-
-impl Default for UiConfig {
-    fn default() -> Self {
-        UiConfig { rem: None }
-    }
-}
-
-pub struct ForgeUiPlugin {
-    pub config: UiConfig,
-}
-
-impl ForgeUiPlugin {
-    pub fn new() -> Self {
-        ForgeUiPlugin {
-            config: UiConfig::default(),
-        }
-    }
-
-    pub fn with_rem(mut self, rem: f32) -> Self {
-        self.config.rem = Some(rem);
-        self
-    }
-}
+pub struct ForgeUiPlugin;
 
 impl Plugin for ForgeUiPlugin {
     fn build(&self, app: &mut App) {
@@ -70,8 +44,7 @@ impl Plugin for ForgeUiPlugin {
                     .load_collection::<FontAssets>()
                     .load_collection::<IconAssets>(),
             )
-            // 3) Insert config, register RON asset type
-            .insert_resource(self.config.clone())
+            // 3) Register RON asset type
             .register_asset_reflect::<UiThemeData>()
             .init_asset_loader::<IconLoader>()
             .init_asset::<Icon>()

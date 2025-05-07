@@ -1,47 +1,49 @@
 // src/theme/runtime/color.rs
 
-use crate::theme::data::UiColorDatas;
+use crate::theme::data::{
+    UiAccentColorPaletteData, UiColorPalettesData, UiGrayAccentColorPaletteData,
+};
 use bevy::prelude::*;
 
 #[derive(Debug, Clone)]
-pub struct UiColors {
-    pub white: UiColor,
-    pub black: UiColor,
-    pub gray: UiColor,
-    pub mauve: UiColor,
-    pub slate: UiColor,
-    pub sage: UiColor,
-    pub olive: UiColor,
-    pub sand: UiColor,
-    pub tomato: UiColor,
-    pub red: UiColor,
-    pub ruby: UiColor,
-    pub crimson: UiColor,
-    pub pink: UiColor,
-    pub plum: UiColor,
-    pub purple: UiColor,
-    pub violet: UiColor,
-    pub iris: UiColor,
-    pub indigo: UiColor,
-    pub blue: UiColor,
-    pub cyan: UiColor,
-    pub teal: UiColor,
-    pub jade: UiColor,
-    pub green: UiColor,
-    pub grass: UiColor,
-    pub bronze: UiColor,
-    pub gold: UiColor,
-    pub brown: UiColor,
-    pub orange: UiColor,
-    pub amber: UiColor,
-    pub yellow: UiColor,
-    pub lime: UiColor,
-    pub mint: UiColor,
-    pub sky: UiColor,
+pub struct UiColorPalettes {
+    pub white: UiColorPalette,
+    pub black: UiColorPalette,
+    pub gray: UiColorPalette,
+    pub mauve: UiColorPalette,
+    pub slate: UiColorPalette,
+    pub sage: UiColorPalette,
+    pub olive: UiColorPalette,
+    pub sand: UiColorPalette,
+    pub tomato: UiColorPalette,
+    pub red: UiColorPalette,
+    pub ruby: UiColorPalette,
+    pub crimson: UiColorPalette,
+    pub pink: UiColorPalette,
+    pub plum: UiColorPalette,
+    pub purple: UiColorPalette,
+    pub violet: UiColorPalette,
+    pub iris: UiColorPalette,
+    pub indigo: UiColorPalette,
+    pub blue: UiColorPalette,
+    pub cyan: UiColorPalette,
+    pub teal: UiColorPalette,
+    pub jade: UiColorPalette,
+    pub green: UiColorPalette,
+    pub grass: UiColorPalette,
+    pub bronze: UiColorPalette,
+    pub gold: UiColorPalette,
+    pub brown: UiColorPalette,
+    pub orange: UiColorPalette,
+    pub amber: UiColorPalette,
+    pub yellow: UiColorPalette,
+    pub lime: UiColorPalette,
+    pub mint: UiColorPalette,
+    pub sky: UiColorPalette,
 }
 
 #[derive(Debug, Clone)]
-pub struct UiColor {
+pub struct UiColorPalette {
     pub background_primary: Color,
     pub background_secondary: Color,
     pub interaction_primary: Color,
@@ -56,10 +58,76 @@ pub struct UiColor {
     pub text_secondary: Color,
 }
 
-pub fn build(data: &UiColorDatas) -> UiColors {
+#[derive(Debug, Clone)]
+pub struct UiAccentColorPalette {
+    pub background_primary: Color,
+    pub background_secondary: Color,
+    pub interaction_primary: Color,
+    pub interaction_secondary: Color,
+    pub interaction_tertiary: Color,
+    pub border_primary: Color,
+    pub border_secondary: Color,
+    pub border_tertiary: Color,
+    pub solid_primary: Color,
+    pub solid_secondary: Color,
+    pub text_primary: Color,
+    pub text_secondary: Color,
+}
+
+#[derive(Debug, Clone)]
+pub struct UiGrayAccentColorPalette {
+    pub background_primary: Color,
+    pub background_secondary: Color,
+    pub interaction_primary: Color,
+    pub interaction_secondary: Color,
+    pub interaction_tertiary: Color,
+    pub border_primary: Color,
+    pub border_secondary: Color,
+    pub border_tertiary: Color,
+    pub solid_primary: Color,
+    pub solid_secondary: Color,
+    pub text_primary: Color,
+    pub text_secondary: Color,
+}
+pub fn build_accent_color(data: &UiAccentColorPaletteData) -> UiAccentColorPalette {
     let conv_color = |c: [f32; 4]| Color::srgba(c[0], c[1], c[2], c[3]);
-    UiColors {
-        white: UiColor {
+    UiAccentColorPalette {
+        background_primary: conv_color(data.background_primary),
+        background_secondary: conv_color(data.background_secondary),
+        interaction_primary: conv_color(data.interaction_primary),
+        interaction_secondary: conv_color(data.interaction_secondary),
+        interaction_tertiary: conv_color(data.interaction_tertiary),
+        border_primary: conv_color(data.border_primary),
+        border_secondary: conv_color(data.border_secondary),
+        border_tertiary: conv_color(data.border_tertiary),
+        solid_primary: conv_color(data.solid_primary),
+        solid_secondary: conv_color(data.solid_secondary),
+        text_primary: conv_color(data.text_primary),
+        text_secondary: conv_color(data.text_secondary),
+    }
+}
+pub fn build_gray_accent_color(data: &UiGrayAccentColorPaletteData) -> UiGrayAccentColorPalette {
+    let conv_color = |c: [f32; 4]| Color::srgba(c[0], c[1], c[2], c[3]);
+    UiGrayAccentColorPalette {
+        background_primary: conv_color(data.background_primary),
+        background_secondary: conv_color(data.background_secondary),
+        interaction_primary: conv_color(data.interaction_primary),
+        interaction_secondary: conv_color(data.interaction_secondary),
+        interaction_tertiary: conv_color(data.interaction_tertiary),
+        border_primary: conv_color(data.border_primary),
+        border_secondary: conv_color(data.border_secondary),
+        border_tertiary: conv_color(data.border_tertiary),
+        solid_primary: conv_color(data.solid_primary),
+        solid_secondary: conv_color(data.solid_secondary),
+        text_primary: conv_color(data.text_primary),
+        text_secondary: conv_color(data.text_secondary),
+    }
+}
+
+pub fn build(data: &UiColorPalettesData) -> UiColorPalettes {
+    let conv_color = |c: [f32; 4]| Color::srgba(c[0], c[1], c[2], c[3]);
+    UiColorPalettes {
+        white: UiColorPalette {
             background_primary: conv_color(data.white.background_primary),
             background_secondary: conv_color(data.white.background_secondary),
             interaction_primary: conv_color(data.white.interaction_primary),
@@ -73,7 +141,7 @@ pub fn build(data: &UiColorDatas) -> UiColors {
             text_primary: conv_color(data.white.text_primary),
             text_secondary: conv_color(data.white.text_secondary),
         },
-        black: UiColor {
+        black: UiColorPalette {
             background_primary: conv_color(data.black.background_primary),
             background_secondary: conv_color(data.black.background_secondary),
             interaction_primary: conv_color(data.black.interaction_primary),
@@ -87,7 +155,7 @@ pub fn build(data: &UiColorDatas) -> UiColors {
             text_primary: conv_color(data.black.text_primary),
             text_secondary: conv_color(data.black.text_secondary),
         },
-        gray: UiColor {
+        gray: UiColorPalette {
             background_primary: conv_color(data.gray.background_primary),
             background_secondary: conv_color(data.gray.background_secondary),
             interaction_primary: conv_color(data.gray.interaction_primary),
@@ -101,7 +169,7 @@ pub fn build(data: &UiColorDatas) -> UiColors {
             text_primary: conv_color(data.gray.text_primary),
             text_secondary: conv_color(data.gray.text_secondary),
         },
-        mauve: UiColor {
+        mauve: UiColorPalette {
             background_primary: conv_color(data.mauve.background_primary),
             background_secondary: conv_color(data.mauve.background_secondary),
             interaction_primary: conv_color(data.mauve.interaction_primary),
@@ -115,7 +183,7 @@ pub fn build(data: &UiColorDatas) -> UiColors {
             text_primary: conv_color(data.mauve.text_primary),
             text_secondary: conv_color(data.mauve.text_secondary),
         },
-        slate: UiColor {
+        slate: UiColorPalette {
             background_primary: conv_color(data.slate.background_primary),
             background_secondary: conv_color(data.slate.background_secondary),
             interaction_primary: conv_color(data.slate.interaction_primary),
@@ -129,7 +197,7 @@ pub fn build(data: &UiColorDatas) -> UiColors {
             text_primary: conv_color(data.slate.text_primary),
             text_secondary: conv_color(data.slate.text_secondary),
         },
-        sage: UiColor {
+        sage: UiColorPalette {
             background_primary: conv_color(data.sage.background_primary),
             background_secondary: conv_color(data.sage.background_secondary),
             interaction_primary: conv_color(data.sage.interaction_primary),
@@ -143,7 +211,7 @@ pub fn build(data: &UiColorDatas) -> UiColors {
             text_primary: conv_color(data.sage.text_primary),
             text_secondary: conv_color(data.sage.text_secondary),
         },
-        olive: UiColor {
+        olive: UiColorPalette {
             background_primary: conv_color(data.olive.background_primary),
             background_secondary: conv_color(data.olive.background_secondary),
             interaction_primary: conv_color(data.olive.interaction_primary),
@@ -157,7 +225,7 @@ pub fn build(data: &UiColorDatas) -> UiColors {
             text_primary: conv_color(data.olive.text_primary),
             text_secondary: conv_color(data.olive.text_secondary),
         },
-        sand: UiColor {
+        sand: UiColorPalette {
             background_primary: conv_color(data.sand.background_primary),
             background_secondary: conv_color(data.sand.background_secondary),
             interaction_primary: conv_color(data.sand.interaction_primary),
@@ -171,7 +239,7 @@ pub fn build(data: &UiColorDatas) -> UiColors {
             text_primary: conv_color(data.sand.text_primary),
             text_secondary: conv_color(data.sand.text_secondary),
         },
-        tomato: UiColor {
+        tomato: UiColorPalette {
             background_primary: conv_color(data.tomato.background_primary),
             background_secondary: conv_color(data.tomato.background_secondary),
             interaction_primary: conv_color(data.tomato.interaction_primary),
@@ -185,7 +253,7 @@ pub fn build(data: &UiColorDatas) -> UiColors {
             text_primary: conv_color(data.tomato.text_primary),
             text_secondary: conv_color(data.tomato.text_secondary),
         },
-        red: UiColor {
+        red: UiColorPalette {
             background_primary: conv_color(data.red.background_primary),
             background_secondary: conv_color(data.red.background_secondary),
             interaction_primary: conv_color(data.red.interaction_primary),
@@ -199,7 +267,7 @@ pub fn build(data: &UiColorDatas) -> UiColors {
             text_primary: conv_color(data.red.text_primary),
             text_secondary: conv_color(data.red.text_secondary),
         },
-        ruby: UiColor {
+        ruby: UiColorPalette {
             background_primary: conv_color(data.ruby.background_primary),
             background_secondary: conv_color(data.ruby.background_secondary),
             interaction_primary: conv_color(data.ruby.interaction_primary),
@@ -213,7 +281,7 @@ pub fn build(data: &UiColorDatas) -> UiColors {
             text_primary: conv_color(data.ruby.text_primary),
             text_secondary: conv_color(data.ruby.text_secondary),
         },
-        crimson: UiColor {
+        crimson: UiColorPalette {
             background_primary: conv_color(data.crimson.background_primary),
             background_secondary: conv_color(data.crimson.background_secondary),
             interaction_primary: conv_color(data.crimson.interaction_primary),
@@ -227,7 +295,7 @@ pub fn build(data: &UiColorDatas) -> UiColors {
             text_primary: conv_color(data.crimson.text_primary),
             text_secondary: conv_color(data.crimson.text_secondary),
         },
-        pink: UiColor {
+        pink: UiColorPalette {
             background_primary: conv_color(data.pink.background_primary),
             background_secondary: conv_color(data.pink.background_secondary),
             interaction_primary: conv_color(data.pink.interaction_primary),
@@ -241,7 +309,7 @@ pub fn build(data: &UiColorDatas) -> UiColors {
             text_primary: conv_color(data.pink.text_primary),
             text_secondary: conv_color(data.pink.text_secondary),
         },
-        plum: UiColor {
+        plum: UiColorPalette {
             background_primary: conv_color(data.plum.background_primary),
             background_secondary: conv_color(data.plum.background_secondary),
             interaction_primary: conv_color(data.plum.interaction_primary),
@@ -255,7 +323,7 @@ pub fn build(data: &UiColorDatas) -> UiColors {
             text_primary: conv_color(data.plum.text_primary),
             text_secondary: conv_color(data.plum.text_secondary),
         },
-        purple: UiColor {
+        purple: UiColorPalette {
             background_primary: conv_color(data.purple.background_primary),
             background_secondary: conv_color(data.purple.background_secondary),
             interaction_primary: conv_color(data.purple.interaction_primary),
@@ -269,7 +337,7 @@ pub fn build(data: &UiColorDatas) -> UiColors {
             text_primary: conv_color(data.purple.text_primary),
             text_secondary: conv_color(data.purple.text_secondary),
         },
-        violet: UiColor {
+        violet: UiColorPalette {
             background_primary: conv_color(data.violet.background_primary),
             background_secondary: conv_color(data.violet.background_secondary),
             interaction_primary: conv_color(data.violet.interaction_primary),
@@ -283,7 +351,7 @@ pub fn build(data: &UiColorDatas) -> UiColors {
             text_primary: conv_color(data.violet.text_primary),
             text_secondary: conv_color(data.violet.text_secondary),
         },
-        iris: UiColor {
+        iris: UiColorPalette {
             background_primary: conv_color(data.iris.background_primary),
             background_secondary: conv_color(data.iris.background_secondary),
             interaction_primary: conv_color(data.iris.interaction_primary),
@@ -297,7 +365,7 @@ pub fn build(data: &UiColorDatas) -> UiColors {
             text_primary: conv_color(data.iris.text_primary),
             text_secondary: conv_color(data.iris.text_secondary),
         },
-        indigo: UiColor {
+        indigo: UiColorPalette {
             background_primary: conv_color(data.indigo.background_primary),
             background_secondary: conv_color(data.indigo.background_secondary),
             interaction_primary: conv_color(data.indigo.interaction_primary),
@@ -311,7 +379,7 @@ pub fn build(data: &UiColorDatas) -> UiColors {
             text_primary: conv_color(data.indigo.text_primary),
             text_secondary: conv_color(data.indigo.text_secondary),
         },
-        blue: UiColor {
+        blue: UiColorPalette {
             background_primary: conv_color(data.blue.background_primary),
             background_secondary: conv_color(data.blue.background_secondary),
             interaction_primary: conv_color(data.blue.interaction_primary),
@@ -325,7 +393,7 @@ pub fn build(data: &UiColorDatas) -> UiColors {
             text_primary: conv_color(data.blue.text_primary),
             text_secondary: conv_color(data.blue.text_secondary),
         },
-        cyan: UiColor {
+        cyan: UiColorPalette {
             background_primary: conv_color(data.cyan.background_primary),
             background_secondary: conv_color(data.cyan.background_secondary),
             interaction_primary: conv_color(data.cyan.interaction_primary),
@@ -339,7 +407,7 @@ pub fn build(data: &UiColorDatas) -> UiColors {
             text_primary: conv_color(data.cyan.text_primary),
             text_secondary: conv_color(data.cyan.text_secondary),
         },
-        teal: UiColor {
+        teal: UiColorPalette {
             background_primary: conv_color(data.teal.background_primary),
             background_secondary: conv_color(data.teal.background_secondary),
             interaction_primary: conv_color(data.teal.interaction_primary),
@@ -353,7 +421,7 @@ pub fn build(data: &UiColorDatas) -> UiColors {
             text_primary: conv_color(data.teal.text_primary),
             text_secondary: conv_color(data.teal.text_secondary),
         },
-        jade: UiColor {
+        jade: UiColorPalette {
             background_primary: conv_color(data.jade.background_primary),
             background_secondary: conv_color(data.jade.background_secondary),
             interaction_primary: conv_color(data.jade.interaction_primary),
@@ -367,7 +435,7 @@ pub fn build(data: &UiColorDatas) -> UiColors {
             text_primary: conv_color(data.jade.text_primary),
             text_secondary: conv_color(data.jade.text_secondary),
         },
-        green: UiColor {
+        green: UiColorPalette {
             background_primary: conv_color(data.green.background_primary),
             background_secondary: conv_color(data.green.background_secondary),
             interaction_primary: conv_color(data.green.interaction_primary),
@@ -381,7 +449,7 @@ pub fn build(data: &UiColorDatas) -> UiColors {
             text_primary: conv_color(data.green.text_primary),
             text_secondary: conv_color(data.green.text_secondary),
         },
-        grass: UiColor {
+        grass: UiColorPalette {
             background_primary: conv_color(data.grass.background_primary),
             background_secondary: conv_color(data.grass.background_secondary),
             interaction_primary: conv_color(data.grass.interaction_primary),
@@ -395,7 +463,7 @@ pub fn build(data: &UiColorDatas) -> UiColors {
             text_primary: conv_color(data.grass.text_primary),
             text_secondary: conv_color(data.grass.text_secondary),
         },
-        bronze: UiColor {
+        bronze: UiColorPalette {
             background_primary: conv_color(data.bronze.background_primary),
             background_secondary: conv_color(data.bronze.background_secondary),
             interaction_primary: conv_color(data.bronze.interaction_primary),
@@ -409,7 +477,7 @@ pub fn build(data: &UiColorDatas) -> UiColors {
             text_primary: conv_color(data.bronze.text_primary),
             text_secondary: conv_color(data.bronze.text_secondary),
         },
-        gold: UiColor {
+        gold: UiColorPalette {
             background_primary: conv_color(data.gold.background_primary),
             background_secondary: conv_color(data.gold.background_secondary),
             interaction_primary: conv_color(data.gold.interaction_primary),
@@ -423,7 +491,7 @@ pub fn build(data: &UiColorDatas) -> UiColors {
             text_primary: conv_color(data.gold.text_primary),
             text_secondary: conv_color(data.gold.text_secondary),
         },
-        brown: UiColor {
+        brown: UiColorPalette {
             background_primary: conv_color(data.brown.background_primary),
             background_secondary: conv_color(data.brown.background_secondary),
             interaction_primary: conv_color(data.brown.interaction_primary),
@@ -437,7 +505,7 @@ pub fn build(data: &UiColorDatas) -> UiColors {
             text_primary: conv_color(data.brown.text_primary),
             text_secondary: conv_color(data.brown.text_secondary),
         },
-        orange: UiColor {
+        orange: UiColorPalette {
             background_primary: conv_color(data.orange.background_primary),
             background_secondary: conv_color(data.orange.background_secondary),
             interaction_primary: conv_color(data.orange.interaction_primary),
@@ -451,7 +519,7 @@ pub fn build(data: &UiColorDatas) -> UiColors {
             text_primary: conv_color(data.orange.text_primary),
             text_secondary: conv_color(data.orange.text_secondary),
         },
-        amber: UiColor {
+        amber: UiColorPalette {
             background_primary: conv_color(data.amber.background_primary),
             background_secondary: conv_color(data.amber.background_secondary),
             interaction_primary: conv_color(data.amber.interaction_primary),
@@ -465,7 +533,7 @@ pub fn build(data: &UiColorDatas) -> UiColors {
             text_primary: conv_color(data.amber.text_primary),
             text_secondary: conv_color(data.amber.text_secondary),
         },
-        yellow: UiColor {
+        yellow: UiColorPalette {
             background_primary: conv_color(data.yellow.background_primary),
             background_secondary: conv_color(data.yellow.background_secondary),
             interaction_primary: conv_color(data.yellow.interaction_primary),
@@ -479,7 +547,7 @@ pub fn build(data: &UiColorDatas) -> UiColors {
             text_primary: conv_color(data.yellow.text_primary),
             text_secondary: conv_color(data.yellow.text_secondary),
         },
-        lime: UiColor {
+        lime: UiColorPalette {
             background_primary: conv_color(data.lime.background_primary),
             background_secondary: conv_color(data.lime.background_secondary),
             interaction_primary: conv_color(data.lime.interaction_primary),
@@ -493,7 +561,7 @@ pub fn build(data: &UiColorDatas) -> UiColors {
             text_primary: conv_color(data.lime.text_primary),
             text_secondary: conv_color(data.lime.text_secondary),
         },
-        mint: UiColor {
+        mint: UiColorPalette {
             background_primary: conv_color(data.mint.background_primary),
             background_secondary: conv_color(data.mint.background_secondary),
             interaction_primary: conv_color(data.mint.interaction_primary),
@@ -507,7 +575,7 @@ pub fn build(data: &UiColorDatas) -> UiColors {
             text_primary: conv_color(data.mint.text_primary),
             text_secondary: conv_color(data.mint.text_secondary),
         },
-        sky: UiColor {
+        sky: UiColorPalette {
             background_primary: conv_color(data.sky.background_primary),
             background_secondary: conv_color(data.sky.background_secondary),
             interaction_primary: conv_color(data.sky.interaction_primary),

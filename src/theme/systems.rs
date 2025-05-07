@@ -1,7 +1,6 @@
 // crates/forge_ui/src/theme/systems.rs
 
 use crate::assets::FontAssets;
-use crate::plugin::UiConfig;
 use crate::theme::{data::*, runtime::*, UiTheme};
 use bevy::prelude::*;
 
@@ -28,7 +27,6 @@ pub fn check_theme_asset_readiness(
     theme_assets: Res<Assets<UiThemeData>>,
     font_assets: Option<Res<FontAssets>>,
     asset_server: Res<AssetServer>,
-    config: Res<UiConfig>,
 ) {
     use bevy::asset::LoadState;
     if let Some(font_assets) = font_assets {
@@ -36,7 +34,7 @@ pub fn check_theme_asset_readiness(
             Some(LoadState::Loaded) => {
                 let data = theme_assets.get(&handles.0).unwrap();
                 // Nutze jetzt die bereits geladenen Handles aus font_assets
-                let theme = UiTheme::build_from_data(font_assets, data, &config);
+                let theme = UiTheme::build_from_data(font_assets, data);
                 commands.insert_resource(theme);
             }
             Some(LoadState::Failed(_)) => {
@@ -45,12 +43,12 @@ pub fn check_theme_asset_readiness(
                 if let Some(LoadState::Loaded) = asset_server.get_load_state(&default_handle) {
                     let data = theme_assets.get(&default_handle).unwrap();
                     info!("Dark fehlgeschlagen, Loaded default.theme.ron");
-                    let theme = UiTheme::build_from_data(font_assets, data, &config);
+                    let theme = UiTheme::build_from_data(font_assets, data);
                     commands.insert_resource(theme);
                 } else {
                     warn!("Beide RON-Themes fehlgeschlagen, verwende hart-codiertes Default");
                     let data = UiThemeData::default();
-                    let theme = UiTheme::build_from_data(font_assets, &data, &config);
+                    let theme = UiTheme::build_from_data(font_assets, &data);
                     commands.insert_resource(theme);
                 }
             }
@@ -235,9 +233,9 @@ pub fn hot_reload_theme_system(
                         },
                     };
                     // Update colors
-                    theme.color = UiColors {
+                    theme.color = UiColorPalettes {
                         /* ... copy from plugin's check_theme_asset_readiness ... */
-                        white: UiColor {
+                        white: UiColorPalette {
                             background_primary: conv_color(data.color.white.background_primary),
                             background_secondary: conv_color(data.color.white.background_secondary),
                             interaction_primary: conv_color(data.color.white.interaction_primary),
@@ -253,7 +251,7 @@ pub fn hot_reload_theme_system(
                             text_primary: conv_color(data.color.white.text_primary),
                             text_secondary: conv_color(data.color.white.text_secondary),
                         },
-                        black: UiColor {
+                        black: UiColorPalette {
                             background_primary: conv_color(data.color.black.background_primary),
                             background_secondary: conv_color(data.color.black.background_secondary),
                             interaction_primary: conv_color(data.color.black.interaction_primary),
@@ -269,7 +267,7 @@ pub fn hot_reload_theme_system(
                             text_primary: conv_color(data.color.black.text_primary),
                             text_secondary: conv_color(data.color.black.text_secondary),
                         },
-                        gray: UiColor {
+                        gray: UiColorPalette {
                             background_primary: conv_color(data.color.gray.background_primary),
                             background_secondary: conv_color(data.color.gray.background_secondary),
                             interaction_primary: conv_color(data.color.gray.interaction_primary),
@@ -285,7 +283,7 @@ pub fn hot_reload_theme_system(
                             text_primary: conv_color(data.color.gray.text_primary),
                             text_secondary: conv_color(data.color.gray.text_secondary),
                         },
-                        mauve: UiColor {
+                        mauve: UiColorPalette {
                             background_primary: conv_color(data.color.mauve.background_primary),
                             background_secondary: conv_color(data.color.mauve.background_secondary),
                             interaction_primary: conv_color(data.color.mauve.interaction_primary),
@@ -301,7 +299,7 @@ pub fn hot_reload_theme_system(
                             text_primary: conv_color(data.color.mauve.text_primary),
                             text_secondary: conv_color(data.color.mauve.text_secondary),
                         },
-                        slate: UiColor {
+                        slate: UiColorPalette {
                             background_primary: conv_color(data.color.slate.background_primary),
                             background_secondary: conv_color(data.color.slate.background_secondary),
                             interaction_primary: conv_color(data.color.slate.interaction_primary),
@@ -317,7 +315,7 @@ pub fn hot_reload_theme_system(
                             text_primary: conv_color(data.color.slate.text_primary),
                             text_secondary: conv_color(data.color.slate.text_secondary),
                         },
-                        sage: UiColor {
+                        sage: UiColorPalette {
                             background_primary: conv_color(data.color.sage.background_primary),
                             background_secondary: conv_color(data.color.sage.background_secondary),
                             interaction_primary: conv_color(data.color.sage.interaction_primary),
@@ -333,7 +331,7 @@ pub fn hot_reload_theme_system(
                             text_primary: conv_color(data.color.sage.text_primary),
                             text_secondary: conv_color(data.color.sage.text_secondary),
                         },
-                        olive: UiColor {
+                        olive: UiColorPalette {
                             background_primary: conv_color(data.color.olive.background_primary),
                             background_secondary: conv_color(data.color.olive.background_secondary),
                             interaction_primary: conv_color(data.color.olive.interaction_primary),
@@ -349,7 +347,7 @@ pub fn hot_reload_theme_system(
                             text_primary: conv_color(data.color.olive.text_primary),
                             text_secondary: conv_color(data.color.olive.text_secondary),
                         },
-                        sand: UiColor {
+                        sand: UiColorPalette {
                             background_primary: conv_color(data.color.sand.background_primary),
                             background_secondary: conv_color(data.color.sand.background_secondary),
                             interaction_primary: conv_color(data.color.sand.interaction_primary),
@@ -365,7 +363,7 @@ pub fn hot_reload_theme_system(
                             text_primary: conv_color(data.color.sand.text_primary),
                             text_secondary: conv_color(data.color.sand.text_secondary),
                         },
-                        tomato: UiColor {
+                        tomato: UiColorPalette {
                             background_primary: conv_color(data.color.tomato.background_primary),
                             background_secondary: conv_color(
                                 data.color.tomato.background_secondary,
@@ -385,7 +383,7 @@ pub fn hot_reload_theme_system(
                             text_primary: conv_color(data.color.tomato.text_primary),
                             text_secondary: conv_color(data.color.tomato.text_secondary),
                         },
-                        red: UiColor {
+                        red: UiColorPalette {
                             background_primary: conv_color(data.color.red.background_primary),
                             background_secondary: conv_color(data.color.red.background_secondary),
                             interaction_primary: conv_color(data.color.red.interaction_primary),
@@ -399,7 +397,7 @@ pub fn hot_reload_theme_system(
                             text_primary: conv_color(data.color.red.text_primary),
                             text_secondary: conv_color(data.color.red.text_secondary),
                         },
-                        ruby: UiColor {
+                        ruby: UiColorPalette {
                             background_primary: conv_color(data.color.ruby.background_primary),
                             background_secondary: conv_color(data.color.ruby.background_secondary),
                             interaction_primary: conv_color(data.color.ruby.interaction_primary),
@@ -415,7 +413,7 @@ pub fn hot_reload_theme_system(
                             text_primary: conv_color(data.color.ruby.text_primary),
                             text_secondary: conv_color(data.color.ruby.text_secondary),
                         },
-                        crimson: UiColor {
+                        crimson: UiColorPalette {
                             background_primary: conv_color(data.color.crimson.background_primary),
                             background_secondary: conv_color(
                                 data.color.crimson.background_secondary,
@@ -435,7 +433,7 @@ pub fn hot_reload_theme_system(
                             text_primary: conv_color(data.color.crimson.text_primary),
                             text_secondary: conv_color(data.color.crimson.text_secondary),
                         },
-                        pink: UiColor {
+                        pink: UiColorPalette {
                             background_primary: conv_color(data.color.pink.background_primary),
                             background_secondary: conv_color(data.color.pink.background_secondary),
                             interaction_primary: conv_color(data.color.pink.interaction_primary),
@@ -451,7 +449,7 @@ pub fn hot_reload_theme_system(
                             text_primary: conv_color(data.color.pink.text_primary),
                             text_secondary: conv_color(data.color.pink.text_secondary),
                         },
-                        plum: UiColor {
+                        plum: UiColorPalette {
                             background_primary: conv_color(data.color.plum.background_primary),
                             background_secondary: conv_color(data.color.plum.background_secondary),
                             interaction_primary: conv_color(data.color.plum.interaction_primary),
@@ -467,7 +465,7 @@ pub fn hot_reload_theme_system(
                             text_primary: conv_color(data.color.plum.text_primary),
                             text_secondary: conv_color(data.color.plum.text_secondary),
                         },
-                        purple: UiColor {
+                        purple: UiColorPalette {
                             background_primary: conv_color(data.color.purple.background_primary),
                             background_secondary: conv_color(
                                 data.color.purple.background_secondary,
@@ -487,7 +485,7 @@ pub fn hot_reload_theme_system(
                             text_primary: conv_color(data.color.purple.text_primary),
                             text_secondary: conv_color(data.color.purple.text_secondary),
                         },
-                        violet: UiColor {
+                        violet: UiColorPalette {
                             background_primary: conv_color(data.color.violet.background_primary),
                             background_secondary: conv_color(
                                 data.color.violet.background_secondary,
@@ -507,7 +505,7 @@ pub fn hot_reload_theme_system(
                             text_primary: conv_color(data.color.violet.text_primary),
                             text_secondary: conv_color(data.color.violet.text_secondary),
                         },
-                        iris: UiColor {
+                        iris: UiColorPalette {
                             background_primary: conv_color(data.color.iris.background_primary),
                             background_secondary: conv_color(data.color.iris.background_secondary),
                             interaction_primary: conv_color(data.color.iris.interaction_primary),
@@ -523,7 +521,7 @@ pub fn hot_reload_theme_system(
                             text_primary: conv_color(data.color.iris.text_primary),
                             text_secondary: conv_color(data.color.iris.text_secondary),
                         },
-                        indigo: UiColor {
+                        indigo: UiColorPalette {
                             background_primary: conv_color(data.color.indigo.background_primary),
                             background_secondary: conv_color(
                                 data.color.indigo.background_secondary,
@@ -543,7 +541,7 @@ pub fn hot_reload_theme_system(
                             text_primary: conv_color(data.color.indigo.text_primary),
                             text_secondary: conv_color(data.color.indigo.text_secondary),
                         },
-                        blue: UiColor {
+                        blue: UiColorPalette {
                             background_primary: conv_color(data.color.blue.background_primary),
                             background_secondary: conv_color(data.color.blue.background_secondary),
                             interaction_primary: conv_color(data.color.blue.interaction_primary),
@@ -559,7 +557,7 @@ pub fn hot_reload_theme_system(
                             text_primary: conv_color(data.color.blue.text_primary),
                             text_secondary: conv_color(data.color.blue.text_secondary),
                         },
-                        cyan: UiColor {
+                        cyan: UiColorPalette {
                             background_primary: conv_color(data.color.cyan.background_primary),
                             background_secondary: conv_color(data.color.cyan.background_secondary),
                             interaction_primary: conv_color(data.color.cyan.interaction_primary),
@@ -575,7 +573,7 @@ pub fn hot_reload_theme_system(
                             text_primary: conv_color(data.color.cyan.text_primary),
                             text_secondary: conv_color(data.color.cyan.text_secondary),
                         },
-                        teal: UiColor {
+                        teal: UiColorPalette {
                             background_primary: conv_color(data.color.teal.background_primary),
                             background_secondary: conv_color(data.color.teal.background_secondary),
                             interaction_primary: conv_color(data.color.teal.interaction_primary),
@@ -591,7 +589,7 @@ pub fn hot_reload_theme_system(
                             text_primary: conv_color(data.color.teal.text_primary),
                             text_secondary: conv_color(data.color.teal.text_secondary),
                         },
-                        jade: UiColor {
+                        jade: UiColorPalette {
                             background_primary: conv_color(data.color.jade.background_primary),
                             background_secondary: conv_color(data.color.jade.background_secondary),
                             interaction_primary: conv_color(data.color.jade.interaction_primary),
@@ -607,7 +605,7 @@ pub fn hot_reload_theme_system(
                             text_primary: conv_color(data.color.jade.text_primary),
                             text_secondary: conv_color(data.color.jade.text_secondary),
                         },
-                        green: UiColor {
+                        green: UiColorPalette {
                             background_primary: conv_color(data.color.green.background_primary),
                             background_secondary: conv_color(data.color.green.background_secondary),
                             interaction_primary: conv_color(data.color.green.interaction_primary),
@@ -623,7 +621,7 @@ pub fn hot_reload_theme_system(
                             text_primary: conv_color(data.color.green.text_primary),
                             text_secondary: conv_color(data.color.green.text_secondary),
                         },
-                        grass: UiColor {
+                        grass: UiColorPalette {
                             background_primary: conv_color(data.color.grass.background_primary),
                             background_secondary: conv_color(data.color.grass.background_secondary),
                             interaction_primary: conv_color(data.color.grass.interaction_primary),
@@ -639,7 +637,7 @@ pub fn hot_reload_theme_system(
                             text_primary: conv_color(data.color.grass.text_primary),
                             text_secondary: conv_color(data.color.grass.text_secondary),
                         },
-                        bronze: UiColor {
+                        bronze: UiColorPalette {
                             background_primary: conv_color(data.color.bronze.background_primary),
                             background_secondary: conv_color(
                                 data.color.bronze.background_secondary,
@@ -659,7 +657,7 @@ pub fn hot_reload_theme_system(
                             text_primary: conv_color(data.color.bronze.text_primary),
                             text_secondary: conv_color(data.color.bronze.text_secondary),
                         },
-                        gold: UiColor {
+                        gold: UiColorPalette {
                             background_primary: conv_color(data.color.gold.background_primary),
                             background_secondary: conv_color(data.color.gold.background_secondary),
                             interaction_primary: conv_color(data.color.gold.interaction_primary),
@@ -675,7 +673,7 @@ pub fn hot_reload_theme_system(
                             text_primary: conv_color(data.color.gold.text_primary),
                             text_secondary: conv_color(data.color.gold.text_secondary),
                         },
-                        brown: UiColor {
+                        brown: UiColorPalette {
                             background_primary: conv_color(data.color.brown.background_primary),
                             background_secondary: conv_color(data.color.brown.background_secondary),
                             interaction_primary: conv_color(data.color.brown.interaction_primary),
@@ -691,7 +689,7 @@ pub fn hot_reload_theme_system(
                             text_primary: conv_color(data.color.brown.text_primary),
                             text_secondary: conv_color(data.color.brown.text_secondary),
                         },
-                        orange: UiColor {
+                        orange: UiColorPalette {
                             background_primary: conv_color(data.color.orange.background_primary),
                             background_secondary: conv_color(
                                 data.color.orange.background_secondary,
@@ -711,7 +709,7 @@ pub fn hot_reload_theme_system(
                             text_primary: conv_color(data.color.orange.text_primary),
                             text_secondary: conv_color(data.color.orange.text_secondary),
                         },
-                        amber: UiColor {
+                        amber: UiColorPalette {
                             background_primary: conv_color(data.color.amber.background_primary),
                             background_secondary: conv_color(data.color.amber.background_secondary),
                             interaction_primary: conv_color(data.color.amber.interaction_primary),
@@ -727,7 +725,7 @@ pub fn hot_reload_theme_system(
                             text_primary: conv_color(data.color.amber.text_primary),
                             text_secondary: conv_color(data.color.amber.text_secondary),
                         },
-                        yellow: UiColor {
+                        yellow: UiColorPalette {
                             background_primary: conv_color(data.color.yellow.background_primary),
                             background_secondary: conv_color(
                                 data.color.yellow.background_secondary,
@@ -747,7 +745,7 @@ pub fn hot_reload_theme_system(
                             text_primary: conv_color(data.color.yellow.text_primary),
                             text_secondary: conv_color(data.color.yellow.text_secondary),
                         },
-                        lime: UiColor {
+                        lime: UiColorPalette {
                             background_primary: conv_color(data.color.lime.background_primary),
                             background_secondary: conv_color(data.color.lime.background_secondary),
                             interaction_primary: conv_color(data.color.lime.interaction_primary),
@@ -763,7 +761,7 @@ pub fn hot_reload_theme_system(
                             text_primary: conv_color(data.color.lime.text_primary),
                             text_secondary: conv_color(data.color.lime.text_secondary),
                         },
-                        mint: UiColor {
+                        mint: UiColorPalette {
                             background_primary: conv_color(data.color.mint.background_primary),
                             background_secondary: conv_color(data.color.mint.background_secondary),
                             interaction_primary: conv_color(data.color.mint.interaction_primary),
@@ -779,7 +777,7 @@ pub fn hot_reload_theme_system(
                             text_primary: conv_color(data.color.mint.text_primary),
                             text_secondary: conv_color(data.color.mint.text_secondary),
                         },
-                        sky: UiColor {
+                        sky: UiColorPalette {
                             background_primary: conv_color(data.color.sky.background_primary),
                             background_secondary: conv_color(data.color.sky.background_secondary),
                             interaction_primary: conv_color(data.color.sky.interaction_primary),
@@ -978,6 +976,8 @@ pub fn save_theme_system(theme: Res<UiTheme>) {
     };
 
     let data = UiThemeData {
+        appearance: theme.appearance.to_string(),
+        high_contrast: theme.high_contrast,
         ui_scaling: theme.ui_scaling,
         rem: theme.rem,
 
@@ -1062,10 +1062,10 @@ pub fn save_theme_system(theme: Res<UiTheme>) {
                 x5l: theme.layout.border.x5l / border_scale_factor,
             },
         },
-        // Use the correct struct name: UiColorDatas
-        color: UiColorDatas {
+        // Use the correct struct name: UiColorPalettesData
+        color: UiColorPalettesData {
             // Convert runtime Colors back to data arrays
-            white: UiColorData {
+            white: UiColorPaletteData {
                 background_primary: to_data_color(&theme.color.white.background_primary),
                 background_secondary: to_data_color(&theme.color.white.background_secondary),
                 interaction_primary: to_data_color(&theme.color.white.interaction_primary),
@@ -1079,7 +1079,7 @@ pub fn save_theme_system(theme: Res<UiTheme>) {
                 text_primary: to_data_color(&theme.color.white.text_primary),
                 text_secondary: to_data_color(&theme.color.white.text_secondary),
             },
-            black: UiColorData {
+            black: UiColorPaletteData {
                 background_primary: to_data_color(&theme.color.black.background_primary),
                 background_secondary: to_data_color(&theme.color.black.background_secondary),
                 interaction_primary: to_data_color(&theme.color.black.interaction_primary),
@@ -1093,7 +1093,7 @@ pub fn save_theme_system(theme: Res<UiTheme>) {
                 text_primary: to_data_color(&theme.color.black.text_primary),
                 text_secondary: to_data_color(&theme.color.black.text_secondary),
             },
-            gray: UiColorData {
+            gray: UiColorPaletteData {
                 background_primary: to_data_color(&theme.color.gray.background_primary),
                 background_secondary: to_data_color(&theme.color.gray.background_secondary),
                 interaction_primary: to_data_color(&theme.color.gray.interaction_primary),
@@ -1107,7 +1107,7 @@ pub fn save_theme_system(theme: Res<UiTheme>) {
                 text_primary: to_data_color(&theme.color.gray.text_primary),
                 text_secondary: to_data_color(&theme.color.gray.text_secondary),
             },
-            mauve: UiColorData {
+            mauve: UiColorPaletteData {
                 background_primary: to_data_color(&theme.color.mauve.background_primary),
                 background_secondary: to_data_color(&theme.color.mauve.background_secondary),
                 interaction_primary: to_data_color(&theme.color.mauve.interaction_primary),
@@ -1121,7 +1121,7 @@ pub fn save_theme_system(theme: Res<UiTheme>) {
                 text_primary: to_data_color(&theme.color.mauve.text_primary),
                 text_secondary: to_data_color(&theme.color.mauve.text_secondary),
             },
-            slate: UiColorData {
+            slate: UiColorPaletteData {
                 background_primary: to_data_color(&theme.color.slate.background_primary),
                 background_secondary: to_data_color(&theme.color.slate.background_secondary),
                 interaction_primary: to_data_color(&theme.color.slate.interaction_primary),
@@ -1135,7 +1135,7 @@ pub fn save_theme_system(theme: Res<UiTheme>) {
                 text_primary: to_data_color(&theme.color.slate.text_primary),
                 text_secondary: to_data_color(&theme.color.slate.text_secondary),
             },
-            sage: UiColorData {
+            sage: UiColorPaletteData {
                 background_primary: to_data_color(&theme.color.sage.background_primary),
                 background_secondary: to_data_color(&theme.color.sage.background_secondary),
                 interaction_primary: to_data_color(&theme.color.sage.interaction_primary),
@@ -1149,7 +1149,7 @@ pub fn save_theme_system(theme: Res<UiTheme>) {
                 text_primary: to_data_color(&theme.color.sage.text_primary),
                 text_secondary: to_data_color(&theme.color.sage.text_secondary),
             },
-            olive: UiColorData {
+            olive: UiColorPaletteData {
                 background_primary: to_data_color(&theme.color.olive.background_primary),
                 background_secondary: to_data_color(&theme.color.olive.background_secondary),
                 interaction_primary: to_data_color(&theme.color.olive.interaction_primary),
@@ -1163,7 +1163,7 @@ pub fn save_theme_system(theme: Res<UiTheme>) {
                 text_primary: to_data_color(&theme.color.olive.text_primary),
                 text_secondary: to_data_color(&theme.color.olive.text_secondary),
             },
-            sand: UiColorData {
+            sand: UiColorPaletteData {
                 background_primary: to_data_color(&theme.color.sand.background_primary),
                 background_secondary: to_data_color(&theme.color.sand.background_secondary),
                 interaction_primary: to_data_color(&theme.color.sand.interaction_primary),
@@ -1177,7 +1177,7 @@ pub fn save_theme_system(theme: Res<UiTheme>) {
                 text_primary: to_data_color(&theme.color.sand.text_primary),
                 text_secondary: to_data_color(&theme.color.sand.text_secondary),
             },
-            tomato: UiColorData {
+            tomato: UiColorPaletteData {
                 background_primary: to_data_color(&theme.color.tomato.background_primary),
                 background_secondary: to_data_color(&theme.color.tomato.background_secondary),
                 interaction_primary: to_data_color(&theme.color.tomato.interaction_primary),
@@ -1191,7 +1191,7 @@ pub fn save_theme_system(theme: Res<UiTheme>) {
                 text_primary: to_data_color(&theme.color.tomato.text_primary),
                 text_secondary: to_data_color(&theme.color.tomato.text_secondary),
             },
-            red: UiColorData {
+            red: UiColorPaletteData {
                 background_primary: to_data_color(&theme.color.red.background_primary),
                 background_secondary: to_data_color(&theme.color.red.background_secondary),
                 interaction_primary: to_data_color(&theme.color.red.interaction_primary),
@@ -1205,7 +1205,7 @@ pub fn save_theme_system(theme: Res<UiTheme>) {
                 text_primary: to_data_color(&theme.color.red.text_primary),
                 text_secondary: to_data_color(&theme.color.red.text_secondary),
             },
-            ruby: UiColorData {
+            ruby: UiColorPaletteData {
                 background_primary: to_data_color(&theme.color.ruby.background_primary),
                 background_secondary: to_data_color(&theme.color.ruby.background_secondary),
                 interaction_primary: to_data_color(&theme.color.ruby.interaction_primary),
@@ -1219,7 +1219,7 @@ pub fn save_theme_system(theme: Res<UiTheme>) {
                 text_primary: to_data_color(&theme.color.ruby.text_primary),
                 text_secondary: to_data_color(&theme.color.ruby.text_secondary),
             },
-            crimson: UiColorData {
+            crimson: UiColorPaletteData {
                 background_primary: to_data_color(&theme.color.crimson.background_primary),
                 background_secondary: to_data_color(&theme.color.crimson.background_secondary),
                 interaction_primary: to_data_color(&theme.color.crimson.interaction_primary),
@@ -1233,7 +1233,7 @@ pub fn save_theme_system(theme: Res<UiTheme>) {
                 text_primary: to_data_color(&theme.color.crimson.text_primary),
                 text_secondary: to_data_color(&theme.color.crimson.text_secondary),
             },
-            pink: UiColorData {
+            pink: UiColorPaletteData {
                 background_primary: to_data_color(&theme.color.pink.background_primary),
                 background_secondary: to_data_color(&theme.color.pink.background_secondary),
                 interaction_primary: to_data_color(&theme.color.pink.interaction_primary),
@@ -1247,7 +1247,7 @@ pub fn save_theme_system(theme: Res<UiTheme>) {
                 text_primary: to_data_color(&theme.color.pink.text_primary),
                 text_secondary: to_data_color(&theme.color.pink.text_secondary),
             },
-            plum: UiColorData {
+            plum: UiColorPaletteData {
                 background_primary: to_data_color(&theme.color.plum.background_primary),
                 background_secondary: to_data_color(&theme.color.plum.background_secondary),
                 interaction_primary: to_data_color(&theme.color.plum.interaction_primary),
@@ -1261,7 +1261,7 @@ pub fn save_theme_system(theme: Res<UiTheme>) {
                 text_primary: to_data_color(&theme.color.plum.text_primary),
                 text_secondary: to_data_color(&theme.color.plum.text_secondary),
             },
-            purple: UiColorData {
+            purple: UiColorPaletteData {
                 background_primary: to_data_color(&theme.color.purple.background_primary),
                 background_secondary: to_data_color(&theme.color.purple.background_secondary),
                 interaction_primary: to_data_color(&theme.color.purple.interaction_primary),
@@ -1275,7 +1275,7 @@ pub fn save_theme_system(theme: Res<UiTheme>) {
                 text_primary: to_data_color(&theme.color.purple.text_primary),
                 text_secondary: to_data_color(&theme.color.purple.text_secondary),
             },
-            violet: UiColorData {
+            violet: UiColorPaletteData {
                 background_primary: to_data_color(&theme.color.violet.background_primary),
                 background_secondary: to_data_color(&theme.color.violet.background_secondary),
                 interaction_primary: to_data_color(&theme.color.violet.interaction_primary),
@@ -1289,7 +1289,7 @@ pub fn save_theme_system(theme: Res<UiTheme>) {
                 text_primary: to_data_color(&theme.color.violet.text_primary),
                 text_secondary: to_data_color(&theme.color.violet.text_secondary),
             },
-            iris: UiColorData {
+            iris: UiColorPaletteData {
                 background_primary: to_data_color(&theme.color.iris.background_primary),
                 background_secondary: to_data_color(&theme.color.iris.background_secondary),
                 interaction_primary: to_data_color(&theme.color.iris.interaction_primary),
@@ -1303,7 +1303,7 @@ pub fn save_theme_system(theme: Res<UiTheme>) {
                 text_primary: to_data_color(&theme.color.iris.text_primary),
                 text_secondary: to_data_color(&theme.color.iris.text_secondary),
             },
-            indigo: UiColorData {
+            indigo: UiColorPaletteData {
                 background_primary: to_data_color(&theme.color.indigo.background_primary),
                 background_secondary: to_data_color(&theme.color.indigo.background_secondary),
                 interaction_primary: to_data_color(&theme.color.indigo.interaction_primary),
@@ -1317,7 +1317,7 @@ pub fn save_theme_system(theme: Res<UiTheme>) {
                 text_primary: to_data_color(&theme.color.indigo.text_primary),
                 text_secondary: to_data_color(&theme.color.indigo.text_secondary),
             },
-            blue: UiColorData {
+            blue: UiColorPaletteData {
                 background_primary: to_data_color(&theme.color.blue.background_primary),
                 background_secondary: to_data_color(&theme.color.blue.background_secondary),
                 interaction_primary: to_data_color(&theme.color.blue.interaction_primary),
@@ -1331,7 +1331,7 @@ pub fn save_theme_system(theme: Res<UiTheme>) {
                 text_primary: to_data_color(&theme.color.blue.text_primary),
                 text_secondary: to_data_color(&theme.color.blue.text_secondary),
             },
-            cyan: UiColorData {
+            cyan: UiColorPaletteData {
                 background_primary: to_data_color(&theme.color.cyan.background_primary),
                 background_secondary: to_data_color(&theme.color.cyan.background_secondary),
                 interaction_primary: to_data_color(&theme.color.cyan.interaction_primary),
@@ -1345,7 +1345,7 @@ pub fn save_theme_system(theme: Res<UiTheme>) {
                 text_primary: to_data_color(&theme.color.cyan.text_primary),
                 text_secondary: to_data_color(&theme.color.cyan.text_secondary),
             },
-            teal: UiColorData {
+            teal: UiColorPaletteData {
                 background_primary: to_data_color(&theme.color.teal.background_primary),
                 background_secondary: to_data_color(&theme.color.teal.background_secondary),
                 interaction_primary: to_data_color(&theme.color.teal.interaction_primary),
@@ -1359,7 +1359,7 @@ pub fn save_theme_system(theme: Res<UiTheme>) {
                 text_primary: to_data_color(&theme.color.teal.text_primary),
                 text_secondary: to_data_color(&theme.color.teal.text_secondary),
             },
-            jade: UiColorData {
+            jade: UiColorPaletteData {
                 background_primary: to_data_color(&theme.color.jade.background_primary),
                 background_secondary: to_data_color(&theme.color.jade.background_secondary),
                 interaction_primary: to_data_color(&theme.color.jade.interaction_primary),
@@ -1373,7 +1373,7 @@ pub fn save_theme_system(theme: Res<UiTheme>) {
                 text_primary: to_data_color(&theme.color.jade.text_primary),
                 text_secondary: to_data_color(&theme.color.jade.text_secondary),
             },
-            green: UiColorData {
+            green: UiColorPaletteData {
                 background_primary: to_data_color(&theme.color.green.background_primary),
                 background_secondary: to_data_color(&theme.color.green.background_secondary),
                 interaction_primary: to_data_color(&theme.color.green.interaction_primary),
@@ -1387,7 +1387,7 @@ pub fn save_theme_system(theme: Res<UiTheme>) {
                 text_primary: to_data_color(&theme.color.green.text_primary),
                 text_secondary: to_data_color(&theme.color.green.text_secondary),
             },
-            grass: UiColorData {
+            grass: UiColorPaletteData {
                 background_primary: to_data_color(&theme.color.grass.background_primary),
                 background_secondary: to_data_color(&theme.color.grass.background_secondary),
                 interaction_primary: to_data_color(&theme.color.grass.interaction_primary),
@@ -1401,7 +1401,7 @@ pub fn save_theme_system(theme: Res<UiTheme>) {
                 text_primary: to_data_color(&theme.color.grass.text_primary),
                 text_secondary: to_data_color(&theme.color.grass.text_secondary),
             },
-            bronze: UiColorData {
+            bronze: UiColorPaletteData {
                 background_primary: to_data_color(&theme.color.bronze.background_primary),
                 background_secondary: to_data_color(&theme.color.bronze.background_secondary),
                 interaction_primary: to_data_color(&theme.color.bronze.interaction_primary),
@@ -1415,7 +1415,7 @@ pub fn save_theme_system(theme: Res<UiTheme>) {
                 text_primary: to_data_color(&theme.color.bronze.text_primary),
                 text_secondary: to_data_color(&theme.color.bronze.text_secondary),
             },
-            gold: UiColorData {
+            gold: UiColorPaletteData {
                 background_primary: to_data_color(&theme.color.gold.background_primary),
                 background_secondary: to_data_color(&theme.color.gold.background_secondary),
                 interaction_primary: to_data_color(&theme.color.gold.interaction_primary),
@@ -1429,7 +1429,7 @@ pub fn save_theme_system(theme: Res<UiTheme>) {
                 text_primary: to_data_color(&theme.color.gold.text_primary),
                 text_secondary: to_data_color(&theme.color.gold.text_secondary),
             },
-            brown: UiColorData {
+            brown: UiColorPaletteData {
                 background_primary: to_data_color(&theme.color.brown.background_primary),
                 background_secondary: to_data_color(&theme.color.brown.background_secondary),
                 interaction_primary: to_data_color(&theme.color.brown.interaction_primary),
@@ -1443,7 +1443,7 @@ pub fn save_theme_system(theme: Res<UiTheme>) {
                 text_primary: to_data_color(&theme.color.brown.text_primary),
                 text_secondary: to_data_color(&theme.color.brown.text_secondary),
             },
-            orange: UiColorData {
+            orange: UiColorPaletteData {
                 background_primary: to_data_color(&theme.color.orange.background_primary),
                 background_secondary: to_data_color(&theme.color.orange.background_secondary),
                 interaction_primary: to_data_color(&theme.color.orange.interaction_primary),
@@ -1457,7 +1457,7 @@ pub fn save_theme_system(theme: Res<UiTheme>) {
                 text_primary: to_data_color(&theme.color.orange.text_primary),
                 text_secondary: to_data_color(&theme.color.orange.text_secondary),
             },
-            amber: UiColorData {
+            amber: UiColorPaletteData {
                 background_primary: to_data_color(&theme.color.amber.background_primary),
                 background_secondary: to_data_color(&theme.color.amber.background_secondary),
                 interaction_primary: to_data_color(&theme.color.amber.interaction_primary),
@@ -1471,7 +1471,7 @@ pub fn save_theme_system(theme: Res<UiTheme>) {
                 text_primary: to_data_color(&theme.color.amber.text_primary),
                 text_secondary: to_data_color(&theme.color.amber.text_secondary),
             },
-            yellow: UiColorData {
+            yellow: UiColorPaletteData {
                 background_primary: to_data_color(&theme.color.yellow.background_primary),
                 background_secondary: to_data_color(&theme.color.yellow.background_secondary),
                 interaction_primary: to_data_color(&theme.color.yellow.interaction_primary),
@@ -1485,7 +1485,7 @@ pub fn save_theme_system(theme: Res<UiTheme>) {
                 text_primary: to_data_color(&theme.color.yellow.text_primary),
                 text_secondary: to_data_color(&theme.color.yellow.text_secondary),
             },
-            lime: UiColorData {
+            lime: UiColorPaletteData {
                 background_primary: to_data_color(&theme.color.lime.background_primary),
                 background_secondary: to_data_color(&theme.color.lime.background_secondary),
                 interaction_primary: to_data_color(&theme.color.lime.interaction_primary),
@@ -1499,7 +1499,7 @@ pub fn save_theme_system(theme: Res<UiTheme>) {
                 text_primary: to_data_color(&theme.color.lime.text_primary),
                 text_secondary: to_data_color(&theme.color.lime.text_secondary),
             },
-            mint: UiColorData {
+            mint: UiColorPaletteData {
                 background_primary: to_data_color(&theme.color.mint.background_primary),
                 background_secondary: to_data_color(&theme.color.mint.background_secondary),
                 interaction_primary: to_data_color(&theme.color.mint.interaction_primary),
@@ -1513,7 +1513,7 @@ pub fn save_theme_system(theme: Res<UiTheme>) {
                 text_primary: to_data_color(&theme.color.mint.text_primary),
                 text_secondary: to_data_color(&theme.color.mint.text_secondary),
             },
-            sky: UiColorData {
+            sky: UiColorPaletteData {
                 background_primary: to_data_color(&theme.color.sky.background_primary),
                 background_secondary: to_data_color(&theme.color.sky.background_secondary),
                 interaction_primary: to_data_color(&theme.color.sky.interaction_primary),
@@ -1527,6 +1527,34 @@ pub fn save_theme_system(theme: Res<UiTheme>) {
                 text_primary: to_data_color(&theme.color.sky.text_primary),
                 text_secondary: to_data_color(&theme.color.sky.text_secondary),
             },
+        },
+        accent_color: UiAccentColorPaletteData {
+            background_primary: to_data_color(&theme.accent_color.background_primary),
+            background_secondary: to_data_color(&theme.accent_color.background_secondary),
+            interaction_primary: to_data_color(&theme.accent_color.interaction_primary),
+            interaction_secondary: to_data_color(&theme.accent_color.interaction_secondary),
+            interaction_tertiary: to_data_color(&theme.accent_color.interaction_tertiary),
+            border_primary: to_data_color(&theme.accent_color.border_primary),
+            border_secondary: to_data_color(&theme.accent_color.border_secondary),
+            border_tertiary: to_data_color(&theme.accent_color.border_tertiary),
+            solid_primary: to_data_color(&theme.accent_color.solid_primary),
+            solid_secondary: to_data_color(&theme.accent_color.solid_secondary),
+            text_primary: to_data_color(&theme.accent_color.text_primary),
+            text_secondary: to_data_color(&theme.accent_color.text_secondary),
+        },
+        gray_accent_color: UiGrayAccentColorPaletteData {
+            background_primary: to_data_color(&theme.gray_accent_color.background_primary),
+            background_secondary: to_data_color(&theme.gray_accent_color.background_secondary),
+            interaction_primary: to_data_color(&theme.gray_accent_color.interaction_primary),
+            interaction_secondary: to_data_color(&theme.gray_accent_color.interaction_secondary),
+            interaction_tertiary: to_data_color(&theme.gray_accent_color.interaction_tertiary),
+            border_primary: to_data_color(&theme.gray_accent_color.border_primary),
+            border_secondary: to_data_color(&theme.gray_accent_color.border_secondary),
+            border_tertiary: to_data_color(&theme.gray_accent_color.border_tertiary),
+            solid_primary: to_data_color(&theme.gray_accent_color.solid_primary),
+            solid_secondary: to_data_color(&theme.gray_accent_color.solid_secondary),
+            text_primary: to_data_color(&theme.gray_accent_color.text_primary),
+            text_secondary: to_data_color(&theme.gray_accent_color.text_secondary),
         },
     };
 
