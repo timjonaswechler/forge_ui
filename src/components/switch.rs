@@ -4,6 +4,8 @@ use crate::theme::UiTheme;
 use bevy::{ecs::system::EntityCommands, prelude::*, ui::FocusPolicy};
 
 // --- Komponenten ---
+#[derive(Component, Clone, Copy)]
+pub struct ToggleSwitchTrackColor(pub Option<Color>);
 
 #[derive(Component, Default, Debug, Clone, Copy)]
 /// Marker für den Switch-Track
@@ -39,6 +41,7 @@ pub struct ToggleSwitchBuilder {
     disabled: bool,
     markers: Vec<Box<dyn FnOnce(&mut EntityCommands) + Send + Sync>>,
     radius: Option<f32>,
+    track_color: Option<Color>,
 }
 
 impl Default for ToggleSwitchBuilder {
@@ -48,6 +51,7 @@ impl Default for ToggleSwitchBuilder {
             disabled: false,
             markers: Vec::new(),
             radius: None,
+            track_color: None,
         }
     }
 }
@@ -76,6 +80,10 @@ impl ToggleSwitchBuilder {
         self.radius = Some(radius);
         self
     }
+    pub fn with_color(mut self, color: Color) -> Self {
+        self.track_color = Some(color);
+        self
+    }
 
     #[must_use]
     pub fn spawn<'w, 'a>(
@@ -102,12 +110,22 @@ impl ToggleSwitchBuilder {
                 height: track_h,
                 display: Display::Flex,
                 align_items: AlignItems::Center,
+                justify_content: if self.checked {
+                    JustifyContent::FlexEnd
+                } else {
+                    JustifyContent::FlexStart
+                },
                 padding: UiRect::horizontal(margin),
                 border: UiRect::all(Val::Px(1.0)),
                 ..default()
             },
+            ToggleSwitchTrackColor(self.track_color),
             BackgroundColor(if self.checked {
-                theme.accent_color.step09
+                if let Some(color) = self.track_color {
+                    color
+                } else {
+                    theme.accent_color.step09
+                }
             } else {
                 theme.color.gray.step05
             }),
@@ -130,11 +148,7 @@ impl ToggleSwitchBuilder {
                 Node {
                     width: thumb_sz,
                     height: thumb_sz,
-                    justify_self: if self.checked {
-                        JustifySelf::End
-                    } else {
-                        JustifySelf::Start
-                    },
+
                     ..default()
                 },
                 BorderRadius::all(Val::Px(thumb_radius)),
@@ -171,23 +185,6 @@ impl ToggleSwitchBuilder {
     }
 }
 
-/// Farben und Position für Track & Thumb
-fn get_switch_colors_and_pos(checked: bool, theme: &UiTheme) -> (Color, Color, JustifySelf) {
-    let track = if checked {
-        theme.accent_color.step09
-    } else {
-        theme.color.gray.step05
-    };
-    let thumb = theme.color.white.step12;
-
-    let pos = if checked {
-        JustifySelf::End
-    } else {
-        JustifySelf::Start
-    };
-    (track, thumb, pos)
-}
-
 /// Update-System passt Thumb & Overlay an
 pub fn update_toggle_switch_visuals(
     theme_opt: Option<Res<UiTheme>>,
@@ -196,52 +193,65 @@ pub fn update_toggle_switch_visuals(
             (
                 Entity,
                 &ToggleSwitchState,
-                &mut BackgroundColor,
-                &mut BorderColor,
                 &Children,
+                &mut Node,
+                &mut BackgroundColor,
+                Option<&ToggleSwitchTrackColor>,
             ),
-            (Changed<ToggleSwitchState>, With<ToggleSwitchMarker>),
+            Changed<ToggleSwitchState>,
         >,
-        Query<(&mut Node, &mut BackgroundColor, &mut Visibility), With<ToggleSwitchOverlayMarker>>,
-        Query<(&mut Node, &mut BackgroundColor), With<ToggleSwitchThumbMarker>>,
+        Query<&mut BackgroundColor, With<ToggleSwitchThumbMarker>>,
+        Query<&mut Visibility, With<ToggleSwitchOverlayMarker>>,
     )>,
 ) {
-    let Some(theme) = theme_opt else {
+    let theme = if let Some(t) = theme_opt {
+        t
+    } else {
         return;
     };
-    let mut thumbs = Vec::new();
-    let mut overlays = Vec::new();
 
-    // First, collect all necessary data to avoid multiple mutable borrows
-    for (e, state, _, _, children) in params.p0().iter_mut() {
-        let (tb, th, pos) = get_switch_colors_and_pos(state.checked, &theme);
-        thumbs.extend(children.iter().map(|c| (c, pos, th)));
-        overlays.push((e, state.disabled, tb));
-    }
+    // 1️⃣ Phase: Track-Query ausführen und Child-Entitäten sammeln
+    let mut thumb_entities: Vec<Entity> = Vec::new();
+    let mut overlay_entities: Vec<(Entity, bool)> = Vec::new();
 
-    // Now, update the visuals with separate mutable borrows
-    for (e, disabled, tb) in overlays {
-        if let Ok((_, _, mut vis)) = params.p1().get_mut(e) {
+    for (_track_e, state, children, mut node, mut bg, track_color) in params.p0().iter_mut() {
+        // Track-Farbe & Position updaten
+        let color = if state.checked {
+            track_color
+                .and_then(|c| c.0) // hier unwrappt Option<Option<Color>>
+                .unwrap_or(theme.accent_color.step09)
+        } else {
+            theme.color.gray.step05
+        };
+        *bg = BackgroundColor(color);
+        node.justify_content = if state.checked {
+            JustifyContent::FlexEnd
+        } else {
+            JustifyContent::FlexStart
+        };
+
+        // Für jeden Child merken, ob Overlay sichtbar sein muss und Daumen aktualisiert werden muss
+        for child in children.iter() {
+            overlay_entities.push((child, state.disabled));
+            thumb_entities.push(child);
+        }
+    } // <-- hier endet der p0()-Borrow
+
+    // 2️⃣ Phase: Overlay-Visibility setzen
+    for (child, disabled) in overlay_entities {
+        if let Ok(mut vis) = params.p2().get_mut(child) {
             *vis = if disabled {
                 Visibility::Visible
             } else {
                 Visibility::Hidden
             };
         }
-        if let Ok((_, _, mut bg, mut border, _)) = params.p0().get_mut(e) {
-            *bg = tb.into();
-            *border = if disabled {
-                theme.color.gray.step03.into()
-            } else {
-                theme.color.gray.step06.into()
-            };
-        }
     }
 
-    for (child, pos, color) in thumbs {
-        if let Ok((mut node, mut bg)) = params.p2().get_mut(child) {
-            node.justify_self = pos;
-            *bg = color.into();
+    // 3️⃣ Phase: Daumen-Farbe setzen
+    for child in thumb_entities {
+        if let Ok(mut thumb_bg) = params.p1().get_mut(child) {
+            *thumb_bg = theme.color.white.step12.into();
         }
     }
 }
@@ -249,16 +259,16 @@ pub fn update_toggle_switch_visuals(
 /// Klick-Handler toggelt Zustand
 pub fn handle_toggle_switch_clicks(
     mut q: Query<
-        (&Interaction, &mut ToggleSwitchState),
+        (Entity, &Interaction, &mut ToggleSwitchState),
         (Changed<Interaction>, With<ToggleSwitchMarker>),
     >,
     mut ev: EventWriter<ToggleSwitchChangedEvent>,
 ) {
-    for (int, mut state) in q.iter_mut() {
+    for (entity, int, mut state) in q.iter_mut() {
         if *int == Interaction::Pressed && !state.disabled {
             state.checked = !state.checked;
             ev.write(ToggleSwitchChangedEvent {
-                switch_entity: Entity::from_raw(0),
+                switch_entity: entity,
                 is_checked: state.checked,
             });
         }
