@@ -23,10 +23,10 @@ impl Appearance {
         };
     }
 
-    pub fn to_string(&self) -> String {
+    pub fn to_string(&self) -> &str {
         match self {
-            Appearance::Light => "light".to_string(),
-            Appearance::Dark => "dark".to_string(),
+            Appearance::Light => "light",
+            Appearance::Dark => "dark",
         }
     }
     pub fn from_str(s: &str) -> Self {

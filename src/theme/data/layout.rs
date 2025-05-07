@@ -6,8 +6,6 @@ use serde::{Deserialize, Serialize};
 #[derive(Serialize, Deserialize, Debug, Clone, Reflect)]
 pub struct UiLayoutData {
     #[serde(default)]
-    pub spacing: f32,
-    #[serde(default)]
     pub padding: UiSpacingData,
     #[serde(default)]
     pub margin: UiSpacingData,
@@ -66,7 +64,6 @@ pub struct UiRadiusData {
 impl Default for UiLayoutData {
     fn default() -> Self {
         UiLayoutData {
-            spacing: 0.25,
             padding: UiSpacingData {
                 xs: 1.0,
                 sm: 2.0,

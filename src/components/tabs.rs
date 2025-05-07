@@ -185,7 +185,7 @@ impl<T: Component + PartialEq + Eq + Hash + Clone + Send + Sync + 'static> TabsB
                 .spawn((
                     TabsList,
                     list_node_style,
-                    BackgroundColor(theme.color.white.border_tertiary), // Hintergrund für Liste
+                    BackgroundColor(theme.color.white.step08), // Hintergrund für Liste
                 ))
                 .with_children(|list_builder| {
                     // 2. TabsTrigger Buttons spawnen
@@ -529,14 +529,14 @@ pub fn update_tabs_visuals<
                     // Aktiver Stil: Heller Hintergrund, "echte" Textfarbe
                     *bg_color = BackgroundColor(Color::NONE); // Hintergrund aus dem *Haupt*-Theme
                     *border_color = BorderColor(Color::NONE); // Kein expliziter Rand im aktiven Zustand
-                    target_text_color = theme.color.gray.text_primary; // Helle/normale Textfarbe
+                    target_text_color = theme.color.gray.step11; // Helle/normale Textfarbe
 
                 // Optional: Shadow-Effekt (schwierig in Bevy UI nativ)
                 } else {
                     // Inaktiver Stil (wie Ghost Button)
                     *bg_color = BackgroundColor(Color::NONE); // Kein Hintergrund
                     *border_color = BorderColor(Color::NONE); // Kein Rand
-                    target_text_color = theme.color.gray.solid_primary; // Gedämpfte Textfarbe
+                    target_text_color = theme.color.gray.step09; // Gedämpfte Textfarbe
                 }
 
                 // Farbe des Trigger-Texts aktualisieren

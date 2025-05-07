@@ -1,6 +1,6 @@
 // src/theme/runtime/typography.rs
-
 use crate::assets::FontAssets;
+use crate::plugin::UiConfig;
 use crate::theme::data::UiTypographyData;
 use bevy::prelude::*;
 
@@ -47,13 +47,8 @@ pub struct FontVariants {
     pub bold_italic: Handle<Font>,
 }
 
-pub fn build(
-    assets: &FontAssets,
-    data: &UiTypographyData,
-    rem: f32,
-    ui_scaling: f32,
-) -> UiTypography {
-    let size = |v: f32| v * rem * ui_scaling;
+pub fn build(assets: &FontAssets, data: &UiTypographyData, config: &UiConfig) -> UiTypography {
+    let size = |v: f32| v * config.font_size_base * config.scaling;
 
     UiTypography {
         font_size: UiFontSize {

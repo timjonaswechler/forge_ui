@@ -6,6 +6,7 @@ use bevy_common_assets::ron::RonAssetPlugin;
 use crate::assets::{FontAssets, Icon, IconAssets, IconLoader};
 use crate::theme::{
     data::UiThemeData,
+    settings::Appearance,
     systems::{
         check_theme_asset_readiness, hot_reload_theme_system, load_theme_asset, save_theme_system,
     },
@@ -29,13 +30,50 @@ pub enum UiState {
     HotReload,    // Theme-HotReload Phase
 }
 
-pub struct ForgeUiPlugin;
+#[derive(Resource, Debug, Clone)]
+pub struct UiConfig {
+    pub font_size_base: f32,
+    pub appearance: Appearance,
+    pub high_contrast: bool,
+    pub scaling: f32,
+    pub spacing_factor: f32,
+}
+
+impl Default for UiConfig {
+    fn default() -> Self {
+        UiConfig {
+            font_size_base: 16.0,
+            spacing_factor: 0.25,
+            appearance: Appearance::Light,
+            high_contrast: false,
+            scaling: 1.0,
+        }
+    }
+}
+
+pub struct ForgeUiPlugin {
+    pub config: UiConfig,
+}
+
+impl ForgeUiPlugin {
+    pub fn new() -> Self {
+        ForgeUiPlugin {
+            config: UiConfig::default(),
+        }
+    }
+
+    pub fn with_font_size(mut self, font_size_base: f32) -> Self {
+        self.config.font_size_base = font_size_base;
+        self
+    }
+}
 
 impl Plugin for ForgeUiPlugin {
     fn build(&self, app: &mut App) {
         app
             // 1) Initialize UiState and set starting variant
             .init_state::<UiState>()
+            .insert_resource(self.config.clone())
             .insert_state(UiState::LoadingAssets)
             // 2) Asset-Loading: load FontAssets and IconAssets, then go to LoadingTheme
             .add_loading_state(

@@ -1,6 +1,7 @@
 // crates/forge_ui/src/theme/systems.rs
-
 use crate::assets::FontAssets;
+use crate::plugin::UiConfig;
+use crate::theme::settings::Appearance;
 use crate::theme::{data::*, runtime::*, UiTheme};
 use bevy::prelude::*;
 
@@ -14,11 +15,21 @@ use bevy::prelude::*;
 pub struct ThemeAssetHandle(Handle<UiThemeData>);
 
 // System to load the asset handle during PreStartup
-pub fn load_theme_asset(mut commands: Commands, asset_server: Res<AssetServer>) {
-    let handle = asset_server.load("theme/dark.theme.ron");
+pub fn load_theme_asset(
+    mut commands: Commands,
+    asset_server: Res<AssetServer>,
+    config: Res<UiConfig>,
+) {
+    let handle = asset_server.load(match config.appearance {
+        Appearance::Dark => "theme/dark.theme.ron",
+        Appearance::Light => "theme/light.theme.ron",
+    });
     commands.insert_resource(ThemeAssetHandle(handle));
 
-    info!("Initiated loading theme/dark.theme.ron (waiting for load state)");
+    info!(
+        "Initiated loading {:?} theme (waiting for load state)",
+        config.appearance
+    );
 }
 
 pub fn check_theme_asset_readiness(
@@ -27,6 +38,7 @@ pub fn check_theme_asset_readiness(
     theme_assets: Res<Assets<UiThemeData>>,
     font_assets: Option<Res<FontAssets>>,
     asset_server: Res<AssetServer>,
+    config: Res<UiConfig>,
 ) {
     use bevy::asset::LoadState;
     if let Some(font_assets) = font_assets {
@@ -34,23 +46,15 @@ pub fn check_theme_asset_readiness(
             Some(LoadState::Loaded) => {
                 let data = theme_assets.get(&handles.0).unwrap();
                 // Nutze jetzt die bereits geladenen Handles aus font_assets
-                let theme = UiTheme::build_from_data(font_assets, data);
+                let theme = UiTheme::build_from_data(font_assets, data, &config);
                 commands.insert_resource(theme);
             }
             Some(LoadState::Failed(_)) => {
-                // Versuche default.theme.ron
-                let default_handle = asset_server.load("theme/default.theme.ron");
-                if let Some(LoadState::Loaded) = asset_server.get_load_state(&default_handle) {
-                    let data = theme_assets.get(&default_handle).unwrap();
-                    info!("Dark fehlgeschlagen, Loaded default.theme.ron");
-                    let theme = UiTheme::build_from_data(font_assets, data);
-                    commands.insert_resource(theme);
-                } else {
-                    warn!("Beide RON-Themes fehlgeschlagen, verwende hart-codiertes Default");
-                    let data = UiThemeData::default();
-                    let theme = UiTheme::build_from_data(font_assets, &data);
-                    commands.insert_resource(theme);
-                }
+                // läd Default aus Code
+                warn!("Theme asset failed to load, using hard-coded default.");
+                let data = UiThemeData::default();
+                let theme = UiTheme::build_from_data(font_assets, &data, &config);
+                commands.insert_resource(theme);
             }
             _ => {
                 // Noch nicht fertig laden oder kein Status verfügbar → nichts tun
@@ -68,6 +72,7 @@ pub fn hot_reload_theme_system(
     asset_server: Res<AssetServer>,
     theme_data_assets: Res<Assets<UiThemeData>>,
     theme_opt: Option<ResMut<UiTheme>>,
+    config: Res<UiConfig>,
 ) {
     // --- ADD GUARD ---
     let Some(mut theme) = theme_opt else {
@@ -84,22 +89,19 @@ pub fn hot_reload_theme_system(
                 info!("UiThemeData asset modified: {:?}. Reloading...", id);
                 if let Some(data) = theme_data_assets.get(*id) {
                     // --- Werte für Neuberechnung holen ---
-                    // Wichtig: Benutze den *gespeicherten* rem-Wert aus dem Theme!
-                    let effective_rem = theme.rem;
+                    // Wichtig: Benutze den *gespeicherten* font_size-Wert aus dem Theme!
+                    let effective_font_size = config.font_size_base;
                     // Nimm den *neuen* ui_scaling-Wert aus den geladenen Daten
-                    let effective_ui_scaling = data.ui_scaling;
+                    let effective_ui_scaling = config.scaling;
                     // Berechne die neue Basis-Spacing-Einheit
                     let base_spacing_unit =
-                        data.layout.spacing * effective_rem * effective_ui_scaling;
+                        config.spacing_factor * effective_font_size * effective_ui_scaling;
 
                     info!(
-                        "Hot Reload Effective Values: rem={}, ui_scaling={}, base_spacing_unit={}",
-                        effective_rem, effective_ui_scaling, base_spacing_unit
+                        "Hot Reload Effective Values: font_size={}, ui_scaling={}, base_spacing_unit={}",
+                        effective_font_size, effective_ui_scaling, base_spacing_unit
                     );
                     // --- Felder in `theme` aktualisieren ---
-                    theme.ui_scaling = effective_ui_scaling; // Neuen Skalierungsfaktor speichern
-                                                             // theme.rem bleibt unverändert!
-                                                             // Re-run the conversion logic, but update the existing resource
 
                     let load_font = |path: &str| -> Handle<Font> {
                         if path.is_empty() {
@@ -109,22 +111,36 @@ pub fn hot_reload_theme_system(
                         }
                     };
                     let conv_color = |c: [f32; 4]| Color::srgba(c[0], c[1], c[2], c[3]);
+                    let color_palette = |data: &UiColorPaletteData| UiColorPalette {
+                        step01: conv_color(data.step01),
+                        step02: conv_color(data.step02),
+                        step03: conv_color(data.step03),
+                        step04: conv_color(data.step04),
+                        step05: conv_color(data.step05),
+                        step06: conv_color(data.step06),
+                        step07: conv_color(data.step07),
+                        step08: conv_color(data.step08),
+                        step09: conv_color(data.step09),
+                        step10: conv_color(data.step10),
+                        step11: conv_color(data.step11),
+                        step12: conv_color(data.step12),
+                    };
 
                     // Update typography
                     theme.font.font_size = UiFontSize {
-                        xs: data.font.font_size.xs * effective_rem * effective_ui_scaling,
-                        sm: data.font.font_size.sm * effective_rem * effective_ui_scaling,
-                        base: data.font.font_size.base * effective_rem * effective_ui_scaling,
-                        lg: data.font.font_size.lg * effective_rem * effective_ui_scaling,
-                        xl: data.font.font_size.xl * effective_rem * effective_ui_scaling,
-                        x2l: data.font.font_size.x2l * effective_rem * effective_ui_scaling,
-                        x3l: data.font.font_size.x3l * effective_rem * effective_ui_scaling,
-                        x4l: data.font.font_size.x4l * effective_rem * effective_ui_scaling,
-                        x5l: data.font.font_size.x5l * effective_rem * effective_ui_scaling,
-                        x6l: data.font.font_size.x6l * effective_rem * effective_ui_scaling,
-                        x7l: data.font.font_size.x7l * effective_rem * effective_ui_scaling,
-                        x8l: data.font.font_size.x8l * effective_rem * effective_ui_scaling,
-                        x9l: data.font.font_size.x9l * effective_rem * effective_ui_scaling,
+                        xs: data.font.font_size.xs * effective_font_size * effective_ui_scaling,
+                        sm: data.font.font_size.sm * effective_font_size * effective_ui_scaling,
+                        base: data.font.font_size.base * effective_font_size * effective_ui_scaling,
+                        lg: data.font.font_size.lg * effective_font_size * effective_ui_scaling,
+                        xl: data.font.font_size.xl * effective_font_size * effective_ui_scaling,
+                        x2l: data.font.font_size.x2l * effective_font_size * effective_ui_scaling,
+                        x3l: data.font.font_size.x3l * effective_font_size * effective_ui_scaling,
+                        x4l: data.font.font_size.x4l * effective_font_size * effective_ui_scaling,
+                        x5l: data.font.font_size.x5l * effective_font_size * effective_ui_scaling,
+                        x6l: data.font.font_size.x6l * effective_font_size * effective_ui_scaling,
+                        x7l: data.font.font_size.x7l * effective_font_size * effective_ui_scaling,
+                        x8l: data.font.font_size.x8l * effective_font_size * effective_ui_scaling,
+                        x9l: data.font.font_size.x9l * effective_font_size * effective_ui_scaling,
                     };
                     // Font-Familien nur setzen, wenn der Pfad nicht leer ist
                     if !data.font.font_family.default.is_empty() {
@@ -169,7 +185,6 @@ pub fn hot_reload_theme_system(
                     // Update layout
                     theme.layout = UiLayout {
                         /* ... copy from plugin's check_theme_asset_readiness ... */
-                        spacing: base_spacing_unit,
                         padding: UiSpacing {
                             xs: data.layout.padding.xs * base_spacing_unit,
                             sm: data.layout.padding.sm * base_spacing_unit,
@@ -215,7 +230,7 @@ pub fn hot_reload_theme_system(
                             full: if data.layout.radius.full > 0.0
                                 && data.layout.radius.full < f32::MAX / 2.0
                             {
-                                data.layout.radius.full * effective_rem * effective_ui_scaling
+                                data.layout.radius.full * effective_font_size * effective_ui_scaling
                             } else {
                                 9999.0
                             },
@@ -235,605 +250,86 @@ pub fn hot_reload_theme_system(
                     // Update colors
                     theme.color = UiColorPalettes {
                         /* ... copy from plugin's check_theme_asset_readiness ... */
-                        white: UiColorPalette {
-                            background_primary: conv_color(data.color.white.background_primary),
-                            background_secondary: conv_color(data.color.white.background_secondary),
-                            interaction_primary: conv_color(data.color.white.interaction_primary),
-                            interaction_secondary: conv_color(
-                                data.color.white.interaction_secondary,
-                            ),
-                            interaction_tertiary: conv_color(data.color.white.interaction_tertiary),
-                            border_primary: conv_color(data.color.white.border_primary),
-                            border_secondary: conv_color(data.color.white.border_secondary),
-                            border_tertiary: conv_color(data.color.white.border_tertiary),
-                            solid_primary: conv_color(data.color.white.solid_primary),
-                            solid_secondary: conv_color(data.color.white.solid_secondary),
-                            text_primary: conv_color(data.color.white.text_primary),
-                            text_secondary: conv_color(data.color.white.text_secondary),
-                        },
-                        black: UiColorPalette {
-                            background_primary: conv_color(data.color.black.background_primary),
-                            background_secondary: conv_color(data.color.black.background_secondary),
-                            interaction_primary: conv_color(data.color.black.interaction_primary),
-                            interaction_secondary: conv_color(
-                                data.color.black.interaction_secondary,
-                            ),
-                            interaction_tertiary: conv_color(data.color.black.interaction_tertiary),
-                            border_primary: conv_color(data.color.black.border_primary),
-                            border_secondary: conv_color(data.color.black.border_secondary),
-                            border_tertiary: conv_color(data.color.black.border_tertiary),
-                            solid_primary: conv_color(data.color.black.solid_primary),
-                            solid_secondary: conv_color(data.color.black.solid_secondary),
-                            text_primary: conv_color(data.color.black.text_primary),
-                            text_secondary: conv_color(data.color.black.text_secondary),
-                        },
-                        gray: UiColorPalette {
-                            background_primary: conv_color(data.color.gray.background_primary),
-                            background_secondary: conv_color(data.color.gray.background_secondary),
-                            interaction_primary: conv_color(data.color.gray.interaction_primary),
-                            interaction_secondary: conv_color(
-                                data.color.gray.interaction_secondary,
-                            ),
-                            interaction_tertiary: conv_color(data.color.gray.interaction_tertiary),
-                            border_primary: conv_color(data.color.gray.border_primary),
-                            border_secondary: conv_color(data.color.gray.border_secondary),
-                            border_tertiary: conv_color(data.color.gray.border_tertiary),
-                            solid_primary: conv_color(data.color.gray.solid_primary),
-                            solid_secondary: conv_color(data.color.gray.solid_secondary),
-                            text_primary: conv_color(data.color.gray.text_primary),
-                            text_secondary: conv_color(data.color.gray.text_secondary),
-                        },
-                        mauve: UiColorPalette {
-                            background_primary: conv_color(data.color.mauve.background_primary),
-                            background_secondary: conv_color(data.color.mauve.background_secondary),
-                            interaction_primary: conv_color(data.color.mauve.interaction_primary),
-                            interaction_secondary: conv_color(
-                                data.color.mauve.interaction_secondary,
-                            ),
-                            interaction_tertiary: conv_color(data.color.mauve.interaction_tertiary),
-                            border_primary: conv_color(data.color.mauve.border_primary),
-                            border_secondary: conv_color(data.color.mauve.border_secondary),
-                            border_tertiary: conv_color(data.color.mauve.border_tertiary),
-                            solid_primary: conv_color(data.color.mauve.solid_primary),
-                            solid_secondary: conv_color(data.color.mauve.solid_secondary),
-                            text_primary: conv_color(data.color.mauve.text_primary),
-                            text_secondary: conv_color(data.color.mauve.text_secondary),
-                        },
-                        slate: UiColorPalette {
-                            background_primary: conv_color(data.color.slate.background_primary),
-                            background_secondary: conv_color(data.color.slate.background_secondary),
-                            interaction_primary: conv_color(data.color.slate.interaction_primary),
-                            interaction_secondary: conv_color(
-                                data.color.slate.interaction_secondary,
-                            ),
-                            interaction_tertiary: conv_color(data.color.slate.interaction_tertiary),
-                            border_primary: conv_color(data.color.slate.border_primary),
-                            border_secondary: conv_color(data.color.slate.border_secondary),
-                            border_tertiary: conv_color(data.color.slate.border_tertiary),
-                            solid_primary: conv_color(data.color.slate.solid_primary),
-                            solid_secondary: conv_color(data.color.slate.solid_secondary),
-                            text_primary: conv_color(data.color.slate.text_primary),
-                            text_secondary: conv_color(data.color.slate.text_secondary),
-                        },
-                        sage: UiColorPalette {
-                            background_primary: conv_color(data.color.sage.background_primary),
-                            background_secondary: conv_color(data.color.sage.background_secondary),
-                            interaction_primary: conv_color(data.color.sage.interaction_primary),
-                            interaction_secondary: conv_color(
-                                data.color.sage.interaction_secondary,
-                            ),
-                            interaction_tertiary: conv_color(data.color.sage.interaction_tertiary),
-                            border_primary: conv_color(data.color.sage.border_primary),
-                            border_secondary: conv_color(data.color.sage.border_secondary),
-                            border_tertiary: conv_color(data.color.sage.border_tertiary),
-                            solid_primary: conv_color(data.color.sage.solid_primary),
-                            solid_secondary: conv_color(data.color.sage.solid_secondary),
-                            text_primary: conv_color(data.color.sage.text_primary),
-                            text_secondary: conv_color(data.color.sage.text_secondary),
-                        },
-                        olive: UiColorPalette {
-                            background_primary: conv_color(data.color.olive.background_primary),
-                            background_secondary: conv_color(data.color.olive.background_secondary),
-                            interaction_primary: conv_color(data.color.olive.interaction_primary),
-                            interaction_secondary: conv_color(
-                                data.color.olive.interaction_secondary,
-                            ),
-                            interaction_tertiary: conv_color(data.color.olive.interaction_tertiary),
-                            border_primary: conv_color(data.color.olive.border_primary),
-                            border_secondary: conv_color(data.color.olive.border_secondary),
-                            border_tertiary: conv_color(data.color.olive.border_tertiary),
-                            solid_primary: conv_color(data.color.olive.solid_primary),
-                            solid_secondary: conv_color(data.color.olive.solid_secondary),
-                            text_primary: conv_color(data.color.olive.text_primary),
-                            text_secondary: conv_color(data.color.olive.text_secondary),
-                        },
-                        sand: UiColorPalette {
-                            background_primary: conv_color(data.color.sand.background_primary),
-                            background_secondary: conv_color(data.color.sand.background_secondary),
-                            interaction_primary: conv_color(data.color.sand.interaction_primary),
-                            interaction_secondary: conv_color(
-                                data.color.sand.interaction_secondary,
-                            ),
-                            interaction_tertiary: conv_color(data.color.sand.interaction_tertiary),
-                            border_primary: conv_color(data.color.sand.border_primary),
-                            border_secondary: conv_color(data.color.sand.border_secondary),
-                            border_tertiary: conv_color(data.color.sand.border_tertiary),
-                            solid_primary: conv_color(data.color.sand.solid_primary),
-                            solid_secondary: conv_color(data.color.sand.solid_secondary),
-                            text_primary: conv_color(data.color.sand.text_primary),
-                            text_secondary: conv_color(data.color.sand.text_secondary),
-                        },
-                        tomato: UiColorPalette {
-                            background_primary: conv_color(data.color.tomato.background_primary),
-                            background_secondary: conv_color(
-                                data.color.tomato.background_secondary,
-                            ),
-                            interaction_primary: conv_color(data.color.tomato.interaction_primary),
-                            interaction_secondary: conv_color(
-                                data.color.tomato.interaction_secondary,
-                            ),
-                            interaction_tertiary: conv_color(
-                                data.color.tomato.interaction_tertiary,
-                            ),
-                            border_primary: conv_color(data.color.tomato.border_primary),
-                            border_secondary: conv_color(data.color.tomato.border_secondary),
-                            border_tertiary: conv_color(data.color.tomato.border_tertiary),
-                            solid_primary: conv_color(data.color.tomato.solid_primary),
-                            solid_secondary: conv_color(data.color.tomato.solid_secondary),
-                            text_primary: conv_color(data.color.tomato.text_primary),
-                            text_secondary: conv_color(data.color.tomato.text_secondary),
-                        },
-                        red: UiColorPalette {
-                            background_primary: conv_color(data.color.red.background_primary),
-                            background_secondary: conv_color(data.color.red.background_secondary),
-                            interaction_primary: conv_color(data.color.red.interaction_primary),
-                            interaction_secondary: conv_color(data.color.red.interaction_secondary),
-                            interaction_tertiary: conv_color(data.color.red.interaction_tertiary),
-                            border_primary: conv_color(data.color.red.border_primary),
-                            border_secondary: conv_color(data.color.red.border_secondary),
-                            border_tertiary: conv_color(data.color.red.border_tertiary),
-                            solid_primary: conv_color(data.color.red.solid_primary),
-                            solid_secondary: conv_color(data.color.red.solid_secondary),
-                            text_primary: conv_color(data.color.red.text_primary),
-                            text_secondary: conv_color(data.color.red.text_secondary),
-                        },
-                        ruby: UiColorPalette {
-                            background_primary: conv_color(data.color.ruby.background_primary),
-                            background_secondary: conv_color(data.color.ruby.background_secondary),
-                            interaction_primary: conv_color(data.color.ruby.interaction_primary),
-                            interaction_secondary: conv_color(
-                                data.color.ruby.interaction_secondary,
-                            ),
-                            interaction_tertiary: conv_color(data.color.ruby.interaction_tertiary),
-                            border_primary: conv_color(data.color.ruby.border_primary),
-                            border_secondary: conv_color(data.color.ruby.border_secondary),
-                            border_tertiary: conv_color(data.color.ruby.border_tertiary),
-                            solid_primary: conv_color(data.color.ruby.solid_primary),
-                            solid_secondary: conv_color(data.color.ruby.solid_secondary),
-                            text_primary: conv_color(data.color.ruby.text_primary),
-                            text_secondary: conv_color(data.color.ruby.text_secondary),
-                        },
-                        crimson: UiColorPalette {
-                            background_primary: conv_color(data.color.crimson.background_primary),
-                            background_secondary: conv_color(
-                                data.color.crimson.background_secondary,
-                            ),
-                            interaction_primary: conv_color(data.color.crimson.interaction_primary),
-                            interaction_secondary: conv_color(
-                                data.color.crimson.interaction_secondary,
-                            ),
-                            interaction_tertiary: conv_color(
-                                data.color.crimson.interaction_tertiary,
-                            ),
-                            border_primary: conv_color(data.color.crimson.border_primary),
-                            border_secondary: conv_color(data.color.crimson.border_secondary),
-                            border_tertiary: conv_color(data.color.crimson.border_tertiary),
-                            solid_primary: conv_color(data.color.crimson.solid_primary),
-                            solid_secondary: conv_color(data.color.crimson.solid_secondary),
-                            text_primary: conv_color(data.color.crimson.text_primary),
-                            text_secondary: conv_color(data.color.crimson.text_secondary),
-                        },
-                        pink: UiColorPalette {
-                            background_primary: conv_color(data.color.pink.background_primary),
-                            background_secondary: conv_color(data.color.pink.background_secondary),
-                            interaction_primary: conv_color(data.color.pink.interaction_primary),
-                            interaction_secondary: conv_color(
-                                data.color.pink.interaction_secondary,
-                            ),
-                            interaction_tertiary: conv_color(data.color.pink.interaction_tertiary),
-                            border_primary: conv_color(data.color.pink.border_primary),
-                            border_secondary: conv_color(data.color.pink.border_secondary),
-                            border_tertiary: conv_color(data.color.pink.border_tertiary),
-                            solid_primary: conv_color(data.color.pink.solid_primary),
-                            solid_secondary: conv_color(data.color.pink.solid_secondary),
-                            text_primary: conv_color(data.color.pink.text_primary),
-                            text_secondary: conv_color(data.color.pink.text_secondary),
-                        },
-                        plum: UiColorPalette {
-                            background_primary: conv_color(data.color.plum.background_primary),
-                            background_secondary: conv_color(data.color.plum.background_secondary),
-                            interaction_primary: conv_color(data.color.plum.interaction_primary),
-                            interaction_secondary: conv_color(
-                                data.color.plum.interaction_secondary,
-                            ),
-                            interaction_tertiary: conv_color(data.color.plum.interaction_tertiary),
-                            border_primary: conv_color(data.color.plum.border_primary),
-                            border_secondary: conv_color(data.color.plum.border_secondary),
-                            border_tertiary: conv_color(data.color.plum.border_tertiary),
-                            solid_primary: conv_color(data.color.plum.solid_primary),
-                            solid_secondary: conv_color(data.color.plum.solid_secondary),
-                            text_primary: conv_color(data.color.plum.text_primary),
-                            text_secondary: conv_color(data.color.plum.text_secondary),
-                        },
-                        purple: UiColorPalette {
-                            background_primary: conv_color(data.color.purple.background_primary),
-                            background_secondary: conv_color(
-                                data.color.purple.background_secondary,
-                            ),
-                            interaction_primary: conv_color(data.color.purple.interaction_primary),
-                            interaction_secondary: conv_color(
-                                data.color.purple.interaction_secondary,
-                            ),
-                            interaction_tertiary: conv_color(
-                                data.color.purple.interaction_tertiary,
-                            ),
-                            border_primary: conv_color(data.color.purple.border_primary),
-                            border_secondary: conv_color(data.color.purple.border_secondary),
-                            border_tertiary: conv_color(data.color.purple.border_tertiary),
-                            solid_primary: conv_color(data.color.purple.solid_primary),
-                            solid_secondary: conv_color(data.color.purple.solid_secondary),
-                            text_primary: conv_color(data.color.purple.text_primary),
-                            text_secondary: conv_color(data.color.purple.text_secondary),
-                        },
-                        violet: UiColorPalette {
-                            background_primary: conv_color(data.color.violet.background_primary),
-                            background_secondary: conv_color(
-                                data.color.violet.background_secondary,
-                            ),
-                            interaction_primary: conv_color(data.color.violet.interaction_primary),
-                            interaction_secondary: conv_color(
-                                data.color.violet.interaction_secondary,
-                            ),
-                            interaction_tertiary: conv_color(
-                                data.color.violet.interaction_tertiary,
-                            ),
-                            border_primary: conv_color(data.color.violet.border_primary),
-                            border_secondary: conv_color(data.color.violet.border_secondary),
-                            border_tertiary: conv_color(data.color.violet.border_tertiary),
-                            solid_primary: conv_color(data.color.violet.solid_primary),
-                            solid_secondary: conv_color(data.color.violet.solid_secondary),
-                            text_primary: conv_color(data.color.violet.text_primary),
-                            text_secondary: conv_color(data.color.violet.text_secondary),
-                        },
-                        iris: UiColorPalette {
-                            background_primary: conv_color(data.color.iris.background_primary),
-                            background_secondary: conv_color(data.color.iris.background_secondary),
-                            interaction_primary: conv_color(data.color.iris.interaction_primary),
-                            interaction_secondary: conv_color(
-                                data.color.iris.interaction_secondary,
-                            ),
-                            interaction_tertiary: conv_color(data.color.iris.interaction_tertiary),
-                            border_primary: conv_color(data.color.iris.border_primary),
-                            border_secondary: conv_color(data.color.iris.border_secondary),
-                            border_tertiary: conv_color(data.color.iris.border_tertiary),
-                            solid_primary: conv_color(data.color.iris.solid_primary),
-                            solid_secondary: conv_color(data.color.iris.solid_secondary),
-                            text_primary: conv_color(data.color.iris.text_primary),
-                            text_secondary: conv_color(data.color.iris.text_secondary),
-                        },
-                        indigo: UiColorPalette {
-                            background_primary: conv_color(data.color.indigo.background_primary),
-                            background_secondary: conv_color(
-                                data.color.indigo.background_secondary,
-                            ),
-                            interaction_primary: conv_color(data.color.indigo.interaction_primary),
-                            interaction_secondary: conv_color(
-                                data.color.indigo.interaction_secondary,
-                            ),
-                            interaction_tertiary: conv_color(
-                                data.color.indigo.interaction_tertiary,
-                            ),
-                            border_primary: conv_color(data.color.indigo.border_primary),
-                            border_secondary: conv_color(data.color.indigo.border_secondary),
-                            border_tertiary: conv_color(data.color.indigo.border_tertiary),
-                            solid_primary: conv_color(data.color.indigo.solid_primary),
-                            solid_secondary: conv_color(data.color.indigo.solid_secondary),
-                            text_primary: conv_color(data.color.indigo.text_primary),
-                            text_secondary: conv_color(data.color.indigo.text_secondary),
-                        },
-                        blue: UiColorPalette {
-                            background_primary: conv_color(data.color.blue.background_primary),
-                            background_secondary: conv_color(data.color.blue.background_secondary),
-                            interaction_primary: conv_color(data.color.blue.interaction_primary),
-                            interaction_secondary: conv_color(
-                                data.color.blue.interaction_secondary,
-                            ),
-                            interaction_tertiary: conv_color(data.color.blue.interaction_tertiary),
-                            border_primary: conv_color(data.color.blue.border_primary),
-                            border_secondary: conv_color(data.color.blue.border_secondary),
-                            border_tertiary: conv_color(data.color.blue.border_tertiary),
-                            solid_primary: conv_color(data.color.blue.solid_primary),
-                            solid_secondary: conv_color(data.color.blue.solid_secondary),
-                            text_primary: conv_color(data.color.blue.text_primary),
-                            text_secondary: conv_color(data.color.blue.text_secondary),
-                        },
-                        cyan: UiColorPalette {
-                            background_primary: conv_color(data.color.cyan.background_primary),
-                            background_secondary: conv_color(data.color.cyan.background_secondary),
-                            interaction_primary: conv_color(data.color.cyan.interaction_primary),
-                            interaction_secondary: conv_color(
-                                data.color.cyan.interaction_secondary,
-                            ),
-                            interaction_tertiary: conv_color(data.color.cyan.interaction_tertiary),
-                            border_primary: conv_color(data.color.cyan.border_primary),
-                            border_secondary: conv_color(data.color.cyan.border_secondary),
-                            border_tertiary: conv_color(data.color.cyan.border_tertiary),
-                            solid_primary: conv_color(data.color.cyan.solid_primary),
-                            solid_secondary: conv_color(data.color.cyan.solid_secondary),
-                            text_primary: conv_color(data.color.cyan.text_primary),
-                            text_secondary: conv_color(data.color.cyan.text_secondary),
-                        },
-                        teal: UiColorPalette {
-                            background_primary: conv_color(data.color.teal.background_primary),
-                            background_secondary: conv_color(data.color.teal.background_secondary),
-                            interaction_primary: conv_color(data.color.teal.interaction_primary),
-                            interaction_secondary: conv_color(
-                                data.color.teal.interaction_secondary,
-                            ),
-                            interaction_tertiary: conv_color(data.color.teal.interaction_tertiary),
-                            border_primary: conv_color(data.color.teal.border_primary),
-                            border_secondary: conv_color(data.color.teal.border_secondary),
-                            border_tertiary: conv_color(data.color.teal.border_tertiary),
-                            solid_primary: conv_color(data.color.teal.solid_primary),
-                            solid_secondary: conv_color(data.color.teal.solid_secondary),
-                            text_primary: conv_color(data.color.teal.text_primary),
-                            text_secondary: conv_color(data.color.teal.text_secondary),
-                        },
-                        jade: UiColorPalette {
-                            background_primary: conv_color(data.color.jade.background_primary),
-                            background_secondary: conv_color(data.color.jade.background_secondary),
-                            interaction_primary: conv_color(data.color.jade.interaction_primary),
-                            interaction_secondary: conv_color(
-                                data.color.jade.interaction_secondary,
-                            ),
-                            interaction_tertiary: conv_color(data.color.jade.interaction_tertiary),
-                            border_primary: conv_color(data.color.jade.border_primary),
-                            border_secondary: conv_color(data.color.jade.border_secondary),
-                            border_tertiary: conv_color(data.color.jade.border_tertiary),
-                            solid_primary: conv_color(data.color.jade.solid_primary),
-                            solid_secondary: conv_color(data.color.jade.solid_secondary),
-                            text_primary: conv_color(data.color.jade.text_primary),
-                            text_secondary: conv_color(data.color.jade.text_secondary),
-                        },
-                        green: UiColorPalette {
-                            background_primary: conv_color(data.color.green.background_primary),
-                            background_secondary: conv_color(data.color.green.background_secondary),
-                            interaction_primary: conv_color(data.color.green.interaction_primary),
-                            interaction_secondary: conv_color(
-                                data.color.green.interaction_secondary,
-                            ),
-                            interaction_tertiary: conv_color(data.color.green.interaction_tertiary),
-                            border_primary: conv_color(data.color.green.border_primary),
-                            border_secondary: conv_color(data.color.green.border_secondary),
-                            border_tertiary: conv_color(data.color.green.border_tertiary),
-                            solid_primary: conv_color(data.color.green.solid_primary),
-                            solid_secondary: conv_color(data.color.green.solid_secondary),
-                            text_primary: conv_color(data.color.green.text_primary),
-                            text_secondary: conv_color(data.color.green.text_secondary),
-                        },
-                        grass: UiColorPalette {
-                            background_primary: conv_color(data.color.grass.background_primary),
-                            background_secondary: conv_color(data.color.grass.background_secondary),
-                            interaction_primary: conv_color(data.color.grass.interaction_primary),
-                            interaction_secondary: conv_color(
-                                data.color.grass.interaction_secondary,
-                            ),
-                            interaction_tertiary: conv_color(data.color.grass.interaction_tertiary),
-                            border_primary: conv_color(data.color.grass.border_primary),
-                            border_secondary: conv_color(data.color.grass.border_secondary),
-                            border_tertiary: conv_color(data.color.grass.border_tertiary),
-                            solid_primary: conv_color(data.color.grass.solid_primary),
-                            solid_secondary: conv_color(data.color.grass.solid_secondary),
-                            text_primary: conv_color(data.color.grass.text_primary),
-                            text_secondary: conv_color(data.color.grass.text_secondary),
-                        },
-                        bronze: UiColorPalette {
-                            background_primary: conv_color(data.color.bronze.background_primary),
-                            background_secondary: conv_color(
-                                data.color.bronze.background_secondary,
-                            ),
-                            interaction_primary: conv_color(data.color.bronze.interaction_primary),
-                            interaction_secondary: conv_color(
-                                data.color.bronze.interaction_secondary,
-                            ),
-                            interaction_tertiary: conv_color(
-                                data.color.bronze.interaction_tertiary,
-                            ),
-                            border_primary: conv_color(data.color.bronze.border_primary),
-                            border_secondary: conv_color(data.color.bronze.border_secondary),
-                            border_tertiary: conv_color(data.color.bronze.border_tertiary),
-                            solid_primary: conv_color(data.color.bronze.solid_primary),
-                            solid_secondary: conv_color(data.color.bronze.solid_secondary),
-                            text_primary: conv_color(data.color.bronze.text_primary),
-                            text_secondary: conv_color(data.color.bronze.text_secondary),
-                        },
-                        gold: UiColorPalette {
-                            background_primary: conv_color(data.color.gold.background_primary),
-                            background_secondary: conv_color(data.color.gold.background_secondary),
-                            interaction_primary: conv_color(data.color.gold.interaction_primary),
-                            interaction_secondary: conv_color(
-                                data.color.gold.interaction_secondary,
-                            ),
-                            interaction_tertiary: conv_color(data.color.gold.interaction_tertiary),
-                            border_primary: conv_color(data.color.gold.border_primary),
-                            border_secondary: conv_color(data.color.gold.border_secondary),
-                            border_tertiary: conv_color(data.color.gold.border_tertiary),
-                            solid_primary: conv_color(data.color.gold.solid_primary),
-                            solid_secondary: conv_color(data.color.gold.solid_secondary),
-                            text_primary: conv_color(data.color.gold.text_primary),
-                            text_secondary: conv_color(data.color.gold.text_secondary),
-                        },
-                        brown: UiColorPalette {
-                            background_primary: conv_color(data.color.brown.background_primary),
-                            background_secondary: conv_color(data.color.brown.background_secondary),
-                            interaction_primary: conv_color(data.color.brown.interaction_primary),
-                            interaction_secondary: conv_color(
-                                data.color.brown.interaction_secondary,
-                            ),
-                            interaction_tertiary: conv_color(data.color.brown.interaction_tertiary),
-                            border_primary: conv_color(data.color.brown.border_primary),
-                            border_secondary: conv_color(data.color.brown.border_secondary),
-                            border_tertiary: conv_color(data.color.brown.border_tertiary),
-                            solid_primary: conv_color(data.color.brown.solid_primary),
-                            solid_secondary: conv_color(data.color.brown.solid_secondary),
-                            text_primary: conv_color(data.color.brown.text_primary),
-                            text_secondary: conv_color(data.color.brown.text_secondary),
-                        },
-                        orange: UiColorPalette {
-                            background_primary: conv_color(data.color.orange.background_primary),
-                            background_secondary: conv_color(
-                                data.color.orange.background_secondary,
-                            ),
-                            interaction_primary: conv_color(data.color.orange.interaction_primary),
-                            interaction_secondary: conv_color(
-                                data.color.orange.interaction_secondary,
-                            ),
-                            interaction_tertiary: conv_color(
-                                data.color.orange.interaction_tertiary,
-                            ),
-                            border_primary: conv_color(data.color.orange.border_primary),
-                            border_secondary: conv_color(data.color.orange.border_secondary),
-                            border_tertiary: conv_color(data.color.orange.border_tertiary),
-                            solid_primary: conv_color(data.color.orange.solid_primary),
-                            solid_secondary: conv_color(data.color.orange.solid_secondary),
-                            text_primary: conv_color(data.color.orange.text_primary),
-                            text_secondary: conv_color(data.color.orange.text_secondary),
-                        },
-                        amber: UiColorPalette {
-                            background_primary: conv_color(data.color.amber.background_primary),
-                            background_secondary: conv_color(data.color.amber.background_secondary),
-                            interaction_primary: conv_color(data.color.amber.interaction_primary),
-                            interaction_secondary: conv_color(
-                                data.color.amber.interaction_secondary,
-                            ),
-                            interaction_tertiary: conv_color(data.color.amber.interaction_tertiary),
-                            border_primary: conv_color(data.color.amber.border_primary),
-                            border_secondary: conv_color(data.color.amber.border_secondary),
-                            border_tertiary: conv_color(data.color.amber.border_tertiary),
-                            solid_primary: conv_color(data.color.amber.solid_primary),
-                            solid_secondary: conv_color(data.color.amber.solid_secondary),
-                            text_primary: conv_color(data.color.amber.text_primary),
-                            text_secondary: conv_color(data.color.amber.text_secondary),
-                        },
-                        yellow: UiColorPalette {
-                            background_primary: conv_color(data.color.yellow.background_primary),
-                            background_secondary: conv_color(
-                                data.color.yellow.background_secondary,
-                            ),
-                            interaction_primary: conv_color(data.color.yellow.interaction_primary),
-                            interaction_secondary: conv_color(
-                                data.color.yellow.interaction_secondary,
-                            ),
-                            interaction_tertiary: conv_color(
-                                data.color.yellow.interaction_tertiary,
-                            ),
-                            border_primary: conv_color(data.color.yellow.border_primary),
-                            border_secondary: conv_color(data.color.yellow.border_secondary),
-                            border_tertiary: conv_color(data.color.yellow.border_tertiary),
-                            solid_primary: conv_color(data.color.yellow.solid_primary),
-                            solid_secondary: conv_color(data.color.yellow.solid_secondary),
-                            text_primary: conv_color(data.color.yellow.text_primary),
-                            text_secondary: conv_color(data.color.yellow.text_secondary),
-                        },
-                        lime: UiColorPalette {
-                            background_primary: conv_color(data.color.lime.background_primary),
-                            background_secondary: conv_color(data.color.lime.background_secondary),
-                            interaction_primary: conv_color(data.color.lime.interaction_primary),
-                            interaction_secondary: conv_color(
-                                data.color.lime.interaction_secondary,
-                            ),
-                            interaction_tertiary: conv_color(data.color.lime.interaction_tertiary),
-                            border_primary: conv_color(data.color.lime.border_primary),
-                            border_secondary: conv_color(data.color.lime.border_secondary),
-                            border_tertiary: conv_color(data.color.lime.border_tertiary),
-                            solid_primary: conv_color(data.color.lime.solid_primary),
-                            solid_secondary: conv_color(data.color.lime.solid_secondary),
-                            text_primary: conv_color(data.color.lime.text_primary),
-                            text_secondary: conv_color(data.color.lime.text_secondary),
-                        },
-                        mint: UiColorPalette {
-                            background_primary: conv_color(data.color.mint.background_primary),
-                            background_secondary: conv_color(data.color.mint.background_secondary),
-                            interaction_primary: conv_color(data.color.mint.interaction_primary),
-                            interaction_secondary: conv_color(
-                                data.color.mint.interaction_secondary,
-                            ),
-                            interaction_tertiary: conv_color(data.color.mint.interaction_tertiary),
-                            border_primary: conv_color(data.color.mint.border_primary),
-                            border_secondary: conv_color(data.color.mint.border_secondary),
-                            border_tertiary: conv_color(data.color.mint.border_tertiary),
-                            solid_primary: conv_color(data.color.mint.solid_primary),
-                            solid_secondary: conv_color(data.color.mint.solid_secondary),
-                            text_primary: conv_color(data.color.mint.text_primary),
-                            text_secondary: conv_color(data.color.mint.text_secondary),
-                        },
-                        sky: UiColorPalette {
-                            background_primary: conv_color(data.color.sky.background_primary),
-                            background_secondary: conv_color(data.color.sky.background_secondary),
-                            interaction_primary: conv_color(data.color.sky.interaction_primary),
-                            interaction_secondary: conv_color(data.color.sky.interaction_secondary),
-                            interaction_tertiary: conv_color(data.color.sky.interaction_tertiary),
-                            border_primary: conv_color(data.color.sky.border_primary),
-                            border_secondary: conv_color(data.color.sky.border_secondary),
-                            border_tertiary: conv_color(data.color.sky.border_tertiary),
-                            solid_primary: conv_color(data.color.sky.solid_primary),
-                            solid_secondary: conv_color(data.color.sky.solid_secondary),
-                            text_primary: conv_color(data.color.sky.text_primary),
-                            text_secondary: conv_color(data.color.sky.text_secondary),
-                        },
+                        white: color_palette(&data.color.white),
+                        black: color_palette(&data.color.black),
+                        gray: color_palette(&data.color.gray),
+                        gray_a: color_palette(&data.color.gray_a),
+                        mauve: color_palette(&data.color.mauve),
+                        mauve_a: color_palette(&data.color.mauve_a),
+                        slate: color_palette(&data.color.slate),
+                        slate_a: color_palette(&data.color.slate_a),
+                        sage: color_palette(&data.color.sage),
+                        sage_a: color_palette(&data.color.sage_a),
+                        olive: color_palette(&data.color.olive),
+                        olive_a: color_palette(&data.color.olive_a),
+                        sand: color_palette(&data.color.sand),
+                        sand_a: color_palette(&data.color.sand_a),
+                        tomato: color_palette(&data.color.tomato),
+                        tomato_a: color_palette(&data.color.tomato_a),
+                        red: color_palette(&data.color.red),
+                        red_a: color_palette(&data.color.red_a),
+                        ruby: color_palette(&data.color.ruby),
+                        ruby_a: color_palette(&data.color.ruby_a),
+                        crimson: color_palette(&data.color.crimson),
+                        crimson_a: color_palette(&data.color.crimson_a),
+                        pink: color_palette(&data.color.pink),
+                        pink_a: color_palette(&data.color.pink_a),
+                        plum: color_palette(&data.color.plum),
+                        plum_a: color_palette(&data.color.plum_a),
+                        purple: color_palette(&data.color.purple),
+                        purple_a: color_palette(&data.color.purple_a),
+                        violet: color_palette(&data.color.violet),
+                        violet_a: color_palette(&data.color.violet_a),
+                        iris: color_palette(&data.color.iris),
+                        iris_a: color_palette(&data.color.iris_a),
+                        indigo: color_palette(&data.color.indigo),
+                        indigo_a: color_palette(&data.color.indigo_a),
+                        blue: color_palette(&data.color.blue),
+                        blue_a: color_palette(&data.color.blue_a),
+                        cyan: color_palette(&data.color.cyan),
+                        cyan_a: color_palette(&data.color.cyan_a),
+                        teal: color_palette(&data.color.teal),
+                        teal_a: color_palette(&data.color.teal_a),
+                        jade: color_palette(&data.color.jade),
+                        jade_a: color_palette(&data.color.jade_a),
+                        green: color_palette(&data.color.green),
+                        green_a: color_palette(&data.color.green_a),
+                        grass: color_palette(&data.color.grass),
+                        grass_a: color_palette(&data.color.grass_a),
+                        bronze: color_palette(&data.color.bronze),
+                        bronze_a: color_palette(&data.color.bronze_a),
+                        gold: color_palette(&data.color.gold),
+                        gold_a: color_palette(&data.color.gold_a),
+                        brown: color_palette(&data.color.brown),
+                        brown_a: color_palette(&data.color.brown_a),
+                        orange: color_palette(&data.color.orange),
+                        orange_a: color_palette(&data.color.orange_a),
+                        amber: color_palette(&data.color.amber),
+                        amber_a: color_palette(&data.color.amber_a),
+                        yellow: color_palette(&data.color.yellow),
+                        yellow_a: color_palette(&data.color.yellow_a),
+                        lime: color_palette(&data.color.lime),
+                        lime_a: color_palette(&data.color.lime_a),
+                        mint: color_palette(&data.color.mint),
+                        mint_a: color_palette(&data.color.mint_a),
+                        sky: color_palette(&data.color.sky),
+                        sky_a: color_palette(&data.color.sky_a),
                     };
-                    // Update scaling
-                    theme.ui_scaling = data.ui_scaling;
 
                     info!("UiTheme resource hot reloaded.");
                 }
             }
-            _ => {} // Ignore other asset events like Created, Removed for now
+            _ => {} // Ignore other asset events like Created, font_sizeoved for now
         }
     }
 }
 
 #[cfg(debug_assertions)]
-pub fn save_theme_system(theme: Res<UiTheme>) {
+pub fn save_theme_system(theme: Res<UiTheme>, config: Res<UiConfig>) {
     info!("Attempting to save theme...");
     // Hole die effektiven Werte aus dem Theme
-    let effective_rem = theme.rem;
-    let effective_ui_scaling = theme.ui_scaling;
-
-    // Rückwärtsrechnung vermeiden, wenn die Werte 0 sind (um Division durch Null zu verhindern)
-    let scale_factor = if effective_rem * effective_ui_scaling != 0.0 {
-        effective_rem * effective_ui_scaling
-    } else {
-        1.0 // Fallback, sollte nicht passieren
-    };
-    let base_spacing_unit = theme.layout.spacing; // Nimm die gespeicherte absolute Basiseinheit
-    let spacing_scale_factor = if base_spacing_unit != 0.0 {
-        base_spacing_unit
-    } else {
-        1.0 // Fallback
-    };
-    let border_scale_factor = if effective_ui_scaling != 0.0 {
-        effective_ui_scaling
-    } else {
-        1.0 // Fallback
-    };
-
-    // Berechne den Basis-Spacing-Multiplikator zurück
-    let data_spacing = if scale_factor != 0.0 {
-        base_spacing_unit / scale_factor
-    } else {
-        0.25 // Fallback auf Standard (rem/4)
-    };
+    let effective_font_size = config.font_size_base * config.scaling;
+    let effective_spacing = config.spacing_factor * config.font_size_base * config.scaling;
 
     let font_family = {
         let default = if theme.font.font_family.default.path().is_some() {
@@ -976,586 +472,156 @@ pub fn save_theme_system(theme: Res<UiTheme>) {
     };
 
     let data = UiThemeData {
-        appearance: theme.appearance.to_string(),
-        high_contrast: theme.high_contrast,
-        ui_scaling: theme.ui_scaling,
-        rem: theme.rem,
-
         font: UiTypographyData {
             font_size: UiFontSizeData {
                 // Direct copy is fine for f32 values
-                xs: theme.font.font_size.xs / scale_factor,
-                sm: theme.font.font_size.sm / scale_factor,
-                base: theme.font.font_size.base / scale_factor,
-                lg: theme.font.font_size.lg / scale_factor,
-                xl: theme.font.font_size.xl / scale_factor,
-                x2l: theme.font.font_size.x2l / scale_factor,
-                x3l: theme.font.font_size.x3l / scale_factor,
-                x4l: theme.font.font_size.x4l / scale_factor,
-                x5l: theme.font.font_size.x5l / scale_factor,
-                x6l: theme.font.font_size.x6l / scale_factor,
-                x7l: theme.font.font_size.x7l / scale_factor,
-                x8l: theme.font.font_size.x8l / scale_factor,
-                x9l: theme.font.font_size.x9l / scale_factor,
+                xs: theme.font.font_size.xs / effective_font_size,
+                sm: theme.font.font_size.sm / effective_font_size,
+                base: theme.font.font_size.base / effective_font_size,
+                lg: theme.font.font_size.lg / effective_font_size,
+                xl: theme.font.font_size.xl / effective_font_size,
+                x2l: theme.font.font_size.x2l / effective_font_size,
+                x3l: theme.font.font_size.x3l / effective_font_size,
+                x4l: theme.font.font_size.x4l / effective_font_size,
+                x5l: theme.font.font_size.x5l / effective_font_size,
+                x6l: theme.font.font_size.x6l / effective_font_size,
+                x7l: theme.font.font_size.x7l / effective_font_size,
+                x8l: theme.font.font_size.x8l / effective_font_size,
+                x9l: theme.font.font_size.x9l / effective_font_size,
             },
             font_family,
         },
         layout: UiLayoutData {
-            spacing: data_spacing,
             padding: UiSpacingData {
-                xs: theme.layout.padding.xs / spacing_scale_factor,
-                sm: theme.layout.padding.sm / spacing_scale_factor,
-                base: theme.layout.padding.base / spacing_scale_factor,
-                lg: theme.layout.padding.lg / spacing_scale_factor,
-                xl: theme.layout.padding.xl / spacing_scale_factor,
-                x2l: theme.layout.padding.x2l / spacing_scale_factor,
-                x3l: theme.layout.padding.x3l / spacing_scale_factor,
-                x4l: theme.layout.padding.x4l / spacing_scale_factor,
-                x5l: theme.layout.padding.x5l / spacing_scale_factor,
+                xs: theme.layout.padding.xs / effective_spacing,
+                sm: theme.layout.padding.sm / effective_spacing,
+                base: theme.layout.padding.base / effective_spacing,
+                lg: theme.layout.padding.lg / effective_spacing,
+                xl: theme.layout.padding.xl / effective_spacing,
+                x2l: theme.layout.padding.x2l / effective_spacing,
+                x3l: theme.layout.padding.x3l / effective_spacing,
+                x4l: theme.layout.padding.x4l / effective_spacing,
+                x5l: theme.layout.padding.x5l / effective_spacing,
             },
             margin: UiSpacingData {
-                xs: theme.layout.margin.xs / spacing_scale_factor,
-                sm: theme.layout.margin.sm / spacing_scale_factor,
-                base: theme.layout.margin.base / spacing_scale_factor,
-                lg: theme.layout.margin.lg / spacing_scale_factor,
-                xl: theme.layout.margin.xl / spacing_scale_factor,
-                x2l: theme.layout.margin.x2l / spacing_scale_factor,
-                x3l: theme.layout.margin.x3l / spacing_scale_factor,
-                x4l: theme.layout.margin.x4l / spacing_scale_factor,
-                x5l: theme.layout.margin.x5l / spacing_scale_factor,
+                xs: theme.layout.margin.xs / effective_spacing,
+                sm: theme.layout.margin.sm / effective_spacing,
+                base: theme.layout.margin.base / effective_spacing,
+                lg: theme.layout.margin.lg / effective_spacing,
+                xl: theme.layout.margin.xl / effective_spacing,
+                x2l: theme.layout.margin.x2l / effective_spacing,
+                x3l: theme.layout.margin.x3l / effective_spacing,
+                x4l: theme.layout.margin.x4l / effective_spacing,
+                x5l: theme.layout.margin.x5l / effective_spacing,
             },
             gap: UiSpacingData {
-                xs: theme.layout.gap.xs / spacing_scale_factor,
-                sm: theme.layout.gap.sm / spacing_scale_factor,
-                base: theme.layout.gap.base / spacing_scale_factor,
-                lg: theme.layout.gap.lg / spacing_scale_factor,
-                xl: theme.layout.gap.xl / spacing_scale_factor,
-                x2l: theme.layout.gap.x2l / spacing_scale_factor,
-                x3l: theme.layout.gap.x3l / spacing_scale_factor,
-                x4l: theme.layout.gap.x4l / spacing_scale_factor,
-                x5l: theme.layout.gap.x5l / spacing_scale_factor,
+                xs: theme.layout.gap.xs / effective_spacing,
+                sm: theme.layout.gap.sm / effective_spacing,
+                base: theme.layout.gap.base / effective_spacing,
+                lg: theme.layout.gap.lg / effective_spacing,
+                xl: theme.layout.gap.xl / effective_spacing,
+                x2l: theme.layout.gap.x2l / effective_spacing,
+                x3l: theme.layout.gap.x3l / effective_spacing,
+                x4l: theme.layout.gap.x4l / effective_spacing,
+                x5l: theme.layout.gap.x5l / effective_spacing,
             },
             radius: UiRadiusData {
-                xs: theme.layout.radius.xs / scale_factor,
-                sm: theme.layout.radius.sm / scale_factor,
-                base: theme.layout.radius.base / scale_factor,
-                lg: theme.layout.radius.lg / scale_factor,
-                xl: theme.layout.radius.xl / scale_factor,
-                x2l: theme.layout.radius.x2l / scale_factor,
-                x3l: theme.layout.radius.x3l / scale_factor,
-                x4l: theme.layout.radius.x4l / scale_factor,
+                xs: theme.layout.radius.xs / effective_font_size,
+                sm: theme.layout.radius.sm / effective_font_size,
+                base: theme.layout.radius.base / effective_font_size,
+                lg: theme.layout.radius.lg / effective_font_size,
+                xl: theme.layout.radius.xl / effective_font_size,
+                x2l: theme.layout.radius.x2l / effective_font_size,
+                x3l: theme.layout.radius.x3l / effective_font_size,
+                x4l: theme.layout.radius.x4l / effective_font_size,
                 full: if theme.layout.radius.full >= 9999.0 {
                     f32::MAX
                 } else {
-                    theme.layout.radius.full / scale_factor
+                    theme.layout.radius.full / effective_font_size
                 }, // Annahme: 9
             },
             border: UiSpacingData {
-                xs: theme.layout.border.xs / border_scale_factor,
-                sm: theme.layout.border.sm / border_scale_factor,
-                base: theme.layout.border.base / border_scale_factor,
-                lg: theme.layout.border.lg / border_scale_factor,
-                xl: theme.layout.border.xl / border_scale_factor,
-                x2l: theme.layout.border.x2l / border_scale_factor,
-                x3l: theme.layout.border.x3l / border_scale_factor,
-                x4l: theme.layout.border.x4l / border_scale_factor,
-                x5l: theme.layout.border.x5l / border_scale_factor,
+                xs: theme.layout.border.xs,
+                sm: theme.layout.border.sm,
+                base: theme.layout.border.base,
+                lg: theme.layout.border.lg,
+                xl: theme.layout.border.xl,
+                x2l: theme.layout.border.x2l,
+                x3l: theme.layout.border.x3l,
+                x4l: theme.layout.border.x4l,
+                x5l: theme.layout.border.x5l,
             },
         },
         // Use the correct struct name: UiColorPalettesData
         color: UiColorPalettesData {
             // Convert runtime Colors back to data arrays
-            white: UiColorPaletteData {
-                background_primary: to_data_color(&theme.color.white.background_primary),
-                background_secondary: to_data_color(&theme.color.white.background_secondary),
-                interaction_primary: to_data_color(&theme.color.white.interaction_primary),
-                interaction_secondary: to_data_color(&theme.color.white.interaction_secondary),
-                interaction_tertiary: to_data_color(&theme.color.white.interaction_tertiary),
-                border_primary: to_data_color(&theme.color.white.border_primary),
-                border_secondary: to_data_color(&theme.color.white.border_secondary),
-                border_tertiary: to_data_color(&theme.color.white.border_tertiary),
-                solid_primary: to_data_color(&theme.color.white.solid_primary),
-                solid_secondary: to_data_color(&theme.color.white.solid_secondary),
-                text_primary: to_data_color(&theme.color.white.text_primary),
-                text_secondary: to_data_color(&theme.color.white.text_secondary),
-            },
-            black: UiColorPaletteData {
-                background_primary: to_data_color(&theme.color.black.background_primary),
-                background_secondary: to_data_color(&theme.color.black.background_secondary),
-                interaction_primary: to_data_color(&theme.color.black.interaction_primary),
-                interaction_secondary: to_data_color(&theme.color.black.interaction_secondary),
-                interaction_tertiary: to_data_color(&theme.color.black.interaction_tertiary),
-                border_primary: to_data_color(&theme.color.black.border_primary),
-                border_secondary: to_data_color(&theme.color.black.border_secondary),
-                border_tertiary: to_data_color(&theme.color.black.border_tertiary),
-                solid_primary: to_data_color(&theme.color.black.solid_primary),
-                solid_secondary: to_data_color(&theme.color.black.solid_secondary),
-                text_primary: to_data_color(&theme.color.black.text_primary),
-                text_secondary: to_data_color(&theme.color.black.text_secondary),
-            },
-            gray: UiColorPaletteData {
-                background_primary: to_data_color(&theme.color.gray.background_primary),
-                background_secondary: to_data_color(&theme.color.gray.background_secondary),
-                interaction_primary: to_data_color(&theme.color.gray.interaction_primary),
-                interaction_secondary: to_data_color(&theme.color.gray.interaction_secondary),
-                interaction_tertiary: to_data_color(&theme.color.gray.interaction_tertiary),
-                border_primary: to_data_color(&theme.color.gray.border_primary),
-                border_secondary: to_data_color(&theme.color.gray.border_secondary),
-                border_tertiary: to_data_color(&theme.color.gray.border_tertiary),
-                solid_primary: to_data_color(&theme.color.gray.solid_primary),
-                solid_secondary: to_data_color(&theme.color.gray.solid_secondary),
-                text_primary: to_data_color(&theme.color.gray.text_primary),
-                text_secondary: to_data_color(&theme.color.gray.text_secondary),
-            },
-            mauve: UiColorPaletteData {
-                background_primary: to_data_color(&theme.color.mauve.background_primary),
-                background_secondary: to_data_color(&theme.color.mauve.background_secondary),
-                interaction_primary: to_data_color(&theme.color.mauve.interaction_primary),
-                interaction_secondary: to_data_color(&theme.color.mauve.interaction_secondary),
-                interaction_tertiary: to_data_color(&theme.color.mauve.interaction_tertiary),
-                border_primary: to_data_color(&theme.color.mauve.border_primary),
-                border_secondary: to_data_color(&theme.color.mauve.border_secondary),
-                border_tertiary: to_data_color(&theme.color.mauve.border_tertiary),
-                solid_primary: to_data_color(&theme.color.mauve.solid_primary),
-                solid_secondary: to_data_color(&theme.color.mauve.solid_secondary),
-                text_primary: to_data_color(&theme.color.mauve.text_primary),
-                text_secondary: to_data_color(&theme.color.mauve.text_secondary),
-            },
-            slate: UiColorPaletteData {
-                background_primary: to_data_color(&theme.color.slate.background_primary),
-                background_secondary: to_data_color(&theme.color.slate.background_secondary),
-                interaction_primary: to_data_color(&theme.color.slate.interaction_primary),
-                interaction_secondary: to_data_color(&theme.color.slate.interaction_secondary),
-                interaction_tertiary: to_data_color(&theme.color.slate.interaction_tertiary),
-                border_primary: to_data_color(&theme.color.slate.border_primary),
-                border_secondary: to_data_color(&theme.color.slate.border_secondary),
-                border_tertiary: to_data_color(&theme.color.slate.border_tertiary),
-                solid_primary: to_data_color(&theme.color.slate.solid_primary),
-                solid_secondary: to_data_color(&theme.color.slate.solid_secondary),
-                text_primary: to_data_color(&theme.color.slate.text_primary),
-                text_secondary: to_data_color(&theme.color.slate.text_secondary),
-            },
-            sage: UiColorPaletteData {
-                background_primary: to_data_color(&theme.color.sage.background_primary),
-                background_secondary: to_data_color(&theme.color.sage.background_secondary),
-                interaction_primary: to_data_color(&theme.color.sage.interaction_primary),
-                interaction_secondary: to_data_color(&theme.color.sage.interaction_secondary),
-                interaction_tertiary: to_data_color(&theme.color.sage.interaction_tertiary),
-                border_primary: to_data_color(&theme.color.sage.border_primary),
-                border_secondary: to_data_color(&theme.color.sage.border_secondary),
-                border_tertiary: to_data_color(&theme.color.sage.border_tertiary),
-                solid_primary: to_data_color(&theme.color.sage.solid_primary),
-                solid_secondary: to_data_color(&theme.color.sage.solid_secondary),
-                text_primary: to_data_color(&theme.color.sage.text_primary),
-                text_secondary: to_data_color(&theme.color.sage.text_secondary),
-            },
-            olive: UiColorPaletteData {
-                background_primary: to_data_color(&theme.color.olive.background_primary),
-                background_secondary: to_data_color(&theme.color.olive.background_secondary),
-                interaction_primary: to_data_color(&theme.color.olive.interaction_primary),
-                interaction_secondary: to_data_color(&theme.color.olive.interaction_secondary),
-                interaction_tertiary: to_data_color(&theme.color.olive.interaction_tertiary),
-                border_primary: to_data_color(&theme.color.olive.border_primary),
-                border_secondary: to_data_color(&theme.color.olive.border_secondary),
-                border_tertiary: to_data_color(&theme.color.olive.border_tertiary),
-                solid_primary: to_data_color(&theme.color.olive.solid_primary),
-                solid_secondary: to_data_color(&theme.color.olive.solid_secondary),
-                text_primary: to_data_color(&theme.color.olive.text_primary),
-                text_secondary: to_data_color(&theme.color.olive.text_secondary),
-            },
-            sand: UiColorPaletteData {
-                background_primary: to_data_color(&theme.color.sand.background_primary),
-                background_secondary: to_data_color(&theme.color.sand.background_secondary),
-                interaction_primary: to_data_color(&theme.color.sand.interaction_primary),
-                interaction_secondary: to_data_color(&theme.color.sand.interaction_secondary),
-                interaction_tertiary: to_data_color(&theme.color.sand.interaction_tertiary),
-                border_primary: to_data_color(&theme.color.sand.border_primary),
-                border_secondary: to_data_color(&theme.color.sand.border_secondary),
-                border_tertiary: to_data_color(&theme.color.sand.border_tertiary),
-                solid_primary: to_data_color(&theme.color.sand.solid_primary),
-                solid_secondary: to_data_color(&theme.color.sand.solid_secondary),
-                text_primary: to_data_color(&theme.color.sand.text_primary),
-                text_secondary: to_data_color(&theme.color.sand.text_secondary),
-            },
-            tomato: UiColorPaletteData {
-                background_primary: to_data_color(&theme.color.tomato.background_primary),
-                background_secondary: to_data_color(&theme.color.tomato.background_secondary),
-                interaction_primary: to_data_color(&theme.color.tomato.interaction_primary),
-                interaction_secondary: to_data_color(&theme.color.tomato.interaction_secondary),
-                interaction_tertiary: to_data_color(&theme.color.tomato.interaction_tertiary),
-                border_primary: to_data_color(&theme.color.tomato.border_primary),
-                border_secondary: to_data_color(&theme.color.tomato.border_secondary),
-                border_tertiary: to_data_color(&theme.color.tomato.border_tertiary),
-                solid_primary: to_data_color(&theme.color.tomato.solid_primary),
-                solid_secondary: to_data_color(&theme.color.tomato.solid_secondary),
-                text_primary: to_data_color(&theme.color.tomato.text_primary),
-                text_secondary: to_data_color(&theme.color.tomato.text_secondary),
-            },
-            red: UiColorPaletteData {
-                background_primary: to_data_color(&theme.color.red.background_primary),
-                background_secondary: to_data_color(&theme.color.red.background_secondary),
-                interaction_primary: to_data_color(&theme.color.red.interaction_primary),
-                interaction_secondary: to_data_color(&theme.color.red.interaction_secondary),
-                interaction_tertiary: to_data_color(&theme.color.red.interaction_tertiary),
-                border_primary: to_data_color(&theme.color.red.border_primary),
-                border_secondary: to_data_color(&theme.color.red.border_secondary),
-                border_tertiary: to_data_color(&theme.color.red.border_tertiary),
-                solid_primary: to_data_color(&theme.color.red.solid_primary),
-                solid_secondary: to_data_color(&theme.color.red.solid_secondary),
-                text_primary: to_data_color(&theme.color.red.text_primary),
-                text_secondary: to_data_color(&theme.color.red.text_secondary),
-            },
-            ruby: UiColorPaletteData {
-                background_primary: to_data_color(&theme.color.ruby.background_primary),
-                background_secondary: to_data_color(&theme.color.ruby.background_secondary),
-                interaction_primary: to_data_color(&theme.color.ruby.interaction_primary),
-                interaction_secondary: to_data_color(&theme.color.ruby.interaction_secondary),
-                interaction_tertiary: to_data_color(&theme.color.ruby.interaction_tertiary),
-                border_primary: to_data_color(&theme.color.ruby.border_primary),
-                border_secondary: to_data_color(&theme.color.ruby.border_secondary),
-                border_tertiary: to_data_color(&theme.color.ruby.border_tertiary),
-                solid_primary: to_data_color(&theme.color.ruby.solid_primary),
-                solid_secondary: to_data_color(&theme.color.ruby.solid_secondary),
-                text_primary: to_data_color(&theme.color.ruby.text_primary),
-                text_secondary: to_data_color(&theme.color.ruby.text_secondary),
-            },
-            crimson: UiColorPaletteData {
-                background_primary: to_data_color(&theme.color.crimson.background_primary),
-                background_secondary: to_data_color(&theme.color.crimson.background_secondary),
-                interaction_primary: to_data_color(&theme.color.crimson.interaction_primary),
-                interaction_secondary: to_data_color(&theme.color.crimson.interaction_secondary),
-                interaction_tertiary: to_data_color(&theme.color.crimson.interaction_tertiary),
-                border_primary: to_data_color(&theme.color.crimson.border_primary),
-                border_secondary: to_data_color(&theme.color.crimson.border_secondary),
-                border_tertiary: to_data_color(&theme.color.crimson.border_tertiary),
-                solid_primary: to_data_color(&theme.color.crimson.solid_primary),
-                solid_secondary: to_data_color(&theme.color.crimson.solid_secondary),
-                text_primary: to_data_color(&theme.color.crimson.text_primary),
-                text_secondary: to_data_color(&theme.color.crimson.text_secondary),
-            },
-            pink: UiColorPaletteData {
-                background_primary: to_data_color(&theme.color.pink.background_primary),
-                background_secondary: to_data_color(&theme.color.pink.background_secondary),
-                interaction_primary: to_data_color(&theme.color.pink.interaction_primary),
-                interaction_secondary: to_data_color(&theme.color.pink.interaction_secondary),
-                interaction_tertiary: to_data_color(&theme.color.pink.interaction_tertiary),
-                border_primary: to_data_color(&theme.color.pink.border_primary),
-                border_secondary: to_data_color(&theme.color.pink.border_secondary),
-                border_tertiary: to_data_color(&theme.color.pink.border_tertiary),
-                solid_primary: to_data_color(&theme.color.pink.solid_primary),
-                solid_secondary: to_data_color(&theme.color.pink.solid_secondary),
-                text_primary: to_data_color(&theme.color.pink.text_primary),
-                text_secondary: to_data_color(&theme.color.pink.text_secondary),
-            },
-            plum: UiColorPaletteData {
-                background_primary: to_data_color(&theme.color.plum.background_primary),
-                background_secondary: to_data_color(&theme.color.plum.background_secondary),
-                interaction_primary: to_data_color(&theme.color.plum.interaction_primary),
-                interaction_secondary: to_data_color(&theme.color.plum.interaction_secondary),
-                interaction_tertiary: to_data_color(&theme.color.plum.interaction_tertiary),
-                border_primary: to_data_color(&theme.color.plum.border_primary),
-                border_secondary: to_data_color(&theme.color.plum.border_secondary),
-                border_tertiary: to_data_color(&theme.color.plum.border_tertiary),
-                solid_primary: to_data_color(&theme.color.plum.solid_primary),
-                solid_secondary: to_data_color(&theme.color.plum.solid_secondary),
-                text_primary: to_data_color(&theme.color.plum.text_primary),
-                text_secondary: to_data_color(&theme.color.plum.text_secondary),
-            },
-            purple: UiColorPaletteData {
-                background_primary: to_data_color(&theme.color.purple.background_primary),
-                background_secondary: to_data_color(&theme.color.purple.background_secondary),
-                interaction_primary: to_data_color(&theme.color.purple.interaction_primary),
-                interaction_secondary: to_data_color(&theme.color.purple.interaction_secondary),
-                interaction_tertiary: to_data_color(&theme.color.purple.interaction_tertiary),
-                border_primary: to_data_color(&theme.color.purple.border_primary),
-                border_secondary: to_data_color(&theme.color.purple.border_secondary),
-                border_tertiary: to_data_color(&theme.color.purple.border_tertiary),
-                solid_primary: to_data_color(&theme.color.purple.solid_primary),
-                solid_secondary: to_data_color(&theme.color.purple.solid_secondary),
-                text_primary: to_data_color(&theme.color.purple.text_primary),
-                text_secondary: to_data_color(&theme.color.purple.text_secondary),
-            },
-            violet: UiColorPaletteData {
-                background_primary: to_data_color(&theme.color.violet.background_primary),
-                background_secondary: to_data_color(&theme.color.violet.background_secondary),
-                interaction_primary: to_data_color(&theme.color.violet.interaction_primary),
-                interaction_secondary: to_data_color(&theme.color.violet.interaction_secondary),
-                interaction_tertiary: to_data_color(&theme.color.violet.interaction_tertiary),
-                border_primary: to_data_color(&theme.color.violet.border_primary),
-                border_secondary: to_data_color(&theme.color.violet.border_secondary),
-                border_tertiary: to_data_color(&theme.color.violet.border_tertiary),
-                solid_primary: to_data_color(&theme.color.violet.solid_primary),
-                solid_secondary: to_data_color(&theme.color.violet.solid_secondary),
-                text_primary: to_data_color(&theme.color.violet.text_primary),
-                text_secondary: to_data_color(&theme.color.violet.text_secondary),
-            },
-            iris: UiColorPaletteData {
-                background_primary: to_data_color(&theme.color.iris.background_primary),
-                background_secondary: to_data_color(&theme.color.iris.background_secondary),
-                interaction_primary: to_data_color(&theme.color.iris.interaction_primary),
-                interaction_secondary: to_data_color(&theme.color.iris.interaction_secondary),
-                interaction_tertiary: to_data_color(&theme.color.iris.interaction_tertiary),
-                border_primary: to_data_color(&theme.color.iris.border_primary),
-                border_secondary: to_data_color(&theme.color.iris.border_secondary),
-                border_tertiary: to_data_color(&theme.color.iris.border_tertiary),
-                solid_primary: to_data_color(&theme.color.iris.solid_primary),
-                solid_secondary: to_data_color(&theme.color.iris.solid_secondary),
-                text_primary: to_data_color(&theme.color.iris.text_primary),
-                text_secondary: to_data_color(&theme.color.iris.text_secondary),
-            },
-            indigo: UiColorPaletteData {
-                background_primary: to_data_color(&theme.color.indigo.background_primary),
-                background_secondary: to_data_color(&theme.color.indigo.background_secondary),
-                interaction_primary: to_data_color(&theme.color.indigo.interaction_primary),
-                interaction_secondary: to_data_color(&theme.color.indigo.interaction_secondary),
-                interaction_tertiary: to_data_color(&theme.color.indigo.interaction_tertiary),
-                border_primary: to_data_color(&theme.color.indigo.border_primary),
-                border_secondary: to_data_color(&theme.color.indigo.border_secondary),
-                border_tertiary: to_data_color(&theme.color.indigo.border_tertiary),
-                solid_primary: to_data_color(&theme.color.indigo.solid_primary),
-                solid_secondary: to_data_color(&theme.color.indigo.solid_secondary),
-                text_primary: to_data_color(&theme.color.indigo.text_primary),
-                text_secondary: to_data_color(&theme.color.indigo.text_secondary),
-            },
-            blue: UiColorPaletteData {
-                background_primary: to_data_color(&theme.color.blue.background_primary),
-                background_secondary: to_data_color(&theme.color.blue.background_secondary),
-                interaction_primary: to_data_color(&theme.color.blue.interaction_primary),
-                interaction_secondary: to_data_color(&theme.color.blue.interaction_secondary),
-                interaction_tertiary: to_data_color(&theme.color.blue.interaction_tertiary),
-                border_primary: to_data_color(&theme.color.blue.border_primary),
-                border_secondary: to_data_color(&theme.color.blue.border_secondary),
-                border_tertiary: to_data_color(&theme.color.blue.border_tertiary),
-                solid_primary: to_data_color(&theme.color.blue.solid_primary),
-                solid_secondary: to_data_color(&theme.color.blue.solid_secondary),
-                text_primary: to_data_color(&theme.color.blue.text_primary),
-                text_secondary: to_data_color(&theme.color.blue.text_secondary),
-            },
-            cyan: UiColorPaletteData {
-                background_primary: to_data_color(&theme.color.cyan.background_primary),
-                background_secondary: to_data_color(&theme.color.cyan.background_secondary),
-                interaction_primary: to_data_color(&theme.color.cyan.interaction_primary),
-                interaction_secondary: to_data_color(&theme.color.cyan.interaction_secondary),
-                interaction_tertiary: to_data_color(&theme.color.cyan.interaction_tertiary),
-                border_primary: to_data_color(&theme.color.cyan.border_primary),
-                border_secondary: to_data_color(&theme.color.cyan.border_secondary),
-                border_tertiary: to_data_color(&theme.color.cyan.border_tertiary),
-                solid_primary: to_data_color(&theme.color.cyan.solid_primary),
-                solid_secondary: to_data_color(&theme.color.cyan.solid_secondary),
-                text_primary: to_data_color(&theme.color.cyan.text_primary),
-                text_secondary: to_data_color(&theme.color.cyan.text_secondary),
-            },
-            teal: UiColorPaletteData {
-                background_primary: to_data_color(&theme.color.teal.background_primary),
-                background_secondary: to_data_color(&theme.color.teal.background_secondary),
-                interaction_primary: to_data_color(&theme.color.teal.interaction_primary),
-                interaction_secondary: to_data_color(&theme.color.teal.interaction_secondary),
-                interaction_tertiary: to_data_color(&theme.color.teal.interaction_tertiary),
-                border_primary: to_data_color(&theme.color.teal.border_primary),
-                border_secondary: to_data_color(&theme.color.teal.border_secondary),
-                border_tertiary: to_data_color(&theme.color.teal.border_tertiary),
-                solid_primary: to_data_color(&theme.color.teal.solid_primary),
-                solid_secondary: to_data_color(&theme.color.teal.solid_secondary),
-                text_primary: to_data_color(&theme.color.teal.text_primary),
-                text_secondary: to_data_color(&theme.color.teal.text_secondary),
-            },
-            jade: UiColorPaletteData {
-                background_primary: to_data_color(&theme.color.jade.background_primary),
-                background_secondary: to_data_color(&theme.color.jade.background_secondary),
-                interaction_primary: to_data_color(&theme.color.jade.interaction_primary),
-                interaction_secondary: to_data_color(&theme.color.jade.interaction_secondary),
-                interaction_tertiary: to_data_color(&theme.color.jade.interaction_tertiary),
-                border_primary: to_data_color(&theme.color.jade.border_primary),
-                border_secondary: to_data_color(&theme.color.jade.border_secondary),
-                border_tertiary: to_data_color(&theme.color.jade.border_tertiary),
-                solid_primary: to_data_color(&theme.color.jade.solid_primary),
-                solid_secondary: to_data_color(&theme.color.jade.solid_secondary),
-                text_primary: to_data_color(&theme.color.jade.text_primary),
-                text_secondary: to_data_color(&theme.color.jade.text_secondary),
-            },
-            green: UiColorPaletteData {
-                background_primary: to_data_color(&theme.color.green.background_primary),
-                background_secondary: to_data_color(&theme.color.green.background_secondary),
-                interaction_primary: to_data_color(&theme.color.green.interaction_primary),
-                interaction_secondary: to_data_color(&theme.color.green.interaction_secondary),
-                interaction_tertiary: to_data_color(&theme.color.green.interaction_tertiary),
-                border_primary: to_data_color(&theme.color.green.border_primary),
-                border_secondary: to_data_color(&theme.color.green.border_secondary),
-                border_tertiary: to_data_color(&theme.color.green.border_tertiary),
-                solid_primary: to_data_color(&theme.color.green.solid_primary),
-                solid_secondary: to_data_color(&theme.color.green.solid_secondary),
-                text_primary: to_data_color(&theme.color.green.text_primary),
-                text_secondary: to_data_color(&theme.color.green.text_secondary),
-            },
-            grass: UiColorPaletteData {
-                background_primary: to_data_color(&theme.color.grass.background_primary),
-                background_secondary: to_data_color(&theme.color.grass.background_secondary),
-                interaction_primary: to_data_color(&theme.color.grass.interaction_primary),
-                interaction_secondary: to_data_color(&theme.color.grass.interaction_secondary),
-                interaction_tertiary: to_data_color(&theme.color.grass.interaction_tertiary),
-                border_primary: to_data_color(&theme.color.grass.border_primary),
-                border_secondary: to_data_color(&theme.color.grass.border_secondary),
-                border_tertiary: to_data_color(&theme.color.grass.border_tertiary),
-                solid_primary: to_data_color(&theme.color.grass.solid_primary),
-                solid_secondary: to_data_color(&theme.color.grass.solid_secondary),
-                text_primary: to_data_color(&theme.color.grass.text_primary),
-                text_secondary: to_data_color(&theme.color.grass.text_secondary),
-            },
-            bronze: UiColorPaletteData {
-                background_primary: to_data_color(&theme.color.bronze.background_primary),
-                background_secondary: to_data_color(&theme.color.bronze.background_secondary),
-                interaction_primary: to_data_color(&theme.color.bronze.interaction_primary),
-                interaction_secondary: to_data_color(&theme.color.bronze.interaction_secondary),
-                interaction_tertiary: to_data_color(&theme.color.bronze.interaction_tertiary),
-                border_primary: to_data_color(&theme.color.bronze.border_primary),
-                border_secondary: to_data_color(&theme.color.bronze.border_secondary),
-                border_tertiary: to_data_color(&theme.color.bronze.border_tertiary),
-                solid_primary: to_data_color(&theme.color.bronze.solid_primary),
-                solid_secondary: to_data_color(&theme.color.bronze.solid_secondary),
-                text_primary: to_data_color(&theme.color.bronze.text_primary),
-                text_secondary: to_data_color(&theme.color.bronze.text_secondary),
-            },
-            gold: UiColorPaletteData {
-                background_primary: to_data_color(&theme.color.gold.background_primary),
-                background_secondary: to_data_color(&theme.color.gold.background_secondary),
-                interaction_primary: to_data_color(&theme.color.gold.interaction_primary),
-                interaction_secondary: to_data_color(&theme.color.gold.interaction_secondary),
-                interaction_tertiary: to_data_color(&theme.color.gold.interaction_tertiary),
-                border_primary: to_data_color(&theme.color.gold.border_primary),
-                border_secondary: to_data_color(&theme.color.gold.border_secondary),
-                border_tertiary: to_data_color(&theme.color.gold.border_tertiary),
-                solid_primary: to_data_color(&theme.color.gold.solid_primary),
-                solid_secondary: to_data_color(&theme.color.gold.solid_secondary),
-                text_primary: to_data_color(&theme.color.gold.text_primary),
-                text_secondary: to_data_color(&theme.color.gold.text_secondary),
-            },
-            brown: UiColorPaletteData {
-                background_primary: to_data_color(&theme.color.brown.background_primary),
-                background_secondary: to_data_color(&theme.color.brown.background_secondary),
-                interaction_primary: to_data_color(&theme.color.brown.interaction_primary),
-                interaction_secondary: to_data_color(&theme.color.brown.interaction_secondary),
-                interaction_tertiary: to_data_color(&theme.color.brown.interaction_tertiary),
-                border_primary: to_data_color(&theme.color.brown.border_primary),
-                border_secondary: to_data_color(&theme.color.brown.border_secondary),
-                border_tertiary: to_data_color(&theme.color.brown.border_tertiary),
-                solid_primary: to_data_color(&theme.color.brown.solid_primary),
-                solid_secondary: to_data_color(&theme.color.brown.solid_secondary),
-                text_primary: to_data_color(&theme.color.brown.text_primary),
-                text_secondary: to_data_color(&theme.color.brown.text_secondary),
-            },
-            orange: UiColorPaletteData {
-                background_primary: to_data_color(&theme.color.orange.background_primary),
-                background_secondary: to_data_color(&theme.color.orange.background_secondary),
-                interaction_primary: to_data_color(&theme.color.orange.interaction_primary),
-                interaction_secondary: to_data_color(&theme.color.orange.interaction_secondary),
-                interaction_tertiary: to_data_color(&theme.color.orange.interaction_tertiary),
-                border_primary: to_data_color(&theme.color.orange.border_primary),
-                border_secondary: to_data_color(&theme.color.orange.border_secondary),
-                border_tertiary: to_data_color(&theme.color.orange.border_tertiary),
-                solid_primary: to_data_color(&theme.color.orange.solid_primary),
-                solid_secondary: to_data_color(&theme.color.orange.solid_secondary),
-                text_primary: to_data_color(&theme.color.orange.text_primary),
-                text_secondary: to_data_color(&theme.color.orange.text_secondary),
-            },
-            amber: UiColorPaletteData {
-                background_primary: to_data_color(&theme.color.amber.background_primary),
-                background_secondary: to_data_color(&theme.color.amber.background_secondary),
-                interaction_primary: to_data_color(&theme.color.amber.interaction_primary),
-                interaction_secondary: to_data_color(&theme.color.amber.interaction_secondary),
-                interaction_tertiary: to_data_color(&theme.color.amber.interaction_tertiary),
-                border_primary: to_data_color(&theme.color.amber.border_primary),
-                border_secondary: to_data_color(&theme.color.amber.border_secondary),
-                border_tertiary: to_data_color(&theme.color.amber.border_tertiary),
-                solid_primary: to_data_color(&theme.color.amber.solid_primary),
-                solid_secondary: to_data_color(&theme.color.amber.solid_secondary),
-                text_primary: to_data_color(&theme.color.amber.text_primary),
-                text_secondary: to_data_color(&theme.color.amber.text_secondary),
-            },
-            yellow: UiColorPaletteData {
-                background_primary: to_data_color(&theme.color.yellow.background_primary),
-                background_secondary: to_data_color(&theme.color.yellow.background_secondary),
-                interaction_primary: to_data_color(&theme.color.yellow.interaction_primary),
-                interaction_secondary: to_data_color(&theme.color.yellow.interaction_secondary),
-                interaction_tertiary: to_data_color(&theme.color.yellow.interaction_tertiary),
-                border_primary: to_data_color(&theme.color.yellow.border_primary),
-                border_secondary: to_data_color(&theme.color.yellow.border_secondary),
-                border_tertiary: to_data_color(&theme.color.yellow.border_tertiary),
-                solid_primary: to_data_color(&theme.color.yellow.solid_primary),
-                solid_secondary: to_data_color(&theme.color.yellow.solid_secondary),
-                text_primary: to_data_color(&theme.color.yellow.text_primary),
-                text_secondary: to_data_color(&theme.color.yellow.text_secondary),
-            },
-            lime: UiColorPaletteData {
-                background_primary: to_data_color(&theme.color.lime.background_primary),
-                background_secondary: to_data_color(&theme.color.lime.background_secondary),
-                interaction_primary: to_data_color(&theme.color.lime.interaction_primary),
-                interaction_secondary: to_data_color(&theme.color.lime.interaction_secondary),
-                interaction_tertiary: to_data_color(&theme.color.lime.interaction_tertiary),
-                border_primary: to_data_color(&theme.color.lime.border_primary),
-                border_secondary: to_data_color(&theme.color.lime.border_secondary),
-                border_tertiary: to_data_color(&theme.color.lime.border_tertiary),
-                solid_primary: to_data_color(&theme.color.lime.solid_primary),
-                solid_secondary: to_data_color(&theme.color.lime.solid_secondary),
-                text_primary: to_data_color(&theme.color.lime.text_primary),
-                text_secondary: to_data_color(&theme.color.lime.text_secondary),
-            },
-            mint: UiColorPaletteData {
-                background_primary: to_data_color(&theme.color.mint.background_primary),
-                background_secondary: to_data_color(&theme.color.mint.background_secondary),
-                interaction_primary: to_data_color(&theme.color.mint.interaction_primary),
-                interaction_secondary: to_data_color(&theme.color.mint.interaction_secondary),
-                interaction_tertiary: to_data_color(&theme.color.mint.interaction_tertiary),
-                border_primary: to_data_color(&theme.color.mint.border_primary),
-                border_secondary: to_data_color(&theme.color.mint.border_secondary),
-                border_tertiary: to_data_color(&theme.color.mint.border_tertiary),
-                solid_primary: to_data_color(&theme.color.mint.solid_primary),
-                solid_secondary: to_data_color(&theme.color.mint.solid_secondary),
-                text_primary: to_data_color(&theme.color.mint.text_primary),
-                text_secondary: to_data_color(&theme.color.mint.text_secondary),
-            },
-            sky: UiColorPaletteData {
-                background_primary: to_data_color(&theme.color.sky.background_primary),
-                background_secondary: to_data_color(&theme.color.sky.background_secondary),
-                interaction_primary: to_data_color(&theme.color.sky.interaction_primary),
-                interaction_secondary: to_data_color(&theme.color.sky.interaction_secondary),
-                interaction_tertiary: to_data_color(&theme.color.sky.interaction_tertiary),
-                border_primary: to_data_color(&theme.color.sky.border_primary),
-                border_secondary: to_data_color(&theme.color.sky.border_secondary),
-                border_tertiary: to_data_color(&theme.color.sky.border_tertiary),
-                solid_primary: to_data_color(&theme.color.sky.solid_primary),
-                solid_secondary: to_data_color(&theme.color.sky.solid_secondary),
-                text_primary: to_data_color(&theme.color.sky.text_primary),
-                text_secondary: to_data_color(&theme.color.sky.text_secondary),
-            },
+            white: to_palette(&theme.color.white),
+            black: to_palette(&theme.color.black),
+            gray: to_palette(&theme.color.gray),
+            gray_a: to_palette(&theme.color.gray_a),
+            mauve: to_palette(&theme.color.mauve),
+            mauve_a: to_palette(&theme.color.mauve_a),
+            slate: to_palette(&theme.color.slate),
+            slate_a: to_palette(&theme.color.slate_a),
+            sage: to_palette(&theme.color.sage),
+            sage_a: to_palette(&theme.color.sage_a),
+            olive: to_palette(&theme.color.olive),
+            olive_a: to_palette(&theme.color.olive_a),
+            sand: to_palette(&theme.color.sand),
+            sand_a: to_palette(&theme.color.sand_a),
+            tomato: to_palette(&theme.color.tomato),
+            tomato_a: to_palette(&theme.color.tomato_a),
+            red: to_palette(&theme.color.red),
+            red_a: to_palette(&theme.color.red_a),
+            ruby: to_palette(&theme.color.ruby),
+            ruby_a: to_palette(&theme.color.ruby_a),
+            crimson: to_palette(&theme.color.crimson),
+            crimson_a: to_palette(&theme.color.crimson_a),
+            pink: to_palette(&theme.color.pink),
+            pink_a: to_palette(&theme.color.pink_a),
+            plum: to_palette(&theme.color.plum),
+            plum_a: to_palette(&theme.color.plum_a),
+            purple: to_palette(&theme.color.purple),
+            purple_a: to_palette(&theme.color.purple_a),
+            violet: to_palette(&theme.color.violet),
+            violet_a: to_palette(&theme.color.violet_a),
+            iris: to_palette(&theme.color.iris),
+            iris_a: to_palette(&theme.color.iris_a),
+            indigo: to_palette(&theme.color.indigo),
+            indigo_a: to_palette(&theme.color.indigo_a),
+            blue: to_palette(&theme.color.blue),
+            blue_a: to_palette(&theme.color.blue_a),
+            cyan: to_palette(&theme.color.cyan),
+            cyan_a: to_palette(&theme.color.cyan_a),
+            teal: to_palette(&theme.color.teal),
+            teal_a: to_palette(&theme.color.teal_a),
+            jade: to_palette(&theme.color.jade),
+            jade_a: to_palette(&theme.color.jade_a),
+            green: to_palette(&theme.color.green),
+            green_a: to_palette(&theme.color.green_a),
+            grass: to_palette(&theme.color.grass),
+            grass_a: to_palette(&theme.color.grass_a),
+            bronze: to_palette(&theme.color.bronze),
+            bronze_a: to_palette(&theme.color.bronze_a),
+            gold: to_palette(&theme.color.gold),
+            gold_a: to_palette(&theme.color.gold_a),
+            brown: to_palette(&theme.color.brown),
+            brown_a: to_palette(&theme.color.brown_a),
+            orange: to_palette(&theme.color.orange),
+            orange_a: to_palette(&theme.color.orange_a),
+            amber: to_palette(&theme.color.amber),
+            amber_a: to_palette(&theme.color.amber_a),
+            yellow: to_palette(&theme.color.yellow),
+            yellow_a: to_palette(&theme.color.yellow_a),
+            lime: to_palette(&theme.color.lime),
+            lime_a: to_palette(&theme.color.lime_a),
+            mint: to_palette(&theme.color.mint),
+            mint_a: to_palette(&theme.color.mint_a),
+            sky: to_palette(&theme.color.sky),
+            sky_a: to_palette(&theme.color.sky_a),
         },
-        accent_color: UiAccentColorPaletteData {
-            background_primary: to_data_color(&theme.accent_color.background_primary),
-            background_secondary: to_data_color(&theme.accent_color.background_secondary),
-            interaction_primary: to_data_color(&theme.accent_color.interaction_primary),
-            interaction_secondary: to_data_color(&theme.accent_color.interaction_secondary),
-            interaction_tertiary: to_data_color(&theme.accent_color.interaction_tertiary),
-            border_primary: to_data_color(&theme.accent_color.border_primary),
-            border_secondary: to_data_color(&theme.accent_color.border_secondary),
-            border_tertiary: to_data_color(&theme.accent_color.border_tertiary),
-            solid_primary: to_data_color(&theme.accent_color.solid_primary),
-            solid_secondary: to_data_color(&theme.accent_color.solid_secondary),
-            text_primary: to_data_color(&theme.accent_color.text_primary),
-            text_secondary: to_data_color(&theme.accent_color.text_secondary),
-        },
-        gray_accent_color: UiGrayAccentColorPaletteData {
-            background_primary: to_data_color(&theme.gray_accent_color.background_primary),
-            background_secondary: to_data_color(&theme.gray_accent_color.background_secondary),
-            interaction_primary: to_data_color(&theme.gray_accent_color.interaction_primary),
-            interaction_secondary: to_data_color(&theme.gray_accent_color.interaction_secondary),
-            interaction_tertiary: to_data_color(&theme.gray_accent_color.interaction_tertiary),
-            border_primary: to_data_color(&theme.gray_accent_color.border_primary),
-            border_secondary: to_data_color(&theme.gray_accent_color.border_secondary),
-            border_tertiary: to_data_color(&theme.gray_accent_color.border_tertiary),
-            solid_primary: to_data_color(&theme.gray_accent_color.solid_primary),
-            solid_secondary: to_data_color(&theme.gray_accent_color.solid_secondary),
-            text_primary: to_data_color(&theme.gray_accent_color.text_primary),
-            text_secondary: to_data_color(&theme.gray_accent_color.text_secondary),
-        },
+        accent_color: to_palette(&theme.accent_color),
+        gray_accent_color: to_palette(&theme.gray_accent_color),
     };
 
     // Use ron crate for serialization
@@ -1586,4 +652,20 @@ fn to_data_color(c: &Color) -> [f32; 4] {
     // Use to_srgba() as the original data used hex, implying sRGB
     let srgba = c.to_srgba();
     [srgba.red, srgba.green, srgba.blue, srgba.alpha]
+}
+fn to_palette(data: &UiColorPalette) -> UiColorPaletteData {
+    UiColorPaletteData {
+        step01: to_data_color(&data.step01),
+        step02: to_data_color(&data.step02),
+        step03: to_data_color(&data.step03),
+        step04: to_data_color(&data.step04),
+        step05: to_data_color(&data.step05),
+        step06: to_data_color(&data.step06),
+        step07: to_data_color(&data.step07),
+        step08: to_data_color(&data.step08),
+        step09: to_data_color(&data.step09),
+        step10: to_data_color(&data.step10),
+        step11: to_data_color(&data.step11),
+        step12: to_data_color(&data.step12),
+    }
 }

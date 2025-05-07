@@ -121,8 +121,8 @@ impl CardBuilder {
         let mut card_entity_commands = parent.spawn((
             Card, // Marker
             Node { ..card_style },
-            BackgroundColor(theme.color.gray.background_secondary),
-            BorderColor(theme.color.gray.border_secondary),
+            BackgroundColor(theme.color.gray.step02),
+            BorderColor(theme.color.gray.step07),
             BorderRadius::all(Val::Px(theme.layout.radius.base)), // Bevy 0.15+
         ));
 
@@ -203,10 +203,10 @@ fn spawn_element<'w, 'a>(
             font_size,
         } => {
             let (text_color, default_size) = match style {
-                ElementStyle::Normal => (theme.color.gray.text_primary, 14.0),
-                ElementStyle::Title => (theme.color.gray.text_primary, 18.0), // Größer für Titel
-                ElementStyle::Description => (theme.color.gray.text_primary, 14.0), // Gedämpft für Beschreibung
-                ElementStyle::Muted => (theme.color.gray.solid_primary, 14.0),
+                ElementStyle::Normal => (theme.color.gray.step11, 14.0),
+                ElementStyle::Title => (theme.color.gray.step11, 18.0), // Größer für Titel
+                ElementStyle::Description => (theme.color.gray.step11, 14.0), // Gedämpft für Beschreibung
+                ElementStyle::Muted => (theme.color.gray.step09, 14.0),
             };
 
             parent.spawn((
@@ -231,7 +231,7 @@ fn spawn_element<'w, 'a>(
                     image: handle,
                     ..default()
                 },
-                BackgroundColor(theme.color.tomato.solid_primary),
+                BackgroundColor(theme.color.tomato.step09),
                 Visibility::Inherited,
             ));
         }

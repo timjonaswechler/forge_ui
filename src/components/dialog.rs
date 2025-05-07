@@ -192,7 +192,7 @@ impl DialogBuilder {
                 ..default()
             },
             border_radius: BorderRadius::all(Val::Px(theme.layout.radius.base)),
-            background_color: BackgroundColor(theme.color.gray.background_secondary), // Popover-Farbe für Content
+            background_color: BackgroundColor(theme.color.gray.step02), // Popover-Farbe für Content
             // Transform zum Zentrieren verwenden
             // Verschiebe um -50% der *eigenen* Breite/Höhe nach links/oben
             transform: Transform::from_translation(Vec3::new(-50., -50., 0.)),
@@ -279,7 +279,7 @@ impl DialogBuilder {
                             font_size: 18.0, // Titelgröße
                             ..default()
                         },
-                        TextColor(theme.color.white.text_primary), // Popover-Farbe
+                        TextColor(theme.color.white.step11), // Popover-Farbe
                     ));
                     // .insert(DialogTitle); // Optional Marker hinzufügen
                 }
@@ -292,7 +292,7 @@ impl DialogBuilder {
                                 font_size: 14.0,
                                 ..default()
                             },
-                            TextColor(theme.color.white.solid_primary), // Gedämpft
+                            TextColor(theme.color.white.step09), // Gedämpft
                         ))
                         .insert(Node {
                             margin: UiRect::bottom(Val::Px(10.0)),
@@ -312,8 +312,8 @@ impl DialogBuilder {
                     content_builder
                         .spawn(Node {
                             position_type: PositionType::Absolute,
-                            top: Val::Px(theme.layout.spacing), // Kleiner Abstand zum Rand
-                            right: Val::Px(theme.layout.spacing),
+                            top: Val::Px(theme.layout.padding.base), // Kleiner Abstand zum Rand
+                            right: Val::Px(theme.layout.padding.base),
 
                             ..default()
                         })

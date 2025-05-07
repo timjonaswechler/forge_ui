@@ -95,8 +95,8 @@ impl ButtonStyleDef {
 pub fn get_button_style_def(variant: ButtonVariant, theme: &UiTheme) -> ButtonStyleDef {
     // Definiere Standard Overlays und Disabled Alphas hier zur Wiederverwendung
     // Passe die Farben/Alphas nach Bedarf an!
-    let hover_overlay = theme.color.white.interaction_primary; // z.B. Srgba(1.0, 1.0, 1.0, 0.1)
-    let pressed_overlay = theme.color.black.interaction_secondary; // z.B. Srgba(0.0, 0.0, 0.0, 0.1)
+    let hover_overlay = theme.color.white.step03; // z.B. Srgba(1.0, 1.0, 1.0, 0.1)
+    let pressed_overlay = theme.color.black.step04; // z.B. Srgba(0.0, 0.0, 0.0, 0.1)
     let default_disabled_bg_alpha = 0.5;
     let default_disabled_border_alpha = 0.5;
     let default_disabled_text_alpha = 0.5;
@@ -104,9 +104,9 @@ pub fn get_button_style_def(variant: ButtonVariant, theme: &UiTheme) -> ButtonSt
     match variant {
         ButtonVariant::Default => ButtonStyleDef {
             // --- Base Colors ---
-            background_color: theme.color.gray.background_primary, // Standard gray background
-            text_color: theme.color.gray.text_primary,             // Standard text color
-            border_color: theme.color.gray.border_primary,         // Matching border
+            background_color: theme.color.blue.step09, // Standard gray background
+            text_color: theme.accent_color.step01,     // Standard text color
+            border_color: theme.accent_color.step06,   // Matching border
 
             // --- Interaction Overlays ---
             hover_bg_overlay: hover_overlay, // Standard hover effect
@@ -120,9 +120,9 @@ pub fn get_button_style_def(variant: ButtonVariant, theme: &UiTheme) -> ButtonSt
             disabled_text_alpha: default_disabled_text_alpha,
         },
         ButtonVariant::Destructive => ButtonStyleDef {
-            background_color: theme.color.tomato.interaction_primary,
-            text_color: theme.color.tomato.text_primary,
-            border_color: theme.color.tomato.border_primary, // Ggf. expliziter Rand
+            background_color: theme.color.tomato.step03,
+            text_color: theme.color.tomato.step11,
+            border_color: theme.color.tomato.step06, // Ggf. expliziter Rand
             hover_bg_overlay: hover_overlay,
             pressed_bg_overlay: pressed_overlay,
             hover_border_overlay: hover_overlay,
@@ -134,8 +134,8 @@ pub fn get_button_style_def(variant: ButtonVariant, theme: &UiTheme) -> ButtonSt
         ButtonVariant::Outline => ButtonStyleDef {
             // --- Base Colors ---
             background_color: Color::NONE, // Key feature: No background initially
-            text_color: theme.color.gray.text_primary, // Standard text color
-            border_color: theme.color.gray.border_secondary, // Visible border required
+            text_color: theme.color.gray.step11, // Standard text color
+            border_color: theme.color.gray.step07, // Visible border required
 
             // --- Interaction Overlays ---
             // Outline buttons often get a slight background on hover/press
@@ -150,9 +150,9 @@ pub fn get_button_style_def(variant: ButtonVariant, theme: &UiTheme) -> ButtonSt
             disabled_text_alpha: default_disabled_text_alpha, // Fade text
         },
         ButtonVariant::Secondary => ButtonStyleDef {
-            background_color: theme.color.gray.background_secondary,
-            text_color: theme.color.gray.text_secondary,
-            border_color: theme.color.gray.border_secondary,
+            background_color: theme.color.gray.step02,
+            text_color: theme.color.gray.step12,
+            border_color: theme.color.gray.step07,
             hover_bg_overlay: hover_overlay,
             pressed_bg_overlay: pressed_overlay,
             hover_border_overlay: hover_overlay,
@@ -163,7 +163,7 @@ pub fn get_button_style_def(variant: ButtonVariant, theme: &UiTheme) -> ButtonSt
         },
         ButtonVariant::Ghost => ButtonStyleDef {
             background_color: Color::NONE,
-            text_color: theme.color.gray.text_primary,
+            text_color: theme.color.gray.step11,
             border_color: Color::NONE,
             hover_bg_overlay: hover_overlay, // Nur BG-Effekt
             pressed_bg_overlay: pressed_overlay,
@@ -175,7 +175,7 @@ pub fn get_button_style_def(variant: ButtonVariant, theme: &UiTheme) -> ButtonSt
         },
         ButtonVariant::Link => ButtonStyleDef {
             background_color: Color::NONE,
-            text_color: theme.color.blue.text_primary, // Spezifische Link-Farbe
+            text_color: theme.color.blue.step11, // Spezifische Link-Farbe
             border_color: Color::NONE,
             hover_bg_overlay: Color::NONE, // Kein BG-Overlay für Links
             pressed_bg_overlay: Color::NONE,
@@ -183,7 +183,7 @@ pub fn get_button_style_def(variant: ButtonVariant, theme: &UiTheme) -> ButtonSt
             pressed_border_overlay: Color::NONE,
             // TODO: Text-Unterstreichung bei Hover (dies geht nicht nur über Farbe)
             // Links oft leicht dunkler/heller bei Press
-            // pressed_text_color: theme.color.blue.text_primary.darker(0.1), // Hypothetisch
+            // pressed_text_color: theme.color.blue.step11.darker(0.1), // Hypothetisch
             disabled_bg_alpha: 0.0,
             disabled_border_alpha: 0.0,
             disabled_text_alpha: default_disabled_text_alpha,
@@ -228,7 +228,7 @@ impl ButtonStyle {
             },
             border_radius: BorderRadius::all(default_radius),
             transform: Transform::default(),
-            background_color: BackgroundColor(theme.color.gray.background_primary),
+            background_color: BackgroundColor(theme.color.gray.step01),
             // … Defaults für weitere Felder
         }
     }

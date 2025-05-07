@@ -1,6 +1,7 @@
 // crates/forge_ui/src/theme/mod.rs
 pub mod data;
 pub mod runtime;
+pub mod settings;
 pub mod systems;
 
 // Re-export necessary types publicly

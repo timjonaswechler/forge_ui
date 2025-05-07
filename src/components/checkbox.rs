@@ -130,7 +130,7 @@ impl CheckboxBuilder {
             BorderRadius::all(Val::Px(theme.layout.radius.xs)), // Kleinerer Radius als bei Buttons
             // Start-Styling (wird im System aktualisiert)
             BackgroundColor(Color::NONE),
-            BorderColor(theme.color.gray.border_primary),
+            BorderColor(theme.color.gray.step06),
             // FocusPolicy
             if self.disabled {
                 FocusPolicy::Pass
@@ -215,8 +215,8 @@ pub fn update_checkbox_visuals(
     // --- END GUARD ---
     for (interaction, state, mut bg_color, mut border_color) in checkbox_query.iter_mut() {
         // Basis-Styling basierend auf checked/disabled
-        let base_bg_color = theme.color.gray.background_secondary; // Oder theme.input / theme.background ?
-        let base_border_color = theme.color.gray.border_primary; // Oder theme.input / theme.border ?
+        let base_bg_color = theme.color.gray.step02; // Oder theme.input / theme.background ?
+        let base_border_color = theme.color.gray.step06; // Oder theme.input / theme.border ?
 
         // Endgültige Farben (Disabled und Hover/Pressed)
         if state.disabled {

@@ -1,9 +1,8 @@
 // src/theme/runtime/layout.rs
-use crate::theme::data::UiLayoutData;
+use crate::{plugin::UiConfig, theme::data::UiLayoutData};
 
 #[derive(Debug, Clone)]
 pub struct UiLayout {
-    pub spacing: f32,
     pub padding: UiSpacing,
     pub margin: UiSpacing,
     pub gap: UiSpacing,
@@ -37,11 +36,13 @@ pub struct UiRadius {
     pub full: f32,
 }
 
-pub fn build(data: &UiLayoutData, rem: f32, ui_scaling: f32) -> UiLayout {
-    let base = data.spacing * rem * ui_scaling;
-    let s = |v: f32| v * base;
+pub fn build(data: &UiLayoutData, config: &UiConfig) -> UiLayout {
+    let base_spacing = config.spacing_factor * config.font_size_base * config.scaling;
+    let base_rem = config.font_size_base * config.scaling;
+    let s = |v: f32| v * base_spacing;
+    let rem = |v: f32| v * base_rem;
+
     UiLayout {
-        spacing: base,
         padding: UiSpacing {
             xs: s(data.padding.xs),
             sm: s(data.padding.sm),
@@ -76,15 +77,15 @@ pub fn build(data: &UiLayoutData, rem: f32, ui_scaling: f32) -> UiLayout {
             x5l: s(data.gap.x5l),
         },
         radius: UiRadius {
-            xs: s(data.radius.xs),
-            sm: s(data.radius.sm),
-            base: s(data.radius.base),
-            lg: s(data.radius.lg),
-            xl: s(data.radius.xl),
-            x2l: s(data.radius.x2l),
-            x3l: s(data.radius.x3l),
-            x4l: s(data.radius.x4l),
-            full: s(data.radius.full),
+            xs: rem(data.radius.xs),
+            sm: rem(data.radius.sm),
+            base: rem(data.radius.base),
+            lg: rem(data.radius.lg),
+            xl: rem(data.radius.xl),
+            x2l: rem(data.radius.x2l),
+            x3l: rem(data.radius.x3l),
+            x4l: rem(data.radius.x4l),
+            full: rem(data.radius.full),
         },
         border: UiSpacing {
             xs: data.border.xs,

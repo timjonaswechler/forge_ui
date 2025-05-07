@@ -316,7 +316,7 @@ impl UiRoot {
                     padding: UiRect::all(Val::Px(theme.layout.padding.base)),
                     ..default()
                 },
-                BackgroundColor(theme.color.gray.background_primary), // Beispielhintergrundfarbe
+                BackgroundColor(theme.color.gray.step01), // Beispielhintergrundfarbe
             ))
             .id() // Gibt die Entity ID der Wurzel zurück
     }
