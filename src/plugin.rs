@@ -76,7 +76,7 @@ impl Plugin for ForgeUiPlugin {
             .init_asset_loader::<IconLoader>()
             .init_asset::<Icon>()
             .init_asset::<UiThemeData>()
-            .add_plugins(RonAssetPlugin::<UiThemeData>::new(&["theme.ron"]))
+            .add_plugins(RonAssetPlugin::<UiThemeData>::new(&["theme.ron", "theme"]))
             // 4) Theme loading systems in LoadingTheme
             .add_systems(OnEnter(UiState::LoadingTheme), load_theme_asset)
             .add_systems(
