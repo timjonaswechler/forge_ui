@@ -31,7 +31,7 @@ use crate::{
     CloseDialogEvent,
     DialogPortalContainer,
     OpenDialogEvent,
-    ToggleSwitchChangedEvent,
+    SwitchChangedEvent,
 };
 
 // UI lifecycle phases for Bevy 0.16
@@ -145,7 +145,7 @@ impl Plugin for ForgeUiPlugin {
             )
             // endregion --- Checkboxen ---
             // region: --- Toggle Switches ---
-            .add_event::<ToggleSwitchChangedEvent>()
+            .add_event::<SwitchChangedEvent>()
             .add_systems(
                 Update,
                 (
@@ -156,6 +156,7 @@ impl Plugin for ForgeUiPlugin {
             // endregion --- Toggle Switches ---
             // region: --- Dialoge ---
             .insert_resource(DialogPortalContainer::default())
+            .insert_resource(ActiveDialogs::default())
             .add_event::<OpenDialogEvent>()
             .add_event::<CloseDialogEvent>()
             .add_systems(

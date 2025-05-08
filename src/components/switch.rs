@@ -5,23 +5,23 @@ use bevy::{ecs::system::EntityCommands, prelude::*, ui::FocusPolicy};
 
 // --- Komponenten ---
 #[derive(Component, Clone, Copy)]
-pub struct ToggleSwitchTrackColor(pub Option<Color>);
+pub struct SwitchTrackColor(pub Option<Color>);
 
 #[derive(Component, Default, Debug, Clone, Copy)]
 /// Marker für den Switch-Track
-pub struct ToggleSwitchMarker;
+pub struct SwitchMarker;
 
 #[derive(Component, Default, Debug, Clone, Copy)]
 /// Marker für den Daumen
-pub struct ToggleSwitchThumbMarker;
+pub struct SwitchThumbMarker;
 
 #[derive(Component, Default, Debug, Clone, Copy)]
 /// Marker für die Overlay-Node bei disabled
-pub struct ToggleSwitchOverlayMarker;
+pub struct SwitchOverlayMarker;
 
 #[derive(Component, Debug, Clone, Copy, PartialEq, Eq)]
 /// Zustand des Switches
-pub struct ToggleSwitchState {
+pub struct SwitchState {
     pub checked: bool,
     pub disabled: bool,
 }
@@ -29,14 +29,14 @@ pub struct ToggleSwitchState {
 // --- Events ---
 
 #[derive(Event, Debug, Clone)]
-pub struct ToggleSwitchChangedEvent {
+pub struct SwitchChangedEvent {
     pub switch_entity: Entity,
     pub is_checked: bool,
 }
 
 // --- Builder ---
 
-pub struct ToggleSwitchBuilder {
+pub struct SwitchBuilder {
     checked: bool,
     disabled: bool,
     markers: Vec<Box<dyn FnOnce(&mut EntityCommands) + Send + Sync>>,
@@ -44,7 +44,7 @@ pub struct ToggleSwitchBuilder {
     track_color: Option<Color>,
 }
 
-impl Default for ToggleSwitchBuilder {
+impl Default for SwitchBuilder {
     fn default() -> Self {
         Self {
             checked: false,
@@ -56,7 +56,7 @@ impl Default for ToggleSwitchBuilder {
     }
 }
 
-impl ToggleSwitchBuilder {
+impl SwitchBuilder {
     pub fn new() -> Self {
         Self::default()
     }
@@ -103,7 +103,7 @@ impl ToggleSwitchBuilder {
         let thumb_radius = track_radius - (track_h_px - thumb_sz_px) / 2.0;
 
         let mut cmd = parent.spawn((
-            ToggleSwitchMarker,
+            SwitchMarker,
             Button,
             Node {
                 width: track_w,
@@ -119,7 +119,7 @@ impl ToggleSwitchBuilder {
                 border: UiRect::all(Val::Px(1.0)),
                 ..default()
             },
-            ToggleSwitchTrackColor(self.track_color),
+            SwitchTrackColor(self.track_color),
             BackgroundColor(if self.checked {
                 if let Some(color) = self.track_color {
                     color
@@ -135,7 +135,7 @@ impl ToggleSwitchBuilder {
             } else {
                 FocusPolicy::Block
             },
-            ToggleSwitchState {
+            SwitchState {
                 checked: self.checked,
                 disabled: self.disabled,
             },
@@ -144,7 +144,7 @@ impl ToggleSwitchBuilder {
         // Thumb
         cmd.with_children(|p| {
             p.spawn((
-                ToggleSwitchThumbMarker,
+                SwitchThumbMarker,
                 Node {
                     width: thumb_sz,
                     height: thumb_sz,
@@ -158,7 +158,7 @@ impl ToggleSwitchBuilder {
 
             // Overlay für disabled
             p.spawn((
-                ToggleSwitchOverlayMarker,
+                SwitchOverlayMarker,
                 Node {
                     position_type: PositionType::Absolute,
                     left: Val::Px(0.),
@@ -192,16 +192,16 @@ pub fn update_toggle_switch_visuals(
         Query<
             (
                 Entity,
-                &ToggleSwitchState,
+                &SwitchState,
                 &Children,
                 &mut Node,
                 &mut BackgroundColor,
-                Option<&ToggleSwitchTrackColor>,
+                Option<&SwitchTrackColor>,
             ),
-            Changed<ToggleSwitchState>,
+            Changed<SwitchState>,
         >,
-        Query<&mut BackgroundColor, With<ToggleSwitchThumbMarker>>,
-        Query<&mut Visibility, With<ToggleSwitchOverlayMarker>>,
+        Query<&mut BackgroundColor, With<SwitchThumbMarker>>,
+        Query<&mut Visibility, With<SwitchOverlayMarker>>,
     )>,
 ) {
     let theme = if let Some(t) = theme_opt {
@@ -259,15 +259,15 @@ pub fn update_toggle_switch_visuals(
 /// Klick-Handler toggelt Zustand
 pub fn handle_toggle_switch_clicks(
     mut q: Query<
-        (Entity, &Interaction, &mut ToggleSwitchState),
-        (Changed<Interaction>, With<ToggleSwitchMarker>),
+        (Entity, &Interaction, &mut SwitchState),
+        (Changed<Interaction>, With<SwitchMarker>),
     >,
-    mut ev: EventWriter<ToggleSwitchChangedEvent>,
+    mut ev: EventWriter<SwitchChangedEvent>,
 ) {
     for (entity, int, mut state) in q.iter_mut() {
         if *int == Interaction::Pressed && !state.disabled {
             state.checked = !state.checked;
-            ev.write(ToggleSwitchChangedEvent {
+            ev.write(SwitchChangedEvent {
                 switch_entity: entity,
                 is_checked: state.checked,
             });
