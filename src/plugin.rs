@@ -4,6 +4,30 @@ use bevy_asset_loader::prelude::*;
 use bevy_common_assets::ron::RonAssetPlugin;
 
 use crate::assets::{FontAssets, Icon, IconAssets, IconLoader};
+use crate::components::{
+    button::{
+        handle_button_clicks_event, handle_button_clicks_fn, update_button_visuals,
+        ButtonClickedEvent,
+    },
+    checkbox::{
+        handle_checkbox_clicks, update_checkbox_visuals,
+        update_checkmark_visibility_on_state_change, CheckboxChangedEvent,
+    },
+    dialog::{
+        close_dialog_system, handle_overlay_click_system, open_dialog_system,
+        register_initially_open_dialogs, setup_dialog_portal_container, ActiveDialogs,
+        CloseDialogEvent, DialogPortalContainer, OpenDialogEvent,
+    },
+    radio::{
+        handle_radio_click, update_radio_indicator, update_radio_visuals, OnSelectId,
+        OnSelectRegistry,
+    },
+    switch::{handle_toggle_switch_clicks, update_toggle_switch_visuals, SwitchChangedEvent},
+    tabs::{
+        handle_tab_triggers, populate_initial_tab_content, update_tabs_visuals, TabChangedEvent,
+        TabId,
+    },
+};
 use crate::theme::{
     data::UiThemeData,
     settings::Appearance,
@@ -11,27 +35,6 @@ use crate::theme::{
         check_theme_asset_readiness, hot_reload_theme_system, load_theme_asset, save_theme_system,
     },
     UiTheme,
-};
-use crate::{
-    close_dialog_system,
-    handle_button_clicks_event,
-    handle_button_clicks_fn,
-    handle_checkbox_clicks,
-    handle_overlay_click_system,
-    handle_toggle_switch_clicks, // NEU
-    open_dialog_system,
-    register_initially_open_dialogs,
-    update_button_visuals,
-    update_checkbox_visuals,
-    update_checkmark_visibility_on_state_change,
-    update_toggle_switch_visuals, // NEU
-    ActiveDialogs,
-    ButtonClickedEvent,
-    CheckboxChangedEvent,
-    CloseDialogEvent,
-    DialogPortalContainer,
-    OpenDialogEvent,
-    SwitchChangedEvent,
 };
 
 // UI lifecycle phases for Bevy 0.16
@@ -122,6 +125,8 @@ impl Plugin for ForgeUiPlugin {
             )
             // endregion
             // region: 5) Register UI systems in Ready
+            // region: --- Badge ---
+            // endregion --- Badge ---
             // region: --- Button ---
             .add_event::<ButtonClickedEvent>()
             .add_systems(
@@ -162,6 +167,7 @@ impl Plugin for ForgeUiPlugin {
             .add_systems(
                 Update,
                 (
+                    setup_dialog_portal_container.run_if(in_state(UiState::Ready)),
                     open_dialog_system.run_if(in_state(UiState::Ready)),
                     handle_overlay_click_system.run_if(in_state(UiState::Ready)),
                     close_dialog_system
@@ -171,6 +177,28 @@ impl Plugin for ForgeUiPlugin {
                 ),
             )
             // endregion --- Dialoge ---
+            // region: --- Radio Buttons ---
+            .insert_resource(OnSelectRegistry::default())
+            .add_systems(
+                Update,
+                (
+                    update_radio_visuals,
+                    handle_radio_click,
+                    update_radio_indicator,
+                )
+                    .run_if(in_state(UiState::Ready)), // Stelle sicher, dass dies korrekt ist für deine State-Logik
+            )
+            // endregion --- Radio Buttons ---
+            // region: --- Tabs ---
+            .add_event::<TabChangedEvent<TabId>>() // Use TabValue newtype as the event type
+            .add_systems(
+                Update,
+                (
+                    update_tabs_visuals::<TabId>.run_if(in_state(UiState::Ready)),
+                    handle_tab_triggers::<TabId>.run_if(in_state(UiState::Ready)),
+                    populate_initial_tab_content::<TabId>.run_if(in_state(UiState::Ready)),
+                ),
+            )
             // endregion --- UI-Systeme in Ready ---
             // Debug: Save theme on S key
             .add_systems(

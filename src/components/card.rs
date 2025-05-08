@@ -2,9 +2,8 @@
 
 use bevy::{ecs::system::EntityCommands, prelude::*};
 
-use crate::theme::UiTheme;
-// Wichtig: ButtonBuilder importieren, falls er im Footer verwendet wird
 use crate::components::button::ButtonBuilder;
+use crate::theme::UiTheme;
 
 // --- Marker Komponenten (bleiben gleich) ---
 #[derive(Component, Default, Debug, Clone, Copy)]

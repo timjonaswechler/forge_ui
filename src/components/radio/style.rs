@@ -1,8 +1,7 @@
 // src/components/radio/style.rs
 
 use crate::components::radio::enums::{RadioSize, RadioVariant};
-use crate::components::text::TextStyle;
-use crate::components::UiTheme;
+use crate::UiTheme;
 use bevy::prelude::*;
 
 /// Defines styling for each variant/state
@@ -23,10 +22,10 @@ pub fn get_radio_style_def(
     // implement mapping from theme and variant/size
     match variant {
         RadioVariant::Primary => RadioStyleDef {
-            background: theme.primary_bg,
-            border: theme.primary_border,
-            indicator: theme.primary_focus,
-            disabled: theme.disabled,
+            background: theme.accent_color.step09,
+            border: theme.accent_color.step07,
+            indicator: theme.accent_color.step12,
+            disabled: theme.color.black.step05,
             size: match size {
                 RadioSize::Small => 12.0,
                 RadioSize::Medium => 16.0,
@@ -34,10 +33,10 @@ pub fn get_radio_style_def(
             },
         },
         RadioVariant::Secondary => RadioStyleDef {
-            background: theme.secondary_bg,
-            border: theme.secondary_border,
-            indicator: theme.secondary_focus,
-            disabled: theme.disabled,
+            background: theme.gray_accent_color.step09,
+            border: theme.gray_accent_color.step07,
+            indicator: theme.gray_accent_color.step12,
+            disabled: theme.color.black.step05,
             size: match size {
                 RadioSize::Small => 12.0,
                 RadioSize::Medium => 16.0,
