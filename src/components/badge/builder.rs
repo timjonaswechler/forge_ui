@@ -1,31 +1,10 @@
-// crates/forge_ui/src/badge.rs
-
-use crate::theme::UiTheme;
-
+// src/components/badge/builder.rs
 use bevy::prelude::*;
 
-// --- Komponenten ---
+use super::utils::get_badge_colors;
+use super::{BadgeMarker, BadgeVariant}; // Importiere den Marker
 
-/// Marker-Komponente für Badges.
-#[derive(Component, Default, Debug, Clone, Copy)]
-pub struct BadgeMarker;
-
-// Für Badges brauchen wir oft keine separate State-Komponente,
-// es sei denn, sie sollen anklickbar oder anderweitig interaktiv sein.
-
-// --- Varianten-Enum ---
-// Definiert die verschiedenen visuellen Stile des Badges.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default)]
-pub enum BadgeVariant {
-    #[default]
-    Default, // Primärfarbe
-    Secondary,
-    Destructive,
-    Outline,
-}
-
-// --- Builder ---
-
+use crate::theme::UiTheme;
 pub struct BadgeBuilder {
     text: String,
     variant: BadgeVariant,
@@ -117,34 +96,3 @@ impl BadgeBuilder {
             .id()
     }
 }
-
-// --- Helferfunktion für Farben ---
-fn get_badge_colors(variant: &BadgeVariant, theme: &UiTheme) -> (Color, Color, Color) {
-    // Gibt zurück: (Hintergrund, Text, Rand)
-    match variant {
-        BadgeVariant::Default => (
-            theme.color.gray.step01, // Hintergrund: Primär
-            theme.color.gray.step11, // Text: Passend zu Primär
-            theme.color.gray.step06, // Rand: Gleich wie Hintergrund (wirkt transparent)
-        ),
-        BadgeVariant::Secondary => (
-            theme.color.gray.step02,
-            theme.color.gray.step12,
-            theme.color.gray.step07, // Rand: Gleich wie Hintergrund (wirkt transparent)
-        ),
-        BadgeVariant::Destructive => (
-            theme.color.tomato.step01,
-            theme.color.tomato.step11,
-            theme.color.tomato.step06,
-        ),
-        BadgeVariant::Outline => (
-            Color::NONE,             // Kein Hintergrund
-            theme.color.gray.step11, // Text: Passend zu Primär
-            theme.color.gray.step06, // Sichtbarer Rand
-        ),
-    }
-}
-
-// --- Systeme ---
-// Aktuell benötigen Badges keine eigenen Update-Systeme,
-// es sei denn, sie werden interaktiv (Hover-Effekte etc.).

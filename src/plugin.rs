@@ -29,8 +29,9 @@ use crate::{
     ButtonClickedEvent,
     CheckboxChangedEvent,
     CloseDialogEvent,
+    DialogPortalContainer,
     OpenDialogEvent,
-    ToggleSwitchChangedEvent, // NEU
+    ToggleSwitchChangedEvent,
 };
 
 // UI lifecycle phases for Bevy 0.16
@@ -84,24 +85,27 @@ impl ForgeUiPlugin {
 impl Plugin for ForgeUiPlugin {
     fn build(&self, app: &mut App) {
         app
-            // 1) Initialize UiState and set starting variant
+            // region: 1) Initialize UiState and set starting variant
             .init_state::<UiState>()
             .insert_resource(self.config.clone())
             .insert_state(UiState::LoadingAssets)
-            // 2) Asset-Loading: load FontAssets and IconAssets, then go to LoadingTheme
+            // endregion
+            // region: 2) Asset-Loading: load FontAssets and IconAssets, then go to LoadingTheme
             .add_loading_state(
                 LoadingState::new(UiState::LoadingAssets)
                     .continue_to_state(UiState::LoadingTheme)
                     .load_collection::<FontAssets>()
                     .load_collection::<IconAssets>(),
             )
-            // 3) Register RON asset type
+            // endregion
+            // region: 3) Register RON asset type
             .register_asset_reflect::<UiThemeData>()
             .init_asset_loader::<IconLoader>()
             .init_asset::<Icon>()
             .init_asset::<UiThemeData>()
             .add_plugins(RonAssetPlugin::<UiThemeData>::new(&["theme.ron", "theme"]))
-            // 4) Theme loading systems in LoadingTheme
+            // endregion
+            // region: 4) Theme loading systems in LoadingTheme
             .add_systems(OnEnter(UiState::LoadingTheme), load_theme_asset)
             .add_systems(
                 Update,
@@ -116,34 +120,57 @@ impl Plugin for ForgeUiPlugin {
                 })
                 .run_if(in_state(UiState::LoadingTheme)),
             )
-            // 5) Normal UI systems in Ready
+            // endregion
+            // region: 5) Register UI systems in Ready
+            // region: --- Button ---
             .add_event::<ButtonClickedEvent>()
-            .add_event::<CheckboxChangedEvent>()
-            .add_event::<OpenDialogEvent>()
-            .add_event::<CloseDialogEvent>()
-            .add_event::<ToggleSwitchChangedEvent>()
-            .insert_resource(ActiveDialogs::default())
             .add_systems(
                 Update,
                 (
                     update_button_visuals.run_if(in_state(UiState::Ready)),
                     handle_button_clicks_event.run_if(in_state(UiState::Ready)),
-                    update_button_visuals.run_if(in_state(UiState::Ready)),
-                    handle_button_clicks_event.run_if(in_state(UiState::Ready)),
                     handle_button_clicks_fn.run_if(in_state(UiState::Ready)),
+                ),
+            )
+            // endregion --- Button ---
+            // region: --- Checkboxen ---
+            .add_event::<CheckboxChangedEvent>()
+            .add_systems(
+                Update,
+                (
                     update_checkbox_visuals.run_if(in_state(UiState::Ready)),
                     handle_checkbox_clicks.run_if(in_state(UiState::Ready)),
+                    update_checkmark_visibility_on_state_change.run_if(in_state(UiState::Ready)),
+                ),
+            )
+            // endregion --- Checkboxen ---
+            // region: --- Toggle Switches ---
+            .add_event::<ToggleSwitchChangedEvent>()
+            .add_systems(
+                Update,
+                (
                     handle_toggle_switch_clicks.run_if(in_state(UiState::Ready)),
                     update_toggle_switch_visuals.after(handle_toggle_switch_clicks),
-                    update_checkmark_visibility_on_state_change.run_if(in_state(UiState::Ready)),
+                ),
+            )
+            // endregion --- Toggle Switches ---
+            // region: --- Dialoge ---
+            .insert_resource(DialogPortalContainer::default())
+            .add_event::<OpenDialogEvent>()
+            .add_event::<CloseDialogEvent>()
+            .add_systems(
+                Update,
+                (
                     open_dialog_system.run_if(in_state(UiState::Ready)),
                     handle_overlay_click_system.run_if(in_state(UiState::Ready)),
                     close_dialog_system
                         .run_if(in_state(UiState::Ready))
-                        .run_if(|active: Res<ActiveDialogs>| active.current_modal.is_some()),
+                        .run_if(|active: Res<ActiveDialogs>| !active.modals.is_empty()),
                     register_initially_open_dialogs.run_if(in_state(UiState::Ready)),
                 ),
             )
+            // endregion --- Dialoge ---
+            // endregion --- UI-Systeme in Ready ---
             // Debug: Save theme on S key
             .add_systems(
                 Update,

@@ -1,18 +1,31 @@
+use std::time::Duration;
+
 // crates/forge_ui/src/dialog.rs
-use bevy::ecs::system::EntityCommands;
+use bevy::platform::collections::HashSet;
 use bevy::prelude::*;
 use bevy::ui::FocusPolicy;
+use bevy_tweening::lens::*;
+use bevy_tweening::*;
 use uuid::Uuid;
-
-use std::hash::Hash;
 
 use crate::components::button::{ButtonBuilder, ButtonSize, ButtonVariant};
 use crate::theme::UiTheme; // Für Schließen-Button
 
 // --- Ressourcen (ggf. global definieren) ---
-#[derive(Resource, Default, Debug)]
+
+/// In deiner Datei ganz oben (oder in einem eigenen Modul):
+#[derive(Resource, Debug, Clone)]
+pub struct DialogPortalContainer(pub Entity);
+
+impl Default for DialogPortalContainer {
+    fn default() -> Self {
+        DialogPortalContainer(Entity::from_raw(0))
+    }
+}
+
+#[derive(Resource, Default)]
 pub struct ActiveDialogs {
-    pub current_modal: Option<Entity>,
+    pub modals: HashSet<Entity>,
 }
 
 #[derive(Bundle, Clone, Default)]
@@ -24,6 +37,15 @@ pub struct DialogContentStyle {
     // Weitere Style-Komponenten nach Bedarf
 }
 // --- Komponenten ---
+
+#[derive(Component)]
+pub struct KeepMounted(pub bool);
+
+#[derive(Component)]
+pub struct DialogState {
+    pub open: bool,
+    pub default_open: bool,
+}
 
 /// Eindeutige ID für eine Dialog-Instanz.
 #[derive(Component, Debug, Clone, PartialEq, Eq, Hash)]
@@ -84,6 +106,11 @@ pub struct DialogBuilder {
     id: DialogId,
     modal: bool,
     initially_open: bool,
+    controlled_open: Option<bool>,
+    default_open: bool,
+    portal_container: Option<Entity>,
+    animate: bool,
+    on_open_change: Option<Box<dyn Fn(DialogState) + Send + Sync>>,
     content_builder: Option<DialogContentBuilderFn>,
     // Styling-Optionen?
     width: Option<Val>,
@@ -102,6 +129,11 @@ impl DialogBuilder {
             id,
             modal: true, // Standardmäßig modal
             initially_open: false,
+            controlled_open: None,
+            default_open: false,
+            portal_container: None,
+            animate: false,
+            on_open_change: None,
             content_builder: None,
             width: Some(Val::Px(400.0)), // Standardbreite
             height: None,                // Auto-Höhe
@@ -156,6 +188,41 @@ impl DialogBuilder {
         self
     }
 
+    pub fn open(mut self, open: bool) -> Self {
+        self.controlled_open = Some(open);
+        self
+    }
+
+    /// steuert Öffnen/Schließen von außen (controlled)
+    pub fn controlled_open(mut self, open: bool) -> Self {
+        self.controlled_open = Some(open);
+        self
+    }
+
+    /// setzt den Default-Open-Status (uncontrolled)
+    pub fn default_open(mut self, default_open: bool) -> Self {
+        self.default_open = default_open;
+        self
+    }
+
+    /// Ziel-Container für das Portal
+    pub fn with_portal(mut self, container: Entity) -> Self {
+        self.portal_container = Some(container);
+        self
+    }
+
+    /// Fade-In/Fade-Out aktivieren
+    pub fn with_animation(mut self, enable: bool) -> Self {
+        self.animate = enable;
+        self
+    }
+
+    /// Callback, wenn sich open ändert
+    pub fn on_open_change(mut self, f: impl Fn(DialogState) + Send + Sync + 'static) -> Self {
+        self.on_open_change = Some(Box::new(f));
+        self
+    }
+
     /// Spawnt den kompletten Dialog (Overlay + Content).
     /// Der Dialog wird normalerweise **nicht** direkt als Kind eines anderen UI-Elements
     /// gespawnt, sondern auf oberster Ebene (z.B. als Kind der Root-UI-Node oder
@@ -163,40 +230,37 @@ impl DialogBuilder {
     #[must_use]
     pub fn spawn<'w, 'a>(
         self,
-        commands: &'a mut Commands, // Braucht Commands, da oft Top-Level
+        commands: &'a mut Commands,
         theme: &UiTheme,
         font_handle: &Handle<Font>,
-        // Optional: Icons für Default Close Button übergeben
+        // Optional: Icons für Default Close Button
         close_icon: Option<&Handle<Image>>,
-        // Optional: Eine feste Parent-Entity für alle Dialoge
+        // Optional: Eine feste Parent-Entity für alle Dialoge (Portal-Container)
         dialog_container: Option<Entity>,
-    ) -> EntityCommands<'a> {
+        portal_container: Option<Res<DialogPortalContainer>>,
+    ) -> Entity {
+        let target_container = dialog_container.or_else(|| portal_container.map(|r| r.0));
         let overlay_bg = self.overlay_color.unwrap_or(Color::BLACK.with_alpha(0.6));
 
         // Styling für den Content-Bereich
         let mut content_style = DialogContentStyle {
             node: Node {
-                position_type: PositionType::Absolute, // Wird im Overlay zentriert
-                // Positionierung in der Mitte des Overlays
+                position_type: PositionType::Absolute,
                 left: Val::Percent(50.),
                 top: Val::Percent(50.),
-
-                // Innere Gestaltung
                 display: Display::Flex,
                 flex_direction: FlexDirection::Column,
-                padding: UiRect::all(Val::Px(theme.layout.padding.base)), // Padding für den Content
-                width: self.width.unwrap_or(Val::Px(400.0)),              // Direkt setzen
-                height: self.height.unwrap_or_default(),                  // Direkt setzen
-                row_gap: Val::Px(12.0), // Abstand zwischen Elementen im Dialog
-
+                padding: UiRect::all(Val::Px(theme.layout.padding.base)),
+                width: self.width.unwrap_or(Val::Px(400.0)),
+                height: self.height.unwrap_or_default(),
+                row_gap: Val::Px(12.0),
                 ..default()
             },
             border_radius: BorderRadius::all(Val::Px(theme.layout.radius.base)),
-            background_color: BackgroundColor(theme.color.gray.step02), // Popover-Farbe für Content
-            // Transform zum Zentrieren verwenden
-            // Verschiebe um -50% der *eigenen* Breite/Höhe nach links/oben
+            background_color: BackgroundColor(theme.color.gray.step02),
             transform: Transform::from_translation(Vec3::new(-50., -50., 0.)),
         };
+
         if let Some(w) = self.width {
             content_style.node.width = w;
         }
@@ -204,54 +268,71 @@ impl DialogBuilder {
             content_style.node.height = h;
         }
 
-        let mut root_node_visibility = Visibility::Hidden; // Standardmäßig versteckt
-        if self.initially_open {
-            root_node_visibility = Visibility::Visible;
-            // TODO: Muss beim Start in ActiveDialogs registriert werden (in einem System?)
-        }
+        // Initiale Sichtbarkeit anhand controlled/uncontrolled
+        let is_open = self.controlled_open.unwrap_or(self.default_open);
+        let initial_visibility = if is_open {
+            Visibility::Visible
+        } else {
+            Visibility::Hidden
+        };
 
         // --- Spawnen des Dialog-Wurzelknotens ---
-        // Dieser Knoten kontrolliert die Sichtbarkeit und enthält Overlay + Content
-        let mut root_entity_commands = commands.spawn((
-            DialogRoot {
-                id: self.id.clone(),
-                initially_open: self.initially_open,
-                modal: self.modal,
-            },
-            Node {
-                position_type: PositionType::Absolute,
-                left: Val::Px(0.),
-                top: Val::Px(0.),
-                width: Val::Percent(100.),
-                height: Val::Percent(100.),
-                // Zentriert Content per Flexbox (im Overlay)
-                display: Display::Flex,
-                justify_content: JustifyContent::Center,
-                align_items: AlignItems::Center,
-                ..default()
-            },
-            // Wird nur sichtbar geschaltet, wenn der Dialog offen ist
-            root_node_visibility,
-            // Z-Index SEHR WICHTIG: Muss über anderer UI liegen
-            GlobalZIndex(10), // Beispielwert, ggf. anpassen
-        ));
+        let root_entity = commands
+            .spawn((
+                DialogRoot {
+                    id: self.id.clone(),
+                    initially_open: self.default_open,
+                    modal: self.modal,
+                },
+                Node {
+                    position_type: PositionType::Absolute,
+                    left: Val::Px(0.),
+                    top: Val::Px(0.),
+                    width: Val::Percent(100.),
+                    height: Val::Percent(100.),
+                    display: Display::Flex,
+                    justify_content: JustifyContent::Center,
+                    align_items: AlignItems::Center,
+                    ..default()
+                },
+                initial_visibility,
+                GlobalZIndex(10),
+                DialogState {
+                    open: is_open,
+                    default_open: self.default_open,
+                },
+            ))
+            .id();
+        // Content-Entity schon vorab erzeugen!
+        let content_entity = commands.spawn((DialogContent, content_style.clone())).id();
 
-        let _root_entity_id = root_entity_commands.id();
-
-        // Optional: Dialog als Kind eines speziellen Containers spawnen
-        let mut pending_parent: Option<Entity> = None;
-        if let Some(container) = dialog_container {
-            pending_parent = Some(container);
+        if let Some(container) = target_container {
+            commands.entity(container).add_child(root_entity);
+        }
+        // Animation: Fade-In / Scale
+        if self.animate {
+            commands
+                .entity(content_entity)
+                .insert(Animator::new(Tween::new(
+                    EaseFunction::QuadraticInOut,
+                    Duration::from_millis(200),
+                    TransformScaleLens {
+                        start: Vec3::ZERO,
+                        end: Vec3::ONE,
+                    },
+                )));
+            // Keep mounted während Ausblendung
+            commands.entity(root_entity).insert(KeepMounted(true));
         }
 
-        // --- Kinder des Wurzelknotens: Overlay und Content ---
-        root_entity_commands.with_children(|builder| {
-            // 1. Overlay spawnen (wenn modal)
+        // Kinder: Overlay & Content
+        commands.entity(root_entity).with_children(|builder| {
+            // Overlay nur bei modal
             if self.modal {
                 builder.spawn((
                     DialogOverlay,
                     Node {
-                        position_type: PositionType::Absolute, // Über Content
+                        position_type: PositionType::Absolute,
                         left: Val::Px(0.),
                         top: Val::Px(0.),
                         width: Val::Percent(100.),
@@ -259,101 +340,68 @@ impl DialogBuilder {
                         ..default()
                     },
                     BackgroundColor(overlay_bg),
-                    // Overlay bekommt niedrigeren Z-Index als Content
                     GlobalZIndex(9),
                     FocusPolicy::Block,
                 ));
             }
-
-            // 2. Content-Node spawnen
-            let mut content_cmd = builder.spawn((DialogContent, content_style));
-
-            // Internen Content des Dialogs bauen
-            content_cmd.with_children(|content_builder| {
-                // A. Optionaler Standard-Titel und Beschreibung
-                if let Some(title_text) = self.title {
-                    content_builder.spawn((
-                        Text::new(title_text),
-                        TextFont {
-                            font: font_handle.clone(),
-                            font_size: 18.0, // Titelgröße
-                            ..default()
-                        },
-                        TextColor(theme.color.white.step11), // Popover-Farbe
-                    ));
-                    // .insert(DialogTitle); // Optional Marker hinzufügen
-                }
-                if let Some(desc_text) = self.description {
-                    content_builder
-                        .spawn((
-                            Text::new(desc_text),
-                            TextFont {
-                                font: font_handle.clone(),
-                                font_size: 14.0,
-                                ..default()
-                            },
-                            TextColor(theme.color.white.step09), // Gedämpft
-                        ))
-                        .insert(Node {
-                            margin: UiRect::bottom(Val::Px(10.0)),
-                            ..default()
-                        });
-                    // .insert(DialogDescription); // Optional Marker hinzufügen
-                }
-
-                // B. Benutzerdefinierter Inhalt
-                if let Some(builder_fn) = self.content_builder {
-                    (builder_fn)(content_builder, theme, font_handle);
-                }
-
-                // C. Optionaler Standard-Schließen-Button
-                if self.show_default_close_button {
-                    // Button absolut oben rechts positionieren
-                    content_builder
-                        .spawn(Node {
-                            position_type: PositionType::Absolute,
-                            top: Val::Px(theme.layout.padding.base), // Kleiner Abstand zum Rand
-                            right: Val::Px(theme.layout.padding.base),
-
-                            ..default()
-                        })
-                        .with_children(|btn_parent| {
-                            let mut close_button_builder = ButtonBuilder::new()
-                                .size(ButtonSize::Icon)
-                                .variant(ButtonVariant::Ghost) // Unauffällig// `maybe_with_icon` (hypothetisch) oder if-Abfrage
-                                .add_marker(|cmd| {
-                                    cmd.insert(DialogCloseTrigger);
-                                }); // Wichtig!
-
-                            // Wenn ein Icon übergeben wurde, verwenden Sie es, sonst Text "X"
-                            if let Some(icon_handle) = close_icon {
-                                close_button_builder =
-                                    close_button_builder.with_icon(icon_handle.clone());
-                            } else {
-                                // Fallback, wenn kein Icon übergeben wurde
-                                close_button_builder = close_button_builder.with_text("X");
-                            }
-
-                            // Button final spawnen
-                            let _ = close_button_builder.spawn(btn_parent, theme, font_handle);
-                        });
-                }
-            });
         });
-        // Nach dem Spawnen: Parent-Child-Beziehung setzen, um Borrow-Konflikte zu vermeiden
-        let root_entity_commands_id = root_entity_commands.id();
-        let result = root_entity_commands;
 
-        // Gib den Borrow auf commands frei, bevor wir ihn erneut verwenden
-        drop(result);
+        commands.entity(content_entity).with_children(|content| {
+            if let Some(title_text) = self.title {
+                content.spawn((
+                    Text::new(title_text),
+                    TextFont {
+                        font: font_handle.clone(),
+                        font_size: 18.0,
+                        ..default()
+                    },
+                    TextColor(theme.color.white.step11),
+                ));
+            }
+            if let Some(desc_text) = self.description {
+                content.spawn((
+                    Text::new(desc_text),
+                    TextFont {
+                        font: font_handle.clone(),
+                        font_size: 14.0,
+                        ..default()
+                    },
+                    TextColor(theme.color.white.step09),
+                    Node {
+                        margin: UiRect::bottom(Val::Px(10.0)),
+                        ..default()
+                    },
+                ));
+            }
+            if let Some(builder_fn) = self.content_builder {
+                (builder_fn)(content, theme, font_handle);
+            }
+            if self.show_default_close_button {
+                content
+                    .spawn(Node {
+                        position_type: PositionType::Absolute,
+                        top: Val::Px(theme.layout.padding.base),
+                        right: Val::Px(theme.layout.padding.base),
+                        ..default()
+                    })
+                    .with_children(|btn_parent| {
+                        let mut close_btn = ButtonBuilder::new()
+                            .size(ButtonSize::Icon)
+                            .variant(ButtonVariant::Ghost)
+                            .add_marker(|cmd| {
+                                cmd.insert(DialogCloseTrigger);
+                            });
+                        if let Some(icon) = close_icon {
+                            close_btn = close_btn.with_icon(icon.clone());
+                        } else {
+                            close_btn = close_btn.with_text("X");
+                        }
+                        let _ = close_btn.spawn(btn_parent, theme, font_handle);
+                    });
+            }
+        }); // Inhalt des Dialogs (Title, Description, Custom Content, Close-Button)
 
-        if let Some(container) = pending_parent {
-            commands
-                .entity(container)
-                .add_child(root_entity_commands_id);
-        }
-
-        commands.entity(root_entity_commands_id)
+        root_entity
     }
 }
 
@@ -361,53 +409,33 @@ impl DialogBuilder {
 
 /// System zum Öffnen eines Dialogs über Event.
 pub fn open_dialog_system(
-    _commands: Commands,
     mut ev_open: EventReader<OpenDialogEvent>,
-    mut q_dialogs: Query<(Entity, &DialogRoot, &mut Visibility)>,
-    mut active_dialogs: ResMut<ActiveDialogs>,
-    // audio: Option<Res<Audio>>, // Optional: Sound abspielen
-    // Optional: Geladene Sound-Assets
+    mut q_dialogs: Query<(Entity, &DialogRoot, &mut Visibility, &mut DialogState)>,
+    mut active: ResMut<ActiveDialogs>,
 ) {
-    for event in ev_open.read() {
-        info!("Received OpenDialogEvent for ID: {:?}", event.0);
-        let mut found_dialog = false;
-        for (entity, root, mut visibility) in q_dialogs.iter_mut() {
-            if root.id == event.0 {
-                info!("  Found matching DialogRoot Entity: {:?}", entity);
-                found_dialog = true;
-                if *visibility == Visibility::Hidden {
-                    info!("    Dialog was hidden, setting to Inherited.");
-                    *visibility = Visibility::Inherited;
-                    info!("Opened dialog: {:?}", root.id);
-
-                    // Alten modalen schließen, falls ein neuer geöffnet wird
+    for OpenDialogEvent(id) in ev_open.read() {
+        for (entity, root, mut vis, mut state) in q_dialogs.iter_mut() {
+            if root.id == *id {
+                if !state.open {
+                    *vis = Visibility::Inherited;
+                    state.open = true;
+                    // wenn modal, schließe alle anderen
                     if root.modal {
-                        if let Some(old_modal_entity) = active_dialogs.current_modal {
-                            if old_modal_entity != entity {
-                                // Finde den alten Dialog und verstecke ihn
-                                if let Ok((_, _, mut old_vis)) = q_dialogs.get_mut(old_modal_entity)
+                        for &old in active.modals.iter() {
+                            if old != entity {
+                                if let Ok((_, _, mut old_vis, mut old_state)) =
+                                    q_dialogs.get_mut(old)
                                 {
                                     *old_vis = Visibility::Hidden;
-                                    info!("Closed previous modal dialog implicitly.");
+                                    old_state.open = false;
                                 }
                             }
                         }
-                        active_dialogs.current_modal = Some(entity);
+                        active.modals.insert(entity);
                     }
-
-                    // Optional: Open Sound
-                    // if let Some(audio_res) = audio { audio_res.play(...); }
-
-                    // Fokus setzen? (Schwierig in Bevy UI)
-                    // commands.entity(entity).insert(RequestFocus); // Hypothetische Komponente
-                } else {
-                    info!("    Dialog was already visible."); // <<< Log 4
                 }
-                break; // ID gefunden, Schleife beenden
+                break;
             }
-        }
-        if !found_dialog {
-            error!("  DialogRoot with ID {:?} not found in query!", event.0); // <<< Log 5
         }
     }
 }
@@ -457,40 +485,25 @@ pub fn open_dialog_system(
 /// );
 /// ```
 pub fn close_dialog_system(
-    mut ev_close: EventReader<CloseDialogEvent>,
-    q_close_triggers: Query<
-        &Interaction,
-        (Changed<Interaction>, With<DialogCloseTrigger>, With<Button>),
-    >,
+    ev_close: EventReader<CloseDialogEvent>,
+    q_close_triggers: Query<&Interaction, (Changed<Interaction>, With<DialogCloseTrigger>)>,
     keyboard: Res<ButtonInput<KeyCode>>,
-    mut active_dialogs: ResMut<ActiveDialogs>,
-    mut q_dialogs: Query<(Entity, &mut Visibility, &DialogRoot)>,
+    mut active: ResMut<ActiveDialogs>,
+    mut q_dialogs: Query<(Entity, &mut Visibility, &DialogRoot, &mut DialogState)>,
 ) {
-    let mut close_requested = !ev_close.is_empty();
-    ev_close.clear();
+    let should = !ev_close.is_empty()
+        || q_close_triggers.iter().any(|i| *i == Interaction::Pressed)
+        || keyboard.just_pressed(KeyCode::Escape);
 
-    for interaction in q_close_triggers.iter() {
-        if *interaction == Interaction::Pressed {
-            close_requested = true;
-            break;
-        }
-    }
-
-    if keyboard.just_pressed(KeyCode::Escape) {
-        close_requested = true;
-    }
-
-    if close_requested {
-        if let Some(modal_entity) = active_dialogs.current_modal.take() {
-            if let Ok((_, mut visibility, _)) = q_dialogs.get_mut(modal_entity) {
-                if *visibility != Visibility::Hidden {
-                    *visibility = Visibility::Hidden;
-                    info!("Closed modal dialog.");
-                }
+    if should {
+        // alle offenen modalen Dialoge schließen
+        for &entity in active.modals.iter() {
+            if let Ok((_, mut vis, _, mut state)) = q_dialogs.get_mut(entity) {
+                *vis = Visibility::Hidden;
+                state.open = false;
             }
-        } else {
-            warn!("Close requested, but no modal dialog was active.");
         }
+        active.modals.clear();
     }
 }
 
@@ -529,12 +542,31 @@ pub fn register_initially_open_dialogs(
 ) {
     for (entity, root) in query.iter() {
         if root.initially_open && root.modal {
-            if let Some(old_modal) = active_dialogs.current_modal {
+            if let Some(old_modal) = active_dialogs.modals.get(&entity) {
                 warn!("Multiple initially open modal dialogs detected! Only the last one registered ({:?}) will be active. Previous: {:?}", entity, old_modal);
             }
-            active_dialogs.current_modal = Some(entity);
+            active_dialogs.modals.clear();
+            active_dialogs.modals.insert(entity);
             info!("Registered initially open modal dialog: {:?}", root.id);
         }
         // TODO: Handle initially open non-modal dialogs if needed
     }
+}
+
+pub fn setup_dialog_portal_container(mut commands: Commands) {
+    let container = commands
+        .spawn((
+            Node {
+                position_type: PositionType::Absolute,
+                left: Val::Percent(50.),
+                top: Val::Percent(50.),
+                width: Val::Percent(100.),
+                height: Val::Percent(100.),
+                ..default()
+            },
+            BackgroundColor(Color::NONE),
+            Name::new("DialogPortalContainer"),
+        ))
+        .id();
+    commands.insert_resource(DialogPortalContainer(container));
 }

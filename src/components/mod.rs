@@ -1,5 +1,4 @@
 pub mod badge;
-pub use badge::*;
 
 pub mod button;
 pub use button::*;
