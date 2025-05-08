@@ -25,6 +25,10 @@ pub struct UiFontSize {
     pub x7l: f32,
     pub x8l: f32,
     pub x9l: f32,
+    pub h1: f32,
+    pub h2: f32,
+    pub h3: f32,
+    pub h4: f32,
 }
 
 #[derive(Debug, Clone)]
@@ -65,6 +69,10 @@ pub fn build(assets: &FontAssets, data: &UiTypographyData, config: &UiConfig) ->
             x7l: size(data.font_size.x7l),
             x8l: size(data.font_size.x8l),
             x9l: size(data.font_size.x9l),
+            h1: size(data.font_size.x4l),
+            h2: size(data.font_size.x2l),
+            h3: size(data.font_size.xl),
+            h4: size(data.font_size.lg),
         },
         font_family: UiFontFamilies {
             default: assets.default.clone(),

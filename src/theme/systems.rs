@@ -141,6 +141,10 @@ pub fn hot_reload_theme_system(
                         x7l: data.font.font_size.x7l * effective_font_size * effective_ui_scaling,
                         x8l: data.font.font_size.x8l * effective_font_size * effective_ui_scaling,
                         x9l: data.font.font_size.x9l * effective_font_size * effective_ui_scaling,
+                        h1: data.font.font_size.x4l * effective_font_size * effective_ui_scaling,
+                        h2: data.font.font_size.x2l * effective_font_size * effective_ui_scaling,
+                        h3: data.font.font_size.xl * effective_font_size * effective_ui_scaling,
+                        h4: data.font.font_size.lg * effective_font_size * effective_ui_scaling,
                     };
                     // Font-Familien nur setzen, wenn der Pfad nicht leer ist
                     if !data.font.font_family.default.is_empty() {
