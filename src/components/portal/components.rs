@@ -2,7 +2,7 @@
 use bevy::prelude::*;
 
 #[derive(Resource, Debug, Clone, Copy)]
-pub(crate) struct ForgeUiPortalRoot(pub(crate) Entity);
+pub struct ForgeUiPortalRoot(pub Entity);
 
 impl Default for ForgeUiPortalRoot {
     fn default() -> Self {

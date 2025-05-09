@@ -10,7 +10,7 @@ pub mod layout;
 pub mod typography;
 
 pub use color::{UiAccentColorPalette, UiColorPalette, UiColorPalettes, UiGrayAccentColorPalette};
-pub use layout::{UiLayout, UiRadius, UiSpacing};
+pub use layout::{UiLayout, UiRadius, UiSpacing, UiZIndex};
 pub use typography::{FontVariants, UiFontFamilies, UiFontSize, UiTypography};
 
 #[derive(Debug, Clone, Asset, TypePath, Resource)]

@@ -1,10 +1,9 @@
 pub mod badge;
-
 pub mod button;
 pub use button::*;
 
-pub mod card;
-pub use card::*;
+// pub mod card;
+// pub use card::*;
 
 pub mod checkbox;
 pub use checkbox::*;
@@ -15,8 +14,8 @@ pub use dialog::*;
 pub mod label;
 pub use label::*;
 
-pub mod tabs;
-pub use tabs::*;
+// pub mod tabs;
+// pub use tabs::*;
 
 pub mod switch;
 pub use switch::*;

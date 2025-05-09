@@ -1,36 +1,21 @@
+// components/button/components.rs
 use super::enums::{ButtonSize, ButtonVariant};
 use bevy::prelude::*;
-use std::marker::PhantomData;
+// PhantomData wird nicht mehr für OnClick benötigt
 
 /// Marker component for query filtering
 #[derive(Component, Default, Debug)]
 pub struct ButtonMarker;
 
-/// Stores the configured state and resolved style definition of the button
+/// Stores the configured state of the button
 #[derive(Component, Debug, Clone)]
 pub struct ButtonState {
     pub variant: ButtonVariant,
     pub size: ButtonSize,
     pub disabled: bool,
-    // pub style_def: ButtonStyleDef,
 }
 
-/// Optional: Component to hold a direct callback closure.
-#[derive(Component, Clone)]
-pub struct OnClick<F: Fn() + Send + Sync + 'static> {
-    pub(super) callback: F, // Machen wir 'pub(super)' damit nur call() public ist
-    pub(super) _marker: PhantomData<F>,
-}
-
-impl<F: Fn() + Send + Sync + 'static> OnClick<F> {
-    pub fn new(callback: F) -> Self {
-        Self {
-            callback,
-            _marker: PhantomData,
-        }
-    }
-    // Behalten wir die call Methode public
-    pub fn call(&self) {
-        (self.callback)();
-    }
-}
+// NEU: Default-Aktionstyp, wenn keine spezifische Aktion benötigt wird.
+// Wird auch im Builder als Default-Typ für A verwendet.
+#[derive(Component, Clone, Debug, Default, PartialEq, Eq, Hash)]
+pub struct NoAction;

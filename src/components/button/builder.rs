@@ -1,50 +1,34 @@
-use super::components::{ButtonMarker, ButtonState, OnClick};
+// components/button/builder.rs
 use super::enums::{ButtonChild, ButtonSize, ButtonVariant};
-
 use super::style::{apply_size_style, base_style, get_button_style_def};
+use crate::button::{ButtonMarker, ButtonState, NoAction}; // NoAction importieren
 use crate::theme::UiTheme;
 use bevy::ecs::system::EntityCommands;
 use bevy::prelude::*;
 use bevy::ui::FocusPolicy;
 
 // ======== Builder ========
-pub struct ButtonBuilder<F: Fn() + Send + Sync + 'static = fn()> {
+pub struct ButtonBuilder<A: Component + Clone + Send + Sync + 'static = NoAction> {
     variant: ButtonVariant,
     size: ButtonSize,
     disabled: bool,
     children_defs: Vec<ButtonChild>,
-    on_click: Option<OnClick<F>>,
+    action: Option<A>, // Speichert die Aktion vom Typ A
     width: Option<Val>,
     height: Option<Val>,
     border_radius: Option<Val>,
     markers: Vec<Box<dyn FnOnce(&mut EntityCommands) + Send + Sync>>,
 }
 
-// --- impl Clone, Default, new ---
-impl<F: Fn() + Send + Sync + 'static + Clone> Clone for ButtonBuilder<F> {
-    fn clone(&self) -> Self {
-        Self {
-            variant: self.variant.clone(),
-            size: self.size.clone(),
-            disabled: self.disabled.clone(),
-            children_defs: self.children_defs.clone(),
-            on_click: self.on_click.clone(),
-            width: self.width.clone(),
-            height: self.height.clone(),
-            border_radius: self.border_radius.clone(),
-            markers: Vec::new(), // cannot clone FnOnce closures, so start fresh
-        }
-    }
-}
-
-impl Default for ButtonBuilder<fn()> {
+// Default-Implementierung für ButtonBuilder<NoAction>
+impl Default for ButtonBuilder<NoAction> {
     fn default() -> Self {
         Self {
             variant: ButtonVariant::Default,
             size: ButtonSize::Default,
             disabled: false,
             children_defs: Vec::new(),
-            on_click: None,
+            action: None, // Standardmäßig keine Aktion
             width: None,
             height: None,
             border_radius: None,
@@ -53,14 +37,32 @@ impl Default for ButtonBuilder<fn()> {
     }
 }
 
-impl ButtonBuilder<fn()> {
+// new() Methode für den häufigsten Fall (Button ohne spezifische externe Aktion)
+impl ButtonBuilder<NoAction> {
     pub fn new() -> Self {
         Self::default()
     }
 }
 
 // --- Methoden ---
-impl<F: Fn() + Send + Sync + 'static> ButtonBuilder<F> {
+// Methoden für alle ButtonBuilder<A>
+impl<A: Component + Clone + Send + Sync + 'static> ButtonBuilder<A> {
+    /// Erstellt einen neuen Builder, der für eine spezifische Aktion A vorgesehen ist.
+    /// Nützlich, wenn der Typ A nicht Default implementiert oder man Klarheit will.
+    pub fn new_for_action() -> Self {
+        ButtonBuilder {
+            variant: ButtonVariant::Default,
+            size: ButtonSize::Default,
+            disabled: false,
+            children_defs: Vec::new(),
+            action: None, // Aktion wird über .action() gesetzt
+            width: None,
+            height: None,
+            border_radius: None,
+            markers: Vec::new(),
+        }
+    }
+
     pub fn variant(mut self, variant: ButtonVariant) -> Self {
         self.variant = variant;
         self
@@ -86,56 +88,42 @@ impl<F: Fn() + Send + Sync + 'static> ButtonBuilder<F> {
         self
     }
 
-    pub fn with_icon(mut self, icon_handle: Handle<Image>) -> Self {
+    pub fn icon(mut self, icon_handle: Handle<Image>) -> Self {
+        // icon statt with_icon
         if self.size == ButtonSize::Icon {
-            self.children_defs.clear();
+            self.children_defs.clear(); // Nur ein Icon bei ButtonSize::Icon
         }
         self.children_defs.push(ButtonChild::Icon(icon_handle));
         self
     }
 
-    pub fn with_text(mut self, text: impl Into<String>) -> Self {
+    pub fn text(mut self, text: impl Into<String>) -> Self {
+        // text statt with_text
         if self.size != ButtonSize::Icon {
+            // Text nicht bei ButtonSize::Icon hinzufügen
             self.children_defs.push(ButtonChild::Text(text.into()));
         }
         self
     }
 
-    pub fn on_click<NewF: Fn() + Send + Sync + 'static>(
-        self,
-        callback: NewF,
-    ) -> ButtonBuilder<NewF> {
-        ButtonBuilder {
-            variant: self.variant,
-            size: self.size,
-            disabled: self.disabled,
-            children_defs: self.children_defs,
-            on_click: Some(OnClick::new(callback)),
-            width: self.width,
-            height: self.height,
-            border_radius: self.border_radius,
-            markers: self.markers,
-        }
-    }
-    pub fn border_radius(mut self, radius_px: f32) -> Self {
-        self.border_radius = Some(Val::Px(radius_px)); // <<< Konvertiere f32 zu Val::Px
+    /// Verknüpft eine Aktion mit diesem Button. Die Aktion wird als Komponente
+    /// zur Button-Entität hinzugefügt.
+    pub fn action(mut self, action_instance: A) -> Self {
+        self.action = Some(action_instance);
         self
     }
 
-    /// Sets the border radius for all corners using a `Val` (e.g., `Val::Px(5.0)`, `Val::Percent(50.0)`).
+    pub fn border_radius(mut self, radius_px: f32) -> Self {
+        self.border_radius = Some(Val::Px(radius_px));
+        self
+    }
+
     pub fn border_radius_val(mut self, radius: Val) -> Self {
         self.border_radius = Some(radius);
         self
     }
 
-    pub fn mark<M: Bundle + Default>(self) -> Self
-    where
-        M: Send + Sync + 'static,
-    {
-        self.add_marker(|ec| {
-            ec.insert(M::default());
-        })
-    }
+    // mark und add_marker bleiben gleich, nur `on_click` wird entfernt
 
     pub fn add_marker(
         mut self,
@@ -146,12 +134,13 @@ impl<F: Fn() + Send + Sync + 'static> ButtonBuilder<F> {
     }
 
     #[must_use]
-    pub fn spawn<'w, 'a>(
+    pub fn spawn<'w, 's>(
+        // Geändert zu 's für Konsistenz mit Dialog-spawn Lifetime
         self,
-        parent: &'a mut ChildSpawnerCommands<'w>,
-        theme: &UiTheme,            // <<< Reihenfolge angepasst
-        font_handle: &Handle<Font>, // <<< Name und Reihenfolge angepasst
-    ) -> EntityCommands<'a> {
+        parent: &'s mut ChildSpawnerCommands<'w>,
+        theme: &UiTheme,
+        font_handle: &Handle<Font>,
+    ) -> EntityCommands<'s> {
         // 1. Style Def holen
         let style_def = get_button_style_def(self.variant, theme);
 
@@ -202,8 +191,9 @@ impl<F: Fn() + Send + Sync + 'static> ButtonBuilder<F> {
         ));
 
         // 5. OnClick Komponente
-        if let Some(on_click_component) = self.on_click {
-            cmd.insert(on_click_component);
+        // Füge die benutzerdefinierte Aktion als Komponente hinzu
+        if let Some(action_instance) = self.action {
+            cmd.insert(action_instance);
         }
 
         // 6. Marker anwenden

@@ -1,8 +1,9 @@
-use super::components::{ButtonMarker, ButtonState, OnClick};
-use super::events::ButtonClickedEvent;
-use crate::components::button::style::get_button_style_def;
+use super::components::{ButtonMarker, ButtonState}; // NoAction nicht unbedingt hier nötig
+use super::events::ButtonClickedEvent; // Generisches Event importieren
+use super::style::get_button_style_def;
 use crate::theme::UiTheme;
 use bevy::prelude::*;
+use std::collections::HashMap;
 
 /// System to update the button's background, border, and children's colors
 pub fn update_button_visuals(
@@ -58,36 +59,38 @@ pub fn update_button_visuals(
     }
 }
 
-/// System that detects button presses and sends ButtonClickedEvent
-pub fn handle_button_clicks_event(
-    interactions: Query<
-        (Entity, &Interaction, &ButtonState),
-        (Changed<Interaction>, With<ButtonMarker>),
-    >,
-    mut button_clicked_events: EventWriter<ButtonClickedEvent>,
+/// System, das Button-Klicks erkennt und ein generisches ButtonClickedEvent<A> sendet.
+pub fn handle_button_press<A: Component + Clone>(
+    mut writer: EventWriter<ButtonClickedEvent<A>>,
+    // Nur Buttons, deren Interaction sich geändert hat:
+    query: Query<(Entity, &Interaction, &A), (With<Button>, Changed<Interaction>)>,
 ) {
-    for (entity, interaction, state) in interactions.iter() {
-        // .iter() statt .iter_mut()
-        if *interaction == Interaction::Pressed && !state.disabled {
-            info!("Button {:?} pressed, sending event.", entity);
-            button_clicked_events.write(ButtonClickedEvent {
-                button_entity: entity,
+    for (entity, interaction, action) in query.iter() {
+        if *interaction == Interaction::Pressed {
+            writer.write(ButtonClickedEvent {
+                source_entity: entity,
+                action_id: Some(action.clone()),
             });
         }
     }
 }
 
-/// Optional: System to handle direct `fn()` callbacks
-pub fn handle_button_clicks_fn(
-    buttons: Query<
-        (&Interaction, &OnClick<fn()>, &ButtonState),
-        (Changed<Interaction>, With<ButtonMarker>),
-    >,
+pub fn handle_button_release<A: Component + Clone>(
+    mut writer: EventWriter<ButtonClickedEvent<A>>,
+    mut prev: Local<HashMap<Entity, Interaction>>,
+    query: Query<(Entity, &Interaction, &A), With<Button>>,
 ) {
-    for (interaction, on_click, state) in buttons.iter() {
-        if *interaction == Interaction::Pressed && !state.disabled {
-            info!("Calling fn() callback for button.");
-            on_click.call();
+    for (entity, interaction, action) in query.iter() {
+        let last = *prev.get(&entity).unwrap_or(&Interaction::None);
+        // Auslösen, wenn zuvor Pressed und jetzt Released (Hovered oder None)
+        if last == Interaction::Pressed
+            && (*interaction == Interaction::Hovered || *interaction == Interaction::None)
+        {
+            writer.write(ButtonClickedEvent {
+                source_entity: entity,
+                action_id: Some(action.clone()),
+            });
         }
+        prev.insert(entity, *interaction);
     }
 }

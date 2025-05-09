@@ -188,6 +188,9 @@ pub fn hot_reload_theme_system(
 
                     // Update layout
                     theme.layout = UiLayout {
+                        z_index: UiZIndex {
+                            modal_base: theme.layout.z_index.modal_base,
+                        },
                         /* ... copy from plugin's check_theme_asset_readiness ... */
                         padding: UiSpacing {
                             xs: data.layout.padding.xs * base_spacing_unit,

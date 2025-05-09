@@ -56,6 +56,28 @@ impl Default for SwitchBuilder {
     }
 }
 
+///
+///         // Anfangs aktivierter Switch
+/// ```rust
+/// let _ = SwitchBuilder::new()
+/// .checked(true)
+/// .with_color(theme.color.green.step10)
+/// .spawn(parent, &theme /*, &font_handle*/);
+/// ```
+/// // Deaktivierter Switch
+/// ```rust
+/// let _ = SwitchBuilder::new()
+/// .disabled(true)
+/// .spawn(parent, &theme /*, &font_handle*/);
+/// ```
+/// // Deaktivierter und aktivierter Switch
+/// ```rust
+/// let _ = SwitchBuilder::new()
+/// .checked(true)
+/// .disabled(true)
+/// .with_color(theme.color.red.step05) // Beispiel: Rote Farbe
+/// .spawn(parent, &theme /*, &font_handle*/);
+/// ```
 impl SwitchBuilder {
     pub fn new() -> Self {
         Self::default()
