@@ -18,6 +18,7 @@ use crate::components::{
         register_initially_open_dialogs, setup_dialog_portal_container, ActiveDialogs,
         CloseDialogEvent, DialogPortalContainer, OpenDialogEvent,
     },
+    portal::{setup_global_portal_root, ForgeUiPortalRoot},
     radio::{
         handle_radio_click, update_radio_indicator, update_radio_visuals, OnSelectId,
         OnSelectRegistry,
@@ -198,6 +199,13 @@ impl Plugin for ForgeUiPlugin {
                     handle_tab_triggers::<TabId>.run_if(in_state(UiState::Ready)),
                     populate_initial_tab_content::<TabId>.run_if(in_state(UiState::Ready)),
                 ),
+            )
+            // endregion --- Tabs ---
+            // region: --- Portale ---
+            .insert_resource(ForgeUiPortalRoot(Entity::PLACEHOLDER))
+            .add_systems(
+                Update,
+                setup_global_portal_root.run_if(in_state(UiState::Ready)),
             )
             // endregion --- UI-Systeme in Ready ---
             // Debug: Save theme on S key

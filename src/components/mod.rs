@@ -23,3 +23,6 @@ pub use switch::*;
 
 pub mod radio;
 pub use radio::*;
+
+pub mod portal;
+pub use portal::*;
