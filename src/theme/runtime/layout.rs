@@ -8,6 +8,12 @@ pub struct UiLayout {
     pub gap: UiSpacing,
     pub radius: UiRadius,
     pub border: UiSpacing,
+    pub z_index: UiZIndex,
+}
+
+#[derive(Debug, Clone)]
+pub struct UiZIndex {
+    pub modal_base: i32,
 }
 
 #[derive(Debug, Clone)]
@@ -43,6 +49,7 @@ pub fn build(data: &UiLayoutData, config: &UiConfig) -> UiLayout {
     let rem = |v: f32| v * base_rem;
 
     UiLayout {
+        z_index: UiZIndex { modal_base: 10 },
         padding: UiSpacing {
             xs: s(data.padding.xs),
             sm: s(data.padding.sm),
