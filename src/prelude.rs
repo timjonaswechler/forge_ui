@@ -3,10 +3,7 @@
 //! Prelude provides the most commonly used types and builders for easy import.
 
 // Komponenten
-pub use crate::components::{
-    Button, ButtonSize, ButtonVariant, Card, CardBuilder, CheckboxBuilder, DialogBuilder,
-    LabelBuilder, TabsBuilder,
-};
+pub use crate::{Button, ButtonSize, ButtonVariant, DialogBuilder, LabelBuilder};
 
 // Layout
 pub use crate::layout::{

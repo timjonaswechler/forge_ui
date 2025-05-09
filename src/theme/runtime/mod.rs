@@ -9,9 +9,9 @@ pub mod color;
 pub mod layout;
 pub mod typography;
 
-pub use color::{UiAccentColorPalette, UiColorPalette, UiColorPalettes, UiGrayAccentColorPalette};
-pub use layout::{UiLayout, UiRadius, UiSpacing, UiZIndex};
-pub use typography::{FontVariants, UiFontFamilies, UiFontSize, UiTypography};
+pub use color::*;
+pub use layout::*;
+pub use typography::*;
 
 #[derive(Debug, Clone, Asset, TypePath, Resource)]
 pub struct UiTheme {

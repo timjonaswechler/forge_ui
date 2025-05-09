@@ -5,7 +5,9 @@ pub mod settings;
 pub mod systems;
 
 // Re-export necessary types publicly
-pub use data::UiThemeData; // For loading/saving
-pub use runtime::UiTheme; // The runtime resource
-                          // No need to publicly re-export systems usually
-                          // pub use systems::*; // Avoid wildcard re-exports if possible
+pub use data::*; // For loading/saving
+pub use runtime::*; // The runtime resource
+pub use settings::*;
+pub use systems::*;
+// No need to publicly re-export systems usually
+// pub use systems::*; // Avoid wildcard re-exports if possible

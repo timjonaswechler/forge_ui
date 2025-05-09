@@ -3,9 +3,9 @@ mod color;
 mod layout;
 mod typography;
 
-pub use color::{UiColorPaletteData, UiColorPalettesData};
-pub use layout::{UiLayoutData, UiRadiusData, UiSpacingData};
-pub use typography::{FontVariantsData, UiFontFamiliesData, UiFontSizeData, UiTypographyData};
+pub use color::*;
+pub use layout::*;
+pub use typography::*;
 
 use bevy::asset::Asset;
 use bevy::reflect::Reflect;

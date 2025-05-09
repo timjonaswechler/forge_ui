@@ -3,32 +3,7 @@ use bevy::prelude::*;
 use bevy_asset_loader::prelude::*;
 use bevy_common_assets::ron::RonAssetPlugin;
 
-use crate::assets::{FontAssets, Icon, IconAssets, IconLoader};
-use crate::components::{
-    button::*,
-    checkbox::{
-        handle_checkbox_clicks, update_checkbox_visuals,
-        update_checkmark_visibility_on_state_change, CheckboxChangedEvent,
-    },
-    dialog::{
-        close_dialog_system, handle_overlay_click_system, open_dialog_system,
-        register_initially_open_dialogs, ActiveDialogs, CloseDialogEvent, OpenDialogEvent,
-    },
-    portal::{setup_global_portal_root, ForgeUiPortalRoot},
-    radio::{
-        handle_radio_click, update_radio_indicator, update_radio_visuals, OnSelectId,
-        OnSelectRegistry,
-    },
-    switch::{handle_toggle_switch_clicks, update_toggle_switch_visuals, SwitchChangedEvent},
-};
-use crate::theme::{
-    data::UiThemeData,
-    settings::Appearance,
-    systems::{
-        check_theme_asset_readiness, hot_reload_theme_system, load_theme_asset, save_theme_system,
-    },
-    UiTheme,
-};
+use crate::*;
 
 // UI lifecycle phases for Bevy 0.16
 #[derive(States, Debug, Clone, Copy, PartialEq, Eq, Hash, Default)]
