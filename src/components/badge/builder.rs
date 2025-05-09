@@ -5,6 +5,7 @@ use super::utils::get_badge_colors;
 use super::{BadgeMarker, BadgeVariant}; // Importiere den Marker
 
 use crate::theme::UiTheme;
+
 pub struct BadgeBuilder {
     text: String,
     variant: BadgeVariant,

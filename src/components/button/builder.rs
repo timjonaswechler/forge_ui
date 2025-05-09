@@ -7,7 +7,97 @@ use bevy::ecs::system::EntityCommands;
 use bevy::prelude::*;
 use bevy::ui::FocusPolicy;
 
-// ======== Builder ========
+/// # ButtonBuilder
+///
+/// Ein flexibler Builder zum Erstellen und Konfigurieren von UI-Buttons.
+///
+/// Buttons können verschiedene visuelle Varianten (`ButtonVariant`), Größen (`ButtonSize`),
+/// Text- und/oder Icon-Inhalte haben und optional deaktiviert sein.
+///
+/// ## Aktionen und Events
+///
+/// Der `ButtonBuilder` ist generisch über den Aktionstyp `A: Component + Clone + Send + Sync + 'static`.
+/// Dies ermöglicht es, anwendungsspezifische Logik typsicher mit Button-Klicks zu verknüpfen.
+///
+/// - Verwenden Sie die Methode `.action(action_instance: A)`, um eine Aktions-Komponente
+///   zur Button-Entität hinzuzufügen.
+/// - Wenn ein Button geklickt wird, wird ein [`ButtonClickedEvent<A>`] gesendet.
+/// - Das `action_id: Option<A>` Feld in diesem Event enthält ein Klon der Aktions-Komponente,
+///   falls eine mit `.action()` auf dem Builder gesetzt wurde.
+///
+/// Für Buttons, die keine spezifische, anwendungsspezifische Aktion auslösen sollen,
+/// wird der Standard-Typ `NoAction` für `A` verwendet. `ButtonBuilder::new()` erstellt
+/// einen solchen Builder.
+///
+/// ## Verwendung
+///
+/// ```rust
+/// use bevy::prelude::*;
+/// use forge_ui::components::button::{ButtonBuilder, ButtonVariant, ButtonSize, NoAction, ButtonClickedEvent};
+/// use forge_ui::theme::UiTheme; // Annahme: Theme und FontHandle sind Ressourcen
+///
+/// #[derive(Resource)]
+/// struct FontHandle(Handle<Font>); // Beispiel für FontHandle
+///
+/// // Eigene Aktions-Enum
+/// #[derive(Component, Clone, Debug, PartialEq, Eq)]
+/// pub enum MyGameAction {
+///     StartGame,
+///     OpenSettings,
+/// }
+///
+/// fn setup_ui_system(
+///     mut commands: Commands,
+///     theme: Res<UiTheme>,        // Theme wird als Ressource erwartet
+///     font_handle: Res<FontHandle> // Font-Handle wird als Ressource erwartet
+/// ) {
+///     commands.spawn(NodeBundle::default()).with_children(|parent| {
+///         // Button ohne spezifische Aktion
+///         ButtonBuilder::new()
+///             .text("Standard-Button")
+///             .spawn(parent, &theme, &font_handle);
+///
+///         // Button mit einer benutzerdefinierten Aktion
+///         ButtonBuilder::<MyGameAction>::new_for_action()
+///             .text("Spiel starten")
+///             .variant(ButtonVariant::Default) // Annahme: Primary ist eine Variante
+///             .action(MyGameAction::StartGame)
+///             .spawn(parent, &theme, &font_handle);
+///     });
+/// }
+///
+/// fn handle_button_clicks(mut events: EventReader<ButtonClickedEvent<MyGameAction>>) {
+///     for event in events.read() {
+///         if let Some(action) = &event.action_id {
+///             match action {
+///                 MyGameAction::StartGame => {
+///                     info!("Button zum Starten des Spiels geklickt!");
+///                 }
+///                 MyGameAction::OpenSettings => {
+///                     info!("Button zum Öffnen der Einstellungen geklickt!");
+///                 }
+///             }
+///         }
+///     }
+/// }
+///
+/// // In der App-Konfiguration (vereinfacht):
+///  App::new()
+///      .insert_resource(ForgeUiPlugin)
+///      .add_event::<ButtonClickedEvent<NoAction>>()
+///      .add_event::<ButtonClickedEvent<MyGameAction>>()
+///      .add_systems(Update, (
+///          // Für Reaktion beim Drücken:
+///          forge_ui::components::button::handle_button_press::<MyGameAction>,
+///          // Für Klick beim Loslassen:
+///           forge_ui::components::button::handle_button_release::<MyGameAction>,
+///          handle_button_clicks, // Das eigene System
+///      ))
+///      .add_systems(Startup, setup_ui_system)
+///      .run();
+/// ```
+///
+/// Siehe auch [`NoAction`] für den Standard-Aktionstyp und [`ButtonClickedEvent`] für das gesendete Event.
 pub struct ButtonBuilder<A: Component + Clone + Send + Sync + 'static = NoAction> {
     variant: ButtonVariant,
     size: ButtonSize,
@@ -22,6 +112,9 @@ pub struct ButtonBuilder<A: Component + Clone + Send + Sync + 'static = NoAction
 
 // Default-Implementierung für ButtonBuilder<NoAction>
 impl Default for ButtonBuilder<NoAction> {
+    /// Erstellt einen `ButtonBuilder` mit Standardwerten und dem Aktionstyp `NoAction`.
+    /// `action` ist initial `None`, d.h. es wird standardmäßig keine `NoAction`-Komponente
+    /// zur Entität hinzugefügt, es sei denn, `.action(NoAction)` wird explizit aufgerufen.
     fn default() -> Self {
         Self {
             variant: ButtonVariant::Default,
@@ -39,16 +132,23 @@ impl Default for ButtonBuilder<NoAction> {
 
 // new() Methode für den häufigsten Fall (Button ohne spezifische externe Aktion)
 impl ButtonBuilder<NoAction> {
+    /// Erstellt einen neuen `ButtonBuilder` für einen Button ohne spezifische anwendungsdefinierte Aktion.
+    ///
+    /// Der generische Aktionstyp `A` ist hier [`NoAction`].
+    /// Um eine Aktion hinzuzufügen (selbst eine `NoAction`), verwenden Sie die `.action()` Methode.
+    /// Ohne expliziten `.action(NoAction)`-Aufruf wird dem gesendeten `ButtonClickedEvent<NoAction>`
+    /// im Feld `action_id` ein `None` übergeben.
     pub fn new() -> Self {
         Self::default()
     }
 }
 
-// --- Methoden ---
-// Methoden für alle ButtonBuilder<A>
 impl<A: Component + Clone + Send + Sync + 'static> ButtonBuilder<A> {
-    /// Erstellt einen neuen Builder, der für eine spezifische Aktion A vorgesehen ist.
-    /// Nützlich, wenn der Typ A nicht Default implementiert oder man Klarheit will.
+    /// Erstellt einen neuen Builder, der für eine spezifische Aktion `A` vorgesehen ist.
+    ///
+    /// Dies ist nützlich, um die Typsignatur für den Builder explizit festzulegen,
+    /// wenn `A` nicht `NoAction` ist, oder wenn `A` nicht `Default` implementiert.
+    /// Die eigentliche Aktionsinstanz wird mit der `.action()` Methode gesetzt.
     pub fn new_for_action() -> Self {
         ButtonBuilder {
             variant: ButtonVariant::Default,
@@ -63,33 +163,49 @@ impl<A: Component + Clone + Send + Sync + 'static> ButtonBuilder<A> {
         }
     }
 
+    /// Setzt die visuelle Variante des Buttons.
+    /// Siehe [`ButtonVariant`] für verfügbare Optionen.
     pub fn variant(mut self, variant: ButtonVariant) -> Self {
         self.variant = variant;
         self
     }
 
+    /// Setzt die Größe des Buttons.
+    /// Beeinflusst Padding, Mindesthöhe und Schriftgröße.
+    /// Siehe [`ButtonSize`] für verfügbare Optionen.
     pub fn size(mut self, size: ButtonSize) -> Self {
         self.size = size;
         self
     }
 
+    /// Deaktiviert den Button.
+    ///
+    /// Ein deaktivierter Button ändert sein Aussehen, ist nicht klickbar
+    /// (hat `FocusPolicy::Pass`) und sendet keine [`ButtonClickedEvent`]s.
     pub fn disabled(mut self, disabled: bool) -> Self {
         self.disabled = disabled;
         self
     }
 
+    /// Überschreibt die Breite des Buttons.
     pub fn width(mut self, width: Val) -> Self {
         self.width = Some(width);
         self
     }
 
+    /// Überschreibt die Höhe des Buttons.
+    /// Dies beeinflusst auch die `min_height`.
     pub fn height(mut self, height: Val) -> Self {
         self.height = Some(height);
         self
     }
 
+    /// Fügt ein Icon als Inhalt des Buttons hinzu.
+    ///
+    /// Wenn die Button-Größe [`ButtonSize::Icon`] ist, wird jeglicher Textinhalt entfernt
+    /// und nur dieses Icon angezeigt. Ansonsten wird das Icon dem Text vorangestellt oder
+    /// zu anderen Icons hinzugefügt.
     pub fn icon(mut self, icon_handle: Handle<Image>) -> Self {
-        // icon statt with_icon
         if self.size == ButtonSize::Icon {
             self.children_defs.clear(); // Nur ein Icon bei ButtonSize::Icon
         }
@@ -97,34 +213,66 @@ impl<A: Component + Clone + Send + Sync + 'static> ButtonBuilder<A> {
         self
     }
 
+    /// Fügt einen Text als Inhalt des Buttons hinzu.
+    ///
+    /// Wird nicht hinzugefügt, wenn die Button-Größe [`ButtonSize::Icon`] ist.
     pub fn text(mut self, text: impl Into<String>) -> Self {
-        // text statt with_text
         if self.size != ButtonSize::Icon {
-            // Text nicht bei ButtonSize::Icon hinzufügen
             self.children_defs.push(ButtonChild::Text(text.into()));
         }
         self
     }
 
-    /// Verknüpft eine Aktion mit diesem Button. Die Aktion wird als Komponente
-    /// zur Button-Entität hinzugefügt.
+    /// Verknüpft eine spezifische Aktionsinstanz `A` mit diesem Button.
+    ///
+    /// Diese `action_instance` wird als Komponente zur Entität des Buttons hinzugefügt.
+    /// Beim Klick wird ein Klon dieser Instanz im [`ButtonClickedEvent<A>`]
+    /// im Feld `action_id` mitgesendet.
     pub fn action(mut self, action_instance: A) -> Self {
         self.action = Some(action_instance);
         self
     }
 
+    /// Setzt den Eckenradius des Buttons in Pixeln.
+    /// Überschreibt den Standardradius aus dem [`UiTheme`].
     pub fn border_radius(mut self, radius_px: f32) -> Self {
         self.border_radius = Some(Val::Px(radius_px));
         self
     }
 
+    /// Setzt den Eckenradius des Buttons mit einem [`Val`].
+    /// Überschreibt den Standardradius aus dem [`UiTheme`].
     pub fn border_radius_val(mut self, radius: Val) -> Self {
         self.border_radius = Some(radius);
         self
     }
 
-    // mark und add_marker bleiben gleich, nur `on_click` wird entfernt
-
+    /// Fügt eine benutzerdefinierte Funktion hinzu, die direkt auf die [`EntityCommands`]
+    /// des Buttons nach dem Spawnen angewendet wird.
+    ///
+    /// Nützlich, um dem Button beliebige zusätzliche Komponenten oder Marker hinzuzufügen.
+    /// Die Funktion wird einmalig ausgeführt.
+    ///
+    /// # Beispiel
+    /// ```rust
+    /// # use bevy::prelude::*;
+    /// # use forge_ui::components::button::ButtonBuilder;
+    /// # use forge_ui::theme::UiTheme;
+    /// # #[derive(Resource)]
+    /// # struct FontHandle(Handle<Font>);
+    /// # #[derive(Component)]
+    /// # struct MyCustomMarker;
+    /// # let mut commands = Commands::spawn(NodeBundle::default()); // Dummy commands
+    /// # let mut child_builder = commands.entity(Entity::PLACEHOLDER).commands();
+    /// # let theme = UiTheme::default(); // Dummy theme
+    /// # let font_handle = FontHandle(Handle::default()); // Dummy font
+    /// ButtonBuilder::new()
+    ///     .text("Markierter Button")
+    ///     .add_marker(|ecmds| {
+    ///         ecmds.insert(MyCustomMarker);
+    ///     })
+    ///     .spawn(&mut child_builder.reborrow(), &theme, &font_handle.0);
+    /// ```
     pub fn add_marker(
         mut self,
         func: impl FnOnce(&mut EntityCommands) + Send + Sync + 'static,
@@ -133,6 +281,11 @@ impl<A: Component + Clone + Send + Sync + 'static> ButtonBuilder<A> {
         self
     }
 
+    /// Erstellt die Button-Entität(en) als Kind des gegebenen `parent` und gibt
+    /// [`EntityCommands`] für den Haupt-Button-Node zurück.
+    ///
+    /// Der `#[must_use]` Hinweis erinnert daran, dass `EntityCommands` in der Regel
+    /// weiterverwendet werden (z.B. um die ID zu erhalten oder weitere Kinder anzuhängen).
     #[must_use]
     pub fn spawn<'w, 's>(
         // Geändert zu 's für Konsistenz mit Dialog-spawn Lifetime

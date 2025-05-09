@@ -95,17 +95,7 @@ impl Plugin for ForgeUiPlugin {
             // region: 5) Register UI systems in Ready
             // region: --- Badge ---
             // endregion --- Badge ---
-            // region: --- Button ---
-            .add_event::<ButtonClickedEvent<NoAction>>()
-            .add_systems(
-                Update,
-                (
-                    handle_button_press::<NoAction>.run_if(in_state(UiState::Ready)),
-                    handle_button_release::<NoAction>.run_if(in_state(UiState::Ready)),
-                    update_button_visuals.run_if(in_state(UiState::Ready)),
-                ),
-            )
-            // endregion --- Button ---
+            .add_plugins(ButtonPlugin)
             // region: --- Checkboxen ---
             .add_event::<CheckboxChangedEvent>()
             .add_systems(
