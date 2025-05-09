@@ -1,6 +1,7 @@
 use crate::theme::UiTheme;
 use bevy::{ecs::system::EntityCommands, prelude::*, ui::FocusPolicy};
 
+use crate::{SwitchMarker, SwitchOverlayMarker, SwitchState, SwitchThumbMarker, SwitchTrackColor};
 pub struct SwitchBuilder {
     checked: bool,
     disabled: bool,
