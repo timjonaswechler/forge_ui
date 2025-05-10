@@ -1,11 +1,11 @@
 // src/components/button/mod.rs
-pub mod builder;
-pub mod components;
-pub mod enums;
-pub mod events;
-pub mod plugin;
-pub mod style;
-pub mod systems;
+mod builder;
+mod components;
+mod enums;
+mod events;
+mod plugin;
+mod style;
+mod systems;
 // Öffentliche API der Button-Komponente
 pub use builder::*; // Der generische Builder
 pub use components::*;

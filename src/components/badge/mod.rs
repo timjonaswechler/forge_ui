@@ -1,7 +1,7 @@
 // src/components/badge/mod.rs
-pub mod builder;
-pub mod components;
-pub mod enums;
+mod builder;
+mod components;
+mod enums;
 mod utils;
 
 /// Haupt-Typ für Buttons, nur Fassade für den Builder.

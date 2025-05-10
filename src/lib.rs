@@ -1,14 +1,14 @@
-pub mod components;
+mod components;
 pub use components::*;
 
-pub mod layout;
+mod layout;
 pub use layout::*;
-pub mod theme;
+mod theme;
 pub use theme::*;
 
-pub mod assets;
+mod assets;
 pub use assets::*;
 
 /// Haupt-Plugin-Auslagerung
-pub mod plugin;
+mod plugin;
 pub use plugin::{ForgeUiPlugin, UiState};

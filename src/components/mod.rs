@@ -1,27 +1,27 @@
-pub mod badge;
-pub mod button;
+mod badge;
+mod button;
 pub use button::*;
 
-// pub mod card;
+// mod card;
 // pub use card::*;
 
-pub mod checkbox;
+mod checkbox;
 pub use checkbox::*;
 
-pub mod dialog;
+mod dialog;
 pub use dialog::*;
 
-pub mod label;
+mod label;
 pub use label::*;
 
-// pub mod tabs;
+// mod tabs;
 // pub use tabs::*;
 
-pub mod switch;
+mod switch;
 pub use switch::*;
 
-pub mod radio;
+mod radio;
 pub use radio::*;
 
-pub mod portal;
+mod portal;
 pub use portal::*;

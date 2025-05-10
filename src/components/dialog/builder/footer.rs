@@ -1,5 +1,5 @@
 use super::SectionElementBuilderFn;
-use crate::components::button::{ButtonBuilder, NoAction as ButtonNoAction}; // Beispiel für Button
+use crate::components::button::ButtonBuilder; // Beispiel für Button
 use crate::theme::UiTheme;
 use bevy::prelude::*;
 
@@ -33,7 +33,7 @@ impl DialogFooterBuilder {
     /// Einfacher ist oft, die volle Konfiguration über eine Closure zu ermöglichen.
     pub fn add_button<A: Component + Clone + Send + Sync + 'static>(
         self,
-        config_fn: impl FnOnce(ButtonBuilder<A>, &UiTheme, &Handle<Font>) -> Entity, // Zum Anpassen
+        _config_fn: impl FnOnce(ButtonBuilder<A>, &UiTheme, &Handle<Font>) -> Entity, // Zum Anpassen
     ) -> Self {
         // Dieser Ansatz ist etwas komplizierter, weil wir theme & font hier noch nicht haben.
         // Einfacher ist es, eine Closure zu speichern, die später aufgerufen wird.

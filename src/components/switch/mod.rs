@@ -1,8 +1,7 @@
-pub mod builder;
-pub mod components;
-pub mod events;
-
-pub mod systems;
+mod builder;
+mod components;
+mod events;
+mod systems;
 
 pub use builder::*;
 pub use components::*;

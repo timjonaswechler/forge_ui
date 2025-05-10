@@ -1,9 +1,10 @@
-use std::convert;
-
 // src/assets/icon_loader.rs
-use bevy::asset::{io::Reader, AssetLoader, LoadContext};
-use bevy::{asset::RenderAssetUsages, prelude::*};
-use bevy::{prelude::*, reflect::TypePath};
+
+use bevy::{
+    asset::{io::Reader, AssetLoader, LoadContext},
+    prelude::*,
+    reflect::TypePath,
+};
 use regex::Regex;
 use thiserror::Error;
 

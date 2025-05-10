@@ -5,7 +5,6 @@ use bevy_common_assets::ron::RonAssetPlugin;
 
 use crate::*;
 
-// UI lifecycle phases for Bevy 0.16
 #[derive(States, Debug, Clone, Copy, PartialEq, Eq, Hash, Default)]
 pub enum UiState {
     #[default]
@@ -96,6 +95,7 @@ impl Plugin for ForgeUiPlugin {
             // region: --- Badge ---
             // endregion --- Badge ---
             .add_plugins(ButtonPlugin)
+            .add_plugins(DialogPlugin)
             // region: --- Checkboxen ---
             .add_event::<CheckboxChangedEvent>()
             .add_systems(
@@ -117,22 +117,6 @@ impl Plugin for ForgeUiPlugin {
                 ),
             )
             // endregion --- Toggle Switches ---
-            // region: --- Dialoge ---
-            .insert_resource(ActiveDialogs::default())
-            .add_event::<OpenDialogEvent>()
-            .add_event::<CloseDialogEvent>()
-            .add_systems(
-                Update,
-                (
-                    open_dialog_system.run_if(in_state(UiState::Ready)),
-                    handle_overlay_click_system.run_if(in_state(UiState::Ready)),
-                    close_dialog_system
-                        .run_if(in_state(UiState::Ready))
-                        .run_if(|active: Res<ActiveDialogs>| !active.modals.is_empty()),
-                    register_initially_open_dialogs.run_if(in_state(UiState::Ready)),
-                ),
-            )
-            // endregion --- Dialoge ---
             // region: --- Radio Buttons ---
             .insert_resource(OnSelectRegistry::default())
             .add_systems(

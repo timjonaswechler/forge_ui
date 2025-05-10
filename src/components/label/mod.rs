@@ -1,6 +1,6 @@
-pub mod builder;
-pub mod components;
-pub mod style;
+mod builder;
+mod components;
+mod style;
 
 pub use builder::*;
 pub use components::*;

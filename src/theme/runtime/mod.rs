@@ -5,9 +5,9 @@ use crate::assets::FontAssets;
 use crate::plugin::UiConfig;
 use crate::theme::data::UiThemeData;
 
-pub mod color;
-pub mod layout;
-pub mod typography;
+mod color;
+mod layout;
+mod typography;
 
 pub use color::*;
 pub use layout::*;

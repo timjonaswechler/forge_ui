@@ -18,8 +18,11 @@ log.workspace = true
 bevy_common_assets.workspace = true
 bevy_common_assets.features = ["ron"]
 bevy_asset_loader.workspace = true
-bevy_tweening.workspace = true
 thiserror.workspace = true
+resvg.workspace = true
+usvg.workspace = true
+tiny-skia.workspace = true
+regex.workspace = true
 
 [features]
 default = []

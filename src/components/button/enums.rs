@@ -1,4 +1,4 @@
-use bevy::prelude::*; // Für Component derive
+use bevy::prelude::*;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default, Component)]
 pub enum ButtonVariant {

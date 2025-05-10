@@ -1,2 +1,2 @@
-pub mod appearance;
+mod appearance;
 pub use appearance::*;
