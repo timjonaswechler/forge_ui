@@ -1,26 +1,16 @@
-Ich möchte folgendes Projekt umsetzen.
-
-**Phase 0: Setup & Grundlagen**
-
-*   [ ] Plugin-Crate erstellen (z.B. `forge_ui`)
-*   [ ] Grundlegende `Cargo.toml` mit Bevy-Abhängigkeiten (`bevy_ui`, `bevy_asset`, `bevy_render`, etc.) einrichten
-*   [ ] Beispiel-Projekt/Ordner (`examples/`) anlegen für Tests und Demos
-*   [ ] Haupt-Plugin-Struktur definieren (`pub struct ForgeUi; impl Plugin for ForgeUi { ... }`)
-*   [ ] Basis-Plugin in ein Beispiel integrieren und sicherstellen, dass es kompiliert
-
 **Phase 1: Theming System Kern**
 
-*   [ ] Enum `Appearance` definieren (`Light`, `Dark`)
-*   [ ] Enum/Struct `ColorPaletteRef` definieren (für Akzent-/Graufarben-Auswahl)
-*   [ ] Enum `RadiusSetting` definieren (`None`, `Small`, `Medium`, `Large`, `Full`)
-*   [ ] Structs/Konstanten für Farbpaletten definieren (z.B. `IndigoPalette { step1: Color, ... }`, inspiriert von Radix Colors)
-*   [ ] Haupt-`Theme` Resource definieren (`pub struct Theme { ... }`)
-*   [ ] Grundlegende Felder zur `Theme` Resource hinzufügen (`appearance`, `high_contrast`, `scaling`)
-*   [ ] Felder für Farbpaletten-Referenzen zur `Theme` Resource hinzufügen (`accent_color: ColorPaletteRef`, `gray_color: ColorPaletteRef`)
-*   [ ] Feld für `RadiusSetting` zur `Theme` Resource hinzufügen (`radius`)
-*   [ ] Felder für Schriftart-Handles zur `Theme` Resource hinzufügen (`default_font: Handle<Font>`, `code_font: Handle<Font>`)
-*   [ ] Theme-Resource mit Standardwerten im Plugin registrieren (`app.init_resource::<Theme>()`)
-*   [ ] Komponente `ThemeColor` definieren (Enum/Struct, z.B. `Accent(u8)`, `Gray(u8)`, `Background`, `Surface`, `TextHighContrast`, etc.)
+*   [x] Enum `Appearance` definieren (`Light`, `Dark`)
+*   [x] Enum/Struct `ColorPaletteRef` definieren (für Akzent-/Graufarben-Auswahl)
+*   [x] Enum `RadiusSetting` definieren (`None`, `Small`, `Medium`, `Large`, `Full`)
+*   [x] Structs/Konstanten für Farbpaletten definieren (z.B. `IndigoPalette { step1: Color, ... }`, inspiriert von Radix Colors)
+*   [x] Haupt-`Theme` Resource definieren (`pub struct Theme { ... }`)
+*   [🔥] Grundlegende Felder zur `Theme` Resource hinzufügen (`appearance`, `high_contrast`, `scaling`)
+*   [x] Felder für Farbpaletten-Referenzen zur `Theme` Resource hinzufügen (`accent_color: ColorPaletteRef`, `gray_color: ColorPaletteRef`)
+*   [x] Feld für `RadiusSetting` zur `Theme` Resource hinzufügen (`radius`)
+*   [x] Felder für Schriftart-Handles zur `Theme` Resource hinzufügen (`default_font: Handle<Font>`, `code_font: Handle<Font>`)
+*   [x] Theme-Resource mit Standardwerten im Plugin registrieren (`app.init_resource::<Theme>()`)
+*   [x] Komponente `ThemeColor` definieren (Enum/Struct, z.B. `Accent(u8)`, `Gray(u8)`, `Background`, `Surface`, `TextHighContrast`, etc.)
 *   [ ] System `apply_theme_colors` erstellen
 *   [ ] System `apply_theme_colors`: `Theme` Resource lesen
 *   [ ] System `apply_theme_colors`: Über Entities mit `ThemeColor` und `BackgroundColor` / `BorderColor` iterieren
@@ -75,11 +65,11 @@ Ich möchte folgendes Projekt umsetzen.
 **Phase 4: UI-Komponenten-Primitives**
 
 *   **Button:**
-    *   [ ] `ThemedButtonBundle` definieren (inkl. `ButtonBundle`, `ThemeColor`, `ThemeRadius` (Platzhalter), `ResponsiveStyle`)
-    *   [ ] Builder `spawn_themed_button` erstellen
-    *   [ ] Varianten (`Solid`, `Soft`, `Outline`, `Ghost`, `Classic`) im Styling-System implementieren (über `ThemeColor` / `Style`)
-    *   [ ] Größen (`Size1` bis `Size4`) im Styling-System implementieren (über `ResponsiveStyle` für Padding, `TextSize`)
-    *   [ ] Button in Beispiel testen (mit Varianten/Größen)
+    *   [x] `ThemedButtonBundle` definieren (inkl. `ButtonBundle`, `ThemeColor`, `ThemeRadius` (Platzhalter), `ResponsiveStyle`)
+    *   [x] Builder `spawn_themed_button` erstellen
+    *   [x] Varianten (`Solid`, `Soft`, `Outline`, `Ghost`, `Classic`) im Styling-System implementieren (über `ThemeColor` / `Style`)
+    *   [x] Größen (`Size1` bis `Size4`) im Styling-System implementieren (über `ResponsiveStyle` für Padding, `TextSize`)
+    *   [x] Button in Beispiel testen (mit Varianten/Größen)
 *   **Text / Heading:**
     *   [ ] `ThemedTextBundle` ggf. verfeinern
     *   [ ] `ThemedHeadingBundle` erstellen (semantisch anders, visuell über size/weight gesteuert)
@@ -98,9 +88,9 @@ Ich möchte folgendes Projekt umsetzen.
     *   [ ] Interaktionssystem für Radio Buttons (ändert Zustand innerhalb der Gruppe)
     *   [ ] Visuelles Styling implementieren
 *   **Switch:**
-    *   [ ] `ThemedSwitchBundle` definieren (mit `Checked(bool)` Komponente)
-    *   [ ] Interaktionssystem für Switch erstellen
-    *   [ ] Visuelles Styling für On/Off implementieren (Thumb-Position, Farben)
+    *   [x] `ThemedSwitchBundle` definieren (mit `Checked(bool)` Komponente)
+    *   [x] Interaktionssystem für Switch erstellen
+    *   [x] Visuelles Styling für On/Off implementieren (Thumb-Position, Farben)
 *   **Slider:**
     *   [ ] `ThemedSliderBundle` definieren (mit `Value(f32)` Komponente)
     *   [ ] Interaktionssystem für Slider (Drag & Drop Logik)
@@ -123,10 +113,10 @@ Ich möchte folgendes Projekt umsetzen.
 *   **Overlays (Allgemein):**
     *   [ ] Strategie für Overlay-Management überlegen (Separate UI Kamera? Z-Index?)
 *   **Dialog:**
-    *   [ ] `ThemedDialogBundle` (Root, Trigger, Content, Title, Description, Close)
-    *   [ ] System für Sichtbarkeit/Zustand implementieren
-    *   [ ] Overlay/Modal-Verhalten implementieren (blockiert Hintergrund?)
-    *   [ ] Positionierung (zentriert)
+    *   [x] `ThemedDialogBundle` (Root, Trigger, Content, Title, Description, Close)
+    *   [x] System für Sichtbarkeit/Zustand implementieren
+    *   [x] Overlay/Modal-Verhalten implementieren (blockiert Hintergrund?)
+    *   [x] Positionierung (zentriert)
 *   **Popover:**
     *   [ ] `ThemedPopoverBundle` (Root, Trigger, Content, Close)
     *   [ ] System für Sichtbarkeit/Zustand
@@ -158,3 +148,97 @@ Ich möchte folgendes Projekt umsetzen.
     *   [ ] (Bei Bedarf) UI mit `bevy_dev_tools` oder ähnlichem profilen
 
 Diese Liste ist umfangreich. Du kannst die Reihenfolge anpassen und Aufgaben weiter unterteilen, wenn nötig. Viel Erfolg beim Abhaken!
+
+
+accordion
+alert-dialog
+arrow
+aspect-ratio
+avatar
+checkbox
+collapsible
+collection
+compose-refs
+context-menu
+context
+dialog
+direction
+dismissable-layer
+dropdown-menu
+focus-guards
+focus-scope
+form
+hover-card
+id
+label
+menu
+menubar
+navigation-menu
+one-time-password-field
+password-toggle-field
+popover
+popper
+portal
+presence
+primitive
+progress
+radio-group
+radix-ui
+roving-focus
+scroll-area
+select
+separator
+slider
+slot
+switch
+tabs
+toast
+toggle-group
+toggle
+
+accordion
+alert-dialog
+announce
+arrow
+aspect-ratio
+avatar
+checkbox
+collapsible
+collection
+compose-refs
+context-menu
+context
+dialog
+direction
+dismissable-layer
+dropdown-menu
+focus-guards
+focus-scope 
+hover-card
+id
+label
+menu
+menubar
+navigation-menu
+one-time-password-field
+password-toggle-field
+popover
+popper
+portal
+presence
+primitive
+progress
+
+radio-group
+radix-ui
+roving-focus
+scroll-area
+select
+separator
+slider
+slot
+
+tabs
+toast
+toggle-group
+toggle

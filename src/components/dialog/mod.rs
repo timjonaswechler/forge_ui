@@ -19,5 +19,4 @@ pub use events::{CloseDialogEvent, OpenDialogEvent};
 
 // Interne Nutzung für das dialog Modul
 pub(crate) use components::*;
-pub(crate) use events::*;
 pub(crate) use systems::*;

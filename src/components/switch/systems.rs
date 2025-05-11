@@ -1,5 +1,5 @@
 use crate::theme::UiTheme;
-use bevy::{ecs::system::EntityCommands, prelude::*, ui::FocusPolicy};
+use bevy::prelude::*;
 
 use crate::{
     SwitchChangedEvent, SwitchMarker, SwitchOverlayMarker, SwitchState, SwitchThumbMarker,

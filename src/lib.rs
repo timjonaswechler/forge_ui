@@ -8,7 +8,8 @@ pub use theme::*;
 
 mod assets;
 pub use assets::*;
-
-/// Haupt-Plugin-Auslagerung
+mod camera;
+use camera::CameraPlugin;
+// Haupt-Plugin-Auslagerung
 mod plugin;
 pub use plugin::{ForgeUiPlugin, UiState};

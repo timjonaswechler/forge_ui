@@ -2,7 +2,14 @@ use crate::components::checkbox::components::{CheckboxMarker, CheckboxState, Che
 use crate::components::checkbox::events::CheckboxChangedEvent;
 use crate::theme::UiTheme;
 use bevy::prelude::*;
-/// Aktualisiert das Aussehen der Checkbox basierend auf Zustand und Interaktion.
+
+/// Aktualisiert das visuelle Erscheinungsbild aller Checkboxen.
+///
+/// - Reagiert auf Änderungen an `Interaction` (Hover/Press) und `CheckboxState`.
+/// - Passt Hintergrund- und Randfarben basierend auf `UiTheme` an.
+///
+/// # Warnung
+/// Überspringt das Update, wenn `UiTheme` nicht verfügbar ist.
 pub fn update_checkbox_visuals(
     theme_opt: Option<Res<UiTheme>>,
     mut checkbox_query: Query<
@@ -21,8 +28,6 @@ pub fn update_checkbox_visuals(
 ) {
     // --- ADD THIS GUARD ---
     let Some(theme) = theme_opt else {
-        // Theme not loaded yet, skip this update cycle
-        // Optionally add a warn! log here if it happens frequently after startup
         warn!("UiTheme not available for update_checkbox_visuals, skipping frame.");
         return;
     };
@@ -52,25 +57,13 @@ pub fn update_checkbox_visuals(
                 Interaction::None => BorderColor(base_border_color),
             };
         }
-
-        // // Sichtbarkeit des Icons aktualisieren (dies sollte idealerweise reagieren,
-        // // wenn sich CheckboxState *ändert*, nicht nur bei Interaction)
-        // if let Ok(mut icon_visibility) = icon_visibility_query.get_mut(checkmark_icon.0) {
-        //     *icon_visibility = if state.checked {
-        //         Visibility::Inherited
-        //     } else {
-        //         Visibility::Hidden
-        //     };
-        // } else {
-        //     error!(
-        //         "CheckmarkIconEntity {:?} not found for checkbox!",
-        //         checkmark_icon.0
-        //     );
-        // }
     }
 }
 
-/// Reagiert auf Klicks auf die Checkbox, ändert den Zustand und sendet ein Event.
+/// Handhabt Klick-Interaktionen auf Checkboxen.
+///
+/// - Schaltet den `checked`-Status um bei `Pressed` und `!disabled`.
+/// - Sendet `CheckboxChangedEvent` bei Statusänderung.
 pub fn handle_checkbox_clicks(
     mut checkbox_query: Query<
         (Entity, &Interaction, &mut CheckboxState),
@@ -102,8 +95,9 @@ pub fn handle_checkbox_clicks(
     }
 }
 
-/// Separates System, das nur auf die Änderung des CheckboxState reagiert,
-/// um sicherzustellen, dass das Icon immer den korrekten Zustand widerspiegelt.
+/// Aktualisiert die Sichtbarkeit des Checkmark-Icons bei Änderung des Checkbox-Zustands.
+///
+/// - Reagiert auf `Changed<CheckboxState>` und schaltet `Visibility` des Icon-Entities.
 pub fn update_checkmark_visibility_on_state_change(
     checkbox_query: Query<(&CheckboxState, &CheckmarkIconEntity), Changed<CheckboxState>>, // Nur wenn State sich ändert
     mut icon_visibility_query: Query<&mut Visibility>,

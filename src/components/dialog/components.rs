@@ -3,13 +3,6 @@ use bevy::platform::collections::HashSet; // Korrekter Import für HashSet
 use bevy::prelude::*;
 use uuid::Uuid; // Import Uuid
 
-// --- Ressourcen, die spezifisch für das Dialog-System sind ---
-// DialogPortalContainer wird durch portal::ForgeUiPortalRoot ersetzt.
-// Wenn du eine spezifische Root NUR für Dialoge willst, die unabhängig
-// von der allgemeinen ForgeUiPortalRoot ist, könntest du sie hier definieren
-// und ihr eigenes Setup-System haben. Für jetzt gehen wir davon aus,
-// dass Dialoge den allgemeinen ForgeUiPortalRoot nutzen können.
-
 #[derive(Resource, Default, Debug)]
 pub struct ActiveDialogs {
     pub modals: HashSet<Entity>, // Entity-IDs der aktuell aktiven modalen Dialoge

@@ -1,10 +1,15 @@
 use bevy::prelude::*;
 
-/// Marker-Komponente für die Checkbox selbst (der klickbare Bereich).
+/// Marker-Komponente für die Checkbox-Entity.
+///
+/// Dient zur Identifikation in Queries und für Systemspezifisches Styling.
 #[derive(Component, Default, Debug, Clone, Copy)]
 pub struct CheckboxMarker;
 
 /// Speichert den aktuellen Zustand der Checkbox.
+///
+/// - `checked`: Gibt an, ob die Checkbox aktiviert ist.
+/// - `disabled`: Gibt an, ob die Checkbox keine Interaktionen erlaubt.
 #[derive(Component, Debug, Clone, Copy, PartialEq, Eq)]
 pub struct CheckboxState {
     pub checked: bool,
@@ -20,7 +25,8 @@ impl Default for CheckboxState {
     }
 }
 
-/// Komponente, die die Entity des internen Checkmark-Icons speichert.
-/// Wird verwendet, um dessen Sichtbarkeit zu steuern.
+/// Enthält die Entity des internal gerenderten Checkmark-Icons.
+///
+/// Wird genutzt, um Sichtbarkeit und Styling des Icons zu steuern.
 #[derive(Component, Debug, Clone, Copy)]
 pub struct CheckmarkIconEntity(pub Entity);

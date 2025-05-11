@@ -5,10 +5,6 @@ use bevy::prelude::*;
 
 use crate::*;
 
-// Das System setup_dialog_portal_container wird aus dem `portal`-Modul verwendet
-// und hier nicht mehr benötigt. Stelle sicher, dass `portal::setup_global_portal_root`
-// in deiner App aufgerufen wird (z.B. in einem Core-UI-Plugin).
-
 /// System zum Öffnen eines Dialogs über Event.
 pub fn open_dialog_system(
     mut commands: Commands, // Nicht mehr für Animationen, aber bleibt für ECS-Operationen

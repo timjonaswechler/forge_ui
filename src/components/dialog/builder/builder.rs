@@ -111,7 +111,7 @@ impl DialogBuilder {
         theme: &UiTheme,
         font_handle: &Handle<Font>,
         global_portal_root_opt: Option<Res<ForgeUiPortalRoot>>,
-        close_icon: Option<Handle<Image>>,
+        close_icon: Handle<Image>,
     ) -> Entity {
         let overlay_final_color = self.overlay_color.unwrap_or(theme.color.black.step07);
         let dialog_bg_color = theme.color.gray.step02;
@@ -289,6 +289,7 @@ impl DialogBuilder {
                                 .action(DialogAction::Close(self.id.clone()))
                                 .size(ButtonSize::Icon)
                                 .variant(ButtonVariant::Ghost)
+                                .text("x")
                                 .spawn(btn_area_parent, theme, font_handle);
 
                             let _ = close_btn_builder;

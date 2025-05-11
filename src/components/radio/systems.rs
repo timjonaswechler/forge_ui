@@ -1,7 +1,5 @@
 // src/components/radio/systems.rs
 
-use std::os::macos::raw::stat;
-
 use crate::components::{
     OnSelectId, OnSelectRegistry, RadioGroup, RadioIndicator, RadioMarker, RadioState,
 };

@@ -57,6 +57,7 @@ impl Plugin for ForgeUiPlugin {
         app
             // region: 1) Initialize UiState and set starting variant
             .init_state::<UiState>()
+            .add_plugins(CameraPlugin)
             .insert_resource(self.config.clone())
             .insert_state(UiState::LoadingAssets)
             // endregion
