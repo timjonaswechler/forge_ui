@@ -1,3 +1,7 @@
+// forge_ui/src/lib.rs
+mod showcase;
+pub use showcase::*;
+
 mod components;
 pub use components::*;
 
@@ -12,4 +16,4 @@ mod camera;
 use camera::CameraPlugin;
 // Haupt-Plugin-Auslagerung
 mod plugin;
-pub use plugin::{ForgeUiPlugin, UiState};
+pub use plugin::{ForgeUiPlugin, UiConfig, UiState}; // UiConfig auch exportieren

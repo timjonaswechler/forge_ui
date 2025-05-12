@@ -26,6 +26,5 @@ regex.workspace = true
 
 [features]
 default = []
-fancy_ui = []
-minimal_ui = []
+showcase = []
 debug_inspector = ["bevy/bevy_dev_tools"]

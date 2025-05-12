@@ -4,6 +4,26 @@ use crate::theme::UiTheme;
 
 use bevy::prelude::*;
 
+/// Liefert die Farbwerte für Badge-Hintergrund, -Text und -Rand basierend auf der Variante.
+///
+/// # Parameter
+///
+/// - `variant`: Ausgewählte Variante des Badges.
+/// - `theme`: Eure UI-Theme-Ressource mit vordefinierten Farbwerten.
+///
+/// # Rückgabe
+///
+/// Ein Tuple `(background_color, text_color, border_color)`.
+///
+/// ## Beispiele
+///
+/// ```rust
+/// # use forge_ui::components::badge::{get_badge_colors, BadgeVariant};
+/// # use forge_ui::theme::UiTheme;
+/// let theme = UiTheme::default();
+/// let (bg, txt, border) = get_badge_colors(&BadgeVariant::Destructive, &theme);
+/// assert_eq!(border, theme.color.tomato.step06);
+/// ```
 pub fn get_badge_colors(variant: &BadgeVariant, theme: &UiTheme) -> (Color, Color, Color) {
     // Gibt zurück: (Hintergrund, Text, Rand)
     match variant {

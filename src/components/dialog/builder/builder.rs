@@ -107,7 +107,7 @@ impl DialogBuilder {
     #[must_use]
     pub fn spawn(
         self,
-        commands: &mut Commands,
+        commands: &mut ChildSpawnerCommands,
         theme: &UiTheme,
         font_handle: &Handle<Font>,
         global_portal_root_opt: Option<Res<ForgeUiPortalRoot>>,

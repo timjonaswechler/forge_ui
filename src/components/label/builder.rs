@@ -8,6 +8,7 @@ pub struct LabelBuilder {
     color: Option<Color>,
     // Optional: Spezifische Schriftgröße überschreiben?
     font_size: Option<f32>,
+    margin: Option<UiRect>,
     // Optional: Styling-Variante (falls LabelStyle Enum verwendet wird)
     // label_style: LabelStyle,
     // Optional: Textausrichtung
@@ -21,6 +22,7 @@ impl LabelBuilder {
             text: text.into(),
             color: None,
             font_size: None,
+            margin: None,
             // label_style: LabelStyle::default(),
             alignment: JustifyText::Left, // Standardmäßig linksbündig
         }
@@ -41,6 +43,10 @@ impl LabelBuilder {
     /// Setzt die Textausrichtung (Links, Zentriert, Rechts).
     pub fn align(mut self, alignment: JustifyText) -> Self {
         self.alignment = alignment;
+        self
+    }
+    pub fn margin(mut self, margin: UiRect) -> Self {
+        self.margin = Some(margin);
         self
     }
 
@@ -73,6 +79,7 @@ impl LabelBuilder {
             .spawn((Node {
                 justify_content: JustifyContent::Center,
                 overflow: Overflow::visible(),
+                margin: self.margin.unwrap_or_default(),
                 ..default()
             },))
             .with_children(|builder| {
