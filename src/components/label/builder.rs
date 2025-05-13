@@ -1,7 +1,47 @@
 use bevy::prelude::*; // Für den Rückgabetyp von spawn
 
 use crate::theme::UiTheme; // Theme für Styling
+/// forge_ui::label
+///
+/// Hilfs‑Modul zum komfortablen Erstellen konsistenter Text‑Labels
+/// im **Bevy**‑UI.  Es kapselt wiederkehrende Parameter wie Farbe,
+/// Schriftgröße, Margin und Ausrichtung und greift dabei zentral
+/// auf ein [`UiTheme`](crate::theme::UiTheme) zurück.
+///
+/// # Beispiel
+/// ```no_run
+/// use bevy::prelude::*;
+/// use forge_ui::label::LabelBuilder;
+///
+/// fn setup(mut cmds: Commands, theme: Res<UiTheme>, font: Res<Handle<Font>>) {
+///     cmds.spawn(NodeBundle::default())
+///         .with_children(|parent| {
+///             LabelBuilder::new("Hallo Welt")
+///                 .font_size(18.0)
+///                 .color(Color::rgb(0.9, 0.2, 0.2))
+///                 .spawn(parent, &theme, &font);
+///         });
+/// }
+/// ```
 
+/// Fluent‑Builder zum Erstellen von [`TextBundle`]‑Labels in Bevy.
+///
+/// Verwende `LabelBuilder::new("Mein Text")` und rufe anschließend
+/// optionale Setter auf, um Farbe, Schriftgröße, Margin oder
+/// Textausrichtung anzupassen.  Der abschließende Aufruf
+/// [`spawn`](Self::spawn) fügt das Label als Kind‑Entity eines
+/// gegebenen UI‑Parents hinzu.
+///
+/// *Standardwerte* werden aus dem bereitgestellten
+/// [`UiTheme`](crate::theme::UiTheme) übernommen.
+///
+/// # Lebensdauer‑Parameter
+/// * `'w` – World‑Lebensdauer für [`ChildSpawnerCommands`]
+/// * `'a` – Borrow‑Lebensdauer für den Parent‑Spawner
+///
+/// # Fehler
+/// Gibt das erzeugte [`Entity`] zurück; derzeit sind keine Fehlerfälle
+/// möglich.
 pub struct LabelBuilder {
     text: String,
     // Optional: Spezifische Farbe überschreiben?
@@ -16,7 +56,7 @@ pub struct LabelBuilder {
 }
 
 impl LabelBuilder {
-    /// Erstellt einen neuen LabelBuilder mit dem gegebenen Textinhalt.
+    /// Erstellt einen neuen `LabelBuilder` mit dem angegebenen Textinhalt.
     pub fn new(text: impl Into<String>) -> Self {
         Self {
             text: text.into(),
@@ -50,13 +90,12 @@ impl LabelBuilder {
         self
     }
 
-    // Optional: Methode für Styling-Enum
-    // pub fn style(mut self, style: LabelStyle) -> Self {
-    //     self.label_style = style;
-    //     self
-    // }
-
-    /// Spawnt das Label als Kind des gegebenen UI-Parents.
+    /// Spawnt das Label als Kind des gegebenen UI‑Parents und gibt
+    /// das erstellte [`Entity`] zurück.
+    ///
+    /// Der Builder liest fehlende Werte (Farbe, Schriftgröße) aus dem
+    /// übergebenen `theme` und verwendet den `font_handle` für das
+    /// [`Text`]‑Element.
     #[must_use = "Commands should generally be used, e.g. to get the entity ID"]
     pub fn spawn<'w, 'a>(
         self,

@@ -5,7 +5,10 @@ use bevy_common_assets::ron::RonAssetPlugin;
 
 use crate::assets::*;
 use crate::camera::CameraPlugin;
-use crate::components::{button::*, checkbox::*, dialog::*, portal::*, radio::*, switch::*};
+use crate::components::helper::*;
+use crate::components::{
+    button::*, checkbox::*, dialog::*, portal::*, radio::*, switch::*, toggle::*, toggle_group::*,
+};
 use crate::theme::*;
 
 #[derive(States, Debug, Clone, Copy, PartialEq, Eq, Hash, Default)]
@@ -100,6 +103,8 @@ impl Plugin for ForgeUiPlugin {
             // endregion --- Badge ---
             .add_plugins(ButtonPlugin)
             .add_plugins(DialogPlugin)
+            .add_plugins(TogglePlugin::<NoAction>::default())
+            .add_plugins(ToggleGroupPlugin::<NoAction>::default())
             // region: --- Checkboxen ---
             .add_event::<CheckboxChangedEvent>()
             .add_systems(

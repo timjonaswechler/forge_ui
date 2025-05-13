@@ -1,4 +1,4 @@
-// In src/components/button/plugin.rs (neu zu erstellen)
+// In src/components/button/plugin.rs
 use crate::components::button::{
     handle_button_press, handle_button_release, update_button_visuals, ButtonClickedEvent,
 };

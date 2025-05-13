@@ -3,8 +3,45 @@ use bevy::ui::FocusPolicy;
 
 use super::*;
 use crate::components::helper::NoAction;
-
-/// Fluent Builder für `Toggle`.
+///
+/// # Toggle Module
+///
+/// The `Toggle` module provides functionality for creating toggleable UI components.
+/// These components can be used to switch between two states, such as on/off.
+///
+/// ## Structures
+///
+/// - `ToggleBuilder`: A builder for creating toggle components.
+/// - `ToggleMarker`: A marker component for identifying toggle entities.
+/// - `ToggleState`: Represents the state of a toggle (e.g., on or off).
+/// - `ToggleChangedEvent`: An event that is sent when the toggle state changes.
+/// - `ToggleSize`: Defines the size of the toggle component.
+/// - `ToggleVariant`: Defines the visual variant of the toggle component.
+/// - `ToggleStyleDef`: Defines the style of the toggle component.
+/// - `ToggleStateColors`: Defines the colors for different toggle states.
+///
+/// ## Enums
+///
+/// - `TogglePlugin`: A plugin for integrating toggle functionality into the application.
+///
+/// ## Examples
+///
+/// ```rust
+/// use bevy::prelude::*;
+/// use forge_ui::components::toggle::*;
+///
+/// fn setup_toggle(mut commands: Commands) {
+///     ToggleBuilder::new()
+///         .size(ToggleSize::Medium)
+///         .variant(ToggleVariant::Default)
+///         .build(&mut commands);
+/// }
+/// ```
+///
+/// ## Related Modules
+///
+/// - `button`: For creating button components.
+/// - `checkbox`: For creating checkbox components.
 pub struct ToggleBuilder<A: Component + Clone + Send + Sync + 'static = NoAction> {
     pressed: bool,
     disabled: bool,

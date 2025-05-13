@@ -57,10 +57,16 @@ use crate::theme::UiTheme;
 /// - `.spawn(parent, &UiTheme, &Handle<Font>)` – Spawnt das Badge im angegebenen `ChildSpawnerCommands`.
 #[allow(dead_code)]
 pub struct BadgeBuilder {
+    /// Sichtbarer Text, der auf dem Badge erscheint.
     text: String,
+
+    /// Gewählte visuelle Variante (Default = Primär).
     variant: BadgeVariant,
-    // Optional: Icons vor/nach dem Text (erfordert komplexeres Spawnen)
+
+    /// Optionales Icon **links** vom Text.
     leading_icon: Option<Handle<Image>>,
+
+    /// Optionales Icon **rechts** vom Text.
     trailing_icon: Option<Handle<Image>>,
 }
 
