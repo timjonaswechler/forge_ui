@@ -1,7 +1,7 @@
 // components/dialog/header_builder.rs (oder ähnlich)
 
 use super::SectionElementBuilderFn;
-use crate::theme::UiTheme;
+use crate::*;
 use bevy::prelude::*; // Angenommen, wir haben ein builder_types.rs Modul
 
 #[derive(Default)]
@@ -9,7 +9,9 @@ pub struct DialogHeaderBuilder {
     title: Option<String>,
     subtitle: Option<String>,
     custom_elements: Vec<SectionElementBuilderFn>,
-    // Weitere spezifische Header-Optionen hier, z.B. Icon
+
+    show_close: bool,
+    close_icon: Handle<Image>,
 }
 
 impl DialogHeaderBuilder {
@@ -39,43 +41,98 @@ impl DialogHeaderBuilder {
         self
     }
 
+    pub fn with_close_button(
+        mut self,
+        icon: Handle<Image>, // None ⇒ Text‑Button «×»
+                             // z. B. `ButtonVariant::Ghost`
+                             // z. B. `ButtonSize::Xs`
+    ) -> Self {
+        self.show_close = true;
+        self.close_icon = icon;
+
+        self
+    }
+
     // Diese Methode wird vom DialogBuilder aufgerufen
+    #[allow(clippy::too_many_arguments)]
     pub(crate) fn spawn_into(
-        self, // Konsumiert den Builder
+        self,
         parent: &mut ChildSpawnerCommands,
         theme: &UiTheme,
-        font_handle: &Handle<Font>,
+        font: &Handle<Font>,
+        dialog_id: DialogId,
     ) {
-        // Hier Logik zum Spawnen von Titel, Subtitle und custom_elements
-        if let Some(title_text) = self.title {
-            parent.spawn((
-                Text::new(title_text),
-                TextFont {
-                    font: font_handle.clone(),
-                    font_size: theme.font.font_size.h4,
-                    ..default()
-                },
-                TextColor(theme.color.gray.step12),
-                Node {
-                    margin: UiRect::bottom(Val::Px(theme.layout.gap.xs)), // Kleiner Abstand falls Subtitle folgt
-                    ..default()
-                },
-            ));
-        }
-        if let Some(subtitle_text) = self.subtitle {
-            parent.spawn((
-                Text::new(subtitle_text),
-                TextFont {
-                    font: font_handle.clone(),
-                    font_size: theme.font.font_size.sm,
-                    ..default()
-                },
-                TextColor(theme.color.gray.step10),
-            ));
-        }
+        // move fields so we can use them inside the closure without borrowing `self`
+        let title = self.title;
+        let subtitle = self.subtitle;
+        let custom_elems = self.custom_elements; // will be moved into closure
+        let show_close = self.show_close;
+        let close_icon = self.close_icon;
 
-        for custom_element_fn in self.custom_elements {
-            (custom_element_fn)(parent, theme, font_handle);
-        }
+        // outer horizontal row (space‑between)
+        let mut row_cmd = HorizontalStackBuilder::new()
+            .justify(JustifyContent::SpaceBetween)
+            .align(AlignItems::FlexStart)
+            .width(Val::Percent(100.0))
+            .spawn(parent);
+
+        row_cmd.with_children(move |row| {
+            let mut col_entity = VerticalStackBuilder::new()
+                .align(AlignItems::FlexStart)
+                .gap(Val::Px(theme.layout.gap.xs))
+                .spawn(row);
+
+            col_entity.with_children(|col| {
+                // Titel / Untertitel sind ebenfalls Kinder der Column
+                if let Some(t) = title.clone() {
+                    col.spawn((
+                        Text::new(t),
+                        TextFont {
+                            font: font.clone(),
+                            font_size: theme.font.font_size.h4,
+                            ..default()
+                        },
+                        TextColor(theme.color.gray.step12),
+                    ));
+                }
+                if let Some(st) = subtitle.clone() {
+                    col.spawn((
+                        Text::new(st),
+                        TextFont {
+                            font: font.clone(),
+                            font_size: theme.font.font_size.sm,
+                            ..default()
+                        },
+                        TextColor(theme.color.gray.step10),
+                    ));
+                }
+
+                // Custom‑Element‑Callbacks ausführen
+                for elem in custom_elems {
+                    (elem)(col, theme, font); // ← jetzt korrekt!
+                }
+            });
+
+            // ── right close button ──────────────────────────────────────────
+            if show_close {
+                let mut btn = ButtonBuilder::<DialogAction>::new_for_action()
+                    .action(DialogAction::Close(dialog_id))
+                    .variant(ButtonVariant::Destructive)
+                    .size(ButtonSize::Icon);
+
+                btn = btn.icon(close_icon);
+
+                let mut btn_cmd = btn.spawn(row, theme, font);
+                // push to the far right & top
+                btn_cmd.insert(Node {
+                    align_self: AlignSelf::FlexStart,
+                    margin: UiRect {
+                        left: Val::Auto,
+                        ..default()
+                    },
+                    ..default()
+                });
+            }
+        });
     }
 }

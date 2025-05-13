@@ -10,6 +10,7 @@ pub struct HorizontalStack;
 pub struct HorizontalStackBuilder {
     base: BaseStackBuilder,
     children: Vec<Box<dyn FnOnce(&mut ChildSpawnerCommands) + Send + Sync>>,
+    additional_children: Vec<Entity>,
 }
 
 impl Default for HorizontalStackBuilder {
@@ -21,6 +22,7 @@ impl Default for HorizontalStackBuilder {
         Self {
             base,
             children: Vec::new(),
+            additional_children: Vec::new(),
         }
     }
 }
@@ -82,7 +84,7 @@ impl HorizontalStackBuilder {
     }
 
     /// Fügt ein Kind-Element hinzu, das durch eine Closure gespawnt wird.
-    pub fn add(
+    pub fn add_fn(
         mut self,
         child_builder: impl FnOnce(&mut ChildSpawnerCommands) + Send + Sync + 'static,
     ) -> Self {
@@ -90,6 +92,10 @@ impl HorizontalStackBuilder {
         self
     }
 
+    pub fn add_entity(mut self, entity: Entity) -> Self {
+        self.additional_children.push(entity);
+        self
+    }
     /// Spawnt den horizontalen Stack und seine Kinder.
     #[must_use]
     pub fn spawn<'w, 'a>(self, parent: &'a mut ChildSpawnerCommands<'w>) -> EntityCommands<'a> {

@@ -105,8 +105,8 @@ impl VerticalStackBuilder {
             row_gap: self.base.gap,
             padding: self.base.node.padding,
             margin: self.base.node.margin,
-            width: self.base.node.width,   // <<< Direkt verwenden
-            height: self.base.node.height, // <<< Direkt verwenden
+            width: self.base.node.width,
+            height: self.base.node.height,
             min_width: self.base.node.min_width,
             min_height: self.base.node.min_height,
             max_width: self.base.node.max_width,

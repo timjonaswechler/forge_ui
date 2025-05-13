@@ -234,38 +234,33 @@ impl ButtonStyle {
     }
 }
 
-// Default-Implementierung nutzt die Standard-UiTheme
-pub fn setup_button_style(mut commands: Commands, theme: Res<UiTheme>) {
-    let style = ButtonStyle::from_theme(&theme);
-    commands.insert_resource(style);
-}
+// // Default-Implementierung nutzt die Standard-UiTheme
+// pub fn setup_button_style(mut commands: Commands, theme: Res<UiTheme>) {
+//     let style = ButtonStyle::from_theme(&theme);
+//     commands.insert_resource(style);
+// }
 
 // --- Function to apply size-specific styling ---
 // Modifies Style and returns the font size
 pub fn apply_size_style(style: &mut Node, size: ButtonSize, theme: &UiTheme) -> f32 {
     // Setze BorderRadius basierend auf Theme
     // TODO: Radius an Größe anpassen? Shadcn macht das oft nicht.
-    // Wir verwenden einen festen Basisradius, aber spezifische Größen könnten dies überschreiben.
-    // style.border_radius = BorderRadius::all(Val::Px(theme.layout.radius.base)); // Bevy 0.15+
 
     match size {
         ButtonSize::Default => {
-            style.min_height = Val::Px(36.); // Feste Höhe (wie h-9)
             style.padding = UiRect::axes(Val::Px(theme.layout.padding.base), Val::Px(8.)); // ~px-4 py-2
             theme.font.font_size.base // text-sm
         }
         ButtonSize::Small => {
-            style.min_height = Val::Px(32.); // Feste Höhe (wie h-8)
             style.padding = UiRect::axes(Val::Px(theme.layout.padding.sm), Val::Px(4.)); // ~px-3 py-1
             theme.font.font_size.sm // text-xs
         }
         ButtonSize::Large => {
-            style.min_height = Val::Px(40.); // Feste Höhe (wie h-10)
             style.padding = UiRect::axes(Val::Px(theme.layout.padding.lg), Val::Px(8.)); // ~px-8 py-2
             theme.font.font_size.lg // text-base (oder lg?)
         }
         ButtonSize::Icon => {
-            style.width = Val::Px(36.); // Feste Größe (wie h-9 w-9)
+            style.width = Val::Px(36.); //TODO: Größe von Icosn herausfinden und hier verwenden
             style.height = Val::Px(36.);
             style.padding = UiRect::all(Val::Px(0.0));
             style.justify_content = JustifyContent::Center;

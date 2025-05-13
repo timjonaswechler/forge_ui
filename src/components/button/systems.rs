@@ -35,8 +35,8 @@ pub fn update_button_visuals(
         // 1. Update Button Background and Border using ButtonState.style_def methods
         // Diese Methoden enthalten jetzt die neue Overlay-Logik
         let style_def = get_button_style_def(state.variant, &theme);
-        *bg_color = style_def.background(*interaction, state.disabled); // <<< MODIFIED
-        *border_color = style_def.border(*interaction, state.disabled); // <<< MODIFIED
+        *bg_color = style_def.background(*interaction, state.disabled);
+        *border_color = style_def.border(*interaction, state.disabled);
 
         // 2. Update Children Colors
         if let Some(children) = children_opt {

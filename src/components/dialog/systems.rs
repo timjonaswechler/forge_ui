@@ -1,4 +1,3 @@
-use bevy::ecs::observer::TriggerTargets;
 // components/dialog/systems.rs
 use bevy::platform::collections::HashSet;
 use bevy::prelude::*;
@@ -7,7 +6,7 @@ use crate::*;
 
 /// System zum Öffnen eines Dialogs über Event.
 pub fn open_dialog_system(
-    mut commands: Commands, // Nicht mehr für Animationen, aber bleibt für ECS-Operationen
+    // mut commands: Commands, // Nicht mehr für Animationen, aber bleibt für ECS-Operationen
     mut ev_open: EventReader<OpenDialogEvent>,
     mut q_dialogs: Query<(
         Entity,
@@ -32,7 +31,7 @@ pub fn open_dialog_system(
 
 /// System zum Schließen von Dialogen.
 pub fn close_dialog_system(
-    mut commands: Commands, // Vorerst nicht genutzt, aber könnte für zukünftige, nicht-animierte ECS-Ops nützlich sein
+    // mut commands: Commands, // Vorerst nicht genutzt, aber könnte für zukünftige, nicht-animierte ECS-Ops nützlich sein
     mut ev_close: EventReader<CloseDialogEvent>,
     keyboard: Res<ButtonInput<KeyCode>>,
     mut active_modals: ResMut<ActiveDialogs>,

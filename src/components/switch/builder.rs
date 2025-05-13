@@ -23,7 +23,7 @@ impl Default for SwitchBuilder {
 }
 
 ///
-///         // Anfangs aktivierter Switch
+/// // Anfangs aktivierter Switch
 /// ```rust
 /// let _ = SwitchBuilder::new()
 /// .checked(true)
