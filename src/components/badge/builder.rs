@@ -55,7 +55,7 @@ use crate::theme::UiTheme;
 /// - `.leading_icon(handle: Handle<Image>)` – Fügt ein Icon vor dem Text hinzu.
 /// - `.trailing_icon(handle: Handle<Image>)` – Fügt ein Icon nach dem Text hinzu.
 /// - `.spawn(parent, &UiTheme, &Handle<Font>)` – Spawnt das Badge im angegebenen `ChildSpawnerCommands`.
-
+#[allow(dead_code)]
 pub struct BadgeBuilder {
     text: String,
     variant: BadgeVariant,

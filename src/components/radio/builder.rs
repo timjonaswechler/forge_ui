@@ -1,12 +1,9 @@
 // src/components/radio/builder.rs
-
-use crate::components::{
-    OnSelectId, RadioGroup, RadioIndicator, RadioMarker, RadioSize, RadioState, RadioVariant,
-};
-use crate::get_radio_style_def;
-use crate::UiTheme;
 use bevy::prelude::*;
 use std::sync::atomic::{AtomicU32, Ordering};
+
+use super::*;
+use crate::theme::UiTheme;
 
 #[derive(Default, Resource)]
 pub struct OnSelectRegistry {

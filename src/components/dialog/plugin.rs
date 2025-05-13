@@ -1,6 +1,9 @@
 // /src/components/dialog/plugin.rs
-use crate::*;
 use bevy::prelude::*; // Wichtig für den Trigger
+
+use super::*;
+use crate::components::button::*;
+use crate::plugin::UiState;
 
 pub struct DialogPlugin;
 

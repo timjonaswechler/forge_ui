@@ -1,5 +1,7 @@
-use crate::*;
 use bevy::prelude::*;
+
+use crate::layout::*;
+use crate::theme::UiTheme;
 
 pub(crate) fn spawn_dialog_sections<'w>(
     parent: &mut ChildSpawnerCommands<'w>,

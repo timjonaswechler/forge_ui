@@ -1,10 +1,8 @@
-use crate::components::dialog::builder::{
-    DialogBodyBuilder, DialogFooterBuilder, DialogHeaderBuilder,
-};
-use crate::components::dialog::helper::spawn_dialog_sections;
-use crate::theme::UiTheme;
-use crate::DialogId;
 use bevy::prelude::*;
+
+use super::super::*;
+use super::*;
+use crate::theme::UiTheme;
 
 /// Bündelt Header, Body, Footer zu einem Ganzen.
 #[derive(Default)]

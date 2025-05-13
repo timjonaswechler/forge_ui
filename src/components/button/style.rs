@@ -105,8 +105,8 @@ pub fn get_button_style_def(variant: ButtonVariant, theme: &UiTheme) -> ButtonSt
         ButtonVariant::Default => ButtonStyleDef {
             // --- Base Colors ---
             background_color: theme.color.blue.step09, // Standard gray background
-            text_color: theme.accent_color.step01,     // Standard text color
-            border_color: theme.accent_color.step06,   // Matching border
+            text_color: theme.accent.step01,           // Standard text color
+            border_color: theme.accent.step06,         // Matching border
 
             // --- Interaction Overlays ---
             hover_bg_overlay: hover_overlay, // Standard hover effect

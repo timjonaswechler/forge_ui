@@ -1,8 +1,7 @@
 use bevy::ecs::system::EntityCommands;
-use bevy::prelude::*; // Optional, falls Theme Styling beeinflusst
+use bevy::prelude::*;
 
-use crate::*;
-
+use super::*;
 /// Marker für einen horizontalen Stack-Container.
 #[derive(Component, Default, Debug, Clone, Copy)]
 pub struct HorizontalStack;

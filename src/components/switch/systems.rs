@@ -1,10 +1,7 @@
 use crate::theme::UiTheme;
 use bevy::prelude::*;
 
-use crate::{
-    SwitchChangedEvent, SwitchMarker, SwitchOverlayMarker, SwitchState, SwitchThumbMarker,
-    SwitchTrackColor,
-};
+use super::*;
 
 /// Update-System passt Thumb & Overlay an
 pub fn update_toggle_switch_visuals(
@@ -40,7 +37,7 @@ pub fn update_toggle_switch_visuals(
         let color = if state.checked {
             track_color
                 .and_then(|c| c.0) // hier unwrappt Option<Option<Color>>
-                .unwrap_or(theme.accent_color.step09)
+                .unwrap_or(theme.accent.step09)
         } else {
             theme.color.gray.step05
         };

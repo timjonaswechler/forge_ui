@@ -59,7 +59,7 @@ pub fn update_button_visuals(
     }
 }
 
-/// System, das Button-Klicks erkennt und ein generisches ButtonClickedEvent<A> sendet.
+/// System, das Button-Klicks erkennt und ein generisches `ButtonClickedEvent<A>` sendet.
 pub fn handle_button_press<A: Component + Clone>(
     mut writer: EventWriter<ButtonClickedEvent<A>>,
     // Nur Buttons, deren Interaction sich geändert hat:

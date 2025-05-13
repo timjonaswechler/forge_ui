@@ -1,7 +1,8 @@
-use crate::theme::UiTheme;
 use bevy::{ecs::system::EntityCommands, prelude::*, ui::FocusPolicy};
 
-use crate::{SwitchMarker, SwitchOverlayMarker, SwitchState, SwitchThumbMarker, SwitchTrackColor};
+use super::*;
+use crate::theme::UiTheme;
+
 pub struct SwitchBuilder {
     checked: bool,
     disabled: bool,
@@ -112,7 +113,7 @@ impl SwitchBuilder {
                 if let Some(color) = self.track_color {
                     color
                 } else {
-                    theme.accent_color.step09
+                    theme.accent.step09
                 }
             } else {
                 theme.color.gray.step05

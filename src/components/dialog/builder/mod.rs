@@ -1,4 +1,4 @@
-use crate::UiTheme;
+use crate::theme::UiTheme;
 use bevy::prelude::*;
 
 mod body;

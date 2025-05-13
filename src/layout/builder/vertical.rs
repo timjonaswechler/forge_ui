@@ -1,7 +1,7 @@
 use bevy::ecs::system::EntityCommands;
 use bevy::prelude::*;
 
-use crate::*;
+use super::base::BaseStackBuilder;
 
 #[derive(Component, Default, Debug, Clone, Copy)]
 pub struct VerticalStack;

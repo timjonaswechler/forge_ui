@@ -1,12 +1,8 @@
 // src/components/radio/systems.rs
-
-use crate::components::{
-    OnSelectId, OnSelectRegistry, RadioGroup, RadioIndicator, RadioMarker, RadioState,
-};
-use crate::get_radio_style_def;
-
-use crate::UiTheme;
 use bevy::prelude::*;
+
+use super::*;
+use crate::theme::UiTheme;
 
 /// System to update visuals based on state (variant, size, disabled, checked)
 pub fn update_radio_visuals(

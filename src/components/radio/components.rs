@@ -1,7 +1,7 @@
 // src/components/radio/components.rs
 use bevy::prelude::*;
 
-use crate::{RadioSize, RadioVariant};
+use super::{RadioSize, RadioVariant};
 
 #[derive(Component)]
 pub struct RadioIndicator;

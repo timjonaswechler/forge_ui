@@ -1,7 +1,8 @@
 // In src/components/button/plugin.rs (neu zu erstellen)
 use crate::components::button::{
-    handle_button_press, handle_button_release, update_button_visuals, ButtonClickedEvent, NoAction,
+    handle_button_press, handle_button_release, update_button_visuals, ButtonClickedEvent,
 };
+use crate::components::helper::NoAction;
 use crate::plugin::UiState;
 use bevy::prelude::*; // Dein globaler UI-State
 

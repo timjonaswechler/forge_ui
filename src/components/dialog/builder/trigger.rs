@@ -1,12 +1,11 @@
 // NEUE DATEI: /Users/tim-jonaswechler/GitHub-Projekte/forge_of_stories/crates/forge_ui/src/components/dialog/builder/trigger.rs
-
-use crate::components::button::{ButtonBuilder, ButtonSize, ButtonVariant}; // ButtonChild ggf. anpassen, falls Icons anders gehandhabt werden
-use crate::components::dialog::components::DialogId;
-use crate::theme::UiTheme;
-use crate::DialogAction;
 use bevy::ecs::system::EntityCommands;
 use bevy::prelude::*;
 
+use super::super::*;
+
+use crate::components::button::*;
+use crate::theme::UiTheme;
 pub struct DialogTriggerBuilder {
     target_dialog_id: DialogId,
     text: Option<String>,

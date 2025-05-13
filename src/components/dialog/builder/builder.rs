@@ -1,7 +1,11 @@
 // src/components/dialog/builder/builder.rs
-use crate::*;
 use bevy::prelude::*;
 use bevy::ui::FocusPolicy;
+
+use super::super::*;
+use super::*;
+use crate::components::portal::*;
+use crate::theme::UiTheme;
 
 /// Builder für einen gesamten Dialog (Overlay + Content).
 /// Alle konkreten Abschnitts‑Details (Header/Body/Footer) werden über

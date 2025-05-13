@@ -17,8 +17,10 @@ pub struct UiThemeData {
     pub font: UiTypographyData,
     pub layout: UiLayoutData,
     pub color: UiColorPalettesData,
-    pub accent_color: UiColorPaletteData,
-    pub gray_accent_color: UiColorPaletteData,
+    pub accent: UiColorPaletteData,
+    pub accent_a: UiColorPaletteData,
+    pub gray_accent: UiColorPaletteData,
+    pub gray_accent_a: UiColorPaletteData,
 }
 
 impl Default for UiThemeData {
@@ -27,8 +29,10 @@ impl Default for UiThemeData {
             font: UiTypographyData::default(),
             layout: UiLayoutData::default(),
             color: UiColorPalettesData::default_light(),
-            accent_color: UiColorPalettesData::default_light().blue,
-            gray_accent_color: UiColorPalettesData::default_light().gray,
+            accent: UiColorPalettesData::default_light().blue,
+            accent_a: UiColorPalettesData::default_light().blue_a,
+            gray_accent: UiColorPalettesData::default_light().gray,
+            gray_accent_a: UiColorPalettesData::default_light().gray_a,
         }
     }
 }

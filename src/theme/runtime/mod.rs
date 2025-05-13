@@ -18,8 +18,10 @@ pub struct UiTheme {
     pub font: UiTypography,
     pub layout: UiLayout,
     pub color: UiColorPalettes,
-    pub accent_color: UiColorPalette,
-    pub gray_accent_color: UiColorPalette,
+    pub accent: UiColorPalette,
+    pub accent_a: UiColorPalette,
+    pub gray_accent: UiColorPalette,
+    pub gray_accent_a: UiColorPalette,
 }
 
 impl UiTheme {
@@ -32,15 +34,19 @@ impl UiTheme {
         let font = typography::build(&font_assets, &data.font, config);
         let layout = layout::build(&data.layout, config);
         let color = color::build_palettes(&data.color);
-        let accent_color = color::build_palette(&data.accent_color);
-        let gray_accent_color = color::build_palette(&data.gray_accent_color);
+        let accent = color::build_palette(&data.accent);
+        let accent_a = color::build_palette(&data.accent_a);
+        let gray_accent = color::build_palette(&data.gray_accent);
+        let gray_accent_a = color::build_palette(&data.gray_accent_a);
 
         UiTheme {
             font,
             layout,
             color,
-            accent_color,
-            gray_accent_color,
+            accent,
+            accent_a,
+            gray_accent,
+            gray_accent_a,
         }
     }
 }

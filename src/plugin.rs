@@ -3,15 +3,18 @@ use bevy::prelude::*;
 use bevy_asset_loader::prelude::*;
 use bevy_common_assets::ron::RonAssetPlugin;
 
-use crate::*;
+use crate::assets::*;
+use crate::camera::CameraPlugin;
+use crate::components::{button::*, checkbox::*, dialog::*, portal::*, radio::*, switch::*};
+use crate::theme::*;
 
 #[derive(States, Debug, Clone, Copy, PartialEq, Eq, Hash, Default)]
 pub enum UiState {
     #[default]
-    LoadingAssets, // Fonts & Icons laden
-    LoadingTheme, // RON-Themes laden/prüfen
-    Ready,        // Normale UI-Systeme laufen
-    HotReload,    // Theme-HotReload Phase
+    LoadingAssets,
+    LoadingTheme,
+    Ready,
+    HotReload,
 }
 
 #[derive(Resource, Debug, Clone)]

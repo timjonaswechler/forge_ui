@@ -1,8 +1,9 @@
 // components/button/builder.rs
 use super::enums::{ButtonChild, ButtonSize, ButtonVariant};
 use super::style::{apply_size_style, base_style, get_button_style_def};
+use super::{ButtonMarker, ButtonState}; // NoAction importieren
+use crate::components::helper::NoAction;
 use crate::theme::UiTheme;
-use crate::{ButtonMarker, ButtonState, NoAction}; // NoAction importieren
 use bevy::ecs::system::EntityCommands;
 use bevy::prelude::*;
 use bevy::ui::FocusPolicy;

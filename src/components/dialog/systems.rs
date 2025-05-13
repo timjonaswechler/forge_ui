@@ -2,7 +2,8 @@
 use bevy::platform::collections::HashSet;
 use bevy::prelude::*;
 
-use crate::*;
+use super::*;
+use crate::components::button::*;
 
 /// System zum Öffnen eines Dialogs über Event.
 pub fn open_dialog_system(

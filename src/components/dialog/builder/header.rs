@@ -1,8 +1,11 @@
 // components/dialog/header_builder.rs (oder ähnlich)
-
-use super::SectionElementBuilderFn;
-use crate::*;
 use bevy::prelude::*; // Angenommen, wir haben ein builder_types.rs Modul
+
+use super::super::*;
+use super::*;
+use crate::components::button::*;
+use crate::layout::*;
+use crate::theme::UiTheme;
 
 #[derive(Default)]
 pub struct DialogHeaderBuilder {

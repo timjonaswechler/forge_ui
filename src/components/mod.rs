@@ -1,28 +1,15 @@
-mod badge;
-pub use badge::*;
-mod button;
-pub use button::*;
+// src/components/mod.rs
+#![forbid(unsafe_code)]
+#![cfg_attr(docsrs, feature(doc_auto_cfg))]
 
-// mod card;
-// pub use card::*;
-
-mod checkbox;
-pub use checkbox::*;
-
-mod dialog;
-pub use dialog::*;
-
-mod label;
-pub use label::*;
-
-// mod tabs;
-// pub use tabs::*;
-
-mod switch;
-pub use switch::*;
-
-mod radio;
-pub use radio::*;
-
-mod portal;
-pub use portal::*;
+pub mod badge;
+/// Komponentenmodul
+pub mod button;
+pub mod checkbox;
+pub mod dialog;
+pub mod helper;
+pub mod label;
+pub mod portal;
+pub mod radio;
+pub mod switch;
+pub mod toggle;

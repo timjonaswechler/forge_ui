@@ -627,8 +627,10 @@ pub fn save_theme_system(theme: Res<UiTheme>, config: Res<UiConfig>) {
             sky: to_palette(&theme.color.sky),
             sky_a: to_palette(&theme.color.sky_a),
         },
-        accent_color: to_palette(&theme.accent_color),
-        gray_accent_color: to_palette(&theme.gray_accent_color),
+        accent: to_palette(&theme.accent),
+        accent_a: to_palette(&theme.accent_a),
+        gray_accent: to_palette(&theme.gray_accent),
+        gray_accent_a: to_palette(&theme.gray_accent_a),
     };
 
     // Use ron crate for serialization
