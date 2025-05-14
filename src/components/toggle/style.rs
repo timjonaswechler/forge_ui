@@ -46,9 +46,9 @@ pub fn get_toggle_style_def(
 
     // ––––– Size‑Mapping
     let (size_px, radius) = match size {
-        ToggleSize::Small => (theme.layout.padding.sm, theme.layout.radius.sm),
-        ToggleSize::Medium => (theme.layout.padding.base, theme.layout.radius.base),
-        ToggleSize::Large => (theme.layout.padding.lg, theme.layout.radius.lg),
+        ToggleSize::Small => (theme.font.font_size.sm, theme.layout.radius.sm),
+        ToggleSize::Medium => (theme.font.font_size.base, theme.layout.radius.base),
+        ToggleSize::Large => (theme.font.font_size.lg, theme.layout.radius.lg),
     };
 
     ToggleStyleDef {

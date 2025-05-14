@@ -1,4 +1,4 @@
-use super::events::ToggleGroupChangedEvent;
+use super::events::*;
 use super::systems::*;
 use crate::plugin::UiState;
 use bevy::prelude::*;

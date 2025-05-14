@@ -8,6 +8,8 @@ use bevy::{
 use regex::Regex;
 use thiserror::Error;
 
+use crate::theme::UiTheme;
+
 #[derive(Asset, TypePath, Debug)]
 pub struct Icon {
     pub data: Vec<u8>,
@@ -35,6 +37,7 @@ impl AssetLoader for IconLoader {
         _load_context: &mut LoadContext<'_>,
     ) -> Result<Self::Asset, Self::Error> {
         let mut bytes = Vec::new();
+
         reader.read_to_end(&mut bytes).await?;
 
         match convert_svg_to_image(&bytes, 32, 32) {
