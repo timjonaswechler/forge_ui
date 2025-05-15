@@ -207,9 +207,6 @@ impl<A: Component + Clone + Send + Sync + 'static> ButtonBuilder<A> {
     /// und nur dieses Icon angezeigt. Ansonsten wird das Icon dem Text vorangestellt oder
     /// zu anderen Icons hinzugefügt.
     pub fn icon(mut self, icon_handle: Handle<Image>) -> Self {
-        if self.size == ButtonSize::Icon {
-            self.children_defs.clear(); // Nur ein Icon bei ButtonSize::Icon
-        }
         self.children_defs.push(ButtonChild::Icon(icon_handle));
         self
     }
@@ -218,9 +215,7 @@ impl<A: Component + Clone + Send + Sync + 'static> ButtonBuilder<A> {
     ///
     /// Wird nicht hinzugefügt, wenn die Button-Größe [`ButtonSize::Icon`] ist.
     pub fn text(mut self, text: impl Into<String>) -> Self {
-        if self.size != ButtonSize::Icon {
-            self.children_defs.push(ButtonChild::Text(text.into()));
-        }
+        self.children_defs.push(ButtonChild::Text(text.into()));
         self
     }
 
@@ -374,9 +369,9 @@ impl<A: Component + Clone + Send + Sync + 'static> ButtonBuilder<A> {
                     }
                     ButtonChild::Icon(handle) => {
                         let icon_size_val = match self.size {
-                            ButtonSize::Small => theme.font.font_size.sm,
-                            ButtonSize::Icon => theme.font.font_size.lg,
-                            _ => theme.font.font_size.base,
+                            ButtonSize::Small => theme.font.size.sm,
+                            ButtonSize::Large => theme.font.size.lg,
+                            _ => theme.font.size.base,
                         };
                         let icon_size = Val::Px(icon_size_val);
                         // Hole die korrekte initiale Icon-Tint-Farbe (ggf. Disabled)
@@ -396,12 +391,7 @@ impl<A: Component + Clone + Send + Sync + 'static> ButtonBuilder<A> {
                             BackgroundColor(initial_icon_tint),
                             FocusPolicy::Pass,
                             Visibility::Inherited,
-                        ))
-                        .insert(BackgroundColor(
-                            style_def
-                                .text_color
-                                .with_alpha(if self.disabled { 0.6 } else { 1.0 }),
-                        )); // Start tinted like text color
+                        ));
                     }
                 }
             }

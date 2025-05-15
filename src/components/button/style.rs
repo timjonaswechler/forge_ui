@@ -207,7 +207,6 @@ pub fn base_style() -> Node {
 pub struct ButtonStyle {
     pub node: Node,
     pub border_radius: BorderRadius,
-    pub transform: Transform,
     pub background_color: BackgroundColor,
     // … weitere Komponenten nach Bedarf
 }
@@ -227,18 +226,11 @@ impl ButtonStyle {
                 ..Default::default()
             },
             border_radius: BorderRadius::all(default_radius),
-            transform: Transform::default(),
             background_color: BackgroundColor(theme.color.gray.step01),
             // … Defaults für weitere Felder
         }
     }
 }
-
-// // Default-Implementierung nutzt die Standard-UiTheme
-// pub fn setup_button_style(mut commands: Commands, theme: Res<UiTheme>) {
-//     let style = ButtonStyle::from_theme(&theme);
-//     commands.insert_resource(style);
-// }
 
 // --- Function to apply size-specific styling ---
 // Modifies Style and returns the font size
@@ -249,25 +241,15 @@ pub fn apply_size_style(style: &mut Node, size: ButtonSize, theme: &UiTheme) -> 
     match size {
         ButtonSize::Default => {
             style.padding = UiRect::axes(Val::Px(theme.layout.padding.base), Val::Px(8.)); // ~px-4 py-2
-            theme.font.font_size.base // text-sm
+            theme.font.size.base // text-sm
         }
         ButtonSize::Small => {
             style.padding = UiRect::axes(Val::Px(theme.layout.padding.sm), Val::Px(4.)); // ~px-3 py-1
-            theme.font.font_size.sm // text-xs
+            theme.font.size.sm // text-xs
         }
         ButtonSize::Large => {
             style.padding = UiRect::axes(Val::Px(theme.layout.padding.lg), Val::Px(8.)); // ~px-8 py-2
-            theme.font.font_size.lg // text-base (oder lg?)
-        }
-        ButtonSize::Icon => {
-            style.width = Val::Px(36.); //TODO: Größe von Icosn herausfinden und hier verwenden
-            style.height = Val::Px(36.);
-            style.padding = UiRect::all(Val::Px(0.0));
-            style.justify_content = JustifyContent::Center;
-            style.align_items = AlignItems::Center;
-            // Radius für Icon-Button oft 'full' oder der gleiche wie Default
-
-            theme.font.font_size.base // Irrelevant für Icon, aber als Default
+            theme.font.size.lg // text-base (oder lg?)
         }
     }
 }

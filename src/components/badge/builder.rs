@@ -151,7 +151,7 @@ impl BadgeBuilder {
                     TextFont {
                         font: font_handle.clone(),
                         // Kleinere Schrift für Badges ('text-xs')
-                        font_size: theme.font.font_size.base,
+                        font_size: theme.font.size.base,
                         ..default()
                     },
                     TextColor(text_color), // Textfarbe

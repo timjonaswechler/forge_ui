@@ -1,5 +1,8 @@
-use super::{handle_toggle_interaction, update_toggle_visuals, ToggleChangedEvent};
-use crate::prelude::*;
+use super::{
+    events::ToggleChangedEvent,
+    systems::{handle_toggle_interaction, update_toggle_visuals},
+};
+use crate::prelude::UiState;
 use bevy::prelude::*;
 use std::marker::PhantomData;
 

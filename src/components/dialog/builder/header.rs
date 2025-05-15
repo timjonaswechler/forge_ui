@@ -92,7 +92,7 @@ impl DialogHeaderBuilder {
                         Text::new(t),
                         TextFont {
                             font: font.clone(),
-                            font_size: theme.font.font_size.h4,
+                            font_size: theme.font.size.h4,
                             ..default()
                         },
                         TextColor(theme.color.gray.step12),
@@ -103,7 +103,7 @@ impl DialogHeaderBuilder {
                         Text::new(st),
                         TextFont {
                             font: font.clone(),
-                            font_size: theme.font.font_size.sm,
+                            font_size: theme.font.size.sm,
                             ..default()
                         },
                         TextColor(theme.color.gray.step10),
@@ -120,8 +120,7 @@ impl DialogHeaderBuilder {
             if show_close {
                 let mut btn = ButtonBuilder::<DialogAction>::new_for_action()
                     .action(DialogAction::Close(dialog_id))
-                    .variant(ButtonVariant::Destructive)
-                    .size(ButtonSize::Icon);
+                    .variant(ButtonVariant::Destructive);
 
                 btn = btn.icon(close_icon);
 

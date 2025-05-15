@@ -143,8 +143,7 @@ impl<A: Component + Clone + Send + Sync + 'static> ToggleBuilder<A> {
         if let Some(icon_handle) = self.icon {
             cmd.with_children(|parent| {
                 parent.spawn(ImageNode {
-                    color: Color::BLACK,
-                    image: icon_handle.clone(),
+                    image: icon_handle,
                     ..default()
                 });
             });

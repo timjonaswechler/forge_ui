@@ -17,7 +17,6 @@ pub enum ButtonSize {
     Default,
     Small,
     Large,
-    Icon,
 }
 
 #[derive(Clone, Debug)]
