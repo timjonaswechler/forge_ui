@@ -66,19 +66,17 @@ impl Plugin for ForgeUiPlugin {
             .add_plugins(CameraPlugin)
             .insert_resource(self.config.clone())
             .insert_state(UiState::LoadingAssets)
+            .init_resource::<IconCache>()
             // endregion
             // region: 2) Asset-Loading: load FontAssets and IconAssets, then go to LoadingTheme
             .add_loading_state(
                 LoadingState::new(UiState::LoadingAssets)
                     .continue_to_state(UiState::LoadingTheme)
-                    .load_collection::<FontAssets>()
-                    .load_collection::<IconAssets>(),
+                    .load_collection::<FontAssets>(),
             )
             // endregion
             // region: 3) Register RON asset type
             .register_asset_reflect::<UiThemeData>()
-            .init_asset_loader::<IconLoader>()
-            .init_asset::<Icon>()
             .init_asset::<UiThemeData>()
             .add_plugins(RonAssetPlugin::<UiThemeData>::new(&["theme.ron", "theme"]))
             // endregion

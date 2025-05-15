@@ -5,5 +5,5 @@ pub use crate::components::{
     toggle::*, toggle_group::*,
 };
 pub use crate::layout::*;
-pub use crate::plugin::*;
+pub use crate::plugin::{ForgeUiPlugin, UiState};
 pub use crate::theme::*;

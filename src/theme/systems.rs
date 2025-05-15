@@ -127,34 +127,34 @@ pub fn hot_reload_theme_system(
                     };
 
                     // Update typography
-                    theme.font.font_size = UiFontSize {
-                        xs: data.font.font_size.xs * effective_font_size * effective_ui_scaling,
-                        sm: data.font.font_size.sm * effective_font_size * effective_ui_scaling,
-                        base: data.font.font_size.base * effective_font_size * effective_ui_scaling,
-                        lg: data.font.font_size.lg * effective_font_size * effective_ui_scaling,
-                        xl: data.font.font_size.xl * effective_font_size * effective_ui_scaling,
-                        x2l: data.font.font_size.x2l * effective_font_size * effective_ui_scaling,
-                        x3l: data.font.font_size.x3l * effective_font_size * effective_ui_scaling,
-                        x4l: data.font.font_size.x4l * effective_font_size * effective_ui_scaling,
-                        x5l: data.font.font_size.x5l * effective_font_size * effective_ui_scaling,
-                        x6l: data.font.font_size.x6l * effective_font_size * effective_ui_scaling,
-                        x7l: data.font.font_size.x7l * effective_font_size * effective_ui_scaling,
-                        x8l: data.font.font_size.x8l * effective_font_size * effective_ui_scaling,
-                        x9l: data.font.font_size.x9l * effective_font_size * effective_ui_scaling,
-                        h1: data.font.font_size.x4l * effective_font_size * effective_ui_scaling,
-                        h2: data.font.font_size.x2l * effective_font_size * effective_ui_scaling,
-                        h3: data.font.font_size.xl * effective_font_size * effective_ui_scaling,
-                        h4: data.font.font_size.lg * effective_font_size * effective_ui_scaling,
+                    theme.font.size = UiFontSize {
+                        xs: data.font.size.xs * effective_font_size * effective_ui_scaling,
+                        sm: data.font.size.sm * effective_font_size * effective_ui_scaling,
+                        base: data.font.size.base * effective_font_size * effective_ui_scaling,
+                        lg: data.font.size.lg * effective_font_size * effective_ui_scaling,
+                        xl: data.font.size.xl * effective_font_size * effective_ui_scaling,
+                        x2l: data.font.size.x2l * effective_font_size * effective_ui_scaling,
+                        x3l: data.font.size.x3l * effective_font_size * effective_ui_scaling,
+                        x4l: data.font.size.x4l * effective_font_size * effective_ui_scaling,
+                        x5l: data.font.size.x5l * effective_font_size * effective_ui_scaling,
+                        x6l: data.font.size.x6l * effective_font_size * effective_ui_scaling,
+                        x7l: data.font.size.x7l * effective_font_size * effective_ui_scaling,
+                        x8l: data.font.size.x8l * effective_font_size * effective_ui_scaling,
+                        x9l: data.font.size.x9l * effective_font_size * effective_ui_scaling,
+                        h1: data.font.size.x4l * effective_font_size * effective_ui_scaling,
+                        h2: data.font.size.x2l * effective_font_size * effective_ui_scaling,
+                        h3: data.font.size.xl * effective_font_size * effective_ui_scaling,
+                        h4: data.font.size.lg * effective_font_size * effective_ui_scaling,
                     };
                     // Font-Familien nur setzen, wenn der Pfad nicht leer ist
-                    if !data.font.font_family.default.is_empty() {
-                        theme.font.font_family.default = load_font(&data.font.font_family.default);
+                    if !data.font.family.default.is_empty() {
+                        theme.font.family.default = load_font(&data.font.family.default);
                     }
                     macro_rules! set_font_variant {
                         ($theme:expr, $data:expr, $family:ident, $variant:ident) => {
-                            if !$data.font.font_family.$family.$variant.is_empty() {
-                                $theme.font.font_family.$family.$variant =
-                                    load_font(&$data.font.font_family.$family.$variant);
+                            if !$data.font.family.$family.$variant.is_empty() {
+                                $theme.font.family.$family.$variant =
+                                    load_font(&$data.font.family.$family.$variant);
                             }
                         };
                     }
@@ -338,134 +338,134 @@ pub fn save_theme_system(theme: Res<UiTheme>, config: Res<UiConfig>) {
     let effective_font_size = config.font_size_base * config.scaling;
     let effective_spacing = config.spacing_factor * config.font_size_base * config.scaling;
 
-    let font_family = {
-        let default = if theme.font.font_family.default.path().is_some() {
-            font_handle_to_path_string(&theme.font.font_family.default)
+    let family = {
+        let default = if theme.font.family.default.path().is_some() {
+            font_handle_to_path_string(&theme.font.family.default)
         } else {
             String::new()
         };
         let sans = FontVariantsData {
-            light: if theme.font.font_family.sans.light.path().is_some() {
-                font_handle_to_path_string(&theme.font.font_family.sans.light)
+            light: if theme.font.family.sans.light.path().is_some() {
+                font_handle_to_path_string(&theme.font.family.sans.light)
             } else {
                 String::new()
             },
-            light_italic: if theme.font.font_family.sans.light_italic.path().is_some() {
-                font_handle_to_path_string(&theme.font.font_family.sans.light_italic)
+            light_italic: if theme.font.family.sans.light_italic.path().is_some() {
+                font_handle_to_path_string(&theme.font.family.sans.light_italic)
             } else {
                 String::new()
             },
-            regular: if theme.font.font_family.sans.regular.path().is_some() {
-                font_handle_to_path_string(&theme.font.font_family.sans.regular)
+            regular: if theme.font.family.sans.regular.path().is_some() {
+                font_handle_to_path_string(&theme.font.family.sans.regular)
             } else {
                 String::new()
             },
-            regular_italic: if theme.font.font_family.sans.regular_italic.path().is_some() {
-                font_handle_to_path_string(&theme.font.font_family.sans.regular_italic)
+            regular_italic: if theme.font.family.sans.regular_italic.path().is_some() {
+                font_handle_to_path_string(&theme.font.family.sans.regular_italic)
             } else {
                 String::new()
             },
-            medium: if theme.font.font_family.sans.medium.path().is_some() {
-                font_handle_to_path_string(&theme.font.font_family.sans.medium)
+            medium: if theme.font.family.sans.medium.path().is_some() {
+                font_handle_to_path_string(&theme.font.family.sans.medium)
             } else {
                 String::new()
             },
-            medium_italic: if theme.font.font_family.sans.medium_italic.path().is_some() {
-                font_handle_to_path_string(&theme.font.font_family.sans.medium_italic)
+            medium_italic: if theme.font.family.sans.medium_italic.path().is_some() {
+                font_handle_to_path_string(&theme.font.family.sans.medium_italic)
             } else {
                 String::new()
             },
-            bold: if theme.font.font_family.sans.bold.path().is_some() {
-                font_handle_to_path_string(&theme.font.font_family.sans.bold)
+            bold: if theme.font.family.sans.bold.path().is_some() {
+                font_handle_to_path_string(&theme.font.family.sans.bold)
             } else {
                 String::new()
             },
-            bold_italic: if theme.font.font_family.sans.bold_italic.path().is_some() {
-                font_handle_to_path_string(&theme.font.font_family.sans.bold_italic)
+            bold_italic: if theme.font.family.sans.bold_italic.path().is_some() {
+                font_handle_to_path_string(&theme.font.family.sans.bold_italic)
             } else {
                 String::new()
             },
         };
         let serif = FontVariantsData {
-            light: if theme.font.font_family.serif.light.path().is_some() {
-                font_handle_to_path_string(&theme.font.font_family.serif.light)
+            light: if theme.font.family.serif.light.path().is_some() {
+                font_handle_to_path_string(&theme.font.family.serif.light)
             } else {
                 String::new()
             },
-            light_italic: if theme.font.font_family.serif.light_italic.path().is_some() {
-                font_handle_to_path_string(&theme.font.font_family.serif.light_italic)
+            light_italic: if theme.font.family.serif.light_italic.path().is_some() {
+                font_handle_to_path_string(&theme.font.family.serif.light_italic)
             } else {
                 String::new()
             },
-            regular: if theme.font.font_family.serif.regular.path().is_some() {
-                font_handle_to_path_string(&theme.font.font_family.serif.regular)
+            regular: if theme.font.family.serif.regular.path().is_some() {
+                font_handle_to_path_string(&theme.font.family.serif.regular)
             } else {
                 String::new()
             },
-            regular_italic: if theme.font.font_family.serif.regular_italic.path().is_some() {
-                font_handle_to_path_string(&theme.font.font_family.serif.regular_italic)
+            regular_italic: if theme.font.family.serif.regular_italic.path().is_some() {
+                font_handle_to_path_string(&theme.font.family.serif.regular_italic)
             } else {
                 String::new()
             },
-            medium: if theme.font.font_family.serif.medium.path().is_some() {
-                font_handle_to_path_string(&theme.font.font_family.serif.medium)
+            medium: if theme.font.family.serif.medium.path().is_some() {
+                font_handle_to_path_string(&theme.font.family.serif.medium)
             } else {
                 String::new()
             },
-            medium_italic: if theme.font.font_family.serif.medium_italic.path().is_some() {
-                font_handle_to_path_string(&theme.font.font_family.serif.medium_italic)
+            medium_italic: if theme.font.family.serif.medium_italic.path().is_some() {
+                font_handle_to_path_string(&theme.font.family.serif.medium_italic)
             } else {
                 String::new()
             },
-            bold: if theme.font.font_family.serif.bold.path().is_some() {
-                font_handle_to_path_string(&theme.font.font_family.serif.bold)
+            bold: if theme.font.family.serif.bold.path().is_some() {
+                font_handle_to_path_string(&theme.font.family.serif.bold)
             } else {
                 String::new()
             },
-            bold_italic: if theme.font.font_family.serif.bold_italic.path().is_some() {
-                font_handle_to_path_string(&theme.font.font_family.serif.bold_italic)
+            bold_italic: if theme.font.family.serif.bold_italic.path().is_some() {
+                font_handle_to_path_string(&theme.font.family.serif.bold_italic)
             } else {
                 String::new()
             },
         };
         let mono = FontVariantsData {
-            light: if theme.font.font_family.mono.light.path().is_some() {
-                font_handle_to_path_string(&theme.font.font_family.mono.light)
+            light: if theme.font.family.mono.light.path().is_some() {
+                font_handle_to_path_string(&theme.font.family.mono.light)
             } else {
                 String::new()
             },
-            light_italic: if theme.font.font_family.mono.light_italic.path().is_some() {
-                font_handle_to_path_string(&theme.font.font_family.mono.light_italic)
+            light_italic: if theme.font.family.mono.light_italic.path().is_some() {
+                font_handle_to_path_string(&theme.font.family.mono.light_italic)
             } else {
                 String::new()
             },
-            regular: if theme.font.font_family.mono.regular.path().is_some() {
-                font_handle_to_path_string(&theme.font.font_family.mono.regular)
+            regular: if theme.font.family.mono.regular.path().is_some() {
+                font_handle_to_path_string(&theme.font.family.mono.regular)
             } else {
                 String::new()
             },
-            regular_italic: if theme.font.font_family.mono.regular_italic.path().is_some() {
-                font_handle_to_path_string(&theme.font.font_family.mono.regular_italic)
+            regular_italic: if theme.font.family.mono.regular_italic.path().is_some() {
+                font_handle_to_path_string(&theme.font.family.mono.regular_italic)
             } else {
                 String::new()
             },
-            medium: if theme.font.font_family.mono.medium.path().is_some() {
-                font_handle_to_path_string(&theme.font.font_family.mono.medium)
+            medium: if theme.font.family.mono.medium.path().is_some() {
+                font_handle_to_path_string(&theme.font.family.mono.medium)
             } else {
                 String::new()
             },
-            medium_italic: if theme.font.font_family.mono.medium_italic.path().is_some() {
-                font_handle_to_path_string(&theme.font.font_family.mono.medium_italic)
+            medium_italic: if theme.font.family.mono.medium_italic.path().is_some() {
+                font_handle_to_path_string(&theme.font.family.mono.medium_italic)
             } else {
                 String::new()
             },
-            bold: if theme.font.font_family.mono.bold.path().is_some() {
-                font_handle_to_path_string(&theme.font.font_family.mono.bold)
+            bold: if theme.font.family.mono.bold.path().is_some() {
+                font_handle_to_path_string(&theme.font.family.mono.bold)
             } else {
                 String::new()
             },
-            bold_italic: if theme.font.font_family.mono.bold_italic.path().is_some() {
-                font_handle_to_path_string(&theme.font.font_family.mono.bold_italic)
+            bold_italic: if theme.font.family.mono.bold_italic.path().is_some() {
+                font_handle_to_path_string(&theme.font.family.mono.bold_italic)
             } else {
                 String::new()
             },
@@ -480,23 +480,23 @@ pub fn save_theme_system(theme: Res<UiTheme>, config: Res<UiConfig>) {
 
     let data = UiThemeData {
         font: UiTypographyData {
-            font_size: UiFontSizeData {
+            size: UiFontSizeData {
                 // Direct copy is fine for f32 values
-                xs: theme.font.font_size.xs / effective_font_size,
-                sm: theme.font.font_size.sm / effective_font_size,
-                base: theme.font.font_size.base / effective_font_size,
-                lg: theme.font.font_size.lg / effective_font_size,
-                xl: theme.font.font_size.xl / effective_font_size,
-                x2l: theme.font.font_size.x2l / effective_font_size,
-                x3l: theme.font.font_size.x3l / effective_font_size,
-                x4l: theme.font.font_size.x4l / effective_font_size,
-                x5l: theme.font.font_size.x5l / effective_font_size,
-                x6l: theme.font.font_size.x6l / effective_font_size,
-                x7l: theme.font.font_size.x7l / effective_font_size,
-                x8l: theme.font.font_size.x8l / effective_font_size,
-                x9l: theme.font.font_size.x9l / effective_font_size,
+                xs: theme.font.size.xs / effective_font_size,
+                sm: theme.font.size.sm / effective_font_size,
+                base: theme.font.size.base / effective_font_size,
+                lg: theme.font.size.lg / effective_font_size,
+                xl: theme.font.size.xl / effective_font_size,
+                x2l: theme.font.size.x2l / effective_font_size,
+                x3l: theme.font.size.x3l / effective_font_size,
+                x4l: theme.font.size.x4l / effective_font_size,
+                x5l: theme.font.size.x5l / effective_font_size,
+                x6l: theme.font.size.x6l / effective_font_size,
+                x7l: theme.font.size.x7l / effective_font_size,
+                x8l: theme.font.size.x8l / effective_font_size,
+                x9l: theme.font.size.x9l / effective_font_size,
             },
-            font_family,
+            family,
         },
         layout: UiLayoutData {
             padding: UiSpacingData {

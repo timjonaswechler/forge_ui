@@ -6,9 +6,9 @@ use serde::{Deserialize, Serialize};
 #[derive(Serialize, Deserialize, Debug, Clone, Reflect)]
 pub struct UiTypographyData {
     #[serde(default)]
-    pub font_size: UiFontSizeData,
+    pub size: UiFontSizeData,
     #[serde(default)]
-    pub font_family: UiFontFamiliesData,
+    pub family: UiFontFamiliesData,
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone, Reflect, Default)]
@@ -76,7 +76,7 @@ pub struct FontVariantsData {
 impl Default for UiTypographyData {
     fn default() -> Self {
         UiTypographyData {
-            font_size: UiFontSizeData {
+            size: UiFontSizeData {
                 xs: 0.75,
                 sm: 0.875,
                 base: 1.0,
@@ -91,7 +91,7 @@ impl Default for UiTypographyData {
                 x8l: 6.0,
                 x9l: 8.0,
             },
-            font_family: UiFontFamiliesData {
+            family: UiFontFamiliesData {
                 default: "fonts/Roboto-Regular.ttf".to_string(),
                 sans: FontVariantsData {
                     light: "fonts/Roboto-Light.ttf".to_string(),

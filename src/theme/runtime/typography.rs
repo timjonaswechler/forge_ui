@@ -6,8 +6,8 @@ use bevy::prelude::*;
 
 #[derive(Debug, Clone)]
 pub struct UiTypography {
-    pub font_size: UiFontSize,
-    pub font_family: UiFontFamilies,
+    pub size: UiFontSize,
+    pub family: UiFontFamilies,
 }
 
 #[derive(Debug, Clone)]
@@ -55,26 +55,26 @@ pub fn build(assets: &FontAssets, data: &UiTypographyData, config: &UiConfig) ->
     let size = |v: f32| v * config.font_size_base * config.scaling;
 
     UiTypography {
-        font_size: UiFontSize {
-            xs: size(data.font_size.xs),
-            sm: size(data.font_size.sm),
-            base: size(data.font_size.base),
-            lg: size(data.font_size.lg),
-            xl: size(data.font_size.xl),
-            x2l: size(data.font_size.x2l),
-            x3l: size(data.font_size.x3l),
-            x4l: size(data.font_size.x4l),
-            x5l: size(data.font_size.x5l),
-            x6l: size(data.font_size.x6l),
-            x7l: size(data.font_size.x7l),
-            x8l: size(data.font_size.x8l),
-            x9l: size(data.font_size.x9l),
-            h1: size(data.font_size.x4l),
-            h2: size(data.font_size.x2l),
-            h3: size(data.font_size.xl),
-            h4: size(data.font_size.lg),
+        size: UiFontSize {
+            xs: size(data.size.xs),
+            sm: size(data.size.sm),
+            base: size(data.size.base),
+            lg: size(data.size.lg),
+            xl: size(data.size.xl),
+            x2l: size(data.size.x2l),
+            x3l: size(data.size.x3l),
+            x4l: size(data.size.x4l),
+            x5l: size(data.size.x5l),
+            x6l: size(data.size.x6l),
+            x7l: size(data.size.x7l),
+            x8l: size(data.size.x8l),
+            x9l: size(data.size.x9l),
+            h1: size(data.size.x4l),
+            h2: size(data.size.x2l),
+            h3: size(data.size.xl),
+            h4: size(data.size.lg),
         },
-        font_family: UiFontFamilies {
+        family: UiFontFamilies {
             default: assets.default.clone(),
             sans: FontVariants {
                 light: assets.sans_light.clone(),
