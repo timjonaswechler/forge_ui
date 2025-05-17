@@ -5,7 +5,7 @@ use bevy::{
 };
 use regex::Regex;
 use std::path::Path;
-use tiny_skia::{ColorU8, Pixmap, PremultipliedColor, Transform};
+use tiny_skia::{ColorU8, Pixmap, Transform};
 
 pub struct IconBuilder;
 

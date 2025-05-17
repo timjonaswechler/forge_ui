@@ -3,7 +3,7 @@ use bevy::prelude::*;
 use bevy_asset_loader::prelude::*;
 use bevy_common_assets::ron::RonAssetPlugin;
 
-use crate::assets::*;
+use crate::assets::{icons::resource::*, FontAssets};
 use crate::camera::CameraPlugin;
 use crate::components::helper::*;
 use crate::components::{

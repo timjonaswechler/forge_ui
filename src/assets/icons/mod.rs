@@ -1,8 +1,6 @@
-mod accessibility;
 mod builder;
+pub mod ui;
 
-mod resouce;
+pub(crate) mod resource;
 
-pub use accessibility::*;
 pub(crate) use builder::*;
-pub use resouce::*;

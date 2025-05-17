@@ -1,7 +1,4 @@
 // src/assets/mod.rs
-
 mod fonts;
-mod icons;
-
-pub use fonts::*;
-pub use icons::*;
+pub use fonts::FontAssets;
+pub mod icons;
