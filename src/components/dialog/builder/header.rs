@@ -1,5 +1,5 @@
 // components/dialog/header_builder.rs (oder ähnlich)
-use bevy::prelude::*; // Angenommen, wir haben ein builder_types.rs Modul
+use bevy::{color, prelude::*}; // Angenommen, wir haben ein builder_types.rs Modul
 
 use super::super::*;
 use super::*;
@@ -118,11 +118,12 @@ impl DialogHeaderBuilder {
 
             // ── right close button ──────────────────────────────────────────
             if show_close {
-                let mut btn = ButtonBuilder::<DialogAction>::new_for_action()
+                let btn = ButtonBuilder::<DialogAction>::new_for_action()
                     .action(DialogAction::Close(dialog_id))
-                    .variant(ButtonVariant::Destructive);
+                    .variant(ButtonVariant::Soft)
+                    .color(theme.color.red.clone());
 
-                btn = btn.icon(close_icon);
+                // btn = btn.icon(close_icon);
 
                 let mut btn_cmd = btn.spawn(row, theme, font);
                 // push to the far right & top

@@ -1,4 +1,4 @@
-use super::enums::{ToggleGroupOrientation, ToggleGroupSize, ToggleGroupVariant};
+use super::enums::{ToggleGroupSize, ToggleGroupVariant};
 use bevy::prelude::*;
 
 /// Style definition for ToggleGroups

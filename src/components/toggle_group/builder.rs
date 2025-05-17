@@ -22,7 +22,6 @@ pub struct ToggleGroupBuilder<A: Component + Clone + Send + Sync + 'static = NoA
 pub struct ToggleGroupItemBuilder {
     value: String,
     icon: Option<Handle<Image>>,
-    aria_label: Option<String>,
     disabled: bool,
 }
 
@@ -110,7 +109,6 @@ impl<A: Component + Clone + Send + Sync + 'static> ToggleGroupBuilder<A> {
         self.items.push(ToggleGroupItemBuilder {
             value: value.into(),
             icon: None,
-            aria_label: None,
             disabled: false,
         });
         self
@@ -121,7 +119,6 @@ impl<A: Component + Clone + Send + Sync + 'static> ToggleGroupBuilder<A> {
         self.items.push(ToggleGroupItemBuilder {
             value: value.into(),
             icon: Some(icon),
-            aria_label: None,
             disabled: false,
         });
         self
@@ -252,7 +249,6 @@ impl ToggleGroupItemBuilder {
         Self {
             value: value.into(),
             icon: None,
-            aria_label: None,
             disabled: false,
         }
     }

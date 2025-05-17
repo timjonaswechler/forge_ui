@@ -3,12 +3,9 @@ use bevy::prelude::*;
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default, Component)]
 pub enum ButtonVariant {
     #[default]
-    Default,
-    Destructive,
+    Solid,
+    Soft,
     Outline,
-    Secondary,
-    Ghost,
-    Link,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default, Component)]
@@ -19,8 +16,9 @@ pub enum ButtonSize {
     Large,
 }
 
-#[derive(Clone, Debug)]
 pub enum ButtonChild {
+    /// Text-Inhalt
     Text(String),
-    Icon(Handle<Image>),
+    /// Beliebige Closure für eigene Child-Elemente
+    Custom(Box<dyn FnOnce(&mut ChildSpawnerCommands) + Send + Sync>),
 }

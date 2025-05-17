@@ -10,10 +10,10 @@ impl UiRoot {
         commands
             .spawn((
                 UiRoot,
+                // Style und Hintergrundfarbe bleiben wie gehabt
                 Node {
                     width: Val::Percent(100.0),
                     height: Val::Percent(100.0),
-
                     display: Display::Flex,
                     flex_direction: FlexDirection::Column,
                     justify_content: JustifyContent::Center,
@@ -22,6 +22,8 @@ impl UiRoot {
                     ..default()
                 },
                 BackgroundColor(theme.color.gray.step01),
+                // ─── Hier kommen die fehlenden UI-Bundles ───
+                Visibility::Visible,
             ))
             .id()
     }

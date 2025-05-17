@@ -22,7 +22,7 @@ impl DialogTriggerBuilder {
             target_dialog_id,
             text: None,
             icon: None,
-            variant: ButtonVariant::Default,
+            variant: ButtonVariant::Solid,
             size: ButtonSize::Default,
             custom_button_setup: Vec::new(),
             markers: Vec::new(),
@@ -83,9 +83,9 @@ impl DialogTriggerBuilder {
         if let Some(text) = self.text {
             button_builder = button_builder.text(text);
         }
-        if let Some(icon_handle) = self.icon {
-            button_builder = button_builder.icon(icon_handle);
-        }
+        // if let Some(icon_handle) = self.icon {
+        //     button_builder = button_builder.icon(icon_handle);
+        // }
 
         for config_fn in self.custom_button_setup {
             (config_fn)(&mut button_builder);

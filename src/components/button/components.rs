@@ -1,5 +1,6 @@
 // components/button/components.rs
 use super::enums::{ButtonSize, ButtonVariant};
+use crate::theme::UiColorPalette;
 use bevy::prelude::*;
 // PhantomData wird nicht mehr für OnClick benötigt
 
@@ -15,5 +16,6 @@ pub struct ButtonMarker;
 pub struct ButtonState {
     pub variant: ButtonVariant,
     pub size: ButtonSize,
+    pub color_palette: UiColorPalette,
     pub disabled: bool,
 }

@@ -71,7 +71,7 @@ pub struct UiColorPalettes {
     pub sky_a: UiColorPalette,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq)]
 pub struct UiColorPalette {
     pub step01: Color,
     pub step02: Color,
@@ -86,38 +86,25 @@ pub struct UiColorPalette {
     pub step11: Color,
     pub step12: Color,
 }
-
-#[derive(Debug, Clone)]
-pub struct UiAccentColorPalette {
-    pub step01: Color,
-    pub step02: Color,
-    pub step03: Color,
-    pub step04: Color,
-    pub step05: Color,
-    pub step06: Color,
-    pub step07: Color,
-    pub step08: Color,
-    pub step09: Color,
-    pub step10: Color,
-    pub step11: Color,
-    pub step12: Color,
+impl Default for UiColorPalette {
+    fn default() -> Self {
+        UiColorPalette {
+            step01: Color::NONE,
+            step02: Color::NONE,
+            step03: Color::NONE,
+            step04: Color::NONE,
+            step05: Color::NONE,
+            step06: Color::NONE,
+            step07: Color::NONE,
+            step08: Color::NONE,
+            step09: Color::NONE,
+            step10: Color::NONE,
+            step11: Color::NONE,
+            step12: Color::NONE,
+        }
+    }
 }
 
-#[derive(Debug, Clone)]
-pub struct UiGrayAccentColorPalette {
-    pub step01: Color,
-    pub step02: Color,
-    pub step03: Color,
-    pub step04: Color,
-    pub step05: Color,
-    pub step06: Color,
-    pub step07: Color,
-    pub step08: Color,
-    pub step09: Color,
-    pub step10: Color,
-    pub step11: Color,
-    pub step12: Color,
-}
 pub fn build_palette(data: &UiColorPaletteData) -> UiColorPalette {
     let conv_color = |c: [f32; 4]| Color::srgba(c[0], c[1], c[2], c[3]);
     UiColorPalette {

@@ -32,6 +32,7 @@ impl ButtonStyle {
                 ButtonSize::Small => theme.layout.padding.sm,
                 ButtonSize::Large => theme.layout.padding.lg,
             })),
+
             justify_content: JustifyContent::Center,
             align_items: AlignItems::Center,
             column_gap: Val::Px(theme.layout.gap.base),
@@ -67,12 +68,12 @@ impl ButtonStyle {
         let text_color = Self::text_color(palette, variant);
 
         ButtonStyle {
-            node,
-            background_color,
-            border_color,
+            node: node,
+            background_color: background_color,
+            border_color: border_color,
             border_radius: BorderRadius::all(Val::Px(theme.layout.radius.base)),
-            text_style,
-            text_color,
+            text_style: text_style,
+            text_color: text_color,
         }
     }
 
@@ -84,15 +85,15 @@ impl ButtonStyle {
         match (variant, interaction) {
             (ButtonVariant::Solid, Interaction::None) => BackgroundColor(palette.step09),
             (ButtonVariant::Soft, Interaction::None)
-            | (ButtonVariant::Outline, Interaction::None) => BackgroundColor(palette.step02),
+            | (ButtonVariant::Outline, Interaction::None) => BackgroundColor(palette.step03),
 
             (ButtonVariant::Solid, Interaction::Hovered) => BackgroundColor(palette.step10),
             (ButtonVariant::Soft, Interaction::Hovered)
-            | (ButtonVariant::Outline, Interaction::Hovered) => BackgroundColor(palette.step03),
+            | (ButtonVariant::Outline, Interaction::Hovered) => BackgroundColor(palette.step04),
 
             (ButtonVariant::Solid, Interaction::Pressed) => BackgroundColor(palette.step11),
             (ButtonVariant::Soft, Interaction::Pressed)
-            | (ButtonVariant::Outline, Interaction::Pressed) => BackgroundColor(palette.step04),
+            | (ButtonVariant::Outline, Interaction::Pressed) => BackgroundColor(palette.step05),
         }
     }
 

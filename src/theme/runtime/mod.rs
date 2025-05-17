@@ -9,9 +9,9 @@ mod color;
 mod layout;
 mod typography;
 
-pub use color::*;
-pub use layout::*;
-pub use typography::*;
+pub(crate) use color::*;
+pub(crate) use layout::*;
+pub(crate) use typography::*;
 
 #[derive(Debug, Clone, Asset, TypePath, Resource)]
 pub struct UiTheme {

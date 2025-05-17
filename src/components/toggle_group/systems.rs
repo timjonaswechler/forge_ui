@@ -14,8 +14,8 @@ pub fn handle_toggle_group_item_changes<A: Component + Clone + Send + Sync + 'st
 ) {
     for event in toggle_events.read() {
         // Find the parent toggle group for this toggle
-        if let Ok((parent, item_state)) = toggle_items.get(event.source_entity) {
-            let parent_entity = parent.get();
+        if let Ok((child_of, item_state)) = toggle_items.get(event.source_entity) {
+            let parent_entity = child_of.parent();
 
             // Get the toggle group state
             if let Ok((group_entity, mut group_state, action)) =

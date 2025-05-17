@@ -1,7 +1,6 @@
 use bevy::prelude::*;
 
 use super::*;
-use crate::theme::UiTheme;
 
 /// Behandelt `Interaction::Pressed` und toggelt den Zustand.
 pub fn handle_toggle_interaction<A: Component + Clone + Send + Sync + 'static>(
@@ -37,7 +36,7 @@ pub fn update_toggle_visuals(
     theme: Res<crate::theme::UiTheme>,
     mut images: Query<&mut BackgroundColor, Without<ToggleMarker>>, // Icon‑Child‑Farben
 ) {
-    for (state, interaction, mut bg, children_opt) in toggles.iter_mut() {
+    for (state, _interaction, mut bg, children_opt) in toggles.iter_mut() {
         let style = get_toggle_style_def(&theme, state.variant, state.size);
 
         // Hintergrundfarbe
