@@ -96,14 +96,10 @@ impl Plugin for ForgeUiPlugin {
                 .run_if(in_state(UiState::LoadingTheme)),
             )
             // endregion
-            // region: 5) Register UI systems in Ready
-            // region: --- Badge ---
-            // endregion --- Badge ---
             .add_plugins(ButtonPlugin)
             .add_plugins(DialogPlugin)
             .add_plugins(TogglePlugin::<NoAction>::default())
             .add_plugins(ToggleGroupPlugin::<NoAction>::default())
-            // region: --- Checkboxen ---
             .add_event::<CheckboxChangedEvent>()
             .add_systems(
                 Update,
