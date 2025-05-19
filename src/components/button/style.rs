@@ -1,22 +1,43 @@
-//! Vereinfachtes `style.rs` nur für Buttons
-
 use super::enums::{ButtonSize, ButtonVariant};
 use crate::theme::{UiColorPalette, UiTheme};
 use bevy::{prelude::*, utils::default};
 
-/// Bündelt alle Style-Komponenten für Buttons.
+/// Bundles all style components for buttons.
+///
+/// This structure combines all visual properties of a button and
+/// provides methods to generate consistent styles based on variant, size,
+/// and interaction state.
 #[derive(Bundle, Clone, Debug)]
 pub struct ButtonStyle {
+    /// Defines layout properties like padding, alignment and spacing
     pub node: Node,
+    /// Background color of the button
     pub background_color: BackgroundColor,
+    /// Border color of the button
     pub border_color: BorderColor,
+    /// Border radius for the button corners
     pub border_radius: BorderRadius,
+    /// Font and size for the button text
     pub text_style: TextFont,
+    /// Text color for the button text
     pub text_color: TextColor,
 }
 
 impl ButtonStyle {
-    /// Erzeugt das vollständige Style-Bundle für einen Button.
+    /// Creates the complete style bundle for a button.
+    ///
+    /// Generates all style components based on the provided parameters
+    /// and ensures the button adheres to the design system.
+    ///
+    /// # Parameters
+    /// * `variant` - The button variant (Solid, Soft, Outline)
+    /// * `size` - The button size (Default, Small, Large)
+    /// * `palette` - The color palette for the UI
+    /// * `interaction` - The current interaction state of the button
+    /// * `theme` - The UI theme with layout and typography definitions
+    ///
+    /// # Returns
+    /// A complete `ButtonStyle` bundle with all necessary components
     pub fn new(
         variant: ButtonVariant,
         size: ButtonSize,
@@ -24,7 +45,7 @@ impl ButtonStyle {
         interaction: Interaction,
         theme: &UiTheme,
     ) -> Self {
-        // Basis-Layout
+        // Basic layout
         let mut node = Node {
             display: Display::Flex,
             padding: UiRect::all(Val::Px(match size {
@@ -40,7 +61,7 @@ impl ButtonStyle {
             ..default()
         };
 
-        // Padding & Schriftgröße
+        // Padding & font size
         let font_size = match size {
             ButtonSize::Default => {
                 node.padding = UiRect::axes(Val::Px(theme.layout.padding.base), Val::Px(8.0));
@@ -56,7 +77,7 @@ impl ButtonStyle {
             }
         };
 
-        // Colors (alte Logik übernehmen)
+        // Colors (use existing logic)
         let background_color = Self::background(palette, variant, interaction);
 
         let border_color = Self::border(palette, variant, interaction);
@@ -77,6 +98,17 @@ impl ButtonStyle {
         }
     }
 
+    /// Determines the background color of a button.
+    ///
+    /// Selects the appropriate background color based on variant and interaction state.
+    ///
+    /// # Parameters
+    /// * `palette` - The color palette for the UI
+    /// * `variant` - The button variant
+    /// * `interaction` - The current interaction state
+    ///
+    /// # Returns
+    /// The `BackgroundColor` component with the corresponding color
     pub fn background(
         palette: &UiColorPalette,
         variant: ButtonVariant,
@@ -97,6 +129,18 @@ impl ButtonStyle {
         }
     }
 
+    /// Determines the border color of a button.
+    ///
+    /// Selects the appropriate border color based on variant and interaction state.
+    /// For Solid and Soft variants, no border is displayed (Color::NONE).
+    ///
+    /// # Parameters
+    /// * `palette` - The color palette for the UI
+    /// * `variant` - The button variant
+    /// * `interaction` - The current interaction state
+    ///
+    /// # Returns
+    /// The `BorderColor` component with the corresponding color
     pub fn border(
         palette: &UiColorPalette,
         variant: ButtonVariant,
@@ -115,6 +159,18 @@ impl ButtonStyle {
         }
     }
 
+    /// Determines the text color of a button.
+    ///
+    /// Selects the appropriate text color based on the button variant.
+    /// For Solid buttons, a lighter color is used, while for
+    /// Soft and Outline variants, a darker color is used.
+    ///
+    /// # Parameters
+    /// * `palette` - The color palette for the UI
+    /// * `variant` - The button variant
+    ///
+    /// # Returns
+    /// The `TextColor` component with the corresponding color
     pub fn text_color(palette: &UiColorPalette, variant: ButtonVariant) -> TextColor {
         match variant {
             ButtonVariant::Solid => TextColor(palette.step02),
