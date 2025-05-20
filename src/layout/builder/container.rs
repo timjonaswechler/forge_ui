@@ -3,13 +3,13 @@ use crate::theme::UiTheme;
 use bevy::prelude::*; // Optional, falls Theme Styling beeinflusst
 
 #[derive(Component, Default, Debug, Clone, Copy)]
-pub struct UiRoot;
+pub struct UiContainer;
 
-impl UiRoot {
+impl UiContainer {
     pub fn spawn(commands: &mut Commands, theme: &UiTheme) -> Entity {
         commands
             .spawn((
-                UiRoot,
+                UiContainer,
                 // Style und Hintergrundfarbe bleiben wie gehabt
                 Node {
                     position_type: PositionType::Absolute,

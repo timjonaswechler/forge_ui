@@ -29,6 +29,26 @@ impl VerticalStackBuilder {
         Self::default()
     }
 
+    pub fn position_type(mut self, position_type: PositionType) -> Self {
+        self.base.node.position_type = position_type;
+        self
+    }
+    pub fn top(mut self, top: Val) -> Self {
+        self.base.node.top = top;
+        self
+    }
+    pub fn left(mut self, left: Val) -> Self {
+        self.base.node.left = left;
+        self
+    }
+    pub fn right(mut self, right: Val) -> Self {
+        self.base.node.right = right;
+        self
+    }
+    pub fn bottom(mut self, bottom: Val) -> Self {
+        self.base.node.bottom = bottom;
+        self
+    }
     /// Setzt die Ausrichtung der Elemente entlang der Hauptachse (vertikal).
     pub fn justify(mut self, justify: JustifyContent) -> Self {
         self.base.node.justify_content = justify;
@@ -98,6 +118,12 @@ impl VerticalStackBuilder {
     #[must_use]
     pub fn spawn<'w, 'a>(self, parent: &'a mut ChildSpawnerCommands<'w>) -> EntityCommands<'a> {
         let style = Node {
+            position_type: self.base.node.position_type,
+            top: self.base.node.top,
+            left: self.base.node.left,
+            right: self.base.node.right,
+            bottom: self.base.node.bottom,
+
             display: Display::Flex,
             flex_direction: FlexDirection::Column,
             justify_content: self.base.node.justify_content,

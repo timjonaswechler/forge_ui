@@ -63,7 +63,7 @@ impl LabelBuilder {
             color: None,
             font_size: None,
             margin: None,
-            // label_style: LabelStyle::default(),
+
             alignment: JustifyText::Left, // Standardmäßig linksbündig
         }
     }

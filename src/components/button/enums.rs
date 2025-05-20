@@ -24,6 +24,7 @@ pub enum ButtonVariant {
     Soft,
     /// Transparent background with border and dark text
     Outline,
+    Ghost,
 }
 
 /// Defines the size variant of a button

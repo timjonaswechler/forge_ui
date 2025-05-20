@@ -116,14 +116,17 @@ impl ButtonStyle {
     ) -> BackgroundColor {
         match (variant, interaction) {
             (ButtonVariant::Solid, Interaction::None) => BackgroundColor(palette.step09),
+            (ButtonVariant::Ghost, Interaction::None) => BackgroundColor(palette.step01),
             (ButtonVariant::Soft, Interaction::None)
             | (ButtonVariant::Outline, Interaction::None) => BackgroundColor(palette.step03),
 
             (ButtonVariant::Solid, Interaction::Hovered) => BackgroundColor(palette.step10),
+            (ButtonVariant::Ghost, Interaction::Hovered) => BackgroundColor(palette.step03),
             (ButtonVariant::Soft, Interaction::Hovered)
             | (ButtonVariant::Outline, Interaction::Hovered) => BackgroundColor(palette.step04),
 
             (ButtonVariant::Solid, Interaction::Pressed) => BackgroundColor(palette.step11),
+            (ButtonVariant::Ghost, Interaction::Pressed) => BackgroundColor(palette.step04),
             (ButtonVariant::Soft, Interaction::Pressed)
             | (ButtonVariant::Outline, Interaction::Pressed) => BackgroundColor(palette.step05),
         }
@@ -148,11 +151,14 @@ impl ButtonStyle {
     ) -> BorderColor {
         match (variant, interaction) {
             (ButtonVariant::Solid, Interaction::None)
-            | (ButtonVariant::Soft, Interaction::None)
             | (ButtonVariant::Solid, Interaction::Hovered)
-            | (ButtonVariant::Soft, Interaction::Hovered)
             | (ButtonVariant::Solid, Interaction::Pressed)
-            | (ButtonVariant::Soft, Interaction::Pressed) => BorderColor(Color::NONE),
+            | (ButtonVariant::Soft, Interaction::None)
+            | (ButtonVariant::Soft, Interaction::Hovered)
+            | (ButtonVariant::Soft, Interaction::Pressed)
+            | (ButtonVariant::Ghost, Interaction::None)
+            | (ButtonVariant::Ghost, Interaction::Pressed)
+            | (ButtonVariant::Ghost, Interaction::Hovered) => BorderColor(Color::NONE),
             (ButtonVariant::Outline, Interaction::None)
             | (ButtonVariant::Outline, Interaction::Hovered)
             | (ButtonVariant::Outline, Interaction::Pressed) => BorderColor(palette.step11),
@@ -174,7 +180,9 @@ impl ButtonStyle {
     pub fn text_color(palette: &UiColorPalette, variant: ButtonVariant) -> TextColor {
         match variant {
             ButtonVariant::Solid => TextColor(palette.step02),
-            ButtonVariant::Soft | ButtonVariant::Outline => TextColor(palette.step11),
+            ButtonVariant::Soft | ButtonVariant::Outline | ButtonVariant::Ghost => {
+                TextColor(palette.step11)
+            }
         }
     }
 }

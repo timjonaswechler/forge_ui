@@ -3,6 +3,6 @@ mod components;
 mod enums;
 mod events;
 mod helpers;
-mod plugin;
+pub mod plugin;
 mod style;
 mod systems;
