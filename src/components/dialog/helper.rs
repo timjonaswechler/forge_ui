@@ -21,7 +21,7 @@ pub(crate) fn spawn_dialog_sections<'w>(
         .id();
 
     // ── Body ───────────────────────────────────
-    let body = VerticalStackBuilder::new()
+    let body = VerticalStackBuilder::new("Body")
         .gap(Val::Px(theme.layout.gap.base))
         .justify(JustifyContent::FlexStart)
         .align(AlignItems::Stretch)

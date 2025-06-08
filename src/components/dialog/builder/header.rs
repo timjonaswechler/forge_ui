@@ -80,7 +80,7 @@ impl DialogHeaderBuilder {
             .spawn(parent);
 
         row_cmd.with_children(move |row| {
-            let mut col_entity = VerticalStackBuilder::new()
+            let mut col_entity = VerticalStackBuilder::new("Header")
                 .align(AlignItems::FlexStart)
                 .gap(Val::Px(theme.layout.gap.xs))
                 .spawn(row);

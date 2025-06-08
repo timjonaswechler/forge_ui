@@ -8,6 +8,7 @@ pub struct VerticalStack;
 
 pub struct VerticalStackBuilder {
     base: BaseStackBuilder,
+    name: Option<String>,
     children: Vec<Box<dyn FnOnce(&mut ChildSpawnerCommands) + Send + Sync>>,
     additional_children: Vec<Entity>,
 }
@@ -17,6 +18,7 @@ impl Default for VerticalStackBuilder {
         // Sinnvolle Defaults für Vertical Stack überschreiben
         base.node.align_items = AlignItems::Center; // Zentriert horizontal, oft gewünscht
         Self {
+            name: None,
             base,
             children: Vec::new(),
             additional_children: Vec::new(),
@@ -25,8 +27,11 @@ impl Default for VerticalStackBuilder {
 }
 
 impl VerticalStackBuilder {
-    pub fn new() -> Self {
-        Self::default()
+    pub fn new(name: &str) -> Self {
+        Self {
+            name: Some(name.to_string()),
+            ..Self::default()
+        }
     }
 
     pub fn position_type(mut self, position_type: PositionType) -> Self {
@@ -109,8 +114,8 @@ impl VerticalStackBuilder {
         self.children.push(Box::new(child_builder));
         self
     }
-    pub fn add_entity(mut self, entity: Entity) -> Self {
-        self.additional_children.push(entity);
+    pub fn add_entity(mut self, entity: EntityCommands) -> Self {
+        self.additional_children.push(entity.id());
         self
     }
 
@@ -143,6 +148,7 @@ impl VerticalStackBuilder {
         };
 
         let mut cmd = parent.spawn((
+            Name::new(self.name.unwrap_or_else(|| "VerticalStack".to_string())),
             VerticalStack, // Marker
             Node { ..style },
             self.base.background,

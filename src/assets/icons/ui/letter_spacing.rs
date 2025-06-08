@@ -22,7 +22,7 @@ pub struct LetterSpacingIcon<'w> {
 }
 
 impl<'w> LetterSpacingIcon<'w> {
-    pub fn spawn(&mut self, size: f32, color: Color) -> Handle<Image> {
+    pub fn new(&mut self, size: f32, color: Color) -> Handle<Image> {
         let key = IconKey {
             size: size as u32,
             color: [

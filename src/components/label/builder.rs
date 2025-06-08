@@ -114,25 +114,24 @@ impl LabelBuilder {
         //     LabelStyle::Error => self.color.unwrap_or(theme.destructive), // Beispiel
         // };
 
-        parent
-            .spawn((Node {
-                justify_content: JustifyContent::Center,
-                overflow: Overflow::visible(),
-                margin: self.margin.unwrap_or_default(),
-                ..default()
-            },))
-            .with_children(|builder| {
-                builder.spawn((
-                    Text::new(self.text.clone()),
-                    TextFont {
-                        font_size: final_font_size,
-                        font: font_handle.clone(),
-                        ..default()
-                    },
-                    TextLayout::new_with_justify(self.alignment).with_no_wrap(),
-                    TextColor(final_color),
-                ));
-            })
-            .id()
+        let mut entity_commands = parent.spawn((Node {
+            justify_content: JustifyContent::Center,
+            overflow: Overflow::visible(),
+            margin: self.margin.unwrap_or_default(),
+            ..default()
+        },));
+        entity_commands.with_children(|builder| {
+            builder.spawn((
+                Text::new(self.text.clone()),
+                TextFont {
+                    font_size: final_font_size,
+                    font: font_handle.clone(),
+                    ..default()
+                },
+                TextLayout::new_with_justify(self.alignment).with_no_wrap(),
+                TextColor(final_color),
+            ));
+        });
+        entity_commands.id()
     }
 }

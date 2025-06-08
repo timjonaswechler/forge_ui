@@ -92,30 +92,36 @@ impl RadioGroupBuilder {
         ));
 
         // ── Child radios + labels ─────────────────────────────────────────────
-        group_entity.with_children(|parent| {
-            for (value, label_text) in self.options.into_iter() {
-                let is_checked = self.selected.as_ref().map_or(false, |s| s == &value);
+        group_entity.with_children({
+            let name = self.name.clone();
+            let selected = self.selected.clone();
+            let disabled = self.disabled;
+            let options = self.options;
+            move |parent| {
+                for (value, label_text) in options.into_iter() {
+                    let is_checked = selected.as_ref().map_or(false, |s| s == &value);
 
-                // A small container holding the radio and its label side‑by‑side
-                parent
-                    .spawn(Node {
-                        display: Display::Flex,
-                        flex_direction: FlexDirection::Row,
-                        align_items: AlignItems::Center,
-                        padding: UiRect::all(Val::Px(theme.layout.padding.sm)),
-                        ..default()
-                    })
-                    .with_children(|parent| {
-                        RadioBuilder::new(&value)
-                            .variant(RadioVariant::Primary)
-                            .size(RadioSize::Medium)
-                            .group(self.name.clone())
-                            .disabled(self.disabled)
-                            .checked(is_checked)
-                            .spawn(parent, theme, font);
+                    // A small container holding the radio and its label side‑by‑side
+                    parent
+                        .spawn(Node {
+                            display: Display::Flex,
+                            flex_direction: FlexDirection::Row,
+                            align_items: AlignItems::Center,
+                            padding: UiRect::all(Val::Px(theme.layout.padding.sm)),
+                            ..default()
+                        })
+                        .with_children(|parent| {
+                            RadioBuilder::new(&value)
+                                .variant(RadioVariant::Primary)
+                                .size(RadioSize::Medium)
+                                .group(name.clone())
+                                .disabled(disabled)
+                                .checked(is_checked)
+                                .spawn(parent, theme, font);
 
-                        LabelBuilder::new(label_text).spawn(parent, theme, font);
-                    });
+                            LabelBuilder::new(label_text).spawn(parent, theme, font);
+                        });
+                }
             }
         });
 

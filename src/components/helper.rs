@@ -1,3 +1,4 @@
+use crate::theme::UiTheme;
 use bevy::prelude::*;
 
 /// Der Standard-Aktionstyp die keine spezifische,
@@ -11,3 +12,14 @@ use bevy::prelude::*;
 /// Entität hinzugefügt, und `action_id` im Event wird `None` sein.
 #[derive(Component, Clone, Debug, Default, PartialEq, Eq, Hash)]
 pub struct NoAction;
+
+pub trait UiBuilder<'w, 's> {
+    type Output;
+
+    fn spawn(
+        self,
+        parent: &'s mut ChildSpawnerCommands<'w>,
+        theme: &UiTheme,
+        font: &Handle<Font>,
+    ) -> Self::Output;
+}
