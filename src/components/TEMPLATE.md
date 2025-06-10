@@ -650,7 +650,6 @@ pub struct ComponentOverlayMarker;
 pub fn spawn_disabled_overlay(
     parent: &mut ChildSpawnerCommands,
     theme: &UiTheme,
-    border_radius: f32,
 ) {
     parent.spawn((
         ComponentOverlayMarker,
@@ -663,7 +662,6 @@ pub fn spawn_disabled_overlay(
             ..default()
         },
         BackgroundColor(theme.color.black.step08),
-        BorderRadius::all(Val::Px(border_radius)),
         FocusPolicy::Block,
         Visibility::Visible,
     ));
