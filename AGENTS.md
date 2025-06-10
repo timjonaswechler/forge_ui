@@ -11,56 +11,56 @@ Das Projekt ist in Rust geschrieben und verwendet Bevy 0.16 als Game Engine. Zie
 
 ## allgemeiner Arbeitsablauf
 
-* am ende jeder aufgabe prüfe mit cargo check ob der code fehlerfrei ist, falls nicht
-  korrigiere die fehler und führe den check erneut aus, gegebenfalls in docs.rs nachsehen.
+* am Ende jeder Aufgabe prüfe mit `cargo check` ob der Code fehlerfrei ist, falls nicht
+  korrigiere die Fehler und führe den Check erneut aus, gegebenenfalls in docs.rs nachsehen.
 
 ## Arbeitsablauf wenn es um UI-Komponenten geht
 
 ### Aufgabentyp 1: Komponentenerstellung oder -überarbeitung
 Wenn eine Komponente erstellt oder überarbeitet werden soll:
 
-1. **Analyse**: Studiere die entsprechende Radix UI Komponente (GitHub Source und Website)
-2. **Template**: Orientiere dich an `src/components/TEMPLATE.md` für die Struktur
-3. **Implementierung**: Konvertiere die TypeScript-Logik in Bevy 0.16 Rust-Code
-4. **Dokumentation**: Erstelle oder aktualisiere die Rust-Dokumentation der Komponente
-5. **Checkbox aktualisieren**: Hacke in der Agents.md die Checkbox "Komponente erstellt" ab
-6. **Nächste Aufgabe**: Wechsle automatisch zu Aufgabentyp 2 für dieselbe Komponente
+1.  **Analyse**: Studiere die entsprechende Radix UI Komponente (GitHub)
+2.  **Template (Neuerstellung)**: Orientiere dich bei der *Neuerstellung* einer Komponente an `src/components/TEMPLATE.md` für die Struktur.
+3.  **Template-Prüfung (Überarbeitung)**: Wenn eine *bestehende* Komponente überarbeitet oder eine unvollständige Komponentenerstellung fortgesetzt wird, **prüfe zwingend**, ob der bisherige Code den Standards der `src/components/TEMPLATE.md` entspricht. Passe ihn bei Abweichungen an, um die einheitliche Struktur sicherzustellen.
+4.  **Implementierung**: Konvertiere die TypeScript-Logik in Bevy 0.16 Rust-Code.
+5.  **Dokumentation**: Erstelle oder aktualisiere die Rust-Dokumentation der Komponente.
+6.  **Checkbox aktualisieren**: Hacke in der Agents.md die Checkbox "Komponente erstellt" ab.
+7.  **Nächste Aufgabe**: Wechsle automatisch zu Aufgabentyp 2 für dieselbe Komponente.
 
 ### Aufgabentyp 2: Showcase-Erstellung
 Nach erfolgreicher Komponentenerstellung:
 
-1. **Showcase implementieren**: Erstelle oder aktualisiere die entsprechende Datei in `src/showcase/`
-2. **Funktionstest**: Stelle sicher, dass die Komponente in der Showcase korrekt funktioniert
-3. **Checkbox aktualisieren**: Hacke in der Agents.md die Checkbox "Showcase erstellt" ab
-4. **Aufgabe abschließen**: Die Komponente ist vollständig abgeschlossen
+1.  **Showcase implementieren**: Erstelle oder aktualisiere die entsprechende Datei in `src/showcase/`
+2.  **Funktionstest**: Stelle sicher, dass die Komponente in der Showcase korrekt funktioniert
+3.  **Checkbox aktualisieren**: Hacke in der Agents.md die Checkbox "Showcase erstellt" ab
+4.  **Aufgabe abschließen**: Die Komponente ist vollständig abgeschlossen
 
 ## Arbeitsregeln
 
 ### Konzentration
-* Arbeite immer nur an einer Komponente zur Zeit
-* Schließe eine Komponente vollständig ab bevor du zur nächsten wechselst
-* Beide Checkboxen einer Komponente müssen abgehakt sein bevor die nächste begonnen wird
+*   Arbeite immer nur an einer Komponente zur Zeit
+*   Schließe eine Komponente vollständig ab bevor du zur nächsten wechselst
+*   Beide Checkboxen einer Komponente müssen abgehakt sein bevor die nächste begonnen wird
 
 ### Automatische Navigation
-* Erkenne selbständig welche Komponente als nächstes bearbeitet werden muss
-* Priorisiere Komponenten mit keinen abgehakten Checkboxen
-* Bei teilweise abgeschlossenen Komponenten: Vervollständige die fehlende Aufgabe
+*   Erkenne selbständig welche Komponente als nächstes bearbeitet werden muss
+*   Bei teilweise abgeschlossenen Komponenten: Vervollständige die fehlende Aufgabe
 
 ### Checkbox-Management
-* Aktualisiere die Agents.md Datei nach jedem abgeschlossenen Schritt
-* Verwende exakte Markdown-Syntax für Checkboxen: `- [x]` für abgehakt, `- [ ]` für offen
-* Ändere nur die relevante Checkbox, lasse alle anderen unverändert
+*   Aktualisiere die Agents.md Datei nach jedem abgeschlossenen Schritt
+*   Verwende exakte Markdown-Syntax für Checkboxen: `- [x]` für abgehakt, `- [ ]` für offen
+*   Ändere nur die relevante Checkbox, lasse alle anderen unverändert
 
 ### Code-Qualität
-* Befolge die Bevy 0.16 API exakt wie in der Dokumentation beschrieben
-* Halte die einheitliche Struktur gemäß Template ein
-* Verwende aussagekräftige Rust-Dokumentation mit Beispielen
-* Stelle sicher, dass Styling und Verhalten der Radix UI Vorlage entsprechen
+*   Befolge die Bevy 0.16 API exakt wie in der Dokumentation beschrieben
+*   Halte die einheitliche Struktur gemäß Template ein (siehe Aufgabentyp 1, Punkte 2 & 3)
+*   Verwende aussagekräftige Rust-Dokumentation mit Beispielen
+*   Stelle sicher, dass Styling und Verhalten der Radix UI Vorlage entsprechen
 
 ### Fehlerbehandlung
-* Bei Unsicherheiten bezüglich Bevy-API: Konsultiere ausschließlich die offizielle Dokumentation
-* Bei Unklarheiten bezüglich Komponentenverhalten: Referenziere die Radix UI Implementierung
-* Dokumentiere alle Abweichungen von der Radix UI Vorlage mit Begründung
+*   Bei Unsicherheiten bezüglich Bevy-API: Konsultiere ausschließlich die offizielle Dokumentation
+*   Bei Unklarheiten bezüglich Komponentenverhalten: Referenziere die Radix UI Implementierung
+*   Dokumentiere alle Abweichungen von der Radix UI Vorlage mit Begründung
 
 ## Nächste Aktion
 Identifiziere die erste unvollständige Komponente in der Liste und beginne mit der Implementierung oder vervollständige die fehlende Aufgabe.
@@ -75,7 +75,7 @@ Identifiziere die erste unvollständige Komponente in der Liste und beginne mit 
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/badge.tsx`
 - [ ] Komponente erstellt
 - [ ] Showcase erstellt
-- [ ] 
+- [ ]
 
 ### Button
 - Source:
@@ -121,7 +121,7 @@ Identifiziere die erste unvollständige Komponente in der Liste und beginne mit 
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/checkbox-group.tsx`
 - [ ] Komponente erstellt
 - [ ] Showcase erstellt
-  
+
 ### Dialog
 - Source:
   - Primitives: `https://github.com/radix-ui/primitives/tree/main/packages/react/dialog/src`
@@ -148,7 +148,7 @@ Identifiziere die erste unvollständige Komponente in der Liste und beginne mit 
 - [ ] Komponente erstellt
 - [ ] Showcase erstellt
 
-### Radio 
+### Radio
 - Source:
   - Themes (_internal_):
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/_internal/base-radio.css`
