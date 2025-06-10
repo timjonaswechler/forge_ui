@@ -67,47 +67,6 @@ Identifiziere die erste unvollständige Komponente in der Liste und beginne mit 
 
 ## UI-Komponenten Liste
 
-### Aktuell unvollständige Komponenten
-
-* src/components/badge/
-* src/components/button/
-* src/components/checkbox/
-* src/components/dialog/
-* src/components/label/
-* src/components/portal/
-* src/components/radio/
-* src/components/radio_group/
-* src/components/switch/
-* src/components/toggle/
-* src/components/toggle-group/
-
-
-### Accordion
-- Source:
-  - Primitives: `https://github.com/radix-ui/primitives/tree/main/packages/react/accordion/src`
-- [ ] Komponente erstellt
-- [ ] Showcase erstellt
-
-### Alert Dialog
-- Source:
-  - Primitives: `https://github.com/radix-ui/primitives/tree/main/packages/react/alert-dialog/src`
-  - Themes:
-    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/alert-dialog.css`
-    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/alert-dialog.props.tsx`
-    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/alert-dialog.tsx`
-- [ ] Komponente erstellt
-- [ ] Showcase erstellt
-
-### Avatar
-- Source:
-  - Primitives: `https://github.com/radix-ui/primitives/tree/main/packages/react/avatar/src`
-  - Themes:
-    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/avatar.css`
-    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/avatar.props.tsx`
-    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/avatar.tsx`
-- [ ] Komponente erstellt
-- [ ] Showcase erstellt
-
 ### Badge
 - Source:
   - Themes:
@@ -116,24 +75,7 @@ Identifiziere die erste unvollständige Komponente in der Liste und beginne mit 
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/badge.tsx`
 - [ ] Komponente erstellt
 - [ ] Showcase erstellt
-
-### Blockquote
-- Source:
-  - Themes:
-    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/blockquote.props.tsx`
-    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/blockquote.tsx`
-    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/quote.css` (Related: Quote often used for blockquotes styling)
-- [ ] Komponente erstellt
-- [ ] Showcase erstellt
-
-### Box
-- Source:
-  - Themes:
-    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/box.css`
-    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/box.props.tsx`
-    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/box.tsx`
-- [ ] Komponente erstellt
-- [ ] Showcase erstellt
+- [ ] 
 
 ### Button
 - Source:
@@ -145,26 +87,6 @@ Identifiziere die erste unvollständige Komponente in der Liste und beginne mit 
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/button.css`
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/button.props.tsx`
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/button.tsx`
-- [ ] Komponente erstellt
-- [ ] Showcase erstellt
-
-### Callout
-- Source:
-  - Themes:
-    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/callout.css`
-    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/callout.props.tsx`
-    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/callout.tsx`
-- [ ] Komponente erstellt
-- [ ] Showcase erstellt
-
-### Card
-- Source:
-  - Themes (_internal_):
-    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/_internal/base-card.css`
-  - Themes (components):
-    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/card.css`
-    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/card.props.tsx`
-    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/card.tsx`
 - [ ] Komponente erstellt
 - [ ] Showcase erstellt
 
@@ -197,6 +119,150 @@ Identifiziere die erste unvollständige Komponente in der Liste und beginne mit 
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/checkbox-group.primitive.tsx`
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/checkbox-group.props.tsx`
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/checkbox-group.tsx`
+- [ ] Komponente erstellt
+- [ ] Showcase erstellt
+  
+### Dialog
+- Source:
+  - Primitives: `https://github.com/radix-ui/primitives/tree/main/packages/react/dialog/src`
+  - Themes (_internal_):
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/_internal/base-dialog.css`
+  - Themes (components):
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/dialog.css`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/dialog.props.tsx`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/dialog.tsx`
+- [ ] Komponente erstellt
+- [ ] Showcase erstellt
+
+### Label
+- Source:
+  - Primitives: `https://github.com/radix-ui/primitives/tree/main/packages/react/label/src`
+- [ ] Komponente erstellt
+- [ ] Showcase erstellt
+
+### Portal
+- Source:
+  - Primitives: `https://github.com/radix-ui/primitives/tree/main/packages/react/portal/src`
+  - Themes:
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/portal.tsx`
+- [ ] Komponente erstellt
+- [ ] Showcase erstellt
+
+### Radio 
+- Source:
+  - Themes (_internal_):
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/_internal/base-radio.css`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/_internal/base-radio.props.ts`
+  - Themes (components):
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/radio.css` (Individual radio item styles)
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/radio.props.tsx`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/radio.tsx`
+- [ ] Komponente erstellt
+- [ ] Showcase erstellt
+
+### Radio Cards
+- Source:
+  - Themes:
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/radio-cards.css`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/radio-cards.props.tsx`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/radio-cards.tsx`
+- [ ] Komponente erstellt
+- [ ] Showcase erstellt
+
+### Radio Group
+- Source:
+  - Primitives: `https://github.com/radix-ui/primitives/tree/main/packages/react/radio-group/src`
+  - Themes (components):
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/radio-group.css`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/radio-group.props.tsx`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/radio-group.tsx`
+- [ ] Komponente erstellt
+- [ ] Showcase erstellt
+
+### Switch
+- Source:
+  - Primitives: `https://github.com/radix-ui/primitives/tree/main/packages/react/switch/src`
+  - Themes:
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/switch.css`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/switch.props.tsx`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/switch.tsx`
+- [ ] Komponente erstellt
+- [ ] Showcase erstellt
+
+### Toggle
+- Source:
+  - Primitives: `https://github.com/radix-ui/primitives/tree/main/packages/react/toggle/src`
+- [ ] Komponente erstellt
+- [ ] Showcase erstellt
+
+### Toggle Group
+- Source:
+  - Primitives: `https://github.com/radix-ui/primitives/tree/main/packages/react/toggle-group/src`
+- [ ] Komponente erstellt
+- [ ] Showcase erstellt
+
+
+### Accordion
+- Source:
+  - Primitives: `https://github.com/radix-ui/primitives/tree/main/packages/react/accordion/src`
+- [ ] Komponente erstellt
+- [ ] Showcase erstellt
+
+### Alert Dialog
+- Source:
+  - Primitives: `https://github.com/radix-ui/primitives/tree/main/packages/react/alert-dialog/src`
+  - Themes:
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/alert-dialog.css`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/alert-dialog.props.tsx`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/alert-dialog.tsx`
+- [ ] Komponente erstellt
+- [ ] Showcase erstellt
+
+### Avatar
+- Source:
+  - Primitives: `https://github.com/radix-ui/primitives/tree/main/packages/react/avatar/src`
+  - Themes:
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/avatar.css`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/avatar.props.tsx`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/avatar.tsx`
+- [ ] Komponente erstellt
+- [ ] Showcase erstellt
+
+### Blockquote
+- Source:
+  - Themes:
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/blockquote.props.tsx`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/blockquote.tsx`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/quote.css` (Related: Quote often used for blockquotes styling)
+- [ ] Komponente erstellt
+- [ ] Showcase erstellt
+
+### Box
+- Source:
+  - Themes:
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/box.css`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/box.props.tsx`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/box.tsx`
+- [ ] Komponente erstellt
+- [ ] Showcase erstellt
+
+### Callout
+- Source:
+  - Themes:
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/callout.css`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/callout.props.tsx`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/callout.tsx`
+- [ ] Komponente erstellt
+- [ ] Showcase erstellt
+
+### Card
+- Source:
+  - Themes (_internal_):
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/_internal/base-card.css`
+  - Themes (components):
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/card.css`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/card.props.tsx`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/card.tsx`
 - [ ] Komponente erstellt
 - [ ] Showcase erstellt
 
@@ -257,17 +323,7 @@ Identifiziere die erste unvollständige Komponente in der Liste und beginne mit 
 - [ ] Komponente erstellt
 - [ ] Showcase erstellt
 
-### Dialog
-- Source:
-  - Primitives: `https://github.com/radix-ui/primitives/tree/main/packages/react/dialog/src`
-  - Themes (_internal_):
-    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/_internal/base-dialog.css`
-  - Themes (components):
-    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/dialog.css`
-    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/dialog.props.tsx`
-    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/dialog.tsx`
-- [ ] Komponente erstellt
-- [ ] Showcase erstellt
+
 
 ### Dropdown Menu
 - Source:
@@ -434,31 +490,6 @@ Identifiziere die erste unvollständige Komponente in der Liste und beginne mit 
 - [ ] Komponente erstellt
 - [ ] Showcase erstellt
 
-### Radio Cards
-- Source:
-  - Themes:
-    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/radio-cards.css`
-    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/radio-cards.props.tsx`
-    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/radio-cards.tsx`
-- [ ] Komponente erstellt
-- [ ] Showcase erstellt
-
-### Radio Group
-- Source:
-  - Primitives: `https://github.com/radix-ui/primitives/tree/main/packages/react/radio-group/src`
-  - Themes (_internal_):
-    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/_internal/base-radio.css`
-    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/_internal/base-radio.props.ts`
-  - Themes (components):
-    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/radio-group.css`
-    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/radio-group.props.tsx`
-    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/radio-group.tsx`
-    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/radio.css` (Individual radio item styles)
-    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/radio.props.tsx`
-    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/radio.tsx`
-- [ ] Komponente erstellt
-- [ ] Showcase erstellt
-
 ### Scroll Area (Scroll Areas)
 - Source:
   - Primitives: `https://github.com/radix-ui/primitives/tree/main/packages/react/scroll-areas/src` (Note: plural "areas" in primitives)
@@ -552,15 +583,7 @@ Identifiziere die erste unvollständige Komponente in der Liste und beginne mit 
 - [ ] Komponente erstellt
 - [ ] Showcase erstellt
 
-### Switch
-- Source:
-  - Primitives: `https://github.com/radix-ui/primitives/tree/main/packages/react/switch/src`
-  - Themes:
-    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/switch.css`
-    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/switch.props.tsx`
-    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/switch.tsx`
-- [ ] Komponente erstellt
-- [ ] Showcase erstellt
+
 
 ### Tab Nav
 - Source:
@@ -624,18 +647,6 @@ Identifiziere die erste unvollständige Komponente in der Liste und beginne mit 
 ### Toast
 - Source:
   - Primitives: `https://github.com/radix-ui/primitives/tree/main/packages/react/toast/src`
-- [ ] Komponente erstellt
-- [ ] Showcase erstellt
-
-### Toggle
-- Source:
-  - Primitives: `https://github.com/radix-ui/primitives/tree/main/packages/react/toggle/src`
-- [ ] Komponente erstellt
-- [ ] Showcase erstellt
-
-### Toggle Group
-- Source:
-  - Primitives: `https://github.com/radix-ui/primitives/tree/main/packages/react/toggle-group/src`
 - [ ] Komponente erstellt
 - [ ] Showcase erstellt
 
