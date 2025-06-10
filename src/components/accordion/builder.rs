@@ -10,7 +10,8 @@ pub struct AccordionBuilder {
     title: String,
     open: bool,
     disabled: bool,
-    content: Option<Box<dyn FnOnce(&mut ChildSpawnerCommands, &UiTheme, &Handle<Font>) + Send + Sync>>,
+    content:
+        Option<Box<dyn FnOnce(&mut ChildSpawnerCommands, &UiTheme, &Handle<Font>) + Send + Sync>>,
     markers: Vec<Box<dyn FnOnce(&mut EntityCommands) + Send + Sync>>,
 }
 
@@ -64,7 +65,7 @@ impl AccordionBuilder {
         theme: &UiTheme,
         font: &Handle<Font>,
     ) -> EntityCommands<'a> {
-        let mut cmd = parent.spawn( (
+        let mut cmd = parent.spawn((
             AccordionMarker,
             Node {
                 display: Display::Flex,
@@ -85,7 +86,7 @@ impl AccordionBuilder {
 
         cmd.with_children(|cb| {
             // Header
-            cb.spawn( (
+            cb.spawn((
                 AccordionHeaderMarker,
                 Button,
                 Node {
@@ -93,7 +94,7 @@ impl AccordionBuilder {
                     padding: UiRect::all(Val::Px(4.0)),
                     ..default()
                 },
-                BackgroundColor(theme.color.gray.step03),
+                BackgroundColor(theme.color.red.step10),
                 if self.disabled {
                     FocusPolicy::Pass
                 } else {
@@ -102,7 +103,7 @@ impl AccordionBuilder {
                 Interaction::default(),
             ))
             .with_children(|h| {
-                h.spawn( (
+                h.spawn((
                     Text::new(self.title.clone()),
                     TextFont {
                         font: font.clone(),
@@ -119,7 +120,7 @@ impl AccordionBuilder {
             } else {
                 Visibility::Hidden
             };
-            let mut body_cmd = cb.spawn( (
+            let mut body_cmd = cb.spawn((
                 AccordionBodyMarker,
                 Node {
                     width: Val::Percent(100.0),
