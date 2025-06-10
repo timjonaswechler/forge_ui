@@ -9,7 +9,12 @@ Das Projekt ist in Rust geschrieben und verwendet Bevy 0.16 als Game Engine. Zie
 * Radix UI Website: [radix-ui.com](https://radix-ui.com) - Referenz für Komponentendesign und Funktionalität
 * Template-Datei: `src/components/TEMPLATE.md` - Vorlage für einheitliche Komponentenstruktur
 
-## Arbeitsablauf
+## allgemeiner Arbeitsablauf
+
+* am ende jeder aufgabe prüfe mit cargo check ob der code fehlerfrei ist, falls nicht
+  korrigiere die fehler und führe den check erneut aus, gegebenfalls in docs.rs nachsehen.
+
+## Arbeitsablauf wenn es um UI-Komponenten geht
 
 ### Aufgabentyp 1: Komponentenerstellung oder -überarbeitung
 Wenn eine Komponente erstellt oder überarbeitet werden soll:
