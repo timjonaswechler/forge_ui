@@ -18,7 +18,7 @@ use bevy::{ecs::system::EntityCommands, prelude::*, ui::FocusPolicy};
 /// - `.checked(checked: bool)` – Setzt den initialen Zustand der Checkbox
 /// - `.disabled(disabled: bool)` – Deaktiviert die Checkbox optisch und funktional
 /// - `.add_marker(func: impl FnOnce(&mut EntityCommands) + Send + Sync)` – Fügt nach dem Spawn benutzerdefinierte Änderungen an der Entity hinzu
-/// - `.spawn(parent, &UiTheme, &Handle<Image>)` – Spawnt die Checkbox im angegebenen UI-Parent und gibt die daraus resultierenden `EntityCommands` zurück
+/// - `.spawn(parent, &UiTheme, &Res<IconAssets>)` – Spawnt die Checkbox im angegebenen UI-Parent und gibt die daraus resultierenden `EntityCommands` zurück
 ///
 /// ## Beispiel
 ///
@@ -30,20 +30,19 @@ use bevy::{ecs::system::EntityCommands, prelude::*, ui::FocusPolicy};
 /// fn setup_ui(
 ///     mut commands: Commands,
 ///     theme: Res<UiTheme>,
-///     asset_server: Res<AssetServer>,
+///     icons: Res<IconAssets>,
 /// ) {
-///     let check_icon: Handle<Image> = asset_server.load("icons/checkmark.png");
 ///     commands.spawn(NodeBundle::default()).with_children(|parent| {
 ///         // Standard Checkbox
 ///         CheckboxBuilder::new()
-///             .spawn(parent, &theme, &check_icon);
+///             .spawn(parent, &theme, &icons);
 ///
 ///         // Vorgecheckte und deaktivierte Checkbox mit zusätzlichem Marker
 ///         CheckboxBuilder::new()
 ///             .checked(true)
 ///             .disabled(true)
 ///             .add_marker(|ec| { ec.insert(Name::new("DisabledCheckedCheckbox")); })
-///             .spawn(parent, &theme, &check_icon);
+///             .spawn(parent, &theme, &icons);
 ///     });
 /// }
 ///
@@ -106,7 +105,7 @@ impl CheckboxBuilder {
     /// # Parameter
     /// - `parent`: Parent-Kommandos für UI-Children
     /// - `theme`: Eure `UiTheme`-Resource für Styling
-    /// - `checkmark_icon_handle`: Handle zum Icon, das bei `checked == true` angezeigt wird
+    /// - `icons`: Zugriff auf geladene [`IconAssets`](crate::assets::IconAssets)
     ///
     /// # Rückgabe
     /// Gibt `EntityCommands` der ge-spawnten Checkbox zurück, um weitere Modifikationen zu ermöglichen.
@@ -115,7 +114,7 @@ impl CheckboxBuilder {
         self,
         parent: &'a mut ChildSpawnerCommands<'w>,
         theme: &UiTheme,
-        checkmark_icon_handle: &Handle<Image>,
+        icons: &Res<IconAssets>,
     ) -> EntityCommands<'a> {
         let checkbox_outer_size = Val::Px(16.0);
         let checkbox_padding = Val::Px(2.0);
@@ -163,7 +162,11 @@ impl CheckboxBuilder {
                         ..default()
                     },
                     ImageNode {
-                        image: checkmark_icon_handle.clone(),
+                        image: icons
+                            .0
+                            .get("check")
+                            .expect("missing 'check' icon")
+                            .clone(),
                         ..default()
                     },
                     BackgroundColor(Color::NONE),

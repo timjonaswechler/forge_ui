@@ -29,6 +29,7 @@ use crate::theme::UiTheme;
 ///     mut commands: Commands,
 ///     theme: Res<UiTheme>,
 ///     asset_server: Res<AssetServer>,
+///     icons: Res<IconAssets>,
 /// ) {
 ///     commands.spawn(NodeBundle::default()).with_children(|parent| {
 ///         let font: Handle<Font> = asset_server.load("fonts/Roboto-Regular.ttf");
@@ -38,7 +39,11 @@ use crate::theme::UiTheme;
 ///             .spawn(parent, &theme, &font);
 ///
 ///         // Sekundäre Variante mit Icons
-///         let star_icon: Handle<Image> = asset_server.load("icons/star.png");
+///         let star_icon = icons
+///             .0
+///             .get("star")
+///             .expect("missing 'star' icon")
+///             .clone();
 ///         BadgeBuilder::new("Favorit")
 ///             .variant(BadgeVariant::Secondary)
 ///             .leading_icon(star_icon.clone())
