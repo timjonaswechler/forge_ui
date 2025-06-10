@@ -23,9 +23,10 @@ Wenn eine Komponente erstellt oder überarbeitet werden soll:
 2.  **Template (Neuerstellung)**: Orientiere dich bei der *Neuerstellung* einer Komponente an `src/components/TEMPLATE.md` für die Struktur.
 3.  **Template-Prüfung (Überarbeitung)**: Wenn eine *bestehende* Komponente überarbeitet oder eine unvollständige Komponentenerstellung fortgesetzt wird, **prüfe zwingend**, ob der bisherige Code den Standards der `src/components/TEMPLATE.md` entspricht. Passe ihn bei Abweichungen an, um die einheitliche Struktur sicherzustellen.
 4.  **Implementierung**: Konvertiere die TypeScript-Logik in Bevy 0.16 Rust-Code.
-5.  **Dokumentation**: Erstelle oder aktualisiere die Rust-Dokumentation der Komponente.
-6.  **Checkbox aktualisieren**: Hacke in der Agents.md die Checkbox "Komponente erstellt" ab.
-7.  **Nächste Aufgabe**: Wechsle automatisch zu Aufgabentyp 2 für dieselbe Komponente.
+5.  **Implementierung Plugin**: Erstelle für das aktuelle UiComponent jeweils ein Plugin, was alle notwendige einstellungen bereitstellt.
+6.  **Dokumentation**: Erstelle oder aktualisiere die Rust-Dokumentation der Komponente.
+7.  **Checkbox aktualisieren**: Hacke in der Agents.md die Checkbox "Komponente erstellt" ab.
+8.  **Nächste Aufgabe**: Wechsle automatisch zu Aufgabentyp 2 für dieselbe Komponente.
 
 ### Aufgabentyp 2: Showcase-Erstellung
 Nach erfolgreicher Komponentenerstellung:
