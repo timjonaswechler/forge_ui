@@ -3,7 +3,7 @@ use bevy::prelude::*;
 use bevy_asset_loader::prelude::*;
 use bevy_common_assets::ron::RonAssetPlugin;
 
-use crate::assets::{icons::resource::*, FontAssets};
+use crate::assets::{icons::resource::*, FontAssets, IconAssets};
 use crate::camera::CameraPlugin;
 use crate::components::helper::*;
 use crate::components::{
@@ -72,7 +72,8 @@ impl Plugin for ForgeUiPlugin {
             .add_loading_state(
                 LoadingState::new(UiState::LoadingAssets)
                     .continue_to_state(UiState::LoadingTheme)
-                    .load_collection::<FontAssets>(),
+                    .load_collection::<FontAssets>()
+                    .load_collection::<IconAssets>(),
             )
             // endregion
             // region: 3) Register RON asset type
