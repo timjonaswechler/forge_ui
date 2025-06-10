@@ -3,7 +3,7 @@ use bevy::prelude::*;
 use bevy_asset_loader::prelude::*;
 use bevy_common_assets::ron::RonAssetPlugin;
 
-use crate::assets::{icons::resource::*, FontAssets, IconAssets};
+use crate::assets::{FontAssets, IconAssets};
 use crate::camera::CameraPlugin;
 use crate::components::helper::*;
 use crate::components::{
@@ -66,7 +66,6 @@ impl Plugin for ForgeUiPlugin {
             .add_plugins(CameraPlugin)
             .insert_resource(self.config.clone())
             .insert_state(UiState::LoadingAssets)
-            .init_resource::<IconCache>()
             // endregion
             // region: 2) Asset-Loading: load FontAssets and IconAssets, then go to LoadingTheme
             .add_loading_state(
