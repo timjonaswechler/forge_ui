@@ -1,7 +1,8 @@
 //! Asset collections used by Forge UI.
 //!
 //! The [`ForgeUiPlugin`](crate::plugin::ForgeUiPlugin) loads both fonts and
-//! icons at startup using `bevy_asset_loader`. Icons can then be accessed via
+//! icons at startup using `bevy_asset_loader`. Icons are stored in the
+//! `assets/16x16`, `assets/32x32` and `assets/64x64` folders and can then be accessed via
 //! [`IconAssets`], e.g. `icons.0.get("check")`.
 //!
 //! ```rust
