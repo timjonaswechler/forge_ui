@@ -73,8 +73,8 @@ Identifiziere die erste unvollständige Komponente in der Liste und beginne mit 
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/badge.css`
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/badge.props.tsx`
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/badge.tsx`
-- [ ] Komponente erstellt
-- [ ] Showcase erstellt
+- [x] Komponente erstellt
+- [x] Showcase erstellt
 - [ ]
 
 ### Button
@@ -87,8 +87,8 @@ Identifiziere die erste unvollständige Komponente in der Liste und beginne mit 
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/button.css`
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/button.props.tsx`
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/button.tsx`
-- [ ] Komponente erstellt
-- [ ] Showcase erstellt
+- [x] Komponente erstellt
+- [x] Showcase erstellt
 
 ### Checkbox
 - Source:
@@ -100,8 +100,8 @@ Identifiziere die erste unvollständige Komponente in der Liste und beginne mit 
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/checkbox.css`
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/checkbox.props.tsx`
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/checkbox.tsx`
-- [ ] Komponente erstellt
-- [ ] Showcase erstellt
+- [x] Komponente erstellt
+- [x] Showcase erstellt
 
 ### Checkbox Cards
 - Source:
@@ -206,7 +206,7 @@ Identifiziere die erste unvollständige Komponente in der Liste und beginne mit 
 - Source:
   - Primitives: `https://github.com/radix-ui/primitives/tree/main/packages/react/accordion/src`
 - [x] Komponente erstellt
-- [ ] Showcase erstellt
+- [x] Showcase erstellt
 
 ### Alert Dialog
 - Source:

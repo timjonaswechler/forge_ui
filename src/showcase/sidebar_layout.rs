@@ -89,6 +89,12 @@ pub fn build_sidebar(
         )
         .add_entity(
             ButtonBuilder::new_for_action()
+                .text("Accordion")
+                .action(ShowcaseAction::ShowElement(ShowcaseElement::Accordion))
+                .spawn(parent, theme, font),
+        )
+        .add_entity(
+            ButtonBuilder::new_for_action()
                 .text("Switch")
                 .action(ShowcaseAction::ShowElement(ShowcaseElement::Switch))
                 .spawn(parent, theme, font),
@@ -191,6 +197,9 @@ pub fn handle_select_element(
                             check_icon_handle,
                             cross_icon_handle,
                         ),
+                        ShowcaseElement::Accordion => {
+                            show_accordion_variants(vc, &theme, &font.default);
+                        }
                         ShowcaseElement::Badge => {
                             show_badge_variants(vc, &theme, &font.default, &icons)
                         }

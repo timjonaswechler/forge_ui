@@ -22,6 +22,7 @@ pub enum ShowcaseAction {
 #[derive(Clone, Debug, PartialEq, Eq, Component)]
 pub enum ShowcaseElement {
     Button,
+    Accordion,
     Checkbox,
     RadioGroup,
     Toggle,
