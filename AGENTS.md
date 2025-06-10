@@ -205,7 +205,7 @@ Identifiziere die erste unvollständige Komponente in der Liste und beginne mit 
 ### Accordion
 - Source:
   - Primitives: `https://github.com/radix-ui/primitives/tree/main/packages/react/accordion/src`
-- [ ] Komponente erstellt
+- [x] Komponente erstellt
 - [ ] Showcase erstellt
 
 ### Alert Dialog
