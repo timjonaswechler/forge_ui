@@ -26,7 +26,7 @@
 //! * `icons.1` – 32&times;32
 //! * `icons.2` – 64&times;64
 
-use bevy::asset::UntypedHandle;
+use bevy::asset::{LoadedFolder, UntypedHandle};
 use bevy::prelude::*;
 use bevy_asset_loader::prelude::AssetCollection;
 use std::collections::HashMap;
@@ -41,28 +41,38 @@ pub struct IconAssets(
     pub HashMap<String, Handle<Image>>,
 );
 
-fn load_folder(asset_server: &AssetServer, folder: &str) -> HashMap<String, Handle<Image>> {
-    let mut map = HashMap::new();
-    if let Ok(handles) = asset_server.load_folder(folder) {
-        for handle in handles {
-            if let Some(path) = asset_server.get_handle_path(&handle) {
-                if let Some(stem) = path.path().file_stem().and_then(|s| s.to_str()) {
-                    map.insert(stem.to_string(), handle.clone().typed());
-                }
-            }
-        }
+fn load_folder(world: &World, folder: &str) -> HashMap<String, Handle<Image>> {
+    let asset_server = world
+        .get_resource::<AssetServer>()
+        .expect("AssetServer missing");
+    let loaded_folders = world
+        .get_resource::<Assets<LoadedFolder>>()
+        .expect("LoadedFolder assets missing");
+    let handle = asset_server.load_folder(folder);
+    if let Some(folder) = loaded_folders.get(&handle) {
+        folder
+            .handles
+            .iter()
+            .filter_map(|handle| {
+                asset_server
+                    .get_path(handle)
+                    .and_then(|path| {
+                        path.path().file_stem().and_then(|s| s.to_str()).map(|stem| {
+                            (stem.to_string(), handle.clone().typed())
+                        })
+                    })
+            })
+            .collect()
+    } else {
+        HashMap::new()
     }
-    map
 }
 
 impl AssetCollection for IconAssets {
     fn create(world: &mut World) -> Self {
-        let asset_server = world
-            .get_resource::<AssetServer>()
-            .expect("AssetServer missing");
-        let map16 = load_folder(&asset_server, "16x16");
-        let map32 = load_folder(&asset_server, "32x32");
-        let map64 = load_folder(&asset_server, "64x64");
+        let map16 = load_folder(world, "16x16");
+        let map32 = load_folder(world, "32x32");
+        let map64 = load_folder(world, "64x64");
         IconAssets(map16, map32, map64)
     }
 
@@ -70,10 +80,10 @@ impl AssetCollection for IconAssets {
         let asset_server = world
             .get_resource::<AssetServer>()
             .expect("AssetServer missing");
-        let mut all = Vec::new();
-        all.extend(asset_server.load_folder("16x16").unwrap_or_default());
-        all.extend(asset_server.load_folder("32x32").unwrap_or_default());
-        all.extend(asset_server.load_folder("64x64").unwrap_or_default());
-        all
+        vec![
+            asset_server.load_folder("16x16").untyped(),
+            asset_server.load_folder("32x32").untyped(),
+            asset_server.load_folder("64x64").untyped(),
+        ]
     }
 }
