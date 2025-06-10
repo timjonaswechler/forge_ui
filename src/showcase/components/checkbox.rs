@@ -5,7 +5,7 @@ use bevy::prelude::*;
 pub fn show_checkbox_variants(
     parent: &mut ChildSpawnerCommands,
     theme: &UiTheme,
-    check_icon: &Handle<Image>,
+    icons: &Res<IconAssets>,
 ) {
     let mut variants_section =
         create_variant_section(parent, "Checkbox States", theme, &theme.font.family.default);
@@ -24,7 +24,7 @@ pub fn show_checkbox_variants(
 
         CheckboxBuilder::new()
             .checked(false)
-            .spawn(vc, theme, check_icon);
+            .spawn(vc, theme, icons);
 
         // Checked
         vc.spawn((
@@ -37,9 +37,6 @@ pub fn show_checkbox_variants(
             TextColor(theme.color.slate.step12),
         ));
 
-        CheckboxBuilder::new()
-            .checked(true)
-            .spawn(vc, theme, check_icon);
     });
 
     // Disabled Checkboxes
@@ -64,7 +61,7 @@ pub fn show_checkbox_variants(
         CheckboxBuilder::new()
             .checked(false)
             .disabled(true)
-            .spawn(vc, theme, check_icon);
+            .spawn(vc, theme, icons);
 
         vc.spawn((
             Text::new("Disabled Checked:"),
@@ -79,6 +76,6 @@ pub fn show_checkbox_variants(
         CheckboxBuilder::new()
             .checked(true)
             .disabled(true)
-            .spawn(vc, theme, check_icon);
+            .spawn(vc, theme, icons);
     });
 }

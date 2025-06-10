@@ -6,9 +6,18 @@ pub fn show_badge_variants(
     parent: &mut ChildSpawnerCommands,
     theme: &UiTheme,
     font: &Handle<Font>,
-    check_icon_handle: Handle<Image>,
-    cross_icon_handle: Handle<Image>,
+    icons: &Res<IconAssets>,
 ) {
+    let check_icon_handle = icons
+        .0
+        .get("check")
+        .expect("missing 'check' icon")
+        .clone();
+    let cross_icon_handle = icons
+        .0
+        .get("cross_1")
+        .expect("missing 'cross_1' icon")
+        .clone();
     let mut variants_section = create_variant_section(parent, "Badge Variants", theme, font);
 
     variants_section.with_children(|vc| {

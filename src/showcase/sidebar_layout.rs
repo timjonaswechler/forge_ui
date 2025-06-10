@@ -3,7 +3,7 @@
 
 use super::components::*;
 use super::helpers::*;
-use crate::{assets::icons::ui::*, prelude::*};
+use crate::prelude::*;
 use bevy::prelude::*;
 
 /// Erzeugt beim Start die Root-Nodes: Sidebar (links) + Content-Container (rechts).
@@ -122,7 +122,7 @@ pub fn handle_select_element(
     container_q: Query<Entity, With<ContentContainer>>,
     theme: Res<UiTheme>,
     font: Res<FontAssets>,
-    mut cross_icon: Cross1Icon,
+    icons: Res<IconAssets>,
 
     assets: Res<AssetServer>,
 ) {
@@ -133,8 +133,16 @@ pub fn handle_select_element(
 
     for ev in events.read() {
         if let Some(ShowcaseAction::ShowElement(elem)) = &ev.action_id {
-            let cross_icon_handle = cross_icon.new(theme.font.size.base, theme.color.jade.step09);
-            let check_icon_handle = cross_icon.new(theme.font.size.base, theme.color.jade.step09);
+            let cross_icon_handle = icons
+                .0
+                .get("cross_1")
+                .expect("missing 'cross_1' icon")
+                .clone();
+            let check_icon_handle = icons
+                .0
+                .get("check")
+                .expect("missing 'check' icon")
+                .clone();
 
             // Aktuellen Inhalt löschen
             commands.entity(container).despawn_related::<Children>();
@@ -176,7 +184,7 @@ pub fn handle_select_element(
                     .with_children(|vc| match elem {
                         ShowcaseElement::Button => show_button_variants(vc, &theme, &font.default),
                         ShowcaseElement::Checkbox => {
-                            show_checkbox_variants(vc, &theme, &check_icon_handle)
+                            show_checkbox_variants(vc, &theme, &icons)
                         }
                         ShowcaseElement::Switch => show_switch_variants(vc, &theme),
                         ShowcaseElement::RadioGroup => {
@@ -194,8 +202,7 @@ pub fn handle_select_element(
                             vc,
                             &theme,
                             &font.default,
-                            check_icon_handle,
-                            cross_icon_handle,
+                            &icons,
                         ),
                         ShowcaseElement::Dialog => {
                             show_dialog_variants(vc, &theme, &font.default, &assets)
