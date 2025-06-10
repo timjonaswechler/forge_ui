@@ -8,14 +8,10 @@ pub fn show_badge_variants(
     font: &Handle<Font>,
     icons: &Res<IconAssets>,
 ) {
-    let check_icon_handle = icons
-        .0
-        .get("check")
-        .expect("missing 'check' icon")
-        .clone();
+    let check_icon_handle = icons.0.get("check").expect("missing 'check' icon").clone();
     let cross_icon_handle = icons
         .0
-        .get("cross_1")
+        .get("cross-1")
         .expect("missing 'cross_1' icon")
         .clone();
     let mut variants_section = create_variant_section(parent, "Badge Variants", theme, font);

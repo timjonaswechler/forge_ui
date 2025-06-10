@@ -2,7 +2,11 @@ use super::super::helpers::*;
 use crate::prelude::*;
 use bevy::prelude::*;
 
-pub fn show_switch_variants(parent: &mut ChildSpawnerCommands, theme: &UiTheme) {
+pub fn show_switch_variants(
+    parent: &mut ChildSpawnerCommands,
+    theme: &UiTheme,
+    icons: &Res<IconAssets>,
+) {
     let mut variants_section =
         create_variant_section(parent, "Switch States", theme, &theme.font.family.default);
 

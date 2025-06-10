@@ -1,4 +1,5 @@
 // src/components/checkbox/builder.rs
+use crate::assets::IconAssets;
 use crate::components::checkbox::components::{CheckboxMarker, CheckboxState, CheckmarkIconEntity};
 use crate::theme::UiTheme;
 use bevy::{ecs::system::EntityCommands, prelude::*, ui::FocusPolicy};
@@ -162,11 +163,7 @@ impl CheckboxBuilder {
                         ..default()
                     },
                     ImageNode {
-                        image: icons
-                            .0
-                            .get("check")
-                            .expect("missing 'check' icon")
-                            .clone(),
+                        image: icons.0.get("check").expect("missing 'check' icon").clone(),
                         ..default()
                     },
                     BackgroundColor(Color::NONE),

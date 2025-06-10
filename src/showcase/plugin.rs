@@ -6,7 +6,7 @@ use crate::prelude::ButtonClickedEvent; // Falls du eine globale UI-State-Machin
 
 use super::events::*;
 use super::helpers::*;
-use super::sidebar_layout; // <-- neues Modul
+use super::sidebar_layout::{handle_select_element, setup_ui}; // <-- neues Modul
 use super::systems::*;
 
 /// Öffnen / Schließen des Showcase
@@ -26,10 +26,7 @@ impl Plugin for ShowcasePlugin {
             .add_event::<ToggleShowcaseEvent>()
             .add_event::<ButtonClickedEvent<ShowcaseAction>>()
             // Start-Setup (wird genau einmal aufgerufen) ----------------------
-            .add_systems(
-                Startup,
-                sidebar_layout::setup_ui.run_if(in_state(UiState::Ready)),
-            )
+            .add_systems(Startup, setup_ui.run_if(in_state(UiState::Ready)))
             // Laufende Systeme -----------------------------------------------
             .add_systems(
                 Update,
@@ -41,9 +38,8 @@ impl Plugin for ShowcasePlugin {
                     // 3) State-Change → UI spawnen / despawnen
                     apply_showcase_ui_state_system.run_if(in_state(UiState::Ready)),
                     // 4) Sidebar-Buttons → Inhalt rechts tauschen
-                    sidebar_layout::handle_select_element
-                        .run_if(in_state(ShowcaseState::Open))
-                        .run_if(in_state(UiState::Ready)),
+                    handle_select_element.run_if(in_state(ShowcaseState::Open)),
+                    // .run_if(in_state(UiState::Ready)),
                     // 5) Button-Release Helper (optional)
                     handle_button_release::<ShowcaseAction>.run_if(in_state(ShowcaseState::Open)),
                 ),

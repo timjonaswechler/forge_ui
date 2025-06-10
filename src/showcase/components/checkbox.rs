@@ -24,7 +24,7 @@ pub fn show_checkbox_variants(
 
         CheckboxBuilder::new()
             .checked(false)
-            .spawn(vc, theme, icons);
+            .spawn(vc, theme, &icons);
 
         // Checked
         vc.spawn((
@@ -36,7 +36,6 @@ pub fn show_checkbox_variants(
             },
             TextColor(theme.color.slate.step12),
         ));
-
     });
 
     // Disabled Checkboxes
@@ -61,7 +60,7 @@ pub fn show_checkbox_variants(
         CheckboxBuilder::new()
             .checked(false)
             .disabled(true)
-            .spawn(vc, theme, icons);
+            .spawn(vc, theme, &icons);
 
         vc.spawn((
             Text::new("Disabled Checked:"),
@@ -76,6 +75,6 @@ pub fn show_checkbox_variants(
         CheckboxBuilder::new()
             .checked(true)
             .disabled(true)
-            .spawn(vc, theme, icons);
+            .spawn(vc, theme, &icons);
     });
 }

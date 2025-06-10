@@ -123,7 +123,6 @@ pub fn handle_select_element(
     theme: Res<UiTheme>,
     font: Res<FontAssets>,
     icons: Res<IconAssets>,
-
     assets: Res<AssetServer>,
 ) {
     let container = match container_q.single() {
@@ -135,14 +134,10 @@ pub fn handle_select_element(
         if let Some(ShowcaseAction::ShowElement(elem)) = &ev.action_id {
             let cross_icon_handle = icons
                 .0
-                .get("cross_1")
-                .expect("missing 'cross_1' icon")
+                .get("cross-1")
+                .expect("missing 'cross-1' icon")
                 .clone();
-            let check_icon_handle = icons
-                .0
-                .get("check")
-                .expect("missing 'check' icon")
-                .clone();
+            let check_icon_handle = icons.0.get("check").expect("missing 'check' icon").clone();
 
             // Aktuellen Inhalt löschen
             commands.entity(container).despawn_related::<Children>();
@@ -183,10 +178,8 @@ pub fn handle_select_element(
                     ))
                     .with_children(|vc| match elem {
                         ShowcaseElement::Button => show_button_variants(vc, &theme, &font.default),
-                        ShowcaseElement::Checkbox => {
-                            show_checkbox_variants(vc, &theme, &icons)
-                        }
-                        ShowcaseElement::Switch => show_switch_variants(vc, &theme),
+                        ShowcaseElement::Checkbox => show_checkbox_variants(vc, &theme, &icons),
+                        ShowcaseElement::Switch => show_switch_variants(vc, &theme, &icons),
                         ShowcaseElement::RadioGroup => {
                             show_radio_group_variants(vc, &theme, &font.default)
                         }
@@ -198,12 +191,9 @@ pub fn handle_select_element(
                             check_icon_handle,
                             cross_icon_handle,
                         ),
-                        ShowcaseElement::Badge => show_badge_variants(
-                            vc,
-                            &theme,
-                            &font.default,
-                            &icons,
-                        ),
+                        ShowcaseElement::Badge => {
+                            show_badge_variants(vc, &theme, &font.default, &icons)
+                        }
                         ShowcaseElement::Dialog => {
                             show_dialog_variants(vc, &theme, &font.default, &assets)
                         }

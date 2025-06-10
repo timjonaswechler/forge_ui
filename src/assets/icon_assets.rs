@@ -54,13 +54,12 @@ fn load_folder(world: &World, folder: &str) -> HashMap<String, Handle<Image>> {
             .handles
             .iter()
             .filter_map(|handle| {
-                asset_server
-                    .get_path(handle)
-                    .and_then(|path| {
-                        path.path().file_stem().and_then(|s| s.to_str()).map(|stem| {
-                            (stem.to_string(), handle.clone().typed())
-                        })
-                    })
+                asset_server.get_path(handle).and_then(|path| {
+                    path.path()
+                        .file_stem()
+                        .and_then(|s| s.to_str())
+                        .map(|stem| (stem.to_string(), handle.clone().typed()))
+                })
             })
             .collect()
     } else {

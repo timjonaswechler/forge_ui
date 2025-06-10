@@ -67,194 +67,590 @@ Identifiziere die erste unvollständige Komponente in der Liste und beginne mit 
 
 ## UI-Komponenten Liste
 
+### Aktuell unvollständige Komponenten
+
+* src/components/badge/
+* src/components/button/
+* src/components/checkbox/
+* src/components/dialog/
+* src/components/label/
+* src/components/portal/
+* src/components/radio/
+* src/components/radio_group/
+* src/components/switch/
+* src/components/toggle/
+* src/components/toggle-group/
+
+
 ### Accordion
-- Website: https://www.radix-ui.com/primitives/docs/components/accordion
-- Source: https://github.com/radix-ui/primitives/tree/main/packages/react/accordion/src
+- Source:
+  - Primitives: `https://github.com/radix-ui/primitives/tree/main/packages/react/accordion/src`
 - [ ] Komponente erstellt
 - [ ] Showcase erstellt
 
 ### Alert Dialog
-- Website: https://www.radix-ui.com/primitives/docs/components/alert-dialog
-- Source: https://github.com/radix-ui/primitives/tree/main/packages/react/alert-dialog/src
+- Source:
+  - Primitives: `https://github.com/radix-ui/primitives/tree/main/packages/react/alert-dialog/src`
+  - Themes:
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/alert-dialog.css`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/alert-dialog.props.tsx`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/alert-dialog.tsx`
 - [ ] Komponente erstellt
 - [ ] Showcase erstellt
 
 ### Avatar
-- Website: https://www.radix-ui.com/primitives/docs/components/avatar
-- Source: https://github.com/radix-ui/primitives/tree/main/packages/react/avatar/src
+- Source:
+  - Primitives: `https://github.com/radix-ui/primitives/tree/main/packages/react/avatar/src`
+  - Themes:
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/avatar.css`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/avatar.props.tsx`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/avatar.tsx`
+- [ ] Komponente erstellt
+- [ ] Showcase erstellt
+
+### Badge
+- Source:
+  - Themes:
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/badge.css`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/badge.props.tsx`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/badge.tsx`
+- [ ] Komponente erstellt
+- [ ] Showcase erstellt
+
+### Blockquote
+- Source:
+  - Themes:
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/blockquote.props.tsx`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/blockquote.tsx`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/quote.css` (Related: Quote often used for blockquotes styling)
+- [ ] Komponente erstellt
+- [ ] Showcase erstellt
+
+### Box
+- Source:
+  - Themes:
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/box.css`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/box.props.tsx`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/box.tsx`
+- [ ] Komponente erstellt
+- [ ] Showcase erstellt
+
+### Button
+- Source:
+  - Themes (_internal_):
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/_internal/base-button.css`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/_internal/base-button.props.ts`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/_internal/base-button.tsx`
+  - Themes (components):
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/button.css`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/button.props.tsx`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/button.tsx`
+- [ ] Komponente erstellt
+- [ ] Showcase erstellt
+
+### Callout
+- Source:
+  - Themes:
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/callout.css`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/callout.props.tsx`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/callout.tsx`
+- [ ] Komponente erstellt
+- [ ] Showcase erstellt
+
+### Card
+- Source:
+  - Themes (_internal_):
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/_internal/base-card.css`
+  - Themes (components):
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/card.css`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/card.props.tsx`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/card.tsx`
 - [ ] Komponente erstellt
 - [ ] Showcase erstellt
 
 ### Checkbox
-- Website: https://www.radix-ui.com/primitives/docs/components/checkbox
-- Source: https://github.com/radix-ui/primitives/tree/main/packages/react/checkbox/src
+- Source:
+  - Primitives: `https://github.com/radix-ui/primitives/tree/main/packages/react/checkbox/src`
+  - Themes (_internal_):
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/_internal/base-checkbox.css`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/_internal/base-checkbox.props.ts`
+  - Themes (components):
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/checkbox.css`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/checkbox.props.tsx`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/checkbox.tsx`
+- [ ] Komponente erstellt
+- [ ] Showcase erstellt
+
+### Checkbox Cards
+- Source:
+  - Themes:
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/checkbox-cards.css`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/checkbox-cards.props.tsx`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/checkbox-cards.tsx`
+- [ ] Komponente erstellt
+- [ ] Showcase erstellt
+
+### Checkbox Group
+- Source:
+  - Themes:
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/checkbox-group.css`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/checkbox-group.primitive.tsx`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/checkbox-group.props.tsx`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/checkbox-group.tsx`
+- [ ] Komponente erstellt
+- [ ] Showcase erstellt
+
+### Code
+- Source:
+  - Themes:
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/code.css`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/code.props.tsx`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/code.tsx`
 - [ ] Komponente erstellt
 - [ ] Showcase erstellt
 
 ### Collapsible
-- Website: https://www.radix-ui.com/primitives/docs/components/collapsible
-- Source: https://github.com/radix-ui/primitives/tree/main/packages/react/collapsible/src
+- Source:
+  - Primitives: `https://github.com/radix-ui/primitives/tree/main/packages/react/collapsible/src`
 - [ ] Komponente erstellt
 - [ ] Showcase erstellt
 
 ### Collection
-- Website: https://www.radix-ui.com/primitives/docs/components/collection
-- Source: https://github.com/radix-ui/primitives/tree/main/packages/react/collection/src
+- Source:
+  - Primitives: `https://github.com/radix-ui/primitives/tree/main/packages/react/collection/src`
 - [ ] Komponente erstellt
 - [ ] Showcase erstellt
 
-### Context
-- Website: https://www.radix-ui.com/primitives/docs/components/context
-- Source: https://github.com/radix-ui/primitives/tree/main/packages/react/context/src
+### Container
+- Source:
+  - Themes:
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/container.css`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/container.props.tsx`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/container.tsx`
+- [ ] Komponente erstellt
+- [ ] Showcase erstellt
+
+### Context (Primitive)
+- Source:
+  - Primitives: `https://github.com/radix-ui/primitives/tree/main/packages/react/context/src`
 - [ ] Komponente erstellt
 - [ ] Showcase erstellt
 
 ### Context Menu
-- Website: https://www.radix-ui.com/primitives/docs/components/context-menu
-- Source: https://github.com/radix-ui/primitives/tree/main/packages/react/context-menu/src
+- Source:
+  - Primitives: `https://github.com/radix-ui/primitives/tree/main/packages/react/context-menu/src`
+  - Themes (_internal_):
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/_internal/base-menu.css` (shared base)
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/_internal/base-menu.props.ts` (shared base)
+  - Themes (components):
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/context-menu.props.tsx`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/context-menu.tsx`
+- [ ] Komponente erstellt
+- [ ] Showcase erstellt
+
+### Data List
+- Source:
+  - Themes:
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/data-list.css`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/data-list.props.tsx`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/data-list.tsx`
 - [ ] Komponente erstellt
 - [ ] Showcase erstellt
 
 ### Dialog
-- Website: https://www.radix-ui.com/primitives/docs/components/dialog
-- Source: https://github.com/radix-ui/primitives/tree/main/packages/react/dialog/src
+- Source:
+  - Primitives: `https://github.com/radix-ui/primitives/tree/main/packages/react/dialog/src`
+  - Themes (_internal_):
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/_internal/base-dialog.css`
+  - Themes (components):
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/dialog.css`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/dialog.props.tsx`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/dialog.tsx`
 - [ ] Komponente erstellt
 - [ ] Showcase erstellt
 
 ### Dropdown Menu
-- Website: https://www.radix-ui.com/primitives/docs/components/dropdown-menu
-- Source: https://github.com/radix-ui/primitives/tree/main/packages/react/dropdown-menu/src
+- Source:
+  - Primitives: `https://github.com/radix-ui/primitives/tree/main/packages/react/dropdown-menu/src`
+  - Themes (_internal_):
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/_internal/base-menu.css` (shared base)
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/_internal/base-menu.props.ts` (shared base)
+  - Themes (components):
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/dropdown-menu.css`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/dropdown-menu.props.tsx`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/dropdown-menu.tsx`
+- [ ] Komponente erstellt
+- [ ] Showcase erstellt
+
+### Em (Emphasis)
+- Source:
+  - Themes:
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/em.css`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/em.props.tsx`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/em.tsx`
+- [ ] Komponente erstellt
+- [ ] Showcase erstellt
+
+### Flex
+- Source:
+  - Themes:
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/flex.css`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/flex.props.tsx`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/flex.tsx`
+- [ ] Komponente erstellt
+- [ ] Showcase erstellt
+
+### Grid
+- Source:
+  - Themes:
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/grid.css`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/grid.props.tsx`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/grid.tsx`
+- [ ] Komponente erstellt
+- [ ] Showcase erstellt
+
+### Heading
+- Source:
+  - Themes:
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/heading.css`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/heading.props.tsx`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/heading.tsx`
 - [ ] Komponente erstellt
 - [ ] Showcase erstellt
 
 ### Hover Card
-- Website: https://www.radix-ui.com/primitives/docs/components/hover-card
-- Source: https://github.com/radix-ui/primitives/tree/main/packages/react/hover-card/src
+- Source:
+  - Primitives: `https://github.com/radix-ui/primitives/tree/main/packages/react/hover-card/src`
+  - Themes:
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/hover-card.css`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/hover-card.props.tsx`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/hover-card.tsx`
+- [ ] Komponente erstellt
+- [ ] Showcase erstellt
+
+### Icon Button
+- Source:
+  - Themes:
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/icon-button.css`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/icon-button.props.tsx`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/icon-button.tsx`
+- [ ] Komponente erstellt
+- [ ] Showcase erstellt
+
+### Inset
+- Source:
+  - Themes:
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/inset.css`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/inset.props.tsx`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/inset.tsx`
+- [ ] Komponente erstellt
+- [ ] Showcase erstellt
+
+### Kbd (Keyboard Key)
+- Source:
+  - Themes:
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/kbd.css`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/kbd.props.tsx`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/kbd.tsx`
 - [ ] Komponente erstellt
 - [ ] Showcase erstellt
 
 ### Label
-- Website: https://www.radix-ui.com/primitives/docs/components/label
-- Source: https://github.com/radix-ui/primitives/tree/main/packages/react/label/src
+- Source:
+  - Primitives: `https://github.com/radix-ui/primitives/tree/main/packages/react/label/src`
 - [ ] Komponente erstellt
 - [ ] Showcase erstellt
 
-### Menu
-- Website: https://www.radix-ui.com/primitives/docs/components/menu
-- Source: https://github.com/radix-ui/primitives/tree/main/packages/react/menu/src
+### Link
+- Source:
+  - Themes:
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/link.css`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/link.props.tsx`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/link.tsx`
+- [ ] Komponente erstellt
+- [ ] Showcase erstellt
+
+### Menu (Primitive Base)
+- Source:
+  - Primitives: `https://github.com/radix-ui/primitives/tree/main/packages/react/menu/src`
+  - Themes (_internal_, shared for ContextMenu, DropdownMenu):
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/_internal/base-menu.css`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/_internal/base-menu.props.ts`
 - [ ] Komponente erstellt
 - [ ] Showcase erstellt
 
 ### Navigation Menu
-- Website: https://www.radix-ui.com/primitives/docs/components/navigation-menu
-- Source: https://github.com/radix-ui/primitives/tree/main/packages/react/navigation-menu/src
+- Source:
+  - Primitives: `https://github.com/radix-ui/primitives/tree/main/packages/react/navigation-menu/src`
 - [ ] Komponente erstellt
 - [ ] Showcase erstellt
 
 ### One-Time Password Field
-- Website: https://www.radix-ui.com/primitives/docs/components/one-time-password-field
-- Source: https://github.com/radix-ui/primitives/tree/main/packages/react/one-time-password-field/src
+- Source:
+  - Primitives: `https://github.com/radix-ui/primitives/tree/main/packages/react/one-time-password-field/src`
 - [ ] Komponente erstellt
 - [ ] Showcase erstellt
 
 ### Password Toggle Field
-- Website: https://www.radix-ui.com/primitives/docs/components/password-toggle-field
-- Source: https://github.com/radix-ui/primitives/tree/main/packages/react/password-toggle-field/src
+- Source:
+  - Primitives: `https://github.com/radix-ui/primitives/tree/main/packages/react/password-toggle-field/src`
 - [ ] Komponente erstellt
 - [ ] Showcase erstellt
 
 ### Popover
-- Website: https://www.radix-ui.com/primitives/docs/components/popover
-- Source: https://github.com/radix-ui/primitives/tree/main/packages/react/popover/src
+- Source:
+  - Primitives: `https://github.com/radix-ui/primitives/tree/main/packages/react/popover/src`
+  - Themes:
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/popover.css`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/popover.props.tsx`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/popover.tsx`
 - [ ] Komponente erstellt
 - [ ] Showcase erstellt
 
 ### Portal
-- Website: https://www.radix-ui.com/primitives/docs/components/portal
-- Source: https://github.com/radix-ui/primitives/tree/main/packages/react/portal/src
+- Source:
+  - Primitives: `https://github.com/radix-ui/primitives/tree/main/packages/react/portal/src`
+  - Themes:
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/portal.tsx`
 - [ ] Komponente erstellt
 - [ ] Showcase erstellt
 
 ### Progress
-- Website: https://www.radix-ui.com/primitives/docs/components/progress
-- Source: https://github.com/radix-ui/primitives/tree/main/packages/react/progress/src
+- Source:
+  - Primitives: `https://github.com/radix-ui/primitives/tree/main/packages/react/progress/src`
+  - Themes:
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/progress.css`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/progress.props.tsx`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/progress.tsx`
+- [ ] Komponente erstellt
+- [ ] Showcase erstellt
+
+### Quote
+- Source:
+  - Themes:
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/quote.css`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/quote.props.tsx`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/quote.tsx`
+- [ ] Komponente erstellt
+- [ ] Showcase erstellt
+
+### Radio Cards
+- Source:
+  - Themes:
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/radio-cards.css`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/radio-cards.props.tsx`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/radio-cards.tsx`
 - [ ] Komponente erstellt
 - [ ] Showcase erstellt
 
 ### Radio Group
-- Website: https://www.radix-ui.com/primitives/docs/components/radio-group
-- Source: https://github.com/radix-ui/primitives/tree/main/packages/react/radio-group/src
+- Source:
+  - Primitives: `https://github.com/radix-ui/primitives/tree/main/packages/react/radio-group/src`
+  - Themes (_internal_):
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/_internal/base-radio.css`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/_internal/base-radio.props.ts`
+  - Themes (components):
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/radio-group.css`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/radio-group.props.tsx`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/radio-group.tsx`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/radio.css` (Individual radio item styles)
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/radio.props.tsx`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/radio.tsx`
 - [ ] Komponente erstellt
 - [ ] Showcase erstellt
 
-### Scroll Areas
-- Website: https://www.radix-ui.com/primitives/docs/components/scroll-areas
-- Source: https://github.com/radix-ui/primitives/tree/main/packages/react/scroll-areas/src
+### Scroll Area (Scroll Areas)
+- Source:
+  - Primitives: `https://github.com/radix-ui/primitives/tree/main/packages/react/scroll-areas/src` (Note: plural "areas" in primitives)
+  - Themes:
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/scroll-area.css`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/scroll-area.props.tsx`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/scroll-area.tsx`
+- [ ] Komponente erstellt
+- [ ] Showcase erstellt
+
+### Section
+- Source:
+  - Themes:
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/section.css`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/section.props.tsx`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/section.tsx`
+- [ ] Komponente erstellt
+- [ ] Showcase erstellt
+
+### Segmented Control
+- Source:
+  - Themes:
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/segmented-control.css`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/segmented-control.props.tsx`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/segmented-control.tsx`
 - [ ] Komponente erstellt
 - [ ] Showcase erstellt
 
 ### Select
-- Website: https://www.radix-ui.com/primitives/docs/components/select
-- Source: https://github.com/radix-ui/primitives/tree/main/packages/react/select/src
+- Source:
+  - Primitives: `https://github.com/radix-ui/primitives/tree/main/packages/react/select/src`
+  - Themes:
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/select.css`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/select.props.tsx`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/select.tsx`
 - [ ] Komponente erstellt
 - [ ] Showcase erstellt
 
 ### Separator
-- Website: https://www.radix-ui.com/primitives/docs/components/separator
-- Source: https://github.com/radix-ui/primitives/tree/main/packages/react/separator/src
+- Source:
+  - Primitives: `https://github.com/radix-ui/primitives/tree/main/packages/react/separator/src`
+  - Themes:
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/separator.css`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/separator.props.tsx`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/separator.tsx`
+- [ ] Komponente erstellt
+- [ ] Showcase erstellt
+
+### Skeleton
+- Source:
+  - Themes:
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/skeleton.css`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/skeleton.props.tsx`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/skeleton.tsx`
 - [ ] Komponente erstellt
 - [ ] Showcase erstellt
 
 ### Slider
-- Website: https://www.radix-ui.com/primitives/docs/components/slider
-- Source: https://github.com/radix-ui/primitives/tree/main/packages/react/slider/src
+- Source:
+  - Primitives: `https://github.com/radix-ui/primitives/tree/main/packages/react/slider/src`
+  - Themes:
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/slider.css`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/slider.props.tsx`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/slider.tsx`
 - [ ] Komponente erstellt
 - [ ] Showcase erstellt
 
 ### Slot
-- Website: https://www.radix-ui.com/primitives/docs/components/slot
-- Source: https://github.com/radix-ui/primitives/tree/main/packages/react/slot/src
+- Source:
+  - Primitives: `https://github.com/radix-ui/primitives/tree/main/packages/react/slot/src`
+  - Themes:
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/slot.tsx`
+- [ ] Komponente erstellt
+- [ ] Showcase erstellt
+
+### Spinner
+- Source:
+  - Themes:
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/spinner.css`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/spinner.props.tsx`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/spinner.tsx`
+- [ ] Komponente erstellt
+- [ ] Showcase erstellt
+
+### Strong
+- Source:
+  - Themes:
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/strong.css`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/strong.props.tsx`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/strong.tsx`
 - [ ] Komponente erstellt
 - [ ] Showcase erstellt
 
 ### Switch
-- Website: https://www.radix-ui.com/primitives/docs/components/switch
-- Source: https://github.com/radix-ui/primitives/tree/main/packages/react/switch/src
+- Source:
+  - Primitives: `https://github.com/radix-ui/primitives/tree/main/packages/react/switch/src`
+  - Themes:
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/switch.css`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/switch.props.tsx`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/switch.tsx`
+- [ ] Komponente erstellt
+- [ ] Showcase erstellt
+
+### Tab Nav
+- Source:
+  - Themes:
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/tab-nav.css`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/tab-nav.props.tsx`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/tab-nav.tsx`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/_internal/base-tab-list.css` (shared base)
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/_internal/base-tab-list.props.ts` (shared base)
+- [ ] Komponente erstellt
+- [ ] Showcase erstellt
+
+### Table
+- Source:
+  - Themes:
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/table.css`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/table.props.tsx`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/table.tsx`
 - [ ] Komponente erstellt
 - [ ] Showcase erstellt
 
 ### Tabs
-- Website: https://www.radix-ui.com/primitives/docs/components/tabs
-- Source: https://github.com/radix-ui/primitives/tree/main/packages/react/tabs/src
+- Source:
+  - Primitives: `https://github.com/radix-ui/primitives/tree/main/packages/react/tabs/src`
+  - Themes:
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/tabs.css`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/tabs.props.tsx`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/tabs.tsx`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/_internal/base-tab-list.css` (shared base)
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/_internal/base-tab-list.props.ts` (shared base)
+- [ ] Komponente erstellt
+- [ ] Showcase erstellt
+
+### Text
+- Source:
+  - Themes:
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/text.css`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/text.props.tsx`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/text.tsx`
+- [ ] Komponente erstellt
+- [ ] Showcase erstellt
+
+### Text Area
+- Source:
+  - Themes:
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/text-area.css`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/text-area.props.tsx`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/text-area.tsx`
+- [ ] Komponente erstellt
+- [ ] Showcase erstellt
+
+### Text Field
+- Source:
+  - Themes:
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/text-field.css`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/text-field.props.tsx`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/text-field.tsx`
 - [ ] Komponente erstellt
 - [ ] Showcase erstellt
 
 ### Toast
-- Website: https://www.radix-ui.com/primitives/docs/components/toast
-- Source: https://github.com/radix-ui/primitives/tree/main/packages/react/toast/src
+- Source:
+  - Primitives: `https://github.com/radix-ui/primitives/tree/main/packages/react/toast/src`
 - [ ] Komponente erstellt
 - [ ] Showcase erstellt
 
 ### Toggle
-- Website: https://www.radix-ui.com/primitives/docs/components/toggle
-- Source: https://github.com/radix-ui/primitives/tree/main/packages/react/toggle/src
+- Source:
+  - Primitives: `https://github.com/radix-ui/primitives/tree/main/packages/react/toggle/src`
 - [ ] Komponente erstellt
 - [ ] Showcase erstellt
 
 ### Toggle Group
-- Website: https://www.radix-ui.com/primitives/docs/components/toggle-group
-- Source: https://github.com/radix-ui/primitives/tree/main/packages/react/toggle-group/src
+- Source:
+  - Primitives: `https://github.com/radix-ui/primitives/tree/main/packages/react/toggle-group/src`
 - [ ] Komponente erstellt
 - [ ] Showcase erstellt
 
 ### Toolbar
-- Website: https://www.radix-ui.com/primitives/docs/components/toolbar
-- Source: https://github.com/radix-ui/primitives/tree/main/packages/react/toolbar/src
+- Source:
+  - Primitives: `https://github.com/radix-ui/primitives/tree/main/packages/react/toolbar/src`
 - [ ] Komponente erstellt
 - [ ] Showcase erstellt
 
 ### Tooltip
-- Website: https://www.radix-ui.com/primitives/docs/components/tooltip
-- Source: https://github.com/radix-ui/primitives/tree/main/packages/react/tooltip/src
+- Source:
+  - Primitives: `https://github.com/radix-ui/primitives/tree/main/packages/react/tooltip/src`
+  - Themes:
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/tooltip.css`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/tooltip.props.tsx`
+    - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/tooltip.tsx`
 - [ ] Komponente erstellt
 - [ ] Showcase erstellt
