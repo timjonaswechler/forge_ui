@@ -1,3 +1,25 @@
+//! Collection of icon textures loaded at startup.
+//!
+//! All files inside the `assets/icons` directory are loaded via
+//! [`bevy_asset_loader`](https://github.com/NiklasEi/bevy_asset_loader) and
+//! stored in a simple `HashMap`. Builders which support icons receive a
+//! [`Res<IconAssets>`](IconAssets) parameter so they can fetch handles by name:
+//!
+//! ```rust
+//! use forge_ui::prelude::*;
+//!
+//! fn ui_system(mut commands: Commands, theme: Res<UiTheme>, icons: Res<IconAssets>) {
+//!     let check = icons.0.get("check").expect("missing 'check' icon").clone();
+//!     commands.spawn(NodeBundle::default()).with_children(|parent| {
+//!         BadgeBuilder::new("Checked")
+//!             .leading_icon(check)
+//!             .spawn(parent, &theme, &theme.font.family.default);
+//!     });
+//! }
+//! ```
+//!
+//! See the showcase modules for more examples.
+
 use bevy::asset::UntypedHandle;
 use bevy::prelude::*;
 use bevy_asset_loader::prelude::AssetCollection;
