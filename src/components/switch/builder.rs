@@ -140,7 +140,7 @@ impl SwitchBuilder {
 
                     ..default()
                 },
-                BorderRadius::all(Val::Px(thumb_radius)),
+                // BorderRadius::all(Val::Px(thumb_radius)),
                 BackgroundColor(theme.color.white.step12.into()),
                 FocusPolicy::Pass,
             ));

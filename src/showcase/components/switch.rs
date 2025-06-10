@@ -56,6 +56,7 @@ pub fn show_switch_variants(parent: &mut ChildSpawnerCommands, theme: &UiTheme) 
         SwitchBuilder::new()
             .checked(false)
             .disabled(true)
+            .with_radius(10.0)
             .spawn(vc, theme);
 
         vc.spawn((
