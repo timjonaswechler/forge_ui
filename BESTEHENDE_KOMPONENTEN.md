@@ -109,8 +109,8 @@ Wenn eine **bestehende** Komponente überarbeitet werden soll:
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/radio-group.css`
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/radio-group.props.tsx`
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/radio-group.tsx`
-- [ ] Bestehender Code an die Guidelines anpassen
-- [ ] Showcase erstellt/aktualisiert
+- [x] Bestehender Code an die Guidelines anpassen
+- [x] Showcase erstellt/aktualisiert
 
 ### Switch
 - **Source:**
@@ -138,6 +138,6 @@ Wenn eine **bestehende** Komponente überarbeitet werden soll:
 
 ## Status-Übersicht
 **Gesamt:** 12 Komponenten
-**Abgeschlossen:** 8 Komponenten
+**Abgeschlossen:** 9 Komponenten
 **In Bearbeitung:** 0 Komponenten
-**Ausstehend:** 4 Komponenten
+**Ausstehend:** 3 Komponenten
