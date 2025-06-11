@@ -25,6 +25,8 @@ pub enum ShowcaseElement {
     Accordion,
     Checkbox,
     CheckboxCards,
+    RadioCards,
+    CheckboxGroup,
     RadioGroup,
     Toggle,
     Label,

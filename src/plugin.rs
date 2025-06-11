@@ -7,7 +7,7 @@ use crate::assets::{FontAssets, IconAssets};
 use crate::camera::CameraPlugin;
 use crate::components::helper::*;
 use crate::components::{
-    accordion::*, button::*, checkbox::*, checkbox_cards::*, dialog::*, portal::*, radio::*,
+    accordion::*, button::*, checkbox::*, checkbox_cards::*, radio_cards::*, checkbox_group::*, dialog::*, portal::*, radio::*,
     switch::*, toggle::*, toggle_group::*,
 };
 use crate::theme::*;
@@ -104,6 +104,8 @@ impl Plugin for ForgeUiPlugin {
             .add_plugins(ToggleGroupPlugin::<NoAction>::default())
             .add_plugins(CheckboxPlugin)
             .add_plugins(CheckboxCardsPlugin)
+            .add_plugins(RadioCardsPlugin)
+            .add_plugins(CheckboxGroupPlugin)
             // endregion --- Checkboxen ---
             // region: --- Toggle Switches ---
             .add_event::<SwitchChangedEvent>()
