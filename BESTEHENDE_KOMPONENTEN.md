@@ -26,8 +26,8 @@ Wenn eine **bestehende** Komponente überarbeitet werden soll:
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/badge.css`
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/badge.props.tsx`
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/badge.tsx`
-- [ ] Bestehender Code an die Guidelines anpassen
-- [ ] Showcase erstellt/aktualisiert
+- [x] Bestehender Code an die Guidelines anpassen
+- [x] Showcase erstellt/aktualisiert
 
 ### Button
 - **Source:**

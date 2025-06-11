@@ -1,8 +1,7 @@
 // src/components/badge/builder.rs
 use bevy::prelude::*;
 
-use super::utils::get_badge_colors;
-use super::{BadgeMarker, BadgeVariant}; // Importiere den Marker
+use super::{style::BadgeStyle, BadgeMarker, BadgeVariant};
 use crate::theme::UiTheme;
 
 /// # BadgeBuilder
@@ -60,7 +59,6 @@ use crate::theme::UiTheme;
 /// - `.leading_icon(handle: Handle<Image>)` – Fügt ein Icon vor dem Text hinzu.
 /// - `.trailing_icon(handle: Handle<Image>)` – Fügt ein Icon nach dem Text hinzu.
 /// - `.spawn(parent, &UiTheme, &Handle<Font>)` – Spawnt das Badge im angegebenen `ChildSpawnerCommands`.
-#[allow(dead_code)]
 pub struct BadgeBuilder {
     /// Sichtbarer Text, der auf dem Badge erscheint.
     text: String,
@@ -112,54 +110,19 @@ impl BadgeBuilder {
         theme: &UiTheme,
         font_handle: &Handle<Font>,
     ) -> Entity {
-        // Styling ableiten
-        let (bg_color, text_color, border_color) = get_badge_colors(&self.variant, theme);
+        // Build style bundle using theme and variant
+        let style = BadgeStyle::new(self.variant, theme, font_handle);
 
-        // Badge ist im Grunde ein Node mit einem Text-Kind
+        // Badge is basically a Node with text child
         parent
-            .spawn((
-                BadgeMarker,
-                Node {
-                    // Flexbox, um Text (und ggf. Icons) anzuordnen
-                    display: Display::Flex,
-                    align_items: AlignItems::Center, // Vertikal zentrieren
-                    justify_content: JustifyContent::Center, // Horizontal zentrieren
-
-                    // Padding & Border für den Look
-                    // Shadcn: px-2.5 py-0.5 -> ca. 10px horizontal, 2px vertikal
-                    padding: UiRect {
-                        left: Val::Px(10.0),
-                        right: Val::Px(10.0),
-                        top: Val::Px(2.0),
-                        bottom: Val::Px(2.0),
-                    },
-                    border: UiRect::all(Val::Px(1.0)), // Immer 1px Randbreite
-                    // Volle Rundung ('rounded-full')
-                    // Vollständig abrunden
-                    // Sicherstellen, dass die Größe sich an den Inhalt anpasst
-                    width: Val::Auto,
-                    height: Val::Auto,
-                    // Ggf. min_height für Konsistenz
-                    min_height: Val::Px(18.0), // Höhe anpassen
-                    ..default()
-                },
-                BorderRadius::percent(50.0, 50.0, 50.0, 50.0), // Vollständig abrunden
-                BackgroundColor(bg_color),
-                BorderColor(border_color),
-            ))
+            .spawn((BadgeMarker, style))
             .with_children(|badge_node| {
                 // Optional: Leading Icon hier spawnen
 
                 // Text-Kind spawnen
                 badge_node.spawn((
                     Text::new(self.text), // Text aus Builder
-                    TextFont {
-                        font: font_handle.clone(),
-                        // Kleinere Schrift für Badges ('text-xs')
-                        font_size: theme.font.size.base,
-                        ..default()
-                    },
-                    TextColor(text_color), // Textfarbe
+                    // font and color already handled by style
                 ));
 
                 // Optional: Trailing Icon hier spawnen
