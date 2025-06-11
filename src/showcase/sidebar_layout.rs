@@ -47,6 +47,12 @@ pub fn build_sidebar(
         )
         .add_entity(
             ButtonBuilder::new_for_action()
+                .text("Checkbox Cards")
+                .action(ShowcaseAction::ShowElement(ShowcaseElement::CheckboxCards))
+                .spawn(parent, theme, font),
+        )
+        .add_entity(
+            ButtonBuilder::new_for_action()
                 .text("Radio-Group")
                 .action(ShowcaseAction::ShowElement(ShowcaseElement::RadioGroup))
                 .spawn(parent, theme, font),
@@ -185,6 +191,9 @@ pub fn handle_select_element(
                     .with_children(|vc| match elem {
                         ShowcaseElement::Button => show_button_variants(vc, &theme, &font.default),
                         ShowcaseElement::Checkbox => show_checkbox_variants(vc, &theme, &icons),
+                        ShowcaseElement::CheckboxCards => {
+                            show_checkbox_card_variants(vc, &theme, &font.default, &icons)
+                        }
                         ShowcaseElement::Switch => show_switch_variants(vc, &theme, &icons),
                         ShowcaseElement::RadioGroup => {
                             show_radio_group_variants(vc, &theme, &font.default)
