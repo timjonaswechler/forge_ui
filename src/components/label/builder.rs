@@ -1,6 +1,7 @@
 use bevy::prelude::*; // Für den Rückgabetyp von spawn
 
 use crate::theme::UiTheme; // Theme für Styling
+use super::components::LabelMarker;
 /// forge_ui::label
 ///
 /// Hilfs‑Modul zum komfortablen Erstellen konsistenter Text‑Labels
@@ -105,7 +106,7 @@ impl LabelBuilder {
     ) -> Entity {
         // Bestimme Farbe und Größe basierend auf Builder-Optionen und Theme
         let final_color = self.color.unwrap_or(theme.color.gray.step11); // Standard: Normale Vordergrundfarbe
-        let final_font_size = self.font_size.unwrap_or(14.0); // Standardgröße für Labels
+        let final_font_size = self.font_size.unwrap_or(theme.font.size.base); // Standardgröße aus Theme
 
         // Optional: Farbe basierend auf LabelStyle anpassen
         // let final_color = match self.label_style {
@@ -114,12 +115,17 @@ impl LabelBuilder {
         //     LabelStyle::Error => self.color.unwrap_or(theme.destructive), // Beispiel
         // };
 
-        let mut entity_commands = parent.spawn((Node {
-            justify_content: JustifyContent::Center,
-            overflow: Overflow::visible(),
-            margin: self.margin.unwrap_or_default(),
-            ..default()
-        },));
+        let mut entity_commands = parent.spawn((
+            LabelMarker,
+            Node {
+                display: Display::Flex,
+                justify_content: JustifyContent::Center,
+                align_items: AlignItems::Center,
+                overflow: Overflow::visible(),
+                margin: self.margin.unwrap_or_default(),
+                ..default()
+            },
+        ));
         entity_commands.with_children(|builder| {
             builder.spawn((
                 Text::new(self.text.clone()),

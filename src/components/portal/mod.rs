@@ -2,8 +2,9 @@
 
 mod builder;
 mod components;
+mod plugin;
 mod systems;
 
 pub(crate) use builder::PortalContentBuilder; // Öffentlich zugänglich
 pub use components::ForgeUiPortalRoot; // Öffentlich zugänglich
-pub(crate) use systems::setup_global_portal_root; // Öffentlich zugänglich
+pub use plugin::PortalPlugin;
