@@ -128,8 +128,7 @@ impl Plugin for ForgeUiPlugin {
             )
             // endregion --- Radio Buttons ---
             // region: --- Portale ---
-            .insert_resource(ForgeUiPortalRoot::default())
-            .add_systems(OnEnter(UiState::Ready), setup_global_portal_root)
+            .add_plugins(PortalPlugin)
             // endregion --- UI-Systeme in Ready ---
             // Debug: Save theme on S key
             .add_systems(

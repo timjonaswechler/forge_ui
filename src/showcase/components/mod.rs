@@ -1,6 +1,6 @@
+mod accordion;
 mod badge;
 mod button;
-mod accordion;
 mod checkbox;
 mod checkbox_cards;
 mod dialog;
@@ -8,9 +8,9 @@ mod label;
 mod radio;
 mod switch;
 mod toggle;
+pub use accordion::*;
 pub use badge::*;
 pub use button::*;
-pub use accordion::*;
 pub use checkbox::*;
 pub use checkbox_cards::*;
 pub use dialog::*;

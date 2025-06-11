@@ -27,7 +27,7 @@ Wenn eine **bestehende** Komponente überarbeitet werden soll:
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/badge.props.tsx`
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/badge.tsx`
 - [x] Bestehender Code an die Guidelines anpassen
-- [x] Showcase erstellt/aktualisiert
+- [ ] Showcase erstellt/aktualisiert
 
 ### Button
 - **Source:**
@@ -40,7 +40,7 @@ Wenn eine **bestehende** Komponente überarbeitet werden soll:
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/button.props.tsx`
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/button.tsx`
 - [x] Bestehender Code an die Guidelines anpassen
-- [x] Showcase erstellt/aktualisiert
+- [ ] Showcase erstellt/aktualisiert
 
 ### Checkbox
 - **Source:**
@@ -79,15 +79,15 @@ Wenn eine **bestehende** Komponente überarbeitet werden soll:
 ### Label
 - **Source:**
   - Primitives: `https://github.com/radix-ui/primitives/tree/main/packages/react/label/src`
-- [ ] Bestehender Code an die Guidelines anpassen
-- [ ] Showcase erstellt/aktualisiert
+- [x] Bestehender Code an die Guidelines anpassen
+- [x] Showcase erstellt/aktualisiert
 
 ### Portal
 - **Source:**
   - Primitives: `https://github.com/radix-ui/primitives/tree/main/packages/react/portal/src`
   - Themes:
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/portal.tsx`
-- [ ] Bestehender Code an die Guidelines anpassen
+- [x] Bestehender Code an die Guidelines anpassen
 - [ ] Showcase erstellt/aktualisiert
 
 ### Radio

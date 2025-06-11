@@ -215,7 +215,9 @@ pub fn handle_select_element(
                         ShowcaseElement::Dialog => {
                             show_dialog_variants(vc, &theme, &font.default, &assets)
                         }
-                        ShowcaseElement::Label => show_label_variants(vc, &theme, &font.default),
+                        ShowcaseElement::Label => {
+                            show_label_variants(vc, &theme, &font.default)
+                        }
                     });
             });
         }
