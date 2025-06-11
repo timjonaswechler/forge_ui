@@ -81,6 +81,7 @@ impl CheckboxCardBuilder {
                 .spawn(p, theme, icons);
 
             LabelBuilder::new(self.label)
+                .margin(UiRect::left(Val::Px(8.0)))
                 .spawn(p, theme, font);
         });
 

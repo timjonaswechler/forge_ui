@@ -164,6 +164,7 @@ impl CheckboxBuilder {
                     },
                     ImageNode {
                         image: icons.0.get("check").expect("missing 'check' icon").clone(),
+                        color: theme.color.black.step12,
                         ..default()
                     },
                     BackgroundColor(Color::NONE),

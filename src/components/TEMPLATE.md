@@ -1,11 +1,19 @@
 # Template Code Snippet for UI Components in Bevy
 
+## Builder.rs
+
 ```rust
-//builder.rs - Standard Template
-// Template für alle Component Builder
-use bevy::prelude::*;
+// builder.rs - Standard Template
+use bevy::{ecs::system::EntityCommands, prelude::*, ui::FocusPolicy};
+
 use crate::components::helper::NoAction;
-use crate::theme::UiTheme;
+use crate::theme::{UiColorPalette, UiTheme};
+// Importe für die eigene Komponente anpassen
+use super::{
+    enums::{ComponentSize, ComponentVariant},
+    style::ComponentStyle,
+    {ComponentMarker, ComponentState, spawn_disabled_overlay}, // Helper importieren
+};
 
 /// Standard Builder Template für UI Components
 pub struct ComponentBuilder<A: Component + Clone + Send + Sync + 'static = NoAction> {
@@ -24,201 +32,161 @@ pub struct ComponentBuilder<A: Component + Clone + Send + Sync + 'static = NoAct
     border_radius: Option<Val>,
     
     // ─── Content ───
-    text: Option<String>,
-    icon: Option<Handle<Image>>,
-    
+    // BEST PRACTICE: BUTTON-Ansatz für maximale Flexibilität übernehmen
+    // Statt separaten `text` und `icon` Feldern ist eine Liste von "Child-Definitionen" mächtiger.
+    // Das vereinfacht den Builder und verlagert die Komplexität in einen dedizierten Enum.
+    children_defs: Vec<ComponentChild>, // Beispiel-Enum, siehe enums.rs
+
     // ─── Extensions ───
     markers: Vec<Box<dyn FnOnce(&mut EntityCommands) + Send + Sync>>,
 }
 
-impl<A: Component + Clone + Send + Sync + 'static> ComponentBuilder<A> {
-    /// Standard constructor für alle Components
-    pub fn new() -> ComponentBuilder<NoAction> {
-        ComponentBuilder::<NoAction>::new_with_action_type()
-    }
-    
-    /// Explicit action type constructor
-    pub fn new_with_action_type() -> Self {
+// Default-Implementierung für ComponentBuilder<NoAction>
+impl Default for ComponentBuilder<NoAction> {
+    /// Erstellt einen Builder mit Standardwerten.
+    /// Action ist None. Um eine NoAction-Komponente explizit hinzuzufügen,
+    /// kann .action(NoAction) verwendet werden.
+    fn default() -> Self {
         Self {
             variant: ComponentVariant::default(),
             size: ComponentSize::default(),
             disabled: false,
-            action: None,
+            // CHANGE: Action ist standardmäßig None, nicht NoAction.
+            // Der Button-Ansatz war hier etwas inkonsistent. Keine Action zu haben ist der bessere Default.
+            action: None, 
             width: None,
             height: None,
             color_palette: None,
             border_radius: None,
-            text: None,
-            icon: None,
+            children_defs: Vec::new(),
             markers: Vec::new(),
         }
     }
+}
+
+
+impl<A: Component + Clone + Send + Sync + 'static> ComponentBuilder<A> {
+    /// Standard-Konstruktor für Komponenten ohne spezifische Action.
+    pub fn new() -> ComponentBuilder<NoAction> {
+        ComponentBuilder::default()
+    }
     
-    // ─── STANDARD API METHODS ───
+    /// Konstruktor für einen Builder mit einem spezifischen Action-Typ.
+    pub fn new_for_action() -> Self {
+        // REFINED: Wie Button.new_for_action()
+        Self::default()
+    }
     
-    /// Set visual variant
+    // ─── STANDARD API METHODS (weitgehend wie in deinem Template, aber verfeinert) ───
+    
     pub fn variant(mut self, variant: ComponentVariant) -> Self {
-        self.variant = variant;
-        self
+        self.variant = variant; self
     }
-    
-    /// Set size variant
     pub fn size(mut self, size: ComponentSize) -> Self {
-        self.size = size;
-        self
+        self.size = size; self
     }
-    
-    /// Enable/disable component
     pub fn disabled(mut self, disabled: bool) -> Self {
-        self.disabled = disabled;
-        self
+        self.disabled = disabled; self
     }
-    
-    /// Set action component
     pub fn action(mut self, action: A) -> Self {
-        self.action = Some(action);
-        self
+        self.action = Some(action); self
     }
-    
-    /// Set text content
-    pub fn text(mut self, text: impl Into<String>) -> Self {
-        self.text = Some(text.into());
-        self
-    }
-    
-    /// Set icon
-    pub fn icon(mut self, icon: Handle<Image>) -> Self {
-        self.icon = Some(icon);
-        self
-    }
-    
-    /// Override width
     pub fn width(mut self, width: Val) -> Self {
-        self.width = Some(width);
-        self
+        self.width = Some(width); self
     }
-    
-    /// Override height
     pub fn height(mut self, height: Val) -> Self {
-        self.height = Some(height);
-        self
+        self.height = Some(height); self
     }
-    
-    /// Set color palette
     pub fn color(mut self, palette: UiColorPalette) -> Self {
-        self.color_palette = Some(palette);
-        self
+        self.color_palette = Some(palette); self
+    }
+    pub fn border_radius(mut self, radius_px: f32) -> Self {
+        self.border_radius = Some(Val::Px(radius_px)); self
     }
     
-    /// Set border radius
-    pub fn border_radius(mut self, radius: f32) -> Self {
-        self.border_radius = Some(Val::Px(radius));
-        self
+    // REFINED: Content-Methoden nach Button-Vorbild für mehr Flexibilität
+    pub fn text(mut self, text: impl Into<String>) -> Self {
+        self.children_defs.push(ComponentChild::Text(text.into())); self
+    }
+    pub fn icon(mut self, icon: Handle<Image>) -> Self {
+        self.children_defs.push(ComponentChild::Icon(icon)); self
     }
     
-    /// Add custom marker/component
-    pub fn add_marker(
-        mut self,
-        func: impl FnOnce(&mut EntityCommands) + Send + Sync + 'static,
-    ) -> Self {
-        self.markers.push(Box::new(func));
-        self
+    pub fn add_marker(mut self, func: impl FnOnce(&mut EntityCommands) + Send + Sync + 'static) -> Self {
+        self.markers.push(Box::new(func)); self
     }
     
-    /// STANDARD SPAWN SIGNATURE für alle Components
+    /// STANDARD SPAWN SIGNATURE (kombiniert Button- und Switch-Logik)
     #[must_use]
     pub fn spawn<'w, 's>(
         self,
         parent: &'s mut ChildSpawnerCommands<'w>,
         theme: &UiTheme,
-        font: &Handle<Font>, // Immer mit Font für Konsistenz
+        font: &Handle<Font>,
     ) -> EntityCommands<'s> {
-        // BUTTON-METHODIK: Style über ComponentStyle::new() erstellen
-        let color_palette = self.color_palette.unwrap_or_else(|| theme.accent.clone());
+        // BEST PRACTICE (von Button): Farbpalette bestimmen
+        let color_palette = self.color_palette.clone().unwrap_or_else(|| theme.accent.clone());
         
-        // Initiale Interaction für Style-Berechnung
-        let interaction = if self.disabled {
-            Interaction::None // Disabled components haben keine Interaction
-        } else {
-            Interaction::default()
-        };
+        let interaction = if self.disabled { Interaction::None } else { Interaction::default() };
 
-        // Style mit Button-Methodik erstellen
-        let component_style = ComponentStyle::new(
+        // BEST PRACTICE (von Button): Style zentral erstellen
+        let mut component_style = ComponentStyle::new(
             self.variant,
             self.size,
-            Some(&color_palette),
+            &color_palette, // Direkt als Referenz übergeben
             interaction,
             theme,
         );
 
-        // Haupt-Component spawnen
+        // REFINED: Style-Overrides aus dem Builder anwenden
+        if let Some(w) = self.width { component_style.node.width = w; }
+        if let Some(h) = self.height { component_style.node.height = h; }
+        if let Some(r) = self.border_radius { component_style.border_radius = BorderRadius::all(r); }
+
+        // Haupt-Komponente spawnen
         let mut cmd = parent.spawn((
+            Button, // PFLICHT für Bevy UI Interaction
             ComponentMarker,
-            Button, // Für Interaction (falls interaktiv)
             ComponentState {
                 variant: self.variant,
                 size: self.size,
                 disabled: self.disabled,
-                color_palette: Some(color_palette),
+                color_palette: color_palette.clone(), // Geklonte Palette speichern
                 checked: false, // Component-spezifisch anpassen
             },
             // Style-Bundle direkt anwenden
-            component_style.node,
-            component_style.background_color,
-            component_style.border_color,
-            component_style.border_radius,
+            component_style.clone(),
             // Focus Policy
-            if self.disabled {
-                FocusPolicy::Pass
-            } else {
-                FocusPolicy::Block
-            },
+            if self.disabled { FocusPolicy::Pass } else { FocusPolicy::Block },
         ));
 
-        // Action component hinzufügen
         if let Some(action) = self.action {
             cmd.insert(action);
         }
 
         // Children spawnen
-        cmd.with_children(|parent| {
-            // Text spawnen (falls vorhanden)
-            if let Some(text) = self.text {
-                parent.spawn((
-                    Text::new(text),
-                    component_style.text_style,
-                    component_style.text_color,
-                ));
+        cmd.with_children(|child_parent| {
+            // BEST PRACTICE (von Button): Durch Child-Definitionen iterieren
+            for child_def in self.children_defs {
+                match child_def {
+                    ComponentChild::Text(text) => {
+                        child_parent.spawn((
+                            Text::new(text, component_style.text_style(font)),
+                            component_style.text_color,
+                        ));
+                    },
+                    ComponentChild::Icon(handle) => {
+                        // Icon-spezifisches Spawning
+                    },
+                }
             }
 
-            // Icon spawnen (falls vorhanden)
-            if let Some(icon_handle) = self.icon {
-                parent.spawn((
-                    ComponentIconMarker,
-                    ImageNode {
-                        image: icon_handle,
-                        ..default()
-                    },
-                    Node {
-                        width: Val::Px(16.0), // Size-abhängig
-                        height: Val::Px(16.0),
-                        ..default()
-                    },
-                    Visibility::Hidden, // Initial versteckt, wird über State gesteuert
-                ));
-            }
-
-            // SWITCH-DISABLE-SYSTEM: Disabled-Overlay spawnen
+            // BEST PRACTICE (von Switch): Disabled-Overlay spawnen
             if self.disabled {
-                spawn_disabled_overlay(
-                    parent, 
-                    theme
-                );
+                spawn_disabled_overlay(child_parent, theme, component_style.border_radius);
             }
         });
 
-        // Custom Marker anwenden
         for marker_fn in self.markers {
             marker_fn(&mut cmd);
         }
@@ -233,7 +201,11 @@ impl Default for ComponentBuilder<NoAction> {
         Self::new()
     }
 }
+```
 
+## Components.rs
+
+```rust
 // components.rs - Standard Template
 use bevy::prelude::*;
 use super::enums::{ComponentVariant, ComponentSize};
@@ -246,34 +218,18 @@ pub struct ComponentMarker;
 /// PFLICHT: State Component mit allen relevanten Zustandsdaten
 #[derive(Component, Debug, Clone)]
 pub struct ComponentState {
-    /// Visual variant (PFLICHT)
     pub variant: ComponentVariant,
-    /// Size variant (PFLICHT)
     pub size: ComponentSize,
-    /// Disabled state (PFLICHT)
     pub disabled: bool,
-    /// Optional: Color override
-    pub color_palette: Option<UiColorPalette>,
-    /// Component-specific state
-    pub checked: bool, // Beispiel für component-spezifische Eigenschaften
+    pub color_palette: UiColorPalette,
+    pub checked: bool, // Beispiel
 }
 
-impl Default for ComponentState {
-    fn default() -> Self {
-        Self {
-            variant: ComponentVariant::default(),
-            size: ComponentSize::default(),
-            disabled: false,
-            color_palette: None,
-            checked: false,
-        }
-    }
-}
-
-/// OPTIONAL: Zusätzliche Marker für Sub-Components (z.B. Icons, Overlays)
+/// OPTIONAL: Marker für Sub-Components
 #[derive(Component, Default, Debug, Clone, Copy)]
 pub struct ComponentIconMarker;
 
+// BEST PRACTICE (von Switch): Eigener Marker für das Overlay
 #[derive(Component, Default, Debug, Clone, Copy)]
 pub struct ComponentOverlayMarker;
 
@@ -289,7 +245,11 @@ impl ComponentState {
         }
     }
 }
+```
 
+## Events.rs
+
+```rust
 // events.rs - Standard Template
 use bevy::prelude::*;
 use std::fmt::Debug;
@@ -334,103 +294,121 @@ impl<A: Component + Clone + Send + Sync + 'static> ComponentChangedEvent<A> {
         }
     }
 }
+```
 
+## Systems.rs
+
+```rust
 // systems.rs - Standard Template
-use bevy::prelude::*;
-use super::*;
+use bevy::{prelude::*, utils::HashMap};
+use super::{style::ComponentStyle, *}; 
 use crate::theme::UiTheme;
 
-/// PFLICHT: Visual Update System für jede interaktive Component
-/// Verwendet Button-Style-Methodik mit Switch-Disable-System
-/// Reagiert auf State-Änderungen und Interaction-Änderungen
+/// PFLICHT: Visual Update System (kombiniert Button- & Switch-Logik)
 pub fn update_component_visuals(
-    theme_opt: Option<Res<UiTheme>>,
-    mut query: Query<
+    // Haupt-Query für die Komponente selbst
+    mut component_query: Query<
         (
             &ComponentState,
             &Interaction,
             &mut BackgroundColor,
             &mut BorderColor,
-            Option<&Children>, // Für Sub-Components
+            &Children,
         ),
         (
             Or<(Changed<ComponentState>, Changed<Interaction>)>,
             With<ComponentMarker>
         ),
     >,
-    // Separate Query für Sub-Components (z.B. Icons)
-    mut icon_query: Query<&mut Visibility, With<ComponentIconMarker>>,
-    mut overlay_query: Query<&mut Visibility, With<ComponentOverlayMarker>>,
+    // Separate Query für das Overlay-Child
+    mut overlay_query: Query<(&mut Visibility, &mut BackgroundColor), (With<ComponentOverlayMarker>, Without<ComponentMarker>)>,
+    // Ggf. weitere Queries für andere Kinder wie Icons...
 ) {
-    // Guard für Theme
-    let Some(theme) = theme_opt else {
-        warn!("UiTheme nicht verfügbar für update_component_visuals");
-        return;
-    };
+    for (state, interaction, mut bg_color, mut border_color, children) in component_query.iter_mut() {
+        // BEST PRACTICE (von Button): Interaktion für Styling normalisieren
+        // Ein deaktiviertes Element verhält sich visuell wie im `None`-Zustand,
+        // der eigentliche "disabled"-Look kommt vom Overlay.
+        let current_interaction = if state.disabled { Interaction::None } else { *interaction };
 
-    for (state, interaction, mut bg_color, mut border_color, children_opt) in query.iter_mut() {
-        // BUTTON-METHODIK: Style über statische Methoden bestimmen
-        let color_palette = state.color_palette.as_ref().unwrap_or(&theme.accent);
-
-        // Disabled-state wird NICHT über Farbänderung gehandhabt!
-        // Stattdessen: Switch-Disable-System mit Overlay
-        let current_interaction = if state.disabled { 
-            Interaction::None // Disabled components zeigen normale Farben
-        } else { 
-            *interaction 
-        };
-
-        // Farben über Button-Style-Methoden setzen
-        *bg_color = ComponentStyle::background(color_palette, state.variant, current_interaction);
-        *border_color = ComponentStyle::border(color_palette, state.variant, current_interaction);
-
-        // Sub-Components aktualisieren
-        if let Some(children) = children_opt {
-            for &child in children {
-                // Icon Visibility basierend auf checked state
-                if let Ok(mut icon_vis) = icon_query.get_mut(child) {
-                    *icon_vis = if state.checked {
-                        Visibility::Visible
-                    } else {
-                        Visibility::Hidden
-                    };
-                }
-
-                // SWITCH-DISABLE-SYSTEM: Overlay-Visibility für Disabled-State
-                if let Ok(mut overlay_vis) = overlay_query.get_mut(child) {
-                    *overlay_vis = if state.disabled {
-                        Visibility::Visible  // Overlay wird sichtbar und blockiert Interaktion
-                    } else {
-                        Visibility::Hidden   // Overlay versteckt, normale Interaktion möglich
-                    };
-                }
+        // Farben über die zentrale Style-Logik neu berechnen und setzen
+        *bg_color = ComponentStyle::background(&state.color_palette, state.variant, current_interaction);
+        *border_color = ComponentStyle::border(&state.color_palette, state.variant, current_interaction);
+        
+        // BEST PRACTICE (von Switch): Sub-Komponenten steuern
+        for &child in children.iter() {
+            // Overlay-Sichtbarkeit aktualisieren
+            if let Ok((mut overlay_vis, _)) = overlay_query.get_mut(child) {
+                *overlay_vis = if state.disabled {
+                    Visibility::Visible
+                } else {
+                    Visibility::Hidden
+                };
             }
+
+            // Hier könnte auch die Sichtbarkeit von z.B. einem Haken (Icon)
+            // basierend auf `state.checked` gesteuert werden.
         }
     }
 }
 
-/// PFLICHT: Interaction Handler für jede interaktive Component
+/// PFLICHT: Interaction Handler (direkt vom Button übernommen)
 /// Generisch über Action-Type
-pub fn handle_component_interaction<A: Component + Clone + Send + Sync + 'static>(
-    mut query: Query<
-        (Entity, &Interaction, &mut ComponentState, Option<&A>),
-        (Changed<Interaction>, With<ComponentMarker>),
-    >,
-    mut events: EventWriter<ComponentChangedEvent<A>>,
+pub fn handle_component_release<A: Component + Clone + Send + Sync + 'static>(
+    mut writer: EventWriter<ComponentChangedEvent<A>>,
+    mut prev_interactions: Local<HashMap<Entity, Interaction>>,
+    // Query muss den State und optional die Action-Komponente lesen
+    mut query: Query<(Entity, &Interaction, &mut ComponentState, Option<&A>), With<ComponentMarker>>,
 ) {
     for (entity, interaction, mut state, action_opt) in query.iter_mut() {
-        if *interaction == Interaction::Pressed && state.is_interactive() {
-            // State ändern (component-spezifisch anpassen)
-            state.toggle_checked();
-            
-            // Event senden
-            events.write(ComponentChangedEvent::new(
-                entity,
-                state.checked,
-                action_opt.cloned(),
-            ));
+        if state.disabled {
+            prev_interactions.remove(&entity);
+            continue;
         }
+
+        let last_interaction = *prev_interactions.get(&entity).unwrap_or(&Interaction::None);
+        
+        // Logik für "Click" (Release auf dem Element)
+        if last_interaction == Interaction::Pressed && (*interaction == Interaction::Hovered || *interaction == Interaction::None) {
+            // BEISPIEL: Toggle `checked` state für Komponenten wie Switch/Checkbox
+            state.checked = !state.checked;
+
+            writer.send(ComponentChangedEvent {
+                source_entity: entity,
+                is_checked: state.checked, // Den neuen Zustand senden
+                action_id: action_opt.cloned(),
+            });
+        }
+        prev_interactions.insert(entity, *interaction);
     }
+}
+
+/// STANDARD: Helper für Disabled-Overlay Spawning (aus deinem Template übernommen, leicht verfeinert)
+pub fn spawn_disabled_overlay(
+    parent: &mut ChildSpawnerCommands,
+    theme: &UiTheme,
+    // Radius vom Parent übernehmen für perfekte Passform
+    border_radius: BorderRadius,
+) {
+    parent.spawn((
+        ComponentOverlayMarker,
+        NodeBundle {
+            style: Style {
+                position_type: PositionType::Absolute,
+                left: Val::Px(0.0),
+                top: Val::Px(0.0),
+                width: Val::Percent(100.0),
+                height: Val::Percent(100.0),
+                ..default()
+            },
+            background_color: theme.color.black.step08.into(), // Halbtransparentes Overlay
+            // WICHTIG: Blockiert Klicks auf die darunterliegenden Elemente
+            focus_policy: FocusPolicy::Block, 
+            // Initial unsichtbar, wird vom System gesteuert
+            visibility: Visibility::Hidden, 
+            ..default()
+        },
+        border_radius, // Radius anpassen
+    ));
 }
 
 /// OPTIONAL: Keyboard Navigation für komplexe Components
@@ -442,6 +420,11 @@ pub fn handle_component_keyboard(
     // Implementation für Keyboard-Handling
     // z.B. Space/Enter für Aktivierung
 }
+```
+
+## Style.rs
+
+```rust
 // style.rs - Standard Template (basierend auf Button-Methodik)
 use bevy::prelude::*;
 use super::enums::{ComponentVariant, ComponentSize};
@@ -606,66 +589,11 @@ impl ComponentStyle {
         }
     }
 }
+```
 
-/// STANDARD: Disabled-Overlay System (nach Switch-Vorbild)
-/// 
-/// Das Switch-Component demonstriert die beste Praxis für Disabled-Styling:
-/// - Erstellt ein absolut positioniertes Overlay als Child der Haupt-Component
-/// - Das Overlay ist transparent/halbtransparent und blockiert Interaktionen
-/// - Sichtbarkeit wird über das State-System gesteuert
-/// - Erhält `FocusPolicy::Block` um Clicks abzufangen
-/// 
-/// # Implementierung in Builder:
-/// ```rust
-/// if self.disabled {
-///     cmd.with_children(|parent| {
-///         parent.spawn((
-///             ComponentOverlayMarker,
-///             Node {
-///                 position_type: PositionType::Absolute,
-///                 left: Val::Px(0.0),
-///                 top: Val::Px(0.0),
-///                 width: Val::Percent(100.0),
-///                 height: Val::Percent(100.0),
-///                 ..default()
-///             },
-///             BackgroundColor(theme.color.black.step08), // Semi-transparent overlay
-///             BorderRadius::all(Val::Px(border_radius)), // Matched parent radius
-///             FocusPolicy::Block, // Blockiert Interaktionen
-///             Visibility::Visible,
-///         ));
-///     });
-/// }
-/// ```
-/// 
-/// # Vorteile dieses Approaches:
-/// - Visuell konsistent: Overlay-Effekt statt Farbänderung
-/// - Funktional robust: Blockiert alle Interaktionen zuverlässig
-/// - Flexibel: Overlay kann nach Bedarf gestylt werden
-/// - Performance: Nur gespawnt wenn needed, visibility-gesteuert
-#[derive(Component, Default, Debug, Clone, Copy)]
-pub struct ComponentOverlayMarker;
+## Plugin.rs
 
-/// STANDARD: Helper für Disabled-Overlay Spawning
-pub fn spawn_disabled_overlay(
-    parent: &mut ChildSpawnerCommands,
-    theme: &UiTheme,
-) {
-    parent.spawn((
-        ComponentOverlayMarker,
-        Node {
-            position_type: PositionType::Absolute,
-            left: Val::Px(0.0),
-            top: Val::Px(0.0),
-            width: Val::Percent(100.0),
-            height: Val::Percent(100.0),
-            ..default()
-        },
-        BackgroundColor(theme.color.black.step08),
-        FocusPolicy::Block,
-        Visibility::Visible,
-    ));
-}
+```rust
 // plugin.rs - Standard Template
 use bevy::prelude::*;
 use std::marker::PhantomData;
@@ -715,6 +643,11 @@ pub type ComponentNoActionPlugin = ComponentPlugin<NoAction>;
 // oder
 // app.add_plugins(ComponentNoActionPlugin::default())
 
+```
+
+## Enums.rs
+
+```rust
 // enums.rs - Standard Template
 use bevy::prelude::*;
 

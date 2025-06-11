@@ -12,30 +12,11 @@ pub fn show_checkbox_variants(
 
     variants_section.with_children(|vc| {
         // Unchecked
-        vc.spawn((
-            Text::new("Unchecked:"),
-            TextFont {
-                font: theme.font.family.default.clone(),
-                font_size: theme.font.size.base,
-                ..default()
-            },
-            TextColor(theme.color.slate.step12),
-        ));
+        CheckboxBuilder::new().checked(true).spawn(vc, theme, icons);
 
-        CheckboxBuilder::new()
-            .checked(false)
-            .spawn(vc, theme, &icons);
-
-        // Checked
-        vc.spawn((
-            Text::new("Checked:"),
-            TextFont {
-                font: theme.font.family.default.clone(),
-                font_size: theme.font.size.base,
-                ..default()
-            },
-            TextColor(theme.color.slate.step12),
-        ));
+        LabelBuilder::new("Checked")
+            .margin(UiRect::left(Val::Px(8.0)))
+            .spawn(vc, theme, &theme.font.family.default);
     });
 
     // Disabled Checkboxes
