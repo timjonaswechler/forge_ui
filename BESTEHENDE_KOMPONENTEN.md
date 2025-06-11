@@ -27,7 +27,7 @@ Wenn eine **bestehende** Komponente überarbeitet werden soll:
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/badge.props.tsx`
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/badge.tsx`
 - [x] Bestehender Code an die Guidelines anpassen
-- [ ] Showcase erstellt/aktualisiert
+- [x] Showcase erstellt/aktualisiert
 
 ### Button
 - **Source:**
@@ -40,7 +40,7 @@ Wenn eine **bestehende** Komponente überarbeitet werden soll:
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/button.props.tsx`
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/button.tsx`
 - [x] Bestehender Code an die Guidelines anpassen
-- [ ] Showcase erstellt/aktualisiert
+- [x] Showcase erstellt/aktualisiert
 
 ### Checkbox
 - **Source:**
@@ -88,7 +88,7 @@ Wenn eine **bestehende** Komponente überarbeitet werden soll:
   - Themes:
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/portal.tsx`
 - [x] Bestehender Code an die Guidelines anpassen
-- [ ] Showcase erstellt/aktualisiert
+- [x] Showcase erstellt/aktualisiert
 
 ### Radio
 - **Source:**
@@ -99,8 +99,8 @@ Wenn eine **bestehende** Komponente überarbeitet werden soll:
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/radio.css`
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/radio.props.tsx`
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/radio.tsx`
-- [ ] Bestehender Code an die Guidelines anpassen
-- [ ] Showcase erstellt/aktualisiert
+- [x] Bestehender Code an die Guidelines anpassen
+- [x] Showcase erstellt/aktualisiert
 
 ### Radio Group
 - **Source:**
@@ -138,6 +138,6 @@ Wenn eine **bestehende** Komponente überarbeitet werden soll:
 
 ## Status-Übersicht
 **Gesamt:** 12 Komponenten
-**Abgeschlossen:** 3 Komponenten
+**Abgeschlossen:** 8 Komponenten
 **In Bearbeitung:** 0 Komponenten
-**Ausstehend:** 9 Komponenten
+**Ausstehend:** 4 Komponenten
