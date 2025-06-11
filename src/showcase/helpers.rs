@@ -35,6 +35,7 @@ pub enum ShowcaseElement {
     Badge,
     Switch,
     ToggleGroup,
+    Avatar,
 }
 
 // Hilfsfunktion zur Erstellung von beschrifteten Varianten

@@ -123,6 +123,12 @@ pub fn build_sidebar(
                 .action(ShowcaseAction::ShowElement(ShowcaseElement::Switch))
                 .spawn(parent, theme, font),
         )
+        .add_entity(
+            ButtonBuilder::new_for_action()
+                .text("Avatar")
+                .action(ShowcaseAction::ShowElement(ShowcaseElement::Avatar))
+                .spawn(parent, theme, font),
+        )
         .spawn(parent)
         .id()
 }
@@ -245,6 +251,9 @@ pub fn handle_select_element(
                         }
                         ShowcaseElement::Label => {
                             show_label_variants(vc, &theme, &font.default)
+                        }
+                        ShowcaseElement::Avatar => {
+                            show_avatar_examples(vc, &theme, &font.default, &icons)
                         }
                     });
             });

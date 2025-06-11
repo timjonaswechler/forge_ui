@@ -2,7 +2,7 @@ pub use crate::assets::*;
 pub use crate::components::helper::*;
 pub use crate::components::{
     badge::*, button::*, accordion::*, checkbox::*, checkbox_cards::*, checkbox_group::*, radio_cards::*, dialog::*, label::*, portal::*, radio::*,
-    radio_group::*, switch::*, toggle::*, toggle_group::*,
+    radio_group::*, switch::*, toggle::*, toggle_group::*, alert_dialog::*, avatar::*,
 };
 pub use crate::layout::*;
 pub use crate::plugin::{ForgeUiPlugin, UiState};
