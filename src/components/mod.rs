@@ -2,6 +2,7 @@
 pub mod badge;
 pub mod button;
 pub mod checkbox;
+pub mod checkbox_cards;
 pub mod dialog;
 pub mod helper;
 pub mod label;

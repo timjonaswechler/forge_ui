@@ -110,7 +110,7 @@ Identifiziere die erste unvollständige Komponente in der Liste und beginne mit 
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/checkbox-cards.css`
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/checkbox-cards.props.tsx`
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/checkbox-cards.tsx`
-- [ ] Komponente erstellt
+- [x] Komponente erstellt
 - [ ] Showcase erstellt
 
 ### Checkbox Group

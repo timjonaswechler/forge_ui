@@ -1,7 +1,7 @@
 pub use crate::assets::*;
 pub use crate::components::helper::*;
 pub use crate::components::{
-    badge::*, button::*, accordion::*, checkbox::*, dialog::*, label::*, portal::*, radio::*,
+    badge::*, button::*, accordion::*, checkbox::*, checkbox_cards::*, dialog::*, label::*, portal::*, radio::*,
     radio_group::*, switch::*, toggle::*, toggle_group::*,
 };
 pub use crate::layout::*;
