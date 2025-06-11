@@ -6,72 +6,45 @@ pub fn show_dialog_variants(
     parent: &mut ChildSpawnerCommands,
     theme: &UiTheme,
     font: &Handle<Font>,
-    assets: &AssetServer,
+    _assets: &AssetServer,
 ) {
-    let dialog_section = create_variant_section(parent, "Dialog Components", theme, font);
+    let mut dialog_section = create_variant_section(parent, "Dialog Components", theme, font);
 
-    // parent.entity(dialog_section).with_children(|vc| {
-    //     // Dialog ID für Demos
-    //     let dialog_id = DialogId::new_unique();
+    dialog_section.with_children(|vc| {
+        let dialog_id = DialogId::new_unique();
 
-    //     // Dialog Trigger Button
-    //     DialogTriggerBuilder::new(dialog_id)
-    //         .text("Open Dialog")
-    //         .variant(ButtonVariant::Primary)
-    //         .spawn(vc, theme, font);
+        DialogTriggerBuilder::new(dialog_id)
+            .text("Open Dialog")
+            .variant(ButtonVariant::Solid)
+            .spawn(vc, theme, font);
 
-    //     // Dialog selbst definieren
-    //     let dialog_content = DialogContentBuilder::new()
-    //         .header(
-    //             DialogHeaderBuilder::new()
-    //                 .title("Example Dialog")
-    //                 .subtitle("This is a sample dialog component"),
-    //         )
-    //         .body(DialogBodyBuilder::new())
-    //         .footer(DialogFooterBuilder::new().justify_content(JustifyContent::End));
+        let content = DialogContentBuilder::new()
+            .header(DialogHeaderBuilder::new().title("Example Dialog"))
+            .body(DialogBodyBuilder::new().add_content(|p, theme, font| {
+                p.spawn((
+                    Text::new("This is a dialog body."),
+                    TextFont {
+                        font: font.clone(),
+                        font_size: theme.font.size.base,
+                        ..default()
+                    },
+                    TextColor(theme.color.slate.step12),
+                ));
+            }))
+            .footer(DialogFooterBuilder::new().add_custom_content(move |p, theme, font| {
+                ButtonBuilder::<DialogAction>::new_for_action()
+                    .text("Close")
+                    .variant(ButtonVariant::Soft)
+                    .action(DialogAction::Close(dialog_id))
+                    .spawn(p, theme, font);
+            }));
 
-    //     DialogBuilder::new(dialog_id)
-    //         .content(dialog_content)
-    //         .width(Val::Px(400.0))
-    //         .height(Val::Auto)
-    //         .overlay_color(Color::rgba(0.0, 0.0, 0.0, 0.5))
-    //         .spawn(vc, theme, font);
-    // });
+        let mut cmds = vc.commands_mut();
+        DialogBuilder::new(dialog_id)
+            .content(content)
+            .spawn(&mut cmds, theme, font, None);
+    });
 
-    // Verschiedene Dialog-Trigger-Varianten
-    let triggers_section = create_variant_section(parent, "Dialog Triggers", theme, font);
-
-    // parent.entity(triggers_section).with_children(|vc| {
-    //     let dialog_id_1 = DialogId::new_unique();
-    //     let dialog_id_2 = DialogId::new_unique();
-    //     let dialog_id_3 = DialogId::new_unique();
-
-    //     // Verschiedene Trigger-Varianten
-    //     DialogTriggerBuilder::new(dialog_id_1)
-    //         .text("Primary Trigger")
-    //         .variant(ButtonVariant::Primary)
-    //         .spawn(vc, theme, font);
-
-    //     DialogTriggerBuilder::new(dialog_id_2)
-    //         .text("Secondary Trigger")
-    //         .variant(ButtonVariant::Secondary)
-    //         .spawn(vc, theme, font);
-
-    //     DialogTriggerBuilder::new(dialog_id_3)
-    //         .text("Small Trigger")
-    //         .variant(ButtonVariant::Ghost)
-    //         .size(ButtonSize::Small)
-    //         .spawn(vc, theme, font);
-
-    //     // Die entsprechenden Dialoge spawnen (minimalistisch)
-    //     for dialog_id in [dialog_id_1, dialog_id_2, dialog_id_3] {
-    //         let content =
-    //             DialogContentBuilder::new().header(DialogHeaderBuilder::new().title("Dialog"));
-
-    //         DialogBuilder::new(dialog_id)
-    //             .content(content)
-    //             .width(Val::Px(300.0))
-    //             .spawn(vc, theme, font);
-    //     }
-    // });
+    // Optional: weitere Trigger-Beispiele
+    let _triggers_section = create_variant_section(parent, "Dialog Triggers", theme, font);
 }
