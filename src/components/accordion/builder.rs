@@ -138,6 +138,27 @@ impl AccordionBuilder {
             }
         });
 
+        if self.disabled {
+            spawn_disabled_overlay(&mut cmd, theme);
+        }
+
         cmd
     }
+}
+
+fn spawn_disabled_overlay<'w>(cmd: &mut EntityCommands<'w>, theme: &UiTheme) {
+    cmd.with_children(|parent| {
+        parent.spawn((
+            Node {
+                position_type: PositionType::Absolute,
+                left: Val::Px(0.0),
+                top: Val::Px(0.0),
+                width: Val::Percent(100.0),
+                height: Val::Percent(100.0),
+                ..default()
+            },
+            BackgroundColor(theme.color.black.step08),
+            FocusPolicy::Block,
+        ));
+    });
 }
