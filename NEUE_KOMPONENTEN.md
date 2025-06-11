@@ -30,8 +30,8 @@ Nach erfolgreicher Komponentenerstellung:
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/checkbox-group.primitive.tsx`
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/checkbox-group.props.tsx`
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/checkbox-group.tsx`
-- [ ] Komponente erstellt
-- [ ] Showcase erstellt
+- [x] Komponente erstellt
+- [x] Showcase erstellt
 
 ### Radio Cards
 - **Source:**
@@ -39,8 +39,8 @@ Nach erfolgreicher Komponentenerstellung:
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/radio-cards.css`
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/radio-cards.props.tsx`
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/radio-cards.tsx`
-- [ ] Komponente erstellt
-- [ ] Showcase erstellt
+- [x] Komponente erstellt
+- [x] Showcase erstellt
 
 ### Toggle Group
 - **Source:**
