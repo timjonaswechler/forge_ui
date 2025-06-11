@@ -1,5 +1,5 @@
 // components/dialog/header_builder.rs (oder ähnlich)
-use bevy::{color, prelude::*}; // Angenommen, wir haben ein builder_types.rs Modul
+use bevy::prelude::*; // Angenommen, wir haben ein builder_types.rs Modul
 
 use super::super::*;
 use super::*;
@@ -70,7 +70,7 @@ impl DialogHeaderBuilder {
         let subtitle = self.subtitle;
         let custom_elems = self.custom_elements; // will be moved into closure
         let show_close = self.show_close;
-        let close_icon = self.close_icon;
+        let _close_icon = self.close_icon;
 
         // outer horizontal row (space‑between)
         let mut row_cmd = HorizontalStackBuilder::new()
