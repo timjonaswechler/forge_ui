@@ -133,14 +133,14 @@ Nach erfolgreicher Komponentenerstellung:
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/container.css`
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/container.props.tsx`
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/container.tsx`
-- [ ] Komponente erstellt
-- [ ] Showcase erstellt
+- [x] Komponente erstellt
+- [x] Showcase erstellt
 
 ### Context (Primitive)
 - **Source:**
   - Primitives: `https://github.com/radix-ui/primitives/tree/main/packages/react/context/src`
-- [ ] Komponente erstellt
-- [ ] Showcase erstellt
+- [x] Komponente erstellt
+- [x] Showcase erstellt
 
 ### Context Menu
 - **Source:**
