@@ -7,8 +7,8 @@ use crate::assets::{FontAssets, IconAssets};
 use crate::camera::CameraPlugin;
 use crate::components::helper::*;
 use crate::components::{
-    accordion::*, button::*, checkbox::*, dialog::*, portal::*, radio::*, switch::*, toggle::*,
-    toggle_group::*,
+    accordion::*, button::*, checkbox::*, checkbox_cards::*, dialog::*, portal::*, radio::*,
+    switch::*, toggle::*, toggle_group::*,
 };
 use crate::theme::*;
 
@@ -97,20 +97,13 @@ impl Plugin for ForgeUiPlugin {
                 .run_if(in_state(UiState::LoadingTheme)),
             )
             // endregion
-            .add_plugins(ButtonPlugin)
+            .add_plugins(ButtonNoActionPlugin::default())
             .add_plugins(DialogPlugin)
             .add_plugins(AccordionPlugin)
             .add_plugins(TogglePlugin::<NoAction>::default())
             .add_plugins(ToggleGroupPlugin::<NoAction>::default())
-            .add_event::<CheckboxChangedEvent>()
-            .add_systems(
-                Update,
-                (
-                    update_checkbox_visuals.run_if(in_state(UiState::Ready)),
-                    handle_checkbox_clicks.run_if(in_state(UiState::Ready)),
-                    update_checkmark_visibility_on_state_change.run_if(in_state(UiState::Ready)),
-                ),
-            )
+            .add_plugins(CheckboxPlugin)
+            .add_plugins(CheckboxCardsPlugin)
             // endregion --- Checkboxen ---
             // region: --- Toggle Switches ---
             .add_event::<SwitchChangedEvent>()

@@ -30,3 +30,7 @@ impl Default for CheckboxState {
 /// Wird genutzt, um Sichtbarkeit und Styling des Icons zu steuern.
 #[derive(Component, Debug, Clone, Copy)]
 pub struct CheckmarkIconEntity(pub Entity);
+
+/// Marker for the overlay entity shown when a checkbox is disabled.
+#[derive(Component, Default, Debug, Clone, Copy)]
+pub struct CheckboxDisabledOverlayMarker;
