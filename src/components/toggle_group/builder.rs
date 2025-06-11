@@ -131,11 +131,11 @@ impl<A: Component + Clone + Send + Sync + 'static> ToggleGroupBuilder<A> {
     }
 
     /// Spawns the toggle group as a child entity
-    pub fn spawn_into<'w>(
+    pub fn spawn_into<'w, 's>(
         self,
-        parent: &'w mut ChildSpawnerCommands<'w>,
+        parent: &'s mut ChildSpawnerCommands<'w>,
         theme: &crate::theme::UiTheme,
-    ) -> EntityCommands<'w> {
+    ) -> EntityCommands<'s> {
         let style_def = get_toggle_group_style_def(theme, self.variant, self.size);
 
         // Determine the appropriate toggle variant to match the group

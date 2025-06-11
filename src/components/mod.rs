@@ -14,4 +14,6 @@ pub mod radio_group;
 pub mod switch;
 pub mod toggle;
 pub mod toggle_group;
+pub mod alert_dialog;
+pub mod avatar;
 pub mod accordion;

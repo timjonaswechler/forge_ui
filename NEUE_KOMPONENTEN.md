@@ -45,8 +45,8 @@ Nach erfolgreicher Komponentenerstellung:
 ### Toggle Group
 - **Source:**
   - Primitives: `https://github.com/radix-ui/primitives/tree/main/packages/react/toggle-group/src`
-- [ ] Komponente erstellt
-- [ ] Showcase erstellt
+- [x] Komponente erstellt
+- [x] Showcase erstellt
 
 ### Alert Dialog
 - **Source:**
@@ -55,8 +55,8 @@ Nach erfolgreicher Komponentenerstellung:
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/alert-dialog.css`
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/alert-dialog.props.tsx`
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/alert-dialog.tsx`
-- [ ] Komponente erstellt
-- [ ] Showcase erstellt
+- [x] Komponente erstellt
+- [x] Showcase erstellt
 
 ### Avatar
 - **Source:**
@@ -65,8 +65,8 @@ Nach erfolgreicher Komponentenerstellung:
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/avatar.css`
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/avatar.props.tsx`
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/avatar.tsx`
-- [ ] Komponente erstellt
-- [ ] Showcase erstellt
+- [x] Komponente erstellt
+- [x] Showcase erstellt
 
 ### Blockquote
 - **Source:**
