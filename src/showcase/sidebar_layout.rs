@@ -129,6 +129,48 @@ pub fn build_sidebar(
                 .action(ShowcaseAction::ShowElement(ShowcaseElement::Avatar))
                 .spawn(parent, theme, font),
         )
+        .add_entity(
+            ButtonBuilder::new_for_action()
+                .text("Card")
+                .action(ShowcaseAction::ShowElement(ShowcaseElement::Card))
+                .spawn(parent, theme, font),
+        )
+        .add_entity(
+            ButtonBuilder::new_for_action()
+                .text("Box")
+                .action(ShowcaseAction::ShowElement(ShowcaseElement::Box))
+                .spawn(parent, theme, font),
+        )
+        .add_entity(
+            ButtonBuilder::new_for_action()
+                .text("Blockquote")
+                .action(ShowcaseAction::ShowElement(ShowcaseElement::Blockquote))
+                .spawn(parent, theme, font),
+        )
+        .add_entity(
+            ButtonBuilder::new_for_action()
+                .text("Callout")
+                .action(ShowcaseAction::ShowElement(ShowcaseElement::Callout))
+                .spawn(parent, theme, font),
+        )
+        .add_entity(
+            ButtonBuilder::new_for_action()
+                .text("Code")
+                .action(ShowcaseAction::ShowElement(ShowcaseElement::Code))
+                .spawn(parent, theme, font),
+        )
+        .add_entity(
+            ButtonBuilder::new_for_action()
+                .text("Collapsible")
+                .action(ShowcaseAction::ShowElement(ShowcaseElement::Collapsible))
+                .spawn(parent, theme, font),
+        )
+        .add_entity(
+            ButtonBuilder::new_for_action()
+                .text("Collection")
+                .action(ShowcaseAction::ShowElement(ShowcaseElement::Collection))
+                .spawn(parent, theme, font),
+        )
         .spawn(parent)
         .id()
 }
@@ -254,6 +296,27 @@ pub fn handle_select_element(
                         }
                         ShowcaseElement::Avatar => {
                             show_avatar_examples(vc, &theme, &font.default, &icons)
+                        }
+                        ShowcaseElement::Card => {
+                            show_card_example(vc, &theme, &font.default)
+                        }
+                        ShowcaseElement::Box => {
+                            show_box_example(vc, &theme, &font.default)
+                        }
+                        ShowcaseElement::Blockquote => {
+                            show_blockquote_example(vc, &theme, &font.default)
+                        }
+                        ShowcaseElement::Callout => {
+                            show_callout_example(vc, &theme, &font.default)
+                        }
+                        ShowcaseElement::Code => {
+                            show_code_example(vc, &theme, &font.default)
+                        }
+                        ShowcaseElement::Collapsible => {
+                            show_collapsible_example(vc, &theme, &font.default)
+                        }
+                        ShowcaseElement::Collection => {
+                            show_collection_example(vc, &theme, &font.default)
                         }
                     });
             });

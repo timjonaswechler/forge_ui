@@ -74,8 +74,8 @@ Nach erfolgreicher Komponentenerstellung:
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/blockquote.props.tsx`
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/blockquote.tsx`
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/quote.css`
-- [ ] Komponente erstellt
-- [ ] Showcase erstellt
+- [x] Komponente erstellt
+- [x] Showcase erstellt
 
 ### Box
 - **Source:**
@@ -83,8 +83,8 @@ Nach erfolgreicher Komponentenerstellung:
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/box.css`
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/box.props.tsx`
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/box.tsx`
-- [ ] Komponente erstellt
-- [ ] Showcase erstellt
+- [x] Komponente erstellt
+- [x] Showcase erstellt
 
 ### Callout
 - **Source:**
@@ -92,8 +92,8 @@ Nach erfolgreicher Komponentenerstellung:
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/callout.css`
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/callout.props.tsx`
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/callout.tsx`
-- [ ] Komponente erstellt
-- [ ] Showcase erstellt
+- [x] Komponente erstellt
+- [x] Showcase erstellt
 
 ### Card
 - **Source:**
@@ -103,8 +103,8 @@ Nach erfolgreicher Komponentenerstellung:
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/card.css`
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/card.props.tsx`
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/card.tsx`
-- [ ] Komponente erstellt
-- [ ] Showcase erstellt
+- [x] Komponente erstellt
+- [x] Showcase erstellt
 
 ### Code
 - **Source:**
@@ -112,20 +112,20 @@ Nach erfolgreicher Komponentenerstellung:
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/code.css`
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/code.props.tsx`
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/code.tsx`
-- [ ] Komponente erstellt
-- [ ] Showcase erstellt
+- [x] Komponente erstellt
+- [x] Showcase erstellt
 
 ### Collapsible
 - **Source:**
   - Primitives: `https://github.com/radix-ui/primitives/tree/main/packages/react/collapsible/src`
-- [ ] Komponente erstellt
-- [ ] Showcase erstellt
+- [x] Komponente erstellt
+- [x] Showcase erstellt
 
 ### Collection
 - **Source:**
   - Primitives: `https://github.com/radix-ui/primitives/tree/main/packages/react/collection/src`
-- [ ] Komponente erstellt
-- [ ] Showcase erstellt
+- [x] Komponente erstellt
+- [x] Showcase erstellt
 
 ### Container
 - **Source:**

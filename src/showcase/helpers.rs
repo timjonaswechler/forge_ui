@@ -36,6 +36,13 @@ pub enum ShowcaseElement {
     Switch,
     ToggleGroup,
     Avatar,
+    Card,
+    Blockquote,
+    Box,
+    Callout,
+    Code,
+    Collapsible,
+    Collection,
 }
 
 // Hilfsfunktion zur Erstellung von beschrifteten Varianten
