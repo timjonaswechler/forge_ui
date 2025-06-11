@@ -89,6 +89,12 @@ pub fn build_sidebar(
         )
         .add_entity(
             ButtonBuilder::new_for_action()
+                .text("Portal")
+                .action(ShowcaseAction::ShowElement(ShowcaseElement::Portal))
+                .spawn(parent, theme, font),
+        )
+        .add_entity(
+            ButtonBuilder::new_for_action()
                 .text("Badge")
                 .action(ShowcaseAction::ShowElement(ShowcaseElement::Badge))
                 .spawn(parent, theme, font),
@@ -136,6 +142,7 @@ pub fn handle_select_element(
     font: Res<FontAssets>,
     icons: Res<IconAssets>,
     assets: Res<AssetServer>,
+    global_portal_root: Res<ForgeUiPortalRoot>,
 ) {
     let container = match container_q.single() {
         Ok(c) => c,
@@ -214,6 +221,9 @@ pub fn handle_select_element(
                         }
                         ShowcaseElement::Dialog => {
                             show_dialog_variants(vc, &theme, &font.default, &assets)
+                        }
+                        ShowcaseElement::Portal => {
+                            show_portal_example(vc, &theme, &font.default, Res::clone(&global_portal_root))
                         }
                         ShowcaseElement::Label => {
                             show_label_variants(vc, &theme, &font.default)

@@ -1,10 +1,18 @@
 // src/components/radio/builder.rs
+//! Fluent builder for individual radio buttons.
+//!
+//! This module provides [`RadioBuilder`], which mirrors the appearance and
+//! behaviour of the Radix UI radio component. It allows creating standalone
+//! radio buttons that can optionally be grouped via [`RadioGroup`] and react to
+//! selection changes through callbacks.
+
 use bevy::prelude::*;
 use std::sync::atomic::{AtomicU32, Ordering};
 
 use super::*;
 use crate::theme::UiTheme;
 
+/// Global registry for selection callbacks used by radio buttons.
 #[derive(Default, Resource)]
 pub struct OnSelectRegistry {
     next_id: AtomicU32,
@@ -12,6 +20,7 @@ pub struct OnSelectRegistry {
 }
 
 impl OnSelectRegistry {
+    /// Registers a callback and returns its unique ID.
     pub fn register<F>(&mut self, callback: F) -> u32
     where
         F: Fn(String) + Send + Sync + 'static,
@@ -21,6 +30,7 @@ impl OnSelectRegistry {
         id
     }
 
+    /// Invokes the callback registered under `id` with the provided value.
     pub fn call(&self, id: u32, value: String) {
         if let Some(cb) = self.callbacks.get(&id) {
             cb(value);
@@ -28,6 +38,22 @@ impl OnSelectRegistry {
     }
 }
 
+/// Builder for an interactive radio button.
+///
+/// The builder exposes a fluent API to configure variant, size, group and
+/// checked state. Example:
+/// ```rust
+/// use forge_ui::components::radio::{RadioBuilder, RadioVariant};
+/// # use bevy::prelude::*;
+/// # fn demo(mut commands: Commands, theme: Res<UiTheme>, font: Res<Handle<Font>>) {
+/// commands.spawn(NodeBundle::default()).with_children(|p| {
+///     let _ = RadioBuilder::new("a")
+///         .variant(RadioVariant::Primary)
+///         .group("example")
+///         .spawn(p, &theme, &font);
+/// });
+/// # }
+/// ```
 pub struct RadioBuilder {
     variant: RadioVariant,
     size: RadioSize,
@@ -39,6 +65,7 @@ pub struct RadioBuilder {
 }
 
 impl RadioBuilder {
+    /// Creates a new builder with the given value used as the radio's payload.
     pub fn new(value: impl Into<String>) -> Self {
         Self {
             variant: RadioVariant::Primary,
@@ -80,7 +107,10 @@ impl RadioBuilder {
         self.group = Some(name.into());
         self
     }
-    /// Registriert einen Callback und merkt sich dessen ID.
+    /// Registers a callback that fires when this radio is selected.
+    ///
+    /// The callback receives the radio's value and will be stored in a global
+    /// [`OnSelectRegistry`].
     pub fn on_select<F>(mut self, callback: F) -> Self
     where
         F: Fn(String) + Send + Sync + 'static,

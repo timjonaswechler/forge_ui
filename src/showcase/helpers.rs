@@ -29,6 +29,7 @@ pub enum ShowcaseElement {
     Toggle,
     Label,
     Dialog,
+    Portal,
     Badge,
     Switch,
     ToggleGroup,
