@@ -1,6 +1,9 @@
 // src/components/checkbox/builder.rs
 use crate::assets::IconAssets;
-use crate::components::checkbox::components::{CheckboxMarker, CheckboxState, CheckmarkIconEntity};
+use crate::components::checkbox::components::{
+    CheckboxMarker, CheckboxState, CheckmarkIconEntity,
+};
+use crate::components::checkbox::style::{CheckboxStyle, spawn_disabled_overlay};
 use crate::theme::UiTheme;
 use bevy::{ecs::system::EntityCommands, prelude::*, ui::FocusPolicy};
 
@@ -117,29 +120,15 @@ impl CheckboxBuilder {
         theme: &UiTheme,
         icons: &Res<IconAssets>,
     ) -> EntityCommands<'a> {
-        let checkbox_outer_size = Val::Px(16.0);
-        let checkbox_padding = Val::Px(2.0);
-        let checkmark_inner_size = Val::Px(12.0);
-        let border_width = 1.0;
+        let style = CheckboxStyle::new(theme);
 
+        let checkmark_inner_size = Val::Px(12.0);
         let mut checkmark_entity = Entity::PLACEHOLDER;
 
         let mut checkbox_cmd = parent.spawn((
             CheckboxMarker,
             Button,
-            Node {
-                width: checkbox_outer_size,
-                height: checkbox_outer_size,
-                padding: UiRect::all(checkbox_padding),
-                display: Display::Flex,
-                justify_content: JustifyContent::Center,
-                align_items: AlignItems::Center,
-                border: UiRect::all(Val::Px(border_width)),
-                ..default()
-            },
-            BorderRadius::all(Val::Px(theme.layout.radius.xs)),
-            BackgroundColor(Color::NONE),
-            BorderColor(theme.color.gray.step06),
+            style.clone(),
             if self.disabled {
                 FocusPolicy::Pass
             } else {
@@ -179,6 +168,10 @@ impl CheckboxBuilder {
         });
 
         checkbox_cmd.insert(CheckmarkIconEntity(checkmark_entity));
+
+        if self.disabled {
+            spawn_disabled_overlay(&mut checkbox_cmd, theme, style.border_radius);
+        }
 
         for marker_fn in self.markers {
             marker_fn(&mut checkbox_cmd);

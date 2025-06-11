@@ -9,6 +9,7 @@ use crate::components::button::{
 use crate::components::helper::NoAction;
 use crate::plugin::UiState;
 use bevy::prelude::*;
+use std::marker::PhantomData;
 
 /// Plugin for button functionality
 ///
@@ -16,35 +17,28 @@ use bevy::prelude::*;
 /// interactions and visual updates. By default, it registers systems for the
 /// `NoAction` button type. For custom action types, users must register
 /// additional events and systems themselves.
-pub struct ButtonPlugin;
+/// Generisches Plugin zur Registrierung der Button-Systeme für einen Aktionstyp `A`.
+pub struct ButtonPlugin<A: Component + Clone + Send + Sync + 'static = NoAction>(PhantomData<A>);
 
-impl Plugin for ButtonPlugin {
-    /// Builds the button plugin by registering events and systems
-    ///
-    /// Registers:
-    /// - `ButtonClickedEvent<NoAction>` event
-    /// - Button press and release handling systems for NoAction buttons
-    /// - Visual update system for all button types
-    ///
-    /// All button systems run conditionally when the application is in the
-    /// `UiState::Ready` state.
-    ///
-    /// # Parameters
-    /// * `app` - The Bevy App to configure
+impl<A: Component + Clone + Send + Sync + 'static> Default for ButtonPlugin<A> {
+    fn default() -> Self {
+        Self(PhantomData)
+    }
+}
+
+impl<A: Component + Clone + Send + Sync + 'static> Plugin for ButtonPlugin<A> {
     fn build(&self, app: &mut App) {
-        app.add_event::<ButtonClickedEvent<NoAction>>().add_systems(
+        app.add_event::<ButtonClickedEvent<A>>().add_systems(
             Update,
             (
-                // These systems are only registered for NoAction buttons.
-                // For custom action types, users must manually add:
-                // handle_button_press::<MyAction>, handle_button_release::<MyAction>,
-                // and add_event::<ButtonClickedEvent<MyAction>>().
-                handle_button_press::<NoAction>,
-                handle_button_release::<NoAction>,
-                // update_button_visuals is generic and handles all buttons.
+                handle_button_press::<A>,
+                handle_button_release::<A>,
                 update_button_visuals,
             )
-                .run_if(in_state(UiState::Ready)), // Assumption: Button systems should only run in the Ready state
+                .run_if(in_state(UiState::Ready)),
         );
     }
 }
+
+/// Bequemer Alias für Buttons ohne Aktionstyp
+pub type ButtonNoActionPlugin = ButtonPlugin<NoAction>;

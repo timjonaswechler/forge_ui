@@ -116,7 +116,7 @@ impl Default for ButtonBuilder<NoAction> {
             size: ButtonSize::Default,
             disabled: false,
             children_defs: Vec::new(),
-            action: Some(NoAction),
+            action: None,
             width: None,
             height: None,
             border_radius: None,
@@ -315,14 +315,30 @@ impl<A: Component + Clone + Send + Sync + 'static> ButtonBuilder<A> {
         let text_style = button_style.text_style.clone();
         let font_size = text_style.font_size;
 
+        // Node aus dem Style übernehmen und optionale Overrides anwenden
+        let mut node = button_style.node.clone();
+        if let Some(w) = self.width {
+            node.width = w;
+        }
+        if let Some(h) = self.height {
+            node.height = h;
+            node.min_height = h;
+        }
+
+        // Border-Radius ggf. überschreiben
+        let border_radius = if let Some(radius) = self.border_radius {
+            BorderRadius::all(radius)
+        } else {
+            button_style.border_radius
+        };
+
         let mut cmd = parent.spawn((
             Button,
-            Node {
-                ..button_style.node
-            },
+            node,
             button_style.background_color,
             button_style.border_color,
-            button_style.border_radius,
+            border_radius,
+            button_focus_policy,
             ButtonMarker,
             ButtonState {
                 variant: self.variant,
@@ -378,23 +394,34 @@ impl<A: Component + Clone + Send + Sync + 'static> ButtonBuilder<A> {
                     ButtonStyle::text_color(&color_palette, self.variant),
                 ));
             }
-
-            // Overlay für Disabled-Status
-            if self.disabled {
-                cb.spawn((
-                    Node {
-                        width: Val::Percent(100.0),
-                        height: Val::Percent(100.0),
-                        ..default()
-                    },
-                    BackgroundColor(theme.color.black.step08),
-                    ButtonDisabledOverlayMarker,
-                    FocusPolicy::Block,
-                    Visibility::Visible,
-                    ZIndex(1),
-                ));
-            }
         });
+
+        // Overlay für Disabled-Status
+        if self.disabled {
+            spawn_disabled_overlay(&mut cmd, theme, border_radius);
+        }
         cmd
     }
+}
+
+/// Hilfsfunktion zum Spawnen eines Disabled-Overlays
+fn spawn_disabled_overlay(cmd: &mut EntityCommands, theme: &UiTheme, border_radius: BorderRadius) {
+    cmd.with_children(|parent| {
+        parent.spawn((
+            Node {
+                position_type: PositionType::Absolute,
+                left: Val::Px(0.0),
+                top: Val::Px(0.0),
+                width: Val::Percent(100.0),
+                height: Val::Percent(100.0),
+                ..default()
+            },
+            BackgroundColor(theme.color.black.step08),
+            ButtonDisabledOverlayMarker,
+            FocusPolicy::Block,
+            Visibility::Visible,
+            ZIndex(1),
+            border_radius,
+        ));
+    });
 }

@@ -39,8 +39,8 @@ Wenn eine **bestehende** Komponente überarbeitet werden soll:
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/button.css`
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/button.props.tsx`
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/button.tsx`
-- [ ] Bestehender Code an die Guidelines anpassen
-- [ ] Showcase erstellt/aktualisiert
+- [x] Bestehender Code an die Guidelines anpassen
+- [x] Showcase erstellt/aktualisiert
 
 ### Checkbox
 - **Source:**
@@ -52,8 +52,8 @@ Wenn eine **bestehende** Komponente überarbeitet werden soll:
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/checkbox.css`
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/checkbox.props.tsx`
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/checkbox.tsx`
-- [ ] Bestehender Code an die Guidelines anpassen
-- [ ] Showcase erstellt/aktualisiert
+- [x] Bestehender Code an die Guidelines anpassen
+- [x] Showcase erstellt/aktualisiert
 
 ### Checkbox Cards
 - **Source:**
@@ -61,8 +61,8 @@ Wenn eine **bestehende** Komponente überarbeitet werden soll:
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/checkbox-cards.css`
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/checkbox-cards.props.tsx`
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/checkbox-cards.tsx`
-- [ ] Bestehender Code an die Guidelines anpassen
-- [ ] Showcase erstellt/aktualisiert
+- [x] Bestehender Code an die Guidelines anpassen
+- [x] Showcase erstellt/aktualisiert
 
 ### Dialog
 - **Source:**
@@ -137,7 +137,7 @@ Wenn eine **bestehende** Komponente überarbeitet werden soll:
 ---
 
 ## Status-Übersicht
-**Gesamt:** 12 Komponenten  
-**Abgeschlossen:** 0 Komponenten  
-**In Bearbeitung:** 0 Komponenten  
-**Ausstehend:** 12 Komponenten
+**Gesamt:** 12 Komponenten
+**Abgeschlossen:** 3 Komponenten
+**In Bearbeitung:** 0 Komponenten
+**Ausstehend:** 9 Komponenten
