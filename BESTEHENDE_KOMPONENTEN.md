@@ -119,25 +119,25 @@ Wenn eine **bestehende** Komponente überarbeitet werden soll:
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/switch.css`
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/switch.props.tsx`
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/switch.tsx`
-- [ ] Bestehender Code an die Guidelines anpassen
-- [ ] Showcase erstellt/aktualisiert
+- [x] Bestehender Code an die Guidelines anpassen
+- [x] Showcase erstellt/aktualisiert
 
 ### Toggle
 - **Source:**
   - Primitives: `https://github.com/radix-ui/primitives/tree/main/packages/react/toggle/src`
-- [ ] Bestehender Code an die Guidelines anpassen
-- [ ] Showcase erstellt/aktualisiert
+- [x] Bestehender Code an die Guidelines anpassen
+- [x] Showcase erstellt/aktualisiert
 
 ### Accordion
 - **Source:**
   - Primitives: `https://github.com/radix-ui/primitives/tree/main/packages/react/accordion/src`
-- [ ] Bestehender Code an die Guidelines anpassen
-- [ ] Showcase erstellt/aktualisiert
+- [x] Bestehender Code an die Guidelines anpassen
+- [x] Showcase erstellt/aktualisiert
 
 ---
 
 ## Status-Übersicht
 **Gesamt:** 12 Komponenten
-**Abgeschlossen:** 9 Komponenten
+**Abgeschlossen:** 12 Komponenten
 **In Bearbeitung:** 0 Komponenten
-**Ausstehend:** 3 Komponenten
+**Ausstehend:** 0 Komponenten
