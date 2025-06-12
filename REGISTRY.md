@@ -1,0 +1,2 @@
+- [x] accessible_icon
+- [x] visually_hidden

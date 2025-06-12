@@ -45,6 +45,8 @@ pub enum ShowcaseElement {
     Collection,
     Container,
     Context,
+    VisuallyHidden,
+    AccessibleIcon,
 }
 
 // Hilfsfunktion zur Erstellung von beschrifteten Varianten
