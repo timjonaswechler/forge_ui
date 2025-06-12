@@ -37,7 +37,7 @@ pub fn build_sidebar(
         .width(Val::Px(240.0))
         .height(Val::Percent(100.0))
         .background(theme.color.tomato.step06)
-        .gap(Val::Px(8.0))
+        .gap(Val::Px(2.0))
         .padding(Val::Px(12.0))
         .add_entity(
             ButtonBuilder::new_for_action()
@@ -326,9 +326,7 @@ pub fn handle_select_element(
                         ShowcaseElement::Container => {
                             show_container_example(vc, &theme, &font.default)
                         }
-                        ShowcaseElement::Context => {
-                            show_context_example(vc, &theme, &font.default)
-                        }
+                        ShowcaseElement::Context => show_context_example(vc, &theme, &font.default),
                     });
             });
         }
