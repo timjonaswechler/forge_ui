@@ -288,30 +288,23 @@ pub fn handle_select_element(
                         ShowcaseElement::Dialog => {
                             show_dialog_variants(vc, &theme, &font.default, &assets)
                         }
-                        ShowcaseElement::Portal => {
-                            show_portal_example(vc, &theme, &font.default, Res::clone(&global_portal_root))
-                        }
-                        ShowcaseElement::Label => {
-                            show_label_variants(vc, &theme, &font.default)
-                        }
+                        ShowcaseElement::Portal => show_portal_example(
+                            vc,
+                            &theme,
+                            &font.default,
+                            Res::clone(&global_portal_root),
+                        ),
+                        ShowcaseElement::Label => show_label_variants(vc, &theme, &font.default),
                         ShowcaseElement::Avatar => {
                             show_avatar_examples(vc, &theme, &font.default, &icons)
                         }
-                        ShowcaseElement::Card => {
-                            show_card_example(vc, &theme, &font.default)
-                        }
-                        ShowcaseElement::Box => {
-                            show_box_example(vc, &theme, &font.default)
-                        }
+                        ShowcaseElement::Card => show_card_example(vc, &theme, &font.default),
+                        ShowcaseElement::Box => show_box_example(vc, &theme, &font.default),
                         ShowcaseElement::Blockquote => {
                             show_blockquote_example(vc, &theme, &font.default)
                         }
-                        ShowcaseElement::Callout => {
-                            show_callout_example(vc, &theme, &font.default)
-                        }
-                        ShowcaseElement::Code => {
-                            show_code_example(vc, &theme, &font.default)
-                        }
+                        ShowcaseElement::Callout => show_callout_example(vc, &theme, &font.default),
+                        ShowcaseElement::Code => show_code_example(vc, &theme, &font.default),
                         ShowcaseElement::Collapsible => {
                             show_collapsible_example(vc, &theme, &font.default)
                         }
