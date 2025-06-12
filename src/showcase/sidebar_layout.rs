@@ -184,6 +184,18 @@ pub fn build_sidebar(
                 .action(ShowcaseAction::ShowElement(ShowcaseElement::Context))
                 .spawn(parent, theme, font),
         )
+        .add_entity(
+            ButtonBuilder::new_for_action()
+                .text("Visually Hidden")
+                .action(ShowcaseAction::ShowElement(ShowcaseElement::VisuallyHidden))
+                .spawn(parent, theme, font),
+        )
+        .add_entity(
+            ButtonBuilder::new_for_action()
+                .text("Accessible Icon")
+                .action(ShowcaseAction::ShowElement(ShowcaseElement::AccessibleIcon))
+                .spawn(parent, theme, font),
+        )
         .spawn(parent)
         .id()
 }
@@ -328,6 +340,12 @@ pub fn handle_select_element(
                             show_container_example(vc, &theme, &font.default)
                         }
                         ShowcaseElement::Context => show_context_example(vc, &theme, &font.default),
+                        ShowcaseElement::VisuallyHidden => {
+                            show_visually_hidden_example(vc, &theme, &font.default)
+                        }
+                        ShowcaseElement::AccessibleIcon => {
+                            show_accessible_icon_example(vc, &theme, &font.default, &icons)
+                        }
                     });
             });
         }

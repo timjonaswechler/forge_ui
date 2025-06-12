@@ -15,7 +15,7 @@ Diese Datei ist das **Master-Verzeichnis aller UI-Komponenten**, die für das Pr
 
 ---
 ## Internals
-- [ ] **Accessible Icon**
+- [x] **Accessible Icon**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/utilities/accessible-icon.mdx
   - https://github.com/radix-ui/primitives/tree/main/packages/react/accessible-icon
 - [ ] **Portal**
@@ -27,7 +27,7 @@ Diese Datei ist das **Master-Verzeichnis aller UI-Komponenten**, die für das Pr
 - [ ] **Direction Provider**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/utilities/direction-provider.mdx
   - https://github.com/radix-ui/primitives/tree/main/packages/react/direction
-- [ ] **Visually Hidden**
+- [x] **Visually Hidden**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/utilities/visually-hidden.mdx
   - https://github.com/radix-ui/primitives/tree/main/packages/react/visually-hidden
 - [ ] **Base - Button**

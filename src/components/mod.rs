@@ -27,3 +27,5 @@ pub mod collection;
 pub mod container;
 pub mod context;
 pub mod context_menu;
+pub mod visually_hidden;
+pub mod accessible_icon;
