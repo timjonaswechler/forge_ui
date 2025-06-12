@@ -36,22 +36,22 @@ Dieser Prozess wird mit einem **aktuellen Ziel** (z.B. "Accordion") gestartet.
 #### **Schritt B: Abhängigkeits-Prüfung**
 1.  **Prüfe JEDE Abhängigkeit** (aus Schritt A.3) gegen die `REGISTRY.md`-Datei. Die `REGISTRY.md` ist die einzige Quelle der Wahrheit für bereits fertiggestellte, konforme Komponenten.
 2.  **Sind alle Abhängigkeiten im Registry vorhanden?**
-    *   **JA:** Perfekt. Fahre fort mit **Schritt C: Implementierung**.
+    *   **JA:** Perfekt. Fahre fort mit **Schritt C: Implementierung & Showcase**.
     *   **NEIN:** Eine oder mehrere Abhängigkeiten fehlen. Du musst diesen Algorithmus (Teil 2) nun rekursiv anwenden:
         1.  **Pausiere die Arbeit** am aktuellen Ziel.
         2.  **Nimm die erste fehlende Abhängigkeit als dein NEUES aktuelles Ziel.**
         3.  **Starte Teil 2 von vorne (Schritt A)** mit der Abhängigkeit als Ziel.
         4.  Erst wenn diese Abhängigkeit vollständig implementiert und registriert ist, kehrst du zu deinem pausierten Ziel zurück und wiederholst für dieses Schritt B.
-
-#### **Schritt C: Implementierung**
+        
+#### **Schritt C: Implementierung & Showcase**
 Sobald alle Abhängigkeiten deines aktuellen Ziels erfüllt sind:
-1.  **Erstelle/überschreibe das Rust-Modul** (z.B. `src/components/accordion/`). Bestehender Code wird ignoriert, da er als nicht-konform gilt und von dir neu geschrieben werden muss.
-2.  **Implementiere jeden anatomischen Teil** nach den Vorgaben aus `TEMPLATE.md`.
-3.  **Prüfe deinen Code:** Stelle sicher, dass `cargo check` ohne Fehler durchläuft.
+1.  **Komponente implementieren:** Erstelle/überschreibe das Rust-Modul (z.B. `src/components/accordion/`). Implementiere jeden anatomischen Teil strikt nach den Vorgaben aus `TEMPLATE.md`.
+2.  **Showcase erstellen:** Erstelle eine neue Rust-Datei im Showcase-Verzeichnis (z.B. `src/showcase/accordion.rs`). In dieser Datei demonstrierst du die grundlegende Verwendung und Funktionalität der gerade erstellten Komponente.
+3.  **Gesamtprojekt prüfen:** Stelle sicher, dass das gesamte Projekt (inklusive Komponente und neuem Showcase) mit `cargo check` ohne Fehler und Warnungen durchläuft.
 
 #### **Schritt D: Registrierung & Abschluss**
-1.  **Öffne `REGISTRY.md`** und füge den Namen des gerade fertiggestellten Komponenten-Moduls hinzu (z.B. `- [x] accordion`). Der Eintrag erfolgt alphabetisch.
-2.  **Dies beendet die Bearbeitung deines aktuellen Ziels.** Wenn dies ein rekursiver Aufruf war (also eine Abhängigkeit), kehre nun zu deinem übergeordneten, pausierten Ziel zurück.
-3.  **Ist dein ursprüngliches Hauptziel** (aus Teil 1) abgeschlossen, gehe zu `MASTER_TASK_LIST.md` und markiere den entsprechenden Eintrag mit `- [x]`.
+1.  **Registriere die Komponente:** Öffne `REGISTRY.md` und füge den Namen des gerade fertiggestellten Komponenten-Moduls hinzu (z.B. `- [x] accordion`). Der Eintrag erfolgt alphabetisch.
+2.  **Schließe das Ziel ab:** Wenn das gerade abgeschlossene Ziel dein ursprüngliches **Hauptziel** war (aus Teil 1), öffne `MASTER_TASK_LIST.md` und markiere den entsprechenden Eintrag mit `- [x]`.
+3.  Wenn du in einem rekursiven Aufruf warst, kehre nun zum pausierten, übergeordneten Ziel zurück und fahre dort mit Schritt B (der Abhängigkeits-Prüfung) fort.
 
-**Damit ist der Auftrag "Next UI Element" vollständig abgeschlossen.**
+**Wenn dein Hauptziel in der `MASTER_TASK_LIST.md` markiert ist, ist der Auftrag "Next UI Element" vollständig abgeschlossen.**
