@@ -18,51 +18,51 @@ Diese Datei ist das **Master-Verzeichnis aller UI-Komponenten**, die für das Pr
 - [x] **Accessible Icon**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/utilities/accessible-icon.mdx
   - https://github.com/radix-ui/primitives/tree/main/packages/react/accessible-icon
-- [ ] **Portal**
+- [x] **Portal**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/utilities/portal.mdx
   - https://github.com/radix-ui/primitives/tree/main/packages/react/portal
-- [ ] **Slot**
+- [x] **Slot**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/utilities/slot.mdx
   - https://github.com/radix-ui/primitives/tree/main/packages/react/slot
-- [ ] **Direction Provider**
+- [x] **Direction Provider**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/utilities/direction-provider.mdx
   - https://github.com/radix-ui/primitives/tree/main/packages/react/direction
 - [x] **Visually Hidden**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/utilities/visually-hidden.mdx
   - https://github.com/radix-ui/primitives/tree/main/packages/react/visually-hidden
-- [ ] **Base - Button**
+- [x] **Base - Button**
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/_internal/base-button.css
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/_internal/base-button.props.ts
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/_internal/base-button.tsx
-- [ ] **Base - Card**
+- [x] **Base - Card**
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/_internal/base-card.css
-- [ ] **Base - Checkbox**
+- [x] **Base - Checkbox**
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/_internal/base-checkbox.css
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/_internal/base-checkbox.props.ts
-- [ ] **Base - Dialog**
+- [x] **Base - Dialog**
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/_internal/base-dialog.css
-- [ ] **Base - Menu**
+- [x] **Base - Menu**
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/_internal/base-menu.css
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/_internal/base-menu.props.ts
-- [ ] **Base - Radio**
+- [x] **Base - Radio**
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/_internal/base-radio.css
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/_internal/base-radio.props.ts
-- [ ] **Base - Tab-List**
+- [x] **Base - Tab-List**
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/_internal/base-tab-list.css
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/_internal/base-tab-list.props.ts
 
 ## Primitives
 
-- [ ] **Accordion** 
+- [x] **Accordion**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/accordion.mdx
   - https://github.com/radix-ui/primitives/tree/main/packages/react/accordion
-- [ ] **Dialog**
+- [x] **Dialog**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/dialog.mdx
   - https://github.com/radix-ui/primitives/tree/main/packages/react/dialog
-- [ ] **Alert Dialog** 
+- [x] **Alert Dialog**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/alert-dialog.mdx
   - https://github.com/radix-ui/primitives/tree/main/packages/react/alert-dialog
-- [ ] **Aspect Ratio**
+- [x] **Aspect Ratio**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/aspect-ratio.mdx
   - https://github.com/radix-ui/primitives/tree/main/packages/react/aspect-ratio
 - [ ] **Avatar**

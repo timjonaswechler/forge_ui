@@ -102,8 +102,74 @@ pub fn build_sidebar(
         )
         .add_entity(
             ButtonBuilder::new_for_action()
+                .text("Alert Dialog")
+                .action(ShowcaseAction::ShowElement(ShowcaseElement::AlertDialog))
+                .spawn(parent, theme, font),
+        )
+        .add_entity(
+            ButtonBuilder::new_for_action()
+                .text("Aspect Ratio")
+                .action(ShowcaseAction::ShowElement(ShowcaseElement::AspectRatio))
+                .spawn(parent, theme, font),
+        )
+        .add_entity(
+            ButtonBuilder::new_for_action()
                 .text("Portal")
                 .action(ShowcaseAction::ShowElement(ShowcaseElement::Portal))
+                .spawn(parent, theme, font),
+        )
+        .add_entity(
+            ButtonBuilder::new_for_action()
+                .text("Base Button")
+                .action(ShowcaseAction::ShowElement(ShowcaseElement::BaseButton))
+                .spawn(parent, theme, font),
+        )
+        .add_entity(
+            ButtonBuilder::new_for_action()
+                .text("Base Card")
+                .action(ShowcaseAction::ShowElement(ShowcaseElement::BaseCard))
+                .spawn(parent, theme, font),
+        )
+        .add_entity(
+            ButtonBuilder::new_for_action()
+                .text("Base Checkbox")
+                .action(ShowcaseAction::ShowElement(ShowcaseElement::BaseCheckbox))
+                .spawn(parent, theme, font),
+        )
+        .add_entity(
+            ButtonBuilder::new_for_action()
+                .text("Base Dialog")
+                .action(ShowcaseAction::ShowElement(ShowcaseElement::BaseDialog))
+                .spawn(parent, theme, font),
+        )
+        .add_entity(
+            ButtonBuilder::new_for_action()
+                .text("Base Menu")
+                .action(ShowcaseAction::ShowElement(ShowcaseElement::BaseMenu))
+                .spawn(parent, theme, font),
+        )
+        .add_entity(
+            ButtonBuilder::new_for_action()
+                .text("Base Radio")
+                .action(ShowcaseAction::ShowElement(ShowcaseElement::BaseRadio))
+                .spawn(parent, theme, font),
+        )
+        .add_entity(
+            ButtonBuilder::new_for_action()
+                .text("Base Tab List")
+                .action(ShowcaseAction::ShowElement(ShowcaseElement::BaseTabList))
+                .spawn(parent, theme, font),
+        )
+        .add_entity(
+            ButtonBuilder::new_for_action()
+                .text("Slot")
+                .action(ShowcaseAction::ShowElement(ShowcaseElement::Slot))
+                .spawn(parent, theme, font),
+        )
+        .add_entity(
+            ButtonBuilder::new_for_action()
+                .text("Direction Provider")
+                .action(ShowcaseAction::ShowElement(ShowcaseElement::DirectionProvider))
                 .spawn(parent, theme, font),
         )
         .add_entity(
@@ -281,6 +347,27 @@ pub fn handle_select_element(
                         Name::new("Variants Container"),
                     ))
                     .with_children(|vc| match elem {
+                        ShowcaseElement::BaseCard => {
+                            show_base_card_example(vc, &theme, &font.default)
+                        }
+                        ShowcaseElement::BaseButton => {
+                            show_base_button_example(vc, &theme, &font.default)
+                        }
+                        ShowcaseElement::BaseCheckbox => {
+                            show_base_checkbox_example(vc, &theme, &font.default)
+                        }
+                        ShowcaseElement::BaseDialog => {
+                            show_base_dialog_example(vc, &theme, &font.default);
+                        }
+                        ShowcaseElement::BaseMenu => {
+                            show_base_menu_example(vc, &theme, &font.default);
+                        }
+                        ShowcaseElement::BaseRadio => {
+                            show_base_radio_example(vc, &theme, &font.default);
+                        }
+                        ShowcaseElement::BaseTabList => {
+                            show_base_tab_list_example(vc, &theme, &font.default);
+                        }
                         ShowcaseElement::Button => show_button_variants(vc, &theme, &font.default),
                         ShowcaseElement::Checkbox => show_checkbox_variants(vc, &theme, &icons),
                         ShowcaseElement::CheckboxCards => {
@@ -313,12 +400,24 @@ pub fn handle_select_element(
                         ShowcaseElement::Dialog => {
                             show_dialog_variants(vc, &theme, &font.default, &assets)
                         }
+                        ShowcaseElement::AlertDialog => {
+                            show_alert_dialog_example(vc, &theme, &font.default);
+                        }
+                        ShowcaseElement::AspectRatio => {
+                            show_aspect_ratio_example(vc, &theme, &font.default);
+                        }
                         ShowcaseElement::Portal => show_portal_example(
                             vc,
                             &theme,
                             &font.default,
                             Res::clone(&global_portal_root),
                         ),
+                        ShowcaseElement::Slot => {
+                            show_slot_example(vc, &theme, &font.default);
+                        }
+                        ShowcaseElement::DirectionProvider => {
+                            show_direction_provider_example(vc, &theme, &font.default);
+                        }
                         ShowcaseElement::Label => show_label_variants(vc, &theme, &font.default),
                         ShowcaseElement::Avatar => {
                             show_avatar_examples(vc, &theme, &font.default, &icons)

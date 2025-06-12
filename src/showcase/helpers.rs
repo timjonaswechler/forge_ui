@@ -21,6 +21,13 @@ pub enum ShowcaseAction {
 /// Die Demo-Elemente, aus denen die Sidebar wählt
 #[derive(Clone, Debug, PartialEq, Eq, Component)]
 pub enum ShowcaseElement {
+    BaseCard,
+    BaseButton,
+    BaseCheckbox,
+    BaseDialog,
+    BaseMenu,
+    BaseRadio,
+    BaseTabList,
     Button,
     Accordion,
     Checkbox,
@@ -31,7 +38,11 @@ pub enum ShowcaseElement {
     Toggle,
     Label,
     Dialog,
+    AlertDialog,
+    AspectRatio,
     Portal,
+    Slot,
+    DirectionProvider,
     Badge,
     Switch,
     ToggleGroup,
