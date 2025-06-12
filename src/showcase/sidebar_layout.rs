@@ -40,60 +40,60 @@ pub fn build_sidebar(
         .background(theme.color.tomato.step06)
         .gap(Val::Px(2.0))
         .padding(Val::Px(12.0))
-        .add_entity(
-            ButtonBuilder::new_for_action()
-                .text("Checkbox")
-                .action(ShowcaseAction::ShowElement(ShowcaseElement::Checkbox))
-                .spawn(parent, theme, font),
-        )
-        .add_entity(
-            ButtonBuilder::new_for_action()
-                .text("Checkbox Cards")
-                .action(ShowcaseAction::ShowElement(ShowcaseElement::CheckboxCards))
-                .spawn(parent, theme, font),
-        )
-        .add_entity(
-            ButtonBuilder::new_for_action()
-                .text("Radio Cards")
-                .action(ShowcaseAction::ShowElement(ShowcaseElement::RadioCards))
-                .spawn(parent, theme, font),
-        )
-        .add_entity(
-            ButtonBuilder::new_for_action()
-                .text("Checkbox-Group")
-                .action(ShowcaseAction::ShowElement(ShowcaseElement::CheckboxGroup))
-                .spawn(parent, theme, font),
-        )
-        .add_entity(
-            ButtonBuilder::new_for_action()
-                .text("Radio-Group")
-                .action(ShowcaseAction::ShowElement(ShowcaseElement::RadioGroup))
-                .spawn(parent, theme, font),
-        )
-        .add_entity(
-            ButtonBuilder::new_for_action()
-                .text("Toggle")
-                .action(ShowcaseAction::ShowElement(ShowcaseElement::Toggle))
-                .spawn(parent, theme, font),
-        )
-        .add_entity(
-            ButtonBuilder::new_for_action()
-                .text("Toggle-Group")
-                .action(ShowcaseAction::ShowElement(ShowcaseElement::ToggleGroup))
-                .spawn(parent, theme, font),
-        )
-        .add_entity(
-            ButtonBuilder::new_for_action()
-                .text("Button")
-                .action(ShowcaseAction::ShowElement(ShowcaseElement::Button))
-                .spawn(parent, theme, font),
-        )
-        .add_entity(
-            ButtonBuilder::new_for_action()
-                .text("Label")
-                .action(ShowcaseAction::ShowElement(ShowcaseElement::Label))
-                .spawn(parent, theme, font),
-        )
+        // .add_entity(
+        //     ButtonBuilder::new_for_action()
+        //         .text("Checkbox")
+        //         .action(ShowcaseAction::ShowElement(ShowcaseElement::Checkbox))
+        //         .spawn(parent, theme, font),
+        // )
+        // .add_entity(
+        //     ButtonBuilder::new_for_action()
+        //         .text("Checkbox Cards")
+        //         .action(ShowcaseAction::ShowElement(ShowcaseElement::CheckboxCards))
+        //         .spawn(parent, theme, font),
+        // )
+        // .add_entity(
+        //     ButtonBuilder::new_for_action()
+        //         .text("Radio Cards")
+        //         .action(ShowcaseAction::ShowElement(ShowcaseElement::RadioCards))
+        //         .spawn(parent, theme, font),
+        // )
+        // .add_entity(
+        //     ButtonBuilder::new_for_action()
+        //         .text("Checkbox-Group")
+        //         .action(ShowcaseAction::ShowElement(ShowcaseElement::CheckboxGroup))
+        //         .spawn(parent, theme, font),
+        // )
+        // .add_entity(
+        //     ButtonBuilder::new_for_action()
+        //         .text("Radio-Group")
+        //         .action(ShowcaseAction::ShowElement(ShowcaseElement::RadioGroup))
+        //         .spawn(parent, theme, font),
+        // )
+        // .add_entity(
+        //     ButtonBuilder::new_for_action()
+        //         .text("Toggle")
+        //         .action(ShowcaseAction::ShowElement(ShowcaseElement::Toggle))
+        //         .spawn(parent, theme, font),
+        // )
+        // .add_entity(
+        //     ButtonBuilder::new_for_action()
+        //         .text("Toggle-Group")
+        //         .action(ShowcaseAction::ShowElement(ShowcaseElement::ToggleGroup))
+        //         .spawn(parent, theme, font),
+        // )
+        // .add_entity(
+        //     ButtonBuilder::new_for_action()
+        //         .text("Button")
+        //         .action(ShowcaseAction::ShowElement(ShowcaseElement::Button))
+        //         .spawn(parent, theme, font),
+        // )
+        // .add_entity(
+        //     ButtonBuilder::new_for_action()
+        //         .text("Label")
+        //         .action(ShowcaseAction::ShowElement(ShowcaseElement::Label))
+        //         .spawn(parent, theme, font),
+        // )
         .add_entity(
             ButtonBuilder::new_for_action()
                 .text("Dialog")

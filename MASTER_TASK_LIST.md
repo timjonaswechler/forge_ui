@@ -1,0 +1,417 @@
+--- START OF FILE MASTER_TASK_LIST.md ---
+
+# Master Task List (Komponenten-Backlog)
+
+## Zweck
+Diese Datei ist das **Master-Verzeichnis aller UI-Komponenten**, die für das Projekt vorgesehen sind. Sie dient als Backlog für den Agenten.
+
+## Arbeitsweise für den Agenten
+1.  Finde das erste Element in dieser Liste, das **nicht** mit `- [x]` markiert ist.
+2.  Dieses Element ist dein neues, hochrangiges **Hauptziel**.
+3.  Starte den Algorithmus, der in `AGENTS.md` definiert ist, um dieses Hauptziel umzusetzen.
+4.  Nach erfolgreichem Abschluss (inklusive aller Abhängigkeiten), kehre zu dieser Datei zurück und markiere den Eintrag mit `- [x]`.
+
+**HINWEIS:** Die Reihenfolge hier ist nur ein Vorschlag. Der eigentliche Implementierungspfad wird dynamisch durch die Abhängigkeiten bestimmt.
+
+---
+## Internals
+- [ ] **Accessible Icon**
+  - https://github.com/radix-ui/website/blob/main/data/primitives/docs/utilities/accessible-icon.mdx
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/accessible-icon
+- [ ] **Portal**
+  - https://github.com/radix-ui/website/blob/main/data/primitives/docs/utilities/portal.mdx
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/portal
+- [ ] **Slot**
+  - https://github.com/radix-ui/website/blob/main/data/primitives/docs/utilities/slot.mdx
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/slot
+- [ ] **Direction Provider**
+  - https://github.com/radix-ui/website/blob/main/data/primitives/docs/utilities/direction-provider.mdx
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/direction
+- [ ] **Visually Hidden**
+  - https://github.com/radix-ui/website/blob/main/data/primitives/docs/utilities/visually-hidden.mdx
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/visually-hidden
+- [ ] **Base - Button**
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/_internal/base-button.css
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/_internal/base-button.props.ts
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/_internal/base-button.tsx
+- [ ] **Base - Card**
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/_internal/base-card.css
+- [ ] **Base - Checkbox**
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/_internal/base-checkbox.css
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/_internal/base-checkbox.props.ts
+- [ ] **Base - Dialog**
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/_internal/base-dialog.css
+- [ ] **Base - Menu**
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/_internal/base-menu.css
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/_internal/base-menu.props.ts
+- [ ] **Base - Radio**
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/_internal/base-radio.css
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/_internal/base-radio.props.ts
+- [ ] **Base - Tab-List**
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/_internal/base-tab-list.css
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/_internal/base-tab-list.props.ts
+
+## Primitives
+
+- [ ] **Accordion** 
+  - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/accordion.mdx
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/accordion
+- [ ] **Dialog**
+  - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/dialog.mdx
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/dialog
+- [ ] **Alert Dialog** 
+  - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/alert-dialog.mdx
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/alert-dialog
+- [ ] **Aspect Ratio**
+  - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/aspect-ratio.mdx
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/aspect-ratio
+- [ ] **Avatar**
+  - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/avatar.mdx
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/avatar
+- [ ] **Checkbox**
+  - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/checkbox.mdx
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/checkbox
+- [ ] **Collapsible**
+  - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/collapsible.mdx
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/collapsible
+- [ ] **Context Menu**
+  - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/context-menu.mdx
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/context-menu
+- [ ] **Dropdown Menu**
+  - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/dropdown-menu.mdx
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/dropdown-menu
+- [ ] **Form**
+  - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/form.mdx
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/form
+- [ ] **Hover Card**
+  - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/hover-card.mdx
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/hover-card
+- [ ] **Label**
+  - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/label.mdx
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/label
+- [ ] **Menubar**
+  - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/menubar.mdx
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/menubar
+- [ ] **Navigation Menu**
+  - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/navigation-menu.mdx
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/navigation-menu
+- [ ] **One Time Password Field**
+  - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/one-time-password-field.mdx
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/one-time-password-field
+- [ ] **Password Toggle Field**
+  - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/password-toggle-field.mdx
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/password-toggle-field
+- [ ] **Popover**
+  - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/popover.mdx
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/popover
+- [ ] **Progress**
+  - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/progress.mdx
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/progress
+- [ ] **Radio and Radio Group**
+  - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/radio-group.mdx
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/radio-group
+- [ ] **Scroll Area**
+  - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/scroll-area.mdx
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/scroll-area
+- [ ] **Select**
+  - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/select.mdx
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/select
+- [ ] **Separator**
+  - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/separator.mdx
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/separator
+- [ ] **Slider**
+  - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/slider.mdx
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/slider
+- [ ] **Switch**
+  - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/switch.mdx
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/switch
+- [ ] **Tabs**
+  - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/tabs.mdx
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/tabs
+- [ ] **Toast**
+  - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/toast.mdx
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/toast
+- [ ] **Toggle**
+  - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/toggle.mdx
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/toggle
+- [ ] **Toggle Group**
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/toggle-group
+- [ ] **Toolbar**
+  - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/toolbar.mdx
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/toolbar
+- [ ] **Tooltip**
+  - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/tooltip.mdx
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/tooltip
+
+## Themed Components
+
+- [ ] **Accessible-Icon**
+  - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/accessible-icon.mdx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/accessibility-icon.tsx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/accessible-icon.tsx
+- [ ] **Alert-Dialog**
+  - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/alert-dialog.mdx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/alert-dialog.css
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/alert-dialog.props.tsx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/alert-dialog.tsx
+- [ ] **Aspect-Ratio**
+  - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/aspect-ratio.mdx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/aspect-ratio.tsx
+- [ ] **Avatar**
+  - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/avatar.mdx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/avatar.css
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/avatar.props.tsx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/avatar.tsx
+- [ ] **Badge**
+  - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/badge.mdx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/badge.css
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/badge.props.tsx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/badge.tsx
+- [ ] **Blockquote**
+  - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/blockquote.mdx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/blockquote.css
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/blockquote.props.tsx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/blockquote.tsx
+- [ ] **Box**
+  - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/box.mdx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/box.css
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/box.props.tsx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/box.tsx
+- [ ] **Button**
+  - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/button.mdx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/button.css
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/button.props.tsx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/button.tsx
+- [ ] **Callout**
+  - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/callout.mdx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/callout.css
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/callout.props.tsx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/callout.tsx
+- [ ] **Card**
+  - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/card.mdx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/card.css
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/card.props.tsx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/card.tsx
+- [ ] **Checkbox**
+  - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/checkbox.mdx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/checkbox.css
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/checkbox.props.tsx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/checkbox.tsx
+- [ ] **Checkbox-Cards**
+  - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/checkbox-cards.mdx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/checkbox-cards.css
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/checkbox-cards.props.tsx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/checkbox-cards.tsx
+- [ ] **Checkbox-Group**
+  - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/checkbox-group.mdx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/checkbox-group.css
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/checkbox-group.primitive.tsx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/checkbox-group.props.tsx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/checkbox-group.tsx
+- [ ] **Code**
+  - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/code.mdx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/code.css
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/code.props.tsx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/code.tsx
+- [ ] **Container**
+  - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/container.mdx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/container.css
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/container.props.tsx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/container.tsx
+- [ ] **Context-Menu**
+  - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/context-menu.mdx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/context-menu.css
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/context-menu.props.tsx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/context-menu.tsx
+- [ ] **Data-List**
+  - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/data-list.mdx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/data-list.css
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/data-list.props.tsx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/data-list.tsx
+- [ ] **Dialog**
+  - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/dialog.mdx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/dialog.css
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/dialog.props.tsx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/dialog.tsx
+- [ ] **Dropdown-Menu**
+  - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/dropdown-menu.mdx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/dropdown-menu.css
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/dropdown-menu.props.tsx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/dropdown-menu.tsx
+- [ ] **Em**
+  - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/em.mdx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/em.css
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/em.props.tsx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/em.tsx
+- [ ] **Flex**
+  - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/flex.mdx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/flex.css
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/flex.props.tsx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/flex.tsx
+- [ ] **Grid**
+  - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/grid.mdx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/grid.css
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/grid.props.tsx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/grid.tsx
+- [ ] **Heading**
+  - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/heading.mdx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/heading.css
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/heading.props.tsx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/heading.tsx
+- [ ] **Hover-Card**
+  - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/hover-card.mdx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/hover-card.css
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/hover-card.props.tsx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/hover-card.tsx
+- [ ] **Icon-Button**
+  - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/icon-button.mdx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/icon-button.css
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/icon-button.props.tsx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/icon-button.tsx
+- [ ] **Inset**
+  - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/inset.mdx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/inset.css
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/inset.props.tsx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/inset.tsx
+- [ ] **Kbd**
+  - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/kbd.mdx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/kbd.css
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/kbd.props.tsx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/kbd.tsx
+- [ ] **Link**
+  - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/link.mdx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/link.css
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/link.props.tsx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/link.tsx
+- [ ] **Popover**
+  - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/popover.mdx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/popover.css
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/popover.props.tsx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/popover.tsx
+- [ ] **Portal**
+  - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/portal.mdx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/portal.tsx
+- [ ] **Progress**
+  - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/progress.mdx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/progress.css
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/progress.props.tsx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/progress.tsx
+- [ ] **Quote**
+  - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/quote.mdx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/quote.css
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/quote.props.tsx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/quote.tsx
+- [ ] **Radio-Cards**
+  - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/radio-cards.mdx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/radio-cards.css
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/radio-cards.props.tsx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/radio-cards.tsx
+- [ ] **Radio-Group**
+  - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/radio-group.mdx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/radio-group.css
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/radio-group.props.tsx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/radio-group.tsx
+- [ ] **Radio**
+  - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/radio.mdx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/radio.css
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/radio.props.tsx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/radio.tsx
+- [ ] **Reset**
+  - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/reset.mdx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/reset.css
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/reset.tsx
+- [ ] **Scroll-Area**
+  - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/scroll-area.mdx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/scroll-area.css
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/scroll-area.props.tsx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/scroll-area.tsx
+- [ ] **Section**
+  - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/section.mdx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/section.css
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/section.props.tsx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/section.tsx
+- [ ] **Segmented-Control**
+  - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/segmented-control.mdx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/segmented-control.css
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/segmented-control.props.tsx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/segmented-control.tsx
+- [ ] **Select**
+  - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/select.mdx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/select.css
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/select.props.tsx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/select.tsx
+- [ ] **Separator**
+  - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/separator.mdx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/separator.css
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/separator.props.tsx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/separator.tsx
+- [ ] **Skeleton**
+  - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/skeleton.mdx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/skeleton.css
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/skeleton.props.tsx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/skeleton.tsx
+- [ ] **Slider**
+  - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/slider.mdx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/slider.css
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/slider.props.tsx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/slider.tsx
+- [ ] **Slot**
+  - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/slot.mdx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/slot.css
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/slot.props.tsx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/slot.tsx
+- [ ] **Spinner**
+  - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/spinner.mdx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/spinner.css
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/spinner.props.tsx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/spinner.tsx
+- [ ] **Strong**
+  - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/strong.mdx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/strong.css
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/strong.props.tsx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/strong.tsx
+- [ ] **Switch**
+  - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/switch.mdx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/switch.css
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/switch.props.tsx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/switch.tsx
+- [ ] **Tab-Nav**
+  - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/tab-nav.mdx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/tab-nav.css
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/tab-nav.props.tsx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/tab-nav.tsx
+- [ ] **Table**
+  - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/table.mdx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/table.css
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/table.props.tsx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/table.tsx
+- [ ] **Tabs**
+  - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/tabs.mdx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/tabs.css
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/tabs.props.tsx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/tabs.tsx
+- [ ] **Text-Area**
+  - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/text-area.mdx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/text-area.css
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/text-area.props.tsx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/text-area.tsx
+- [ ] **Text-Field**
+  - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/text-field.mdx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/text-field.css
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/text-field.props.tsx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/text-field.tsx
+- [ ] **Text**
+  - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/text.mdx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/text.css
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/text.props.tsx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/text.tsx
+- [ ] **Theme**
+  - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/theme.mdx
+- [ ] **Tooltip**
+  - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/tooltip.mdx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/tooltip.css
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/tooltip.props.tsx
+  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/tooltip.tsx
+- [ ] **Visually-Hidden**
+  - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/visually-hidden.mdx
+
