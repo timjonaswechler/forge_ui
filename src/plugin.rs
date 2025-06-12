@@ -7,8 +7,8 @@ use crate::assets::{FontAssets, IconAssets};
 use crate::camera::CameraPlugin;
 use crate::components::helper::*;
 use crate::components::{
-    accordion::*, button::*, checkbox::*, checkbox_cards::*, radio_cards::*, checkbox_group::*, dialog::*, alert_dialog::*, portal::*, radio::*,
-    switch::*, toggle::*, toggle_group::*, avatar::*,
+    accordion::*, button::*, checkbox::*, checkbox_cards::*, radio_cards::*, checkbox_group::*, dialog::*, alert_dialog::*, portal::*, radio::*, radio_group::*,
+    switch::*, toggle::*, toggle_group::*, avatar::*, hover_card::*, menubar::*, navigation_menu::*, popover::*, progress::*, scroll_area::*, select::*, one_time_password_field::*, password_toggle_field::*,
 };
 use crate::theme::*;
 
@@ -102,12 +102,20 @@ impl Plugin for ForgeUiPlugin {
             .add_plugins(AlertDialogPlugin)
             .add_plugins(AccordionPlugin)
             .add_plugins(AvatarPlugin)
+            .add_plugins(HoverCardPlugin)
+            .add_plugins(MenubarPlugin)
+            .add_plugins(NavigationMenuPlugin)
+            .add_plugins(PopoverPlugin)
+            .add_plugins(SelectPlugin)
+            .add_plugins(OneTimePasswordFieldPlugin)
+            .add_plugins(PasswordToggleFieldPlugin)
             .add_plugins(TogglePlugin::<NoAction>::default())
             .add_plugins(ToggleGroupPlugin::<NoAction>::default())
             .add_plugins(CheckboxPlugin)
             .add_plugins(CheckboxCardsPlugin)
             .add_plugins(RadioCardsPlugin)
             .add_plugins(CheckboxGroupPlugin)
+            .add_plugins(RadioGroupPlugin)
             // endregion --- Checkboxen ---
             // region: --- Toggle Switches ---
             .add_event::<SwitchChangedEvent>()

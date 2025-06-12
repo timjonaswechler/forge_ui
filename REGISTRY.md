@@ -18,6 +18,19 @@
 - [x] dropdown_menu
 - [x] label
 - [x] portal
+- [x] popover
+- [x] progress
+- [x] radio
+- [x] radio_group
+- [x] scroll_area
+- [x] select
+- [x] separator
+- [x] slider
 - [x] slot
 - [x] visually_hidden
-- [ ] form
+- [x] form
+- [x] hover_card
+- [x] menubar
+- [x] navigation_menu
+- [x] one_time_password_field
+- [x] password_toggle_field

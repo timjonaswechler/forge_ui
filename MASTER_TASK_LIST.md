@@ -83,43 +83,43 @@ Diese Datei ist das **Master-Verzeichnis aller UI-Komponenten**, die für das Pr
 - [x] **Form**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/form.mdx
   - https://github.com/radix-ui/primitives/tree/main/packages/react/form
-- [ ] **Hover Card**
+- [x] **Hover Card**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/hover-card.mdx
   - https://github.com/radix-ui/primitives/tree/main/packages/react/hover-card
 - [x] **Label**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/label.mdx
   - https://github.com/radix-ui/primitives/tree/main/packages/react/label
-- [ ] **Menubar**
+- [x] **Menubar**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/menubar.mdx
   - https://github.com/radix-ui/primitives/tree/main/packages/react/menubar
-- [ ] **Navigation Menu**
+- [x] **Navigation Menu**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/navigation-menu.mdx
   - https://github.com/radix-ui/primitives/tree/main/packages/react/navigation-menu
-- [ ] **One Time Password Field**
+- [x] **One Time Password Field**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/one-time-password-field.mdx
   - https://github.com/radix-ui/primitives/tree/main/packages/react/one-time-password-field
-- [ ] **Password Toggle Field**
+- [x] **Password Toggle Field**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/password-toggle-field.mdx
   - https://github.com/radix-ui/primitives/tree/main/packages/react/password-toggle-field
-- [ ] **Popover**
+  - [x] **Popover**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/popover.mdx
   - https://github.com/radix-ui/primitives/tree/main/packages/react/popover
-- [ ] **Progress**
+- [x] **Progress**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/progress.mdx
   - https://github.com/radix-ui/primitives/tree/main/packages/react/progress
-- [ ] **Radio and Radio Group**
+- [x] **Radio and Radio Group**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/radio-group.mdx
   - https://github.com/radix-ui/primitives/tree/main/packages/react/radio-group
-- [ ] **Scroll Area**
+- [x] **Scroll Area**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/scroll-area.mdx
   - https://github.com/radix-ui/primitives/tree/main/packages/react/scroll-area
-- [ ] **Select**
+- [x] **Select**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/select.mdx
   - https://github.com/radix-ui/primitives/tree/main/packages/react/select
-- [ ] **Separator**
+- [x] **Separator**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/separator.mdx
   - https://github.com/radix-ui/primitives/tree/main/packages/react/separator
-- [ ] **Slider**
+- [x] **Slider**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/slider.mdx
   - https://github.com/radix-ui/primitives/tree/main/packages/react/slider
 - [ ] **Switch**
