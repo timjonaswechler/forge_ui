@@ -94,138 +94,138 @@ pub fn build_sidebar(
         //         .action(ShowcaseAction::ShowElement(ShowcaseElement::Label))
         //         .spawn(parent, theme, font),
         // )
-        .add_entity(
-            ButtonBuilder::new_for_action()
-                .text("Dialog")
-                .action(ShowcaseAction::ShowElement(ShowcaseElement::Dialog))
-                .spawn(parent, theme, font),
-        )
-        .add_entity(
-            ButtonBuilder::new_for_action()
-                .text("Alert Dialog")
-                .action(ShowcaseAction::ShowElement(ShowcaseElement::AlertDialog))
-                .spawn(parent, theme, font),
-        )
-        .add_entity(
-            ButtonBuilder::new_for_action()
-                .text("Aspect Ratio")
-                .action(ShowcaseAction::ShowElement(ShowcaseElement::AspectRatio))
-                .spawn(parent, theme, font),
-        )
-        .add_entity(
-            ButtonBuilder::new_for_action()
-                .text("Portal")
-                .action(ShowcaseAction::ShowElement(ShowcaseElement::Portal))
-                .spawn(parent, theme, font),
-        )
-        .add_entity(
-            ButtonBuilder::new_for_action()
-                .text("Base Button")
-                .action(ShowcaseAction::ShowElement(ShowcaseElement::BaseButton))
-                .spawn(parent, theme, font),
-        )
-        .add_entity(
-            ButtonBuilder::new_for_action()
-                .text("Base Card")
-                .action(ShowcaseAction::ShowElement(ShowcaseElement::BaseCard))
-                .spawn(parent, theme, font),
-        )
-        .add_entity(
-            ButtonBuilder::new_for_action()
-                .text("Base Checkbox")
-                .action(ShowcaseAction::ShowElement(ShowcaseElement::BaseCheckbox))
-                .spawn(parent, theme, font),
-        )
-        .add_entity(
-            ButtonBuilder::new_for_action()
-                .text("Base Dialog")
-                .action(ShowcaseAction::ShowElement(ShowcaseElement::BaseDialog))
-                .spawn(parent, theme, font),
-        )
-        .add_entity(
-            ButtonBuilder::new_for_action()
-                .text("Base Menu")
-                .action(ShowcaseAction::ShowElement(ShowcaseElement::BaseMenu))
-                .spawn(parent, theme, font),
-        )
-        .add_entity(
-            ButtonBuilder::new_for_action()
-                .text("Base Radio")
-                .action(ShowcaseAction::ShowElement(ShowcaseElement::BaseRadio))
-                .spawn(parent, theme, font),
-        )
-        .add_entity(
-            ButtonBuilder::new_for_action()
-                .text("Base Tab List")
-                .action(ShowcaseAction::ShowElement(ShowcaseElement::BaseTabList))
-                .spawn(parent, theme, font),
-        )
-        .add_entity(
-            ButtonBuilder::new_for_action()
-                .text("Slot")
-                .action(ShowcaseAction::ShowElement(ShowcaseElement::Slot))
-                .spawn(parent, theme, font),
-        )
-        .add_entity(
-            ButtonBuilder::new_for_action()
-                .text("Direction Provider")
-                .action(ShowcaseAction::ShowElement(ShowcaseElement::DirectionProvider))
-                .spawn(parent, theme, font),
-        )
-        .add_entity(
-            ButtonBuilder::new_for_action()
-                .text("Badge")
-                .action(ShowcaseAction::ShowElement(ShowcaseElement::Badge))
-                .spawn(parent, theme, font),
-        )
-        .add_entity(
-            ButtonBuilder::new_for_action()
-                .text("Accordion")
-                .action(ShowcaseAction::ShowElement(ShowcaseElement::Accordion))
-                .spawn(parent, theme, font),
-        )
-        .add_entity(
-            ButtonBuilder::new_for_action()
-                .text("Switch")
-                .action(ShowcaseAction::ShowElement(ShowcaseElement::Switch))
-                .spawn(parent, theme, font),
-        )
-        .add_entity(
-            ButtonBuilder::new_for_action()
-                .text("Avatar")
-                .action(ShowcaseAction::ShowElement(ShowcaseElement::Avatar))
-                .spawn(parent, theme, font),
-        )
-        .add_entity(
-            ButtonBuilder::new_for_action()
-                .text("Card")
-                .action(ShowcaseAction::ShowElement(ShowcaseElement::Card))
-                .spawn(parent, theme, font),
-        )
-        .add_entity(
-            ButtonBuilder::new_for_action()
-                .text("Box")
-                .action(ShowcaseAction::ShowElement(ShowcaseElement::Box))
-                .spawn(parent, theme, font),
-        )
-        .add_entity(
-            ButtonBuilder::new_for_action()
-                .text("Blockquote")
-                .action(ShowcaseAction::ShowElement(ShowcaseElement::Blockquote))
-                .spawn(parent, theme, font),
-        )
-        .add_entity(
-            ButtonBuilder::new_for_action()
-                .text("Callout")
-                .action(ShowcaseAction::ShowElement(ShowcaseElement::Callout))
-                .spawn(parent, theme, font),
-        )
-        .add_entity(
-            ButtonBuilder::new_for_action()
-                .text("Code")
-                .action(ShowcaseAction::ShowElement(ShowcaseElement::Code))
-                .spawn(parent, theme, font),
-        )
+        // .add_entity(
+        //     ButtonBuilder::new_for_action()
+        //         .text("Dialog")
+        //         .action(ShowcaseAction::ShowElement(ShowcaseElement::Dialog))
+        //         .spawn(parent, theme, font),
+        // )
+        // .add_entity(
+        //     ButtonBuilder::new_for_action()
+        //         .text("Alert Dialog")
+        //         .action(ShowcaseAction::ShowElement(ShowcaseElement::AlertDialog))
+        //         .spawn(parent, theme, font),
+        // )
+        // .add_entity(
+        //     ButtonBuilder::new_for_action()
+        //         .text("Aspect Ratio")
+        //         .action(ShowcaseAction::ShowElement(ShowcaseElement::AspectRatio))
+        //         .spawn(parent, theme, font),
+        // )
+        // .add_entity(
+        //     ButtonBuilder::new_for_action()
+        //         .text("Portal")
+        //         .action(ShowcaseAction::ShowElement(ShowcaseElement::Portal))
+        //         .spawn(parent, theme, font),
+        // )
+        // .add_entity(
+        //     ButtonBuilder::new_for_action()
+        //         .text("Base Button")
+        //         .action(ShowcaseAction::ShowElement(ShowcaseElement::BaseButton))
+        //         .spawn(parent, theme, font),
+        // )
+        // .add_entity(
+        //     ButtonBuilder::new_for_action()
+        //         .text("Base Card")
+        //         .action(ShowcaseAction::ShowElement(ShowcaseElement::BaseCard))
+        //         .spawn(parent, theme, font),
+        // )
+        // .add_entity(
+        //     ButtonBuilder::new_for_action()
+        //         .text("Base Checkbox")
+        //         .action(ShowcaseAction::ShowElement(ShowcaseElement::BaseCheckbox))
+        //         .spawn(parent, theme, font),
+        // )
+        // .add_entity(
+        //     ButtonBuilder::new_for_action()
+        //         .text("Base Dialog")
+        //         .action(ShowcaseAction::ShowElement(ShowcaseElement::BaseDialog))
+        //         .spawn(parent, theme, font),
+        // )
+        // .add_entity(
+        //     ButtonBuilder::new_for_action()
+        //         .text("Base Menu")
+        //         .action(ShowcaseAction::ShowElement(ShowcaseElement::BaseMenu))
+        //         .spawn(parent, theme, font),
+        // )
+        // .add_entity(
+        //     ButtonBuilder::new_for_action()
+        //         .text("Base Radio")
+        //         .action(ShowcaseAction::ShowElement(ShowcaseElement::BaseRadio))
+        //         .spawn(parent, theme, font),
+        // )
+        // .add_entity(
+        //     ButtonBuilder::new_for_action()
+        //         .text("Base Tab List")
+        //         .action(ShowcaseAction::ShowElement(ShowcaseElement::BaseTabList))
+        //         .spawn(parent, theme, font),
+        // )
+        // .add_entity(
+        //     ButtonBuilder::new_for_action()
+        //         .text("Slot")
+        //         .action(ShowcaseAction::ShowElement(ShowcaseElement::Slot))
+        //         .spawn(parent, theme, font),
+        // )
+        // .add_entity(
+        //     ButtonBuilder::new_for_action()
+        //         .text("Direction Provider")
+        //         .action(ShowcaseAction::ShowElement(ShowcaseElement::DirectionProvider))
+        //         .spawn(parent, theme, font),
+        // )
+        // .add_entity(
+        //     ButtonBuilder::new_for_action()
+        //         .text("Badge")
+        //         .action(ShowcaseAction::ShowElement(ShowcaseElement::Badge))
+        //         .spawn(parent, theme, font),
+        // )
+        // .add_entity(
+        //     ButtonBuilder::new_for_action()
+        //         .text("Accordion")
+        //         .action(ShowcaseAction::ShowElement(ShowcaseElement::Accordion))
+        //         .spawn(parent, theme, font),
+        // )
+        // .add_entity(
+        //     ButtonBuilder::new_for_action()
+        //         .text("Switch")
+        //         .action(ShowcaseAction::ShowElement(ShowcaseElement::Switch))
+        //         .spawn(parent, theme, font),
+        // )
+        // .add_entity(
+        //     ButtonBuilder::new_for_action()
+        //         .text("Avatar")
+        //         .action(ShowcaseAction::ShowElement(ShowcaseElement::Avatar))
+        //         .spawn(parent, theme, font),
+        // )
+        // .add_entity(
+        //     ButtonBuilder::new_for_action()
+        //         .text("Card")
+        //         .action(ShowcaseAction::ShowElement(ShowcaseElement::Card))
+        //         .spawn(parent, theme, font),
+        // )
+        // .add_entity(
+        //     ButtonBuilder::new_for_action()
+        //         .text("Box")
+        //         .action(ShowcaseAction::ShowElement(ShowcaseElement::Box))
+        //         .spawn(parent, theme, font),
+        // )
+        // .add_entity(
+        //     ButtonBuilder::new_for_action()
+        //         .text("Blockquote")
+        //         .action(ShowcaseAction::ShowElement(ShowcaseElement::Blockquote))
+        //         .spawn(parent, theme, font),
+        // )
+        // .add_entity(
+        //     ButtonBuilder::new_for_action()
+        //         .text("Callout")
+        //         .action(ShowcaseAction::ShowElement(ShowcaseElement::Callout))
+        //         .spawn(parent, theme, font),
+        // )
+        // .add_entity(
+        //     ButtonBuilder::new_for_action()
+        //         .text("Code")
+        //         .action(ShowcaseAction::ShowElement(ShowcaseElement::Code))
+        //         .spawn(parent, theme, font),
+        // )
         .add_entity(
             ButtonBuilder::new_for_action()
                 .text("Collapsible")
@@ -319,13 +319,17 @@ pub fn build_sidebar(
         .add_entity(
             ButtonBuilder::new_for_action()
                 .text("OTP Field")
-                .action(ShowcaseAction::ShowElement(ShowcaseElement::OneTimePasswordField))
+                .action(ShowcaseAction::ShowElement(
+                    ShowcaseElement::OneTimePasswordField,
+                ))
                 .spawn(parent, theme, font),
         )
         .add_entity(
             ButtonBuilder::new_for_action()
                 .text("Password Toggle")
-                .action(ShowcaseAction::ShowElement(ShowcaseElement::PasswordToggleField))
+                .action(ShowcaseAction::ShowElement(
+                    ShowcaseElement::PasswordToggleField,
+                ))
                 .spawn(parent, theme, font),
         )
         .spawn(parent)
@@ -514,30 +518,22 @@ pub fn handle_select_element(
                         ShowcaseElement::HoverCard => {
                             show_hover_card_example(vc, &theme, &font.default)
                         }
-                        ShowcaseElement::Menubar => {
-                            show_menubar_example(vc, &theme, &font.default)
-                        }
+                        ShowcaseElement::Menubar => show_menubar_example(vc, &theme, &font.default),
                         ShowcaseElement::NavigationMenu => {
                             show_navigation_menu_example(vc, &theme, &font.default)
                         }
-                        ShowcaseElement::Popover => {
-                            show_popover_example(vc, &theme, &font.default)
-                        }
+                        ShowcaseElement::Popover => show_popover_example(vc, &theme, &font.default),
                         ShowcaseElement::Progress => {
                             show_progress_example(vc, &theme, &font.default)
                         }
                         ShowcaseElement::ScrollArea => {
                             show_scroll_area_example(vc, &theme, &font.default)
                         }
-                        ShowcaseElement::Select => {
-                            show_select_example(vc, &theme, &font.default)
-                        }
+                        ShowcaseElement::Select => show_select_example(vc, &theme, &font.default),
                         ShowcaseElement::Separator => {
                             show_separator_example(vc, &theme, &font.default)
                         }
-                        ShowcaseElement::Slider => {
-                            show_slider_example(vc, &theme, &font.default)
-                        }
+                        ShowcaseElement::Slider => show_slider_example(vc, &theme, &font.default),
                         ShowcaseElement::OneTimePasswordField => {
                             show_one_time_password_field_example(vc, &theme, &font.default)
                         }

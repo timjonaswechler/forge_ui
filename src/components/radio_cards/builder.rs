@@ -1,9 +1,15 @@
 use bevy::prelude::*;
 
-use crate::components::{label::LabelBuilder, radio::{RadioBuilder, RadioSize, RadioVariant}};
+use crate::components::{
+    label::LabelBuilder,
+    radio::{RadioBuilder, RadioSize, RadioVariant},
+};
 use crate::theme::UiTheme;
 
-use super::{components::RadioCardMarker, style::{RadioCardStyle, spawn_disabled_overlay}};
+use super::{
+    components::RadioCardMarker,
+    style::{spawn_disabled_overlay, RadioCardStyle},
+};
 
 /// Fluent builder for a single radio card with label.
 pub struct RadioCardBuilder {
@@ -17,7 +23,11 @@ pub struct RadioCardBuilder {
 
 impl RadioCardBuilder {
     /// Creates a new radio card for the given `value` and `label` in the provided `group`.
-    pub fn new(value: impl Into<String>, label: impl Into<String>, group: impl Into<String>) -> Self {
+    pub fn new(
+        value: impl Into<String>,
+        label: impl Into<String>,
+        group: impl Into<String>,
+    ) -> Self {
         Self {
             label: label.into(),
             value: value.into(),
@@ -66,7 +76,7 @@ impl RadioCardBuilder {
         }
 
         cmd.with_children(|p| {
-            RadioBuilder::new(&self.value)
+            let _ = RadioBuilder::new(&self.value)
                 .variant(RadioVariant::Primary)
                 .size(RadioSize::Medium)
                 .group(self.group.clone())
@@ -74,7 +84,7 @@ impl RadioCardBuilder {
                 .disabled(self.disabled)
                 .spawn(p, theme, font);
 
-            LabelBuilder::new(self.label.clone())
+            let _ = LabelBuilder::new(self.label.clone())
                 .margin(UiRect::left(Val::Px(8.0)))
                 .spawn(p, theme, font);
         });
@@ -86,4 +96,3 @@ impl RadioCardBuilder {
         cmd
     }
 }
-

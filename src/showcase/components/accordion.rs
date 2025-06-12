@@ -10,7 +10,7 @@ pub fn show_accordion_variants(
     let mut section = create_variant_section(parent, "Accordions", theme, font);
 
     section.with_children(|vc| {
-        AccordionBuilder::new("Closed")
+        let _ = AccordionBuilder::new("Closed")
             .content(|p, t, f| {
                 p.spawn((
                     Text::new("Content"),
@@ -24,7 +24,7 @@ pub fn show_accordion_variants(
             })
             .spawn(vc, theme, font);
 
-        AccordionBuilder::new("Open")
+        let _ = AccordionBuilder::new("Open")
             .open(true)
             .content(|p, t, f| {
                 p.spawn((
@@ -39,7 +39,7 @@ pub fn show_accordion_variants(
             })
             .spawn(vc, theme, font);
 
-        AccordionBuilder::new("Disabled")
+        let _ = AccordionBuilder::new("Disabled")
             .disabled(true)
             .content(|p, t, f| {
                 p.spawn((

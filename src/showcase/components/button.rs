@@ -11,22 +11,22 @@ pub fn show_button_variants(
 
     variants_section.with_children(|vc| {
         // Standard Buttons in verschiedenen Varianten
-        ButtonBuilder::new()
+        let _ = ButtonBuilder::new()
             .text("Solid")
             .variant(ButtonVariant::Solid)
             .spawn(vc, &theme, font);
 
-        ButtonBuilder::new()
+        let _ = ButtonBuilder::new()
             .text("Soft")
             .variant(ButtonVariant::Soft)
             .spawn(vc, &theme, font);
 
-        ButtonBuilder::new()
+        let _ = ButtonBuilder::new()
             .text("Outline")
             .variant(ButtonVariant::Outline)
             .spawn(vc, &theme, font);
 
-        ButtonBuilder::new()
+        let _ = ButtonBuilder::new()
             .text("Ghost")
             .variant(ButtonVariant::Ghost)
             .spawn(vc, &theme, font);

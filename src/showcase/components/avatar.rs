@@ -17,17 +17,17 @@ pub fn show_avatar_examples(
         .clone();
 
     section.with_children(|vc| {
-        AvatarBuilder::new()
+        let _ = AvatarBuilder::new()
             .size(AvatarSize::Small)
             .initials("AB")
             .spawn(vc, theme, font);
 
-        AvatarBuilder::new()
+        let _ = AvatarBuilder::new()
             .size(AvatarSize::Medium)
             .initials("CD")
             .spawn(vc, theme, font);
 
-        AvatarBuilder::new()
+        let _ = AvatarBuilder::new()
             .size(AvatarSize::Large)
             .image(fallback_icon)
             .spawn(vc, theme, font);

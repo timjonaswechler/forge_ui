@@ -4,7 +4,10 @@ use crate::assets::IconAssets;
 use crate::components::{checkbox::CheckboxBuilder, label::LabelBuilder};
 use crate::theme::UiTheme;
 
-use super::{components::CheckboxCardMarker, style::{CheckboxCardStyle, spawn_disabled_overlay}};
+use super::{
+    components::CheckboxCardMarker,
+    style::{spawn_disabled_overlay, CheckboxCardStyle},
+};
 
 /// Fluent builder to create a simple checkbox card with a label.
 pub struct CheckboxCardBuilder {
@@ -57,22 +60,19 @@ impl CheckboxCardBuilder {
     ) -> EntityCommands<'a> {
         let style = CheckboxCardStyle::new(theme);
 
-        let mut cmd = parent.spawn((
-            CheckboxCardMarker,
-            style.clone(),
-        ));
+        let mut cmd = parent.spawn((CheckboxCardMarker, style.clone()));
 
         for marker in self.markers {
             marker(&mut cmd);
         }
 
         cmd.with_children(|p| {
-            CheckboxBuilder::new()
+            let _ = CheckboxBuilder::new()
                 .checked(self.checked)
                 .disabled(self.disabled)
                 .spawn(p, theme, icons);
 
-            LabelBuilder::new(self.label)
+            let _ = LabelBuilder::new(self.label)
                 .margin(UiRect::left(Val::Px(8.0)))
                 .spawn(p, theme, font);
         });

@@ -5,7 +5,9 @@ use crate::assets::IconAssets;
 use crate::components::{checkbox::CheckboxBuilder, label::LabelBuilder};
 use crate::theme::UiTheme;
 
-use super::components::{CheckboxGroupItem, CheckboxGroupMarker, CheckboxGroupOrientation, CheckboxGroupState};
+use super::components::{
+    CheckboxGroupItem, CheckboxGroupMarker, CheckboxGroupOrientation, CheckboxGroupState,
+};
 
 /// Builder to spawn a group of checkboxes with labels.
 pub struct CheckboxGroupBuilder {
@@ -59,7 +61,7 @@ impl CheckboxGroupBuilder {
         font: &Handle<Font>,
         icons: &Res<IconAssets>,
     ) -> EntityCommands<'s> {
-        let mut cmd = parent.spawn( (
+        let mut cmd = parent.spawn((
             Node {
                 display: Display::Flex,
                 flex_direction: match self.orientation {
@@ -97,7 +99,7 @@ impl CheckboxGroupBuilder {
                         ..default()
                     })
                     .with_children(|cb| {
-                        CheckboxBuilder::new()
+                        let _ = CheckboxBuilder::new()
                             .checked(is_checked)
                             .disabled(disabled)
                             .add_marker({
@@ -108,7 +110,7 @@ impl CheckboxGroupBuilder {
                             })
                             .spawn(cb, theme, icons);
 
-                        LabelBuilder::new(label_text)
+                        let _ = LabelBuilder::new(label_text)
                             .margin(UiRect::left(Val::Px(4.0)))
                             .spawn(cb, theme, font);
                     });

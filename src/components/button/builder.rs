@@ -214,7 +214,7 @@ impl<A: Component + Clone + Send + Sync + 'static> ButtonBuilder<A> {
     pub fn vertical_stack(mut self, vsb: VerticalStackBuilder) -> Self {
         self.children_defs
             .push(ButtonChild::Custom(Box::new(move |parent| {
-                vsb.spawn(parent);
+                let _ = vsb.spawn(parent);
             })));
         self
     }

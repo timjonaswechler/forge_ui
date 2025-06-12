@@ -74,7 +74,11 @@ impl AlertDialogBuilder {
                 if let Some(text) = desc.clone() {
                     p.spawn((
                         Text::new(text),
-                        TextFont { font: font.clone(), font_size: fs, ..default() },
+                        TextFont {
+                            font: font.clone(),
+                            font_size: fs,
+                            ..default()
+                        },
                         TextColor(color),
                     ));
                 }
@@ -86,13 +90,13 @@ impl AlertDialogBuilder {
         let id = self.id;
 
         let footer = DialogFooterBuilder::new().add_custom_content(move |p, theme, font| {
-            ButtonBuilder::<AlertDialogAction>::new_for_action()
+            let _ = ButtonBuilder::<AlertDialogAction>::new_for_action()
                 .text(cancel_label.clone())
                 .variant(ButtonVariant::Soft)
                 .action(AlertDialogAction::Cancel(id))
                 .spawn(p, theme, font);
 
-            ButtonBuilder::<AlertDialogAction>::new_for_action()
+            let _ = ButtonBuilder::<AlertDialogAction>::new_for_action()
                 .text(confirm_label.clone())
                 .variant(ButtonVariant::Solid)
                 .action(AlertDialogAction::Confirm(id))

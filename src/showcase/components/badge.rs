@@ -17,21 +17,21 @@ pub fn show_badge_variants(
     let mut variants_section = create_variant_section(parent, "Badge Variants", theme, font);
 
     variants_section.with_children(|vc| {
-        BadgeBuilder::new("Default").spawn(vc, theme, font);
+        let _ = BadgeBuilder::new("Default").spawn(vc, theme, font);
 
-        BadgeBuilder::new("Primary")
+        let _ = BadgeBuilder::new("Primary")
             .variant(BadgeVariant::Default)
             .spawn(vc, theme, font);
 
-        BadgeBuilder::new("Secondary")
+        let _ = BadgeBuilder::new("Secondary")
             .variant(BadgeVariant::Secondary)
             .spawn(vc, theme, font);
 
-        BadgeBuilder::new("Outline")
+        let _ = BadgeBuilder::new("Outline")
             .variant(BadgeVariant::Outline)
             .spawn(vc, theme, font);
 
-        BadgeBuilder::new("Destructive")
+        let _ = BadgeBuilder::new("Destructive")
             .variant(BadgeVariant::Destructive)
             .spawn(vc, theme, font);
     });
@@ -40,15 +40,15 @@ pub fn show_badge_variants(
     let mut icon_section = create_variant_section(parent, "Badges with Icons", theme, font);
 
     icon_section.with_children(|vc| {
-        BadgeBuilder::new("Leading Icon")
+        let _ = BadgeBuilder::new("Leading Icon")
             .leading_icon(check_icon_handle.clone())
             .spawn(vc, theme, font);
 
-        BadgeBuilder::new("Trailing Icon")
+        let _ = BadgeBuilder::new("Trailing Icon")
             .trailing_icon(cross_icon_handle.clone())
             .spawn(vc, &theme, font);
 
-        BadgeBuilder::new("Both Icons")
+        let _ = BadgeBuilder::new("Both Icons")
             .leading_icon(check_icon_handle.clone())
             .trailing_icon(cross_icon_handle.clone())
             .spawn(vc, theme, font);

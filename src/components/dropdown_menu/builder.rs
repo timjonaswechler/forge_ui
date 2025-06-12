@@ -5,7 +5,7 @@ use crate::components::helper::UiBuilder;
 use crate::components::label::LabelBuilder;
 use crate::theme::UiTheme;
 
-use super::{DropdownMenuItemMarker, DropdownMenuMarker, DropdownMenuItemStyle, DropdownMenuStyle};
+use super::{DropdownMenuItemMarker, DropdownMenuItemStyle, DropdownMenuMarker, DropdownMenuStyle};
 
 /// Builder for a simple dropdown menu.
 pub struct DropdownMenuBuilder {
@@ -16,7 +16,10 @@ pub struct DropdownMenuBuilder {
 impl DropdownMenuBuilder {
     /// Create a new dropdown menu with the given trigger label.
     pub fn new(trigger: impl Into<String>) -> Self {
-        Self { trigger: trigger.into(), items: Vec::new() }
+        Self {
+            trigger: trigger.into(),
+            items: Vec::new(),
+        }
     }
 
     /// Add a text item to the menu.
@@ -29,7 +32,12 @@ impl DropdownMenuBuilder {
 impl<'w, 's> UiBuilder<'w, 's> for DropdownMenuBuilder {
     type Output = Entity;
 
-    fn spawn(self, parent: &'s mut ChildSpawnerCommands<'w>, theme: &UiTheme, font: &Handle<Font>) -> Self::Output {
+    fn spawn(
+        self,
+        parent: &'s mut ChildSpawnerCommands<'w>,
+        theme: &UiTheme,
+        font: &Handle<Font>,
+    ) -> Self::Output {
         let items = self.items;
         let trigger = self.trigger;
         let mut cmd = parent.spawn((
@@ -44,7 +52,7 @@ impl<'w, 's> UiBuilder<'w, 's> for DropdownMenuBuilder {
         cmd.with_children(|cb| {
             BaseButtonBuilder::new()
                 .content(|b, theme, font| {
-                    LabelBuilder::new(trigger).spawn(b, theme, font);
+                    let _ = LabelBuilder::new(trigger).spawn(b, theme, font);
                 })
                 .spawn(cb, theme, font);
 
@@ -55,7 +63,7 @@ impl<'w, 's> UiBuilder<'w, 's> for DropdownMenuBuilder {
                     let item_style = DropdownMenuItemStyle::new(theme);
                     let mut item_cmd = menu_cb.spawn((DropdownMenuItemMarker, item_style));
                     item_cmd.with_children(|icb| {
-                        LabelBuilder::new(item.clone()).spawn(icb, theme, font);
+                        let _ = LabelBuilder::new(item.clone()).spawn(icb, theme, font);
                     });
                 }
             });

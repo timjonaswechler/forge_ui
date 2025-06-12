@@ -111,7 +111,7 @@ impl RadioGroupBuilder {
                             ..default()
                         })
                         .with_children(|parent| {
-                            RadioBuilder::new(&value)
+                            let _ = RadioBuilder::new(&value)
                                 .variant(RadioVariant::Primary)
                                 .size(RadioSize::Medium)
                                 .group(name.clone())
@@ -119,7 +119,7 @@ impl RadioGroupBuilder {
                                 .checked(is_checked)
                                 .spawn(parent, theme, font);
 
-                            LabelBuilder::new(label_text).spawn(parent, theme, font);
+                            let _ = LabelBuilder::new(label_text).spawn(parent, theme, font);
                         });
                 }
             }
