@@ -8,7 +8,7 @@ use crate::camera::CameraPlugin;
 use crate::components::helper::*;
 use crate::components::{
     accordion::*, button::*, checkbox::*, checkbox_cards::*, radio_cards::*, checkbox_group::*, dialog::*, alert_dialog::*, portal::*, radio::*, radio_group::*,
-    switch::*, toggle::*, toggle_group::*, avatar::*, hover_card::*, menubar::*, navigation_menu::*, popover::*, progress::*, scroll_area::*, select::*, one_time_password_field::*, password_toggle_field::*,
+    switch::*, toggle::*, toggle_group::*, avatar::*, hover_card::*, menubar::*, navigation_menu::*, popover::*, progress::*, scroll_area::*, select::*, toast::*, tooltip::*, one_time_password_field::*, password_toggle_field::*,
 };
 use crate::theme::*;
 
@@ -106,6 +106,8 @@ impl Plugin for ForgeUiPlugin {
             .add_plugins(MenubarPlugin)
             .add_plugins(NavigationMenuPlugin)
             .add_plugins(PopoverPlugin)
+            .add_plugins(ToastPlugin)
+            .add_plugins(TooltipPlugin)
             .add_plugins(SelectPlugin)
             .add_plugins(OneTimePasswordFieldPlugin)
             .add_plugins(PasswordToggleFieldPlugin)

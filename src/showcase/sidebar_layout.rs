@@ -192,6 +192,18 @@ pub fn build_sidebar(
         )
         .add_entity(
             ButtonBuilder::new_for_action()
+                .text("Toggle")
+                .action(ShowcaseAction::ShowElement(ShowcaseElement::Toggle))
+                .spawn(parent, theme, font),
+        )
+        .add_entity(
+            ButtonBuilder::new_for_action()
+                .text("Toggle Group")
+                .action(ShowcaseAction::ShowElement(ShowcaseElement::ToggleGroup))
+                .spawn(parent, theme, font),
+        )
+        .add_entity(
+            ButtonBuilder::new_for_action()
                 .text("Avatar")
                 .action(ShowcaseAction::ShowElement(ShowcaseElement::Avatar))
                 .spawn(parent, theme, font),
@@ -264,6 +276,12 @@ pub fn build_sidebar(
         )
         .add_entity(
             ButtonBuilder::new_for_action()
+                .text("Accessible Icon (Theme)")
+                .action(ShowcaseAction::ShowElement(ShowcaseElement::AccessibleIconTheme))
+                .spawn(parent, theme, font),
+        )
+        .add_entity(
+            ButtonBuilder::new_for_action()
                 .text("Hover Card")
                 .action(ShowcaseAction::ShowElement(ShowcaseElement::HoverCard))
                 .spawn(parent, theme, font),
@@ -314,6 +332,30 @@ pub fn build_sidebar(
             ButtonBuilder::new_for_action()
                 .text("Slider")
                 .action(ShowcaseAction::ShowElement(ShowcaseElement::Slider))
+                .spawn(parent, theme, font),
+        )
+        .add_entity(
+            ButtonBuilder::new_for_action()
+                .text("Tabs")
+                .action(ShowcaseAction::ShowElement(ShowcaseElement::Tabs))
+                .spawn(parent, theme, font),
+        )
+        .add_entity(
+            ButtonBuilder::new_for_action()
+                .text("Toast")
+                .action(ShowcaseAction::ShowElement(ShowcaseElement::Toast))
+                .spawn(parent, theme, font),
+        )
+        .add_entity(
+            ButtonBuilder::new_for_action()
+                .text("Toolbar")
+                .action(ShowcaseAction::ShowElement(ShowcaseElement::Toolbar))
+                .spawn(parent, theme, font),
+        )
+        .add_entity(
+            ButtonBuilder::new_for_action()
+                .text("Tooltip")
+                .action(ShowcaseAction::ShowElement(ShowcaseElement::Tooltip))
                 .spawn(parent, theme, font),
         )
         .add_entity(
@@ -511,6 +553,9 @@ pub fn handle_select_element(
                         ShowcaseElement::AccessibleIcon => {
                             show_accessible_icon_example(vc, &theme, &font.default, &icons)
                         }
+                        ShowcaseElement::AccessibleIconTheme => {
+                            show_accessible_icon_theme_example(vc, &theme, &font.default, &icons)
+                        }
                         ShowcaseElement::HoverCard => {
                             show_hover_card_example(vc, &theme, &font.default)
                         }
@@ -537,6 +582,18 @@ pub fn handle_select_element(
                         }
                         ShowcaseElement::Slider => {
                             show_slider_example(vc, &theme, &font.default)
+                        }
+                        ShowcaseElement::Tabs => {
+                            show_tabs_example(vc, &theme, &font.default)
+                        }
+                        ShowcaseElement::Toast => {
+                            show_toast_example(vc, &theme, &font.default)
+                        }
+                        ShowcaseElement::Toolbar => {
+                            show_toolbar_example(vc, &theme, &font.default)
+                        }
+                        ShowcaseElement::Tooltip => {
+                            show_tooltip_example(vc, &theme, &font.default)
                         }
                         ShowcaseElement::OneTimePasswordField => {
                             show_one_time_password_field_example(vc, &theme, &font.default)

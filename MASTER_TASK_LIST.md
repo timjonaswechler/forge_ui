@@ -122,30 +122,30 @@ Diese Datei ist das **Master-Verzeichnis aller UI-Komponenten**, die für das Pr
 - [x] **Slider**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/slider.mdx
   - https://github.com/radix-ui/primitives/tree/main/packages/react/sliderv/src/(index.ts, *.tsx)
-- [ ] **Switch**
+- [x] **Switch**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/switch.mdx
   - https://github.com/radix-ui/primitives/tree/main/packages/react/switch/src/(index.ts, *.tsx)
-- [ ] **Tabs**
+- [x] **Tabs**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/tabs.mdx
   - https://github.com/radix-ui/primitives/tree/main/packages/react/tabs/src/(index.ts, *.tsx)
-- [ ] **Toast**
+- [x] **Toast**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/toast.mdx
   - https://github.com/radix-ui/primitives/tree/main/packages/react/toast/src/(index.ts, *.tsx)
-- [ ] **Toggle**
+- [x] **Toggle**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/toggle.mdx
   - https://github.com/radix-ui/primitives/tree/main/packages/react/toggle/src/(index.ts, *.tsx)
-- [ ] **Toggle Group**
+- [x] **Toggle Group**
   - https://github.com/radix-ui/primitives/tree/main/packages/react/toggle-group/src/(index.ts, *.tsx)
-- [ ] **Toolbar**
+- [x] **Toolbar**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/toolbar.mdx
   - https://github.com/radix-ui/primitives/tree/main/packages/react/toolbar/src/(index.ts, *.tsx)
-- [ ] **Tooltip**
+- [x] **Tooltip**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/tooltip.mdx
   - https://github.com/radix-ui/primitives/tree/main/packages/react/tooltip/src/(index.ts, *.tsx)
 
 ## Themed Components
 
-- [ ] **Accessible-Icon**
+- [x] **Accessible-Icon**
   - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/accessible-icon.mdx
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/accessibility-icon.tsx
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/accessible-icon.tsx

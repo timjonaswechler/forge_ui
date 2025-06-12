@@ -1,4 +1,5 @@
 - [x] accessible_icon
+- [x] accessible_icon_theme
 - [x] accordion
 - [x] alert_dialog
 - [x] aspect_ratio
@@ -27,6 +28,13 @@
 - [x] separator
 - [x] slider
 - [x] slot
+- [x] switch
+- [x] tabs
+- [x] toast
+- [x] toggle
+- [x] toggle_group
+- [x] toolbar
+- [x] tooltip
 - [x] visually_hidden
 - [x] form
 - [x] hover_card
