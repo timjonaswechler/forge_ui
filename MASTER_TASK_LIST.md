@@ -83,43 +83,43 @@ Diese Datei ist das **Master-Verzeichnis aller UI-Komponenten**, die für das Pr
 - [x] **Form**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/form.mdx
   - https://github.com/radix-ui/primitives/tree/main/packages/react/form/src/(index.ts, *.tsx)
-- [ ] **Hover Card**
+- [x] **Hover Card**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/hover-card.mdx
   - https://github.com/radix-ui/primitives/tree/main/packages/react/hover-card/src/(index.ts, *.tsx)
 - [x] **Label**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/label.mdx
-  - https://github.com/radix-ui/primitives/tree/main/packages/react/label/src/(index.ts, *.tsx)
-- [ ] **Menubar**
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/label
+- [x] **Menubar**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/menubar.mdx
-  - https://github.com/radix-ui/primitives/tree/main/packages/react/menubar/src/(index.ts, *.tsx)
-- [ ] **Navigation Menu**
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/menubar
+- [x] **Navigation Menu**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/navigation-menu.mdx
-  - https://github.com/radix-ui/primitives/tree/main/packages/react/navigation-menu/src/(index.ts, *.tsx)
-- [ ] **One Time Password Field**
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/navigation-menu
+- [x] **One Time Password Field**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/one-time-password-field.mdx
-  - https://github.com/radix-ui/primitives/tree/main/packages/react/one-time-password-field/src/(index.ts, *.tsx)
-- [ ] **Password Toggle Field**
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/one-time-password-field
+- [x] **Password Toggle Field**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/password-toggle-field.mdx
-  - https://github.com/radix-ui/primitives/tree/main/packages/react/password-toggle-field/src/(index.ts, *.tsx)
-- [ ] **Popover**
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/password-toggle-field
+  - [x] **Popover**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/popover.mdx
-  - https://github.com/radix-ui/primitives/tree/main/packages/react/popover/src/(index.ts, *.tsx)
-- [ ] **Progress**
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/popover
+- [x] **Progress**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/progress.mdx
-  - https://github.com/radix-ui/primitives/tree/main/packages/react/progress/src/(index.ts, *.tsx)
-- [ ] **Radio and Radio Group**
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/progress
+- [x] **Radio and Radio Group**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/radio-group.mdx
-  - https://github.com/radix-ui/primitives/tree/main/packages/react/radio-group/src/(index.ts, *.tsx)
-- [ ] **Scroll Area**
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/radio-group
+- [x] **Scroll Area**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/scroll-area.mdx
-  - https://github.com/radix-ui/primitives/tree/main/packages/react/scroll-area/src/(index.ts, *.tsx)
-- [ ] **Select**
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/scroll-area
+- [x] **Select**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/select.mdx
-  - https://github.com/radix-ui/primitives/tree/main/packages/react/select/src/(index.ts, *.tsx)
-- [ ] **Separator**
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/select
+- [x] **Separator**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/separator.mdx
-  - https://github.com/radix-ui/primitives/tree/main/packages/react/separator/src/(index.ts, *.tsx)
-- [ ] **Slider**
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/separator
+- [x] **Slider**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/slider.mdx
   - https://github.com/radix-ui/primitives/tree/main/packages/react/sliderv/src/(index.ts, *.tsx)
 - [ ] **Switch**

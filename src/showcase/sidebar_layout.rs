@@ -262,6 +262,72 @@ pub fn build_sidebar(
                 .action(ShowcaseAction::ShowElement(ShowcaseElement::AccessibleIcon))
                 .spawn(parent, theme, font),
         )
+        .add_entity(
+            ButtonBuilder::new_for_action()
+                .text("Hover Card")
+                .action(ShowcaseAction::ShowElement(ShowcaseElement::HoverCard))
+                .spawn(parent, theme, font),
+        )
+        .add_entity(
+            ButtonBuilder::new_for_action()
+                .text("Menubar")
+                .action(ShowcaseAction::ShowElement(ShowcaseElement::Menubar))
+                .spawn(parent, theme, font),
+        )
+        .add_entity(
+            ButtonBuilder::new_for_action()
+                .text("Navigation Menu")
+                .action(ShowcaseAction::ShowElement(ShowcaseElement::NavigationMenu))
+                .spawn(parent, theme, font),
+        )
+        .add_entity(
+            ButtonBuilder::new_for_action()
+                .text("Popover")
+                .action(ShowcaseAction::ShowElement(ShowcaseElement::Popover))
+                .spawn(parent, theme, font),
+        )
+        .add_entity(
+            ButtonBuilder::new_for_action()
+                .text("Progress")
+                .action(ShowcaseAction::ShowElement(ShowcaseElement::Progress))
+                .spawn(parent, theme, font),
+        )
+        .add_entity(
+            ButtonBuilder::new_for_action()
+                .text("Scroll Area")
+                .action(ShowcaseAction::ShowElement(ShowcaseElement::ScrollArea))
+                .spawn(parent, theme, font),
+        )
+        .add_entity(
+            ButtonBuilder::new_for_action()
+                .text("Select")
+                .action(ShowcaseAction::ShowElement(ShowcaseElement::Select))
+                .spawn(parent, theme, font),
+        )
+        .add_entity(
+            ButtonBuilder::new_for_action()
+                .text("Separator")
+                .action(ShowcaseAction::ShowElement(ShowcaseElement::Separator))
+                .spawn(parent, theme, font),
+        )
+        .add_entity(
+            ButtonBuilder::new_for_action()
+                .text("Slider")
+                .action(ShowcaseAction::ShowElement(ShowcaseElement::Slider))
+                .spawn(parent, theme, font),
+        )
+        .add_entity(
+            ButtonBuilder::new_for_action()
+                .text("OTP Field")
+                .action(ShowcaseAction::ShowElement(ShowcaseElement::OneTimePasswordField))
+                .spawn(parent, theme, font),
+        )
+        .add_entity(
+            ButtonBuilder::new_for_action()
+                .text("Password Toggle")
+                .action(ShowcaseAction::ShowElement(ShowcaseElement::PasswordToggleField))
+                .spawn(parent, theme, font),
+        )
         .spawn(parent)
         .id()
 }
@@ -444,6 +510,39 @@ pub fn handle_select_element(
                         }
                         ShowcaseElement::AccessibleIcon => {
                             show_accessible_icon_example(vc, &theme, &font.default, &icons)
+                        }
+                        ShowcaseElement::HoverCard => {
+                            show_hover_card_example(vc, &theme, &font.default)
+                        }
+                        ShowcaseElement::Menubar => {
+                            show_menubar_example(vc, &theme, &font.default)
+                        }
+                        ShowcaseElement::NavigationMenu => {
+                            show_navigation_menu_example(vc, &theme, &font.default)
+                        }
+                        ShowcaseElement::Popover => {
+                            show_popover_example(vc, &theme, &font.default)
+                        }
+                        ShowcaseElement::Progress => {
+                            show_progress_example(vc, &theme, &font.default)
+                        }
+                        ShowcaseElement::ScrollArea => {
+                            show_scroll_area_example(vc, &theme, &font.default)
+                        }
+                        ShowcaseElement::Select => {
+                            show_select_example(vc, &theme, &font.default)
+                        }
+                        ShowcaseElement::Separator => {
+                            show_separator_example(vc, &theme, &font.default)
+                        }
+                        ShowcaseElement::Slider => {
+                            show_slider_example(vc, &theme, &font.default)
+                        }
+                        ShowcaseElement::OneTimePasswordField => {
+                            show_one_time_password_field_example(vc, &theme, &font.default)
+                        }
+                        ShowcaseElement::PasswordToggleField => {
+                            show_password_toggle_field_example(vc, &theme, &font.default)
                         }
                     });
             });

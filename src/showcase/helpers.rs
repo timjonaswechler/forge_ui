@@ -58,6 +58,17 @@ pub enum ShowcaseElement {
     Context,
     VisuallyHidden,
     AccessibleIcon,
+    HoverCard,
+    Menubar,
+    NavigationMenu,
+    Popover,
+    Progress,
+    ScrollArea,
+    Select,
+    Separator,
+    Slider,
+    OneTimePasswordField,
+    PasswordToggleField,
 }
 
 // Hilfsfunktion zur Erstellung von beschrifteten Varianten
