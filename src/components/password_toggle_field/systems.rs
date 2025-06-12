@@ -9,8 +9,20 @@ use super::{
 pub fn handle_password_toggle(
     mut toggle_q: Query<(&Interaction, &bevy::prelude::ChildOf), (Changed<Interaction>, With<PasswordToggleMarker>)>,
     mut field_q: Query<(&mut PasswordToggleFieldState, &Children), With<PasswordToggleFieldMarker>>,
-    mut visible_q: Query<&mut Visibility, With<PasswordVisibleTextMarker>>,
-    mut hidden_q: Query<&mut Visibility, With<PasswordHiddenTextMarker>>,
+    mut visible_q: Query<
+        &mut Visibility,
+        (
+            With<PasswordVisibleTextMarker>,
+            Without<PasswordHiddenTextMarker>,
+        ),
+    >,
+    mut hidden_q: Query<
+        &mut Visibility,
+        (
+            With<PasswordHiddenTextMarker>,
+            Without<PasswordVisibleTextMarker>,
+        ),
+    >,
 ) {
     for (interaction, parent) in toggle_q.iter_mut() {
         if *interaction == Interaction::Pressed {
