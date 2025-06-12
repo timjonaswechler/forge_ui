@@ -36,6 +36,7 @@ pub fn build_sidebar(
         .left(Val::Px(0.0))
         .width(Val::Px(240.0))
         .height(Val::Percent(100.0))
+        .overflow(Overflow::scroll_y())
         .background(theme.color.tomato.step06)
         .gap(Val::Px(2.0))
         .padding(Val::Px(12.0))

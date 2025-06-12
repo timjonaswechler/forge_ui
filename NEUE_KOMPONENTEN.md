@@ -151,8 +151,8 @@ Nach erfolgreicher Komponentenerstellung:
   - Themes (components):
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/context-menu.props.tsx`
     - `https://github.com/radix-ui/themes/tree/main/packages/radix-ui-themes/src/components/context-menu.tsx`
-- [ ] Komponente erstellt
-- [ ] Showcase erstellt
+- [x] Komponente erstellt
+- [x] Showcase erstellt
 
 ### Data List
 - **Source:**
@@ -495,3 +495,5 @@ Nach erfolgreicher Komponentenerstellung:
 **Abgeschlossen:** 0 Komponenten  
 **In Bearbeitung:** 0 Komponenten  
 **Ausstehend:** 54 Komponenten
+- [x] Komponente erstellt
+- [x] Showcase erstellt

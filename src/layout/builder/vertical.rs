@@ -99,6 +99,12 @@ impl VerticalStackBuilder {
         self.base.node.height = height;
         self
     }
+
+    /// Sets the overflow behaviour for the stack container.
+    pub fn overflow(mut self, overflow: Overflow) -> Self {
+        self.base.node.overflow = overflow;
+        self
+    }
     /// Setzt eine Hintergrundfarbe.
     pub fn background(mut self, color: Color) -> Self {
         self.base.background = BackgroundColor(color);
