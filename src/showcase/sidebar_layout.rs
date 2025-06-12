@@ -171,6 +171,18 @@ pub fn build_sidebar(
                 .action(ShowcaseAction::ShowElement(ShowcaseElement::Collection))
                 .spawn(parent, theme, font),
         )
+        .add_entity(
+            ButtonBuilder::new_for_action()
+                .text("Container")
+                .action(ShowcaseAction::ShowElement(ShowcaseElement::Container))
+                .spawn(parent, theme, font),
+        )
+        .add_entity(
+            ButtonBuilder::new_for_action()
+                .text("Context")
+                .action(ShowcaseAction::ShowElement(ShowcaseElement::Context))
+                .spawn(parent, theme, font),
+        )
         .spawn(parent)
         .id()
 }
@@ -310,6 +322,12 @@ pub fn handle_select_element(
                         }
                         ShowcaseElement::Collection => {
                             show_collection_example(vc, &theme, &font.default)
+                        }
+                        ShowcaseElement::Container => {
+                            show_container_example(vc, &theme, &font.default)
+                        }
+                        ShowcaseElement::Context => {
+                            show_context_example(vc, &theme, &font.default)
                         }
                     });
             });

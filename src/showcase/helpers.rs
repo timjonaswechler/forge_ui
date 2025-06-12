@@ -43,6 +43,8 @@ pub enum ShowcaseElement {
     Code,
     Collapsible,
     Collection,
+    Container,
+    Context,
 }
 
 // Hilfsfunktion zur Erstellung von beschrifteten Varianten
