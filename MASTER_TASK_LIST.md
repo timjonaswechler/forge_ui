@@ -65,19 +65,19 @@ Diese Datei ist das **Master-Verzeichnis aller UI-Komponenten**, die für das Pr
 - [x] **Aspect Ratio**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/aspect-ratio.mdx
   - https://github.com/radix-ui/primitives/tree/main/packages/react/aspect-ratio
-- [ ] **Avatar**
+- [x] **Avatar**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/avatar.mdx
   - https://github.com/radix-ui/primitives/tree/main/packages/react/avatar
-- [ ] **Checkbox**
+- [x] **Checkbox**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/checkbox.mdx
   - https://github.com/radix-ui/primitives/tree/main/packages/react/checkbox
-- [ ] **Collapsible**
+- [x] **Collapsible**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/collapsible.mdx
   - https://github.com/radix-ui/primitives/tree/main/packages/react/collapsible
-- [ ] **Context Menu**
+- [x] **Context Menu**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/context-menu.mdx
   - https://github.com/radix-ui/primitives/tree/main/packages/react/context-menu
-- [ ] **Dropdown Menu**
+- [x] **Dropdown Menu**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/dropdown-menu.mdx
   - https://github.com/radix-ui/primitives/tree/main/packages/react/dropdown-menu
 - [ ] **Form**
@@ -86,7 +86,7 @@ Diese Datei ist das **Master-Verzeichnis aller UI-Komponenten**, die für das Pr
 - [ ] **Hover Card**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/hover-card.mdx
   - https://github.com/radix-ui/primitives/tree/main/packages/react/hover-card
-- [ ] **Label**
+- [x] **Label**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/label.mdx
   - https://github.com/radix-ui/primitives/tree/main/packages/react/label
 - [ ] **Menubar**

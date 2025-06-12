@@ -29,6 +29,7 @@ pub mod collection;
 pub mod container;
 pub mod context;
 pub mod context_menu;
+pub mod dropdown_menu;
 pub mod visually_hidden;
 pub mod base_button;
 pub mod base_card;
