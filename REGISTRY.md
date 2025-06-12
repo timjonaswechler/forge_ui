@@ -2,6 +2,7 @@
 - [x] accordion
 - [x] alert_dialog
 - [x] aspect_ratio
+- [x] avatar
 - [x] base_button
 - [x] base_card
 - [x] base_checkbox
@@ -9,8 +10,13 @@
 - [x] base_menu
 - [x] base_radio
 - [x] base_tab_list
-- [x] direction_provider
+- [x] checkbox
+- [x] collapsible
+- [x] context_menu
 - [x] dialog
+- [x] direction_provider
+- [x] dropdown_menu
+- [x] label
 - [x] portal
 - [x] slot
 - [x] visually_hidden
