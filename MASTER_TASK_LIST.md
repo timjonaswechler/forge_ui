@@ -143,9 +143,9 @@ Diese Datei ist das **Master-Verzeichnis aller UI-Komponenten**, die für das Pr
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/tooltip.mdx
   - https://github.com/radix-ui/primitives/tree/main/packages/react/tooltip/src/(index.ts, *.tsx)
 
-## Themed Components
+-## Themed Components
 
-- [ ] **Accessible-Icon**
+- [x] **Accessible-Icon**
   - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/accessible-icon.mdx
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/accessibility-icon.tsx
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/accessible-icon.tsx
