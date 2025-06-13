@@ -27,7 +27,14 @@
 - [x] separator
 - [x] slider
 - [x] slot
-- [x] visually_hidden
+- [x] switch
+- [x] tabs
+- [x] toast
+- [x] toggle
+- [x] toggle_group
+- [x] toolbar
+- [x] tooltip
+ - [x] visually_hidden
 - [x] form
 - [x] hover_card
 - [x] menubar

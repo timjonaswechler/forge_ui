@@ -67,6 +67,10 @@ pub enum ShowcaseElement {
     Select,
     Separator,
     Slider,
+    Tabs,
+    Toast,
+    Toolbar,
+    Tooltip,
     OneTimePasswordField,
     PasswordToggleField,
 }
