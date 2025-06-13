@@ -318,6 +318,30 @@ pub fn build_sidebar(
         )
         .add_entity(
             ButtonBuilder::new_for_action()
+                .text("Tabs")
+                .action(ShowcaseAction::ShowElement(ShowcaseElement::Tabs))
+                .spawn(parent, theme, font),
+        )
+        .add_entity(
+            ButtonBuilder::new_for_action()
+                .text("Toast")
+                .action(ShowcaseAction::ShowElement(ShowcaseElement::Toast))
+                .spawn(parent, theme, font),
+        )
+        .add_entity(
+            ButtonBuilder::new_for_action()
+                .text("Toolbar")
+                .action(ShowcaseAction::ShowElement(ShowcaseElement::Toolbar))
+                .spawn(parent, theme, font),
+        )
+        .add_entity(
+            ButtonBuilder::new_for_action()
+                .text("Tooltip")
+                .action(ShowcaseAction::ShowElement(ShowcaseElement::Tooltip))
+                .spawn(parent, theme, font),
+        )
+        .add_entity(
+            ButtonBuilder::new_for_action()
                 .text("OTP Field")
                 .action(ShowcaseAction::ShowElement(
                     ShowcaseElement::OneTimePasswordField,
@@ -534,6 +558,10 @@ pub fn handle_select_element(
                             show_separator_example(vc, &theme, &font.default)
                         }
                         ShowcaseElement::Slider => show_slider_example(vc, &theme, &font.default),
+                        ShowcaseElement::Tabs => show_tabs_example(vc, &theme, &font.default),
+                        ShowcaseElement::Toast => show_toast_example(vc, &theme, &font.default),
+                        ShowcaseElement::Toolbar => show_toolbar_example(vc, &theme, &font.default),
+                        ShowcaseElement::Tooltip => show_tooltip_example(vc, &theme, &font.default),
                         ShowcaseElement::OneTimePasswordField => {
                             show_one_time_password_field_example(vc, &theme, &font.default)
                         }
