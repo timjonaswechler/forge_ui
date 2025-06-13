@@ -30,7 +30,7 @@ Dieser Prozess wird mit einem **aktuellen Ziel** (z.B. "Accordion") gestartet.
 
 #### **Schritt A: Analyse**
 1.  **Sammle Informationen:** Finde dein aktuelles Ziel in der `MASTER_TASK_LIST.md`, um die URLs zur Dokumentation und den Quelldateien zu erhalten. Studiere diese Quellen.
-2.  **Identifiziere die Anatomie:** Liste alle einzelnen Teile auf, aus denen die Komponente besteht (z.B. `Accordion.Root`, `Accordion.Item`, `Accordion.Trigger`). Jeder dieser Teile wird eine eigene Rust-Struktur, die dem `TEMPLATE.md` folgt.
+2.  **Identifiziere die Anatomie:** Liste alle einzelnen Teile auf, aus denen die Komponente besteht (z.B. `Accordion.Root`, `Accordion.Item`, `Accordion.Trigger`). Jeder dieser Teile wird eine eigene Rust-Struktur, die dem `src/components/TEMPLATE.md` folgt.
 3.  **Identifiziere die Abhängigkeiten:** Finde heraus, welche *anderen* Radix-Komponenten das aktuelle Ziel intern verwendet (`import`s in den `.tsx`-Dateien). Zum Beispiel importiert `AlertDialog` die Komponente `Dialog`.
 
 #### **Schritt B: Abhängigkeits-Prüfung**
@@ -43,15 +43,32 @@ Dieser Prozess wird mit einem **aktuellen Ziel** (z.B. "Accordion") gestartet.
         3.  **Starte Teil 2 von vorne (Schritt A)** mit der Abhängigkeit als Ziel.
         4.  Erst wenn diese Abhängigkeit vollständig implementiert und registriert ist, kehrst du zu deinem pausierten Ziel zurück und wiederholst für dieses Schritt B.
         
-#### **Schritt C: Implementierung & Showcase**
+#### **Schritt C: Implementierung oder Erweiterung & Showcase**
 Sobald alle Abhängigkeiten deines aktuellen Ziels erfüllt sind:
-1.  **Komponente implementieren:** Erstelle/überschreibe das Rust-Modul (z.B. `src/components/accordion/`). Implementiere jeden anatomischen Teil strikt nach den Vorgaben aus `TEMPLATE.md`.
-2.  **Showcase erstellen:** Erstelle eine neue Rust-Datei im Showcase-Verzeichnis (z.B. `src/showcase/accordion.rs`). In dieser Datei demonstrierst du die grundlegende Verwendung und Funktionalität der gerade erstellten Komponente.
-3.  **Gesamtprojekt prüfen:** Stelle sicher, dass das gesamte Projekt (inklusive Komponente und neuem Showcase) mit `cargo check` ohne Fehler und Warnungen durchläuft.
+
+1.  **Bestandsaufnahme:** Prüfe, ob für dein aktuelles Ziel (z.B. `Switch`) bereits ein Komponenten-Modul im Verzeichnis `src/components/` existiert (z.B. `src/components/switch/`).
+
+2.  **Führe einen der folgenden Schritte aus:**
+
+    *   **Fall A: Das Modul existiert NICHT (Neuimplementierung).**
+        1.  **Komponente implementieren:** Erstelle das Rust-Modul (z.B. `src/components/switch/`). Implementiere jeden anatomischen Teil strikt nach den Vorgaben aus `TEMPLATE.md` und den Quellen aus der `MASTER_TASK_LIST.md`.
+        2.  **Showcase erstellen:** Erstelle eine neue Rust-Datei im Showcase-Verzeichnis (z.B. `src/showcase/switch.rs`), um die grundlegende Funktionalität der Komponente zu demonstrieren.
+
+    *   **Fall B: Das Modul existiert BEREITS (Erweiterung).**
+        Dieser Fall tritt typischerweise auf, wenn du eine "Primitive"-Komponente zu einer "Themed"-Komponente erweiterst (z.B. du hast "Primitives -> Switch" als Ziel, aber `src/components/switch/` existiert schon).
+        1.  **NICHT ÜBERSCHREIBEN:** Deine Aufgabe ist es, den bestehenden Code zu **erweitern**, nicht ihn zu ersetzen oder eine Kopie anzulegen (z.B. KEIN `switch_themed.rs`).
+        2.  **Analyse der Erweiterung:** Studiere die neuen Quellen (z.B. für die "Themed"-Variante) und vergleiche sie mit den Quellen der bereits implementierten "Primitive"-Version. Identifiziere die Unterschiede: neue Props, geändertes Verhalten, zusätzliche CSS-Klassen oder Styling-Logik.
+        3.  **Code modifizieren:** Lade die existierenden Rust-Dateien (z.B. `src/components/switch/mod.rs`) und integriere die identifizierten Erweiterungen. Das kann bedeuten:
+            *   Felder zu bestehenden Structs hinzufügen.
+            *   Neue Marker-Komponenten oder Systeme implementieren.
+            *   Bestehende Logik anpassen, um neue Varianten oder Props zu unterstützen.
+        4.  **Showcase anpassen:** Erweitere die zugehörige Showcase-Datei (z.B. `src/showcase/switch.rs`), um die neuen, "themed" Funktionalitäten und Varianten zu demonstrieren.
+
+3.  **Gesamtprojekt prüfen:** Stelle sicher, dass das gesamte Projekt (inklusive der neuen oder modifizierten Komponente und des Showcases) mit `cargo check` ohne Fehler und Warnungen durchläuft.
 
 #### **Schritt D: Registrierung & Abschluss**
-1.  **Registriere die Komponente:** Öffne `REGISTRY.md` und füge den Namen des gerade fertiggestellten Komponenten-Moduls hinzu (z.B. `- [x] accordion`). Der Eintrag erfolgt alphabetisch.
-2.  **Schließe das Ziel ab:** Wenn das gerade abgeschlossene Ziel dein ursprüngliches **Hauptziel** war (aus Teil 1), öffne `MASTER_TASK_LIST.md` und markiere den entsprechenden Eintrag mit `- [x]`.
+1.  **Registriere die Komponente:** Falls die Komponente *neu* war, öffne `REGISTRY.md` und füge den Namen des Komponenten-Moduls hinzu (z.B. `- [x] switch`). Der Eintrag erfolgt alphabetisch. Falls die Komponente nur erweitert wurde, ist dieser Schritt nicht nötig, da sie bereits registriert sein sollte.
+2.  **Schließe das Ziel ab:** Öffne `MASTER_TASK_LIST.md` und markiere den Eintrag für dein **aktuelles Ziel** (egal ob neu oder erweitert) mit `- [x]`.
 3.  Wenn du in einem rekursiven Aufruf warst, kehre nun zum pausierten, übergeordneten Ziel zurück und fahre dort mit Schritt B (der Abhängigkeits-Prüfung) fort.
 
 **Wenn dein Hauptziel in der `MASTER_TASK_LIST.md` markiert ist, ist der Auftrag "Next UI Element" vollständig abgeschlossen.**
