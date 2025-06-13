@@ -55,9 +55,8 @@ Sobald alle Abhängigkeiten deines aktuellen Ziels erfüllt sind:
         2.  **Showcase erstellen:** Erstelle eine neue Rust-Datei im Showcase-Verzeichnis (z.B. `src/showcase/switch.rs`), um die grundlegende Funktionalität der Komponente zu demonstrieren.
 
     *   **Fall B: Das Modul existiert BEREITS (Erweiterung).**
-        Dieser Fall tritt typischerweise auf, wenn du eine "Primitive"-Komponente zu einer "Themed"-Komponente erweiterst (z.B. du hast "Primitives -> Switch" als Ziel, aber `src/components/switch/` existiert schon).
         1.  **NICHT ÜBERSCHREIBEN:** Deine Aufgabe ist es, den bestehenden Code zu **erweitern**, nicht ihn zu ersetzen oder eine Kopie anzulegen (z.B. KEIN `switch_themed.rs`).
-        2.  **Analyse der Erweiterung:** Studiere die neuen Quellen (z.B. für die "Themed"-Variante) und vergleiche sie mit den Quellen der bereits implementierten "Primitive"-Version. Identifiziere die Unterschiede: neue Props, geändertes Verhalten, zusätzliche CSS-Klassen oder Styling-Logik.
+        2.  **Analyse der Erweiterung:** Studiere die Quellen aus `MASTER_TASK_LIST.md` die für dein Ziel angegeben sind und vergleiche sie mit den Code des bereits implementerierten Elements. Identifiziere die Unterschiede: neue Props, geändertes Verhalten, zusätzliche CSS-Klassen oder Styling-Logik usw.
         3.  **Code modifizieren:** Lade die existierenden Rust-Dateien (z.B. `src/components/switch/mod.rs`) und integriere die identifizierten Erweiterungen. Das kann bedeuten:
             *   Felder zu bestehenden Structs hinzufügen.
             *   Neue Marker-Komponenten oder Systeme implementieren.
