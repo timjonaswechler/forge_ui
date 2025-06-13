@@ -178,12 +178,12 @@ pub fn build_sidebar(
         //         .action(ShowcaseAction::ShowElement(ShowcaseElement::Badge))
         //         .spawn(parent, theme, font),
         // )
-        // .add_entity(
-        //     ButtonBuilder::new_for_action()
-        //         .text("Accordion")
-        //         .action(ShowcaseAction::ShowElement(ShowcaseElement::Accordion))
-        //         .spawn(parent, theme, font),
-        // )
+        .add_entity(
+            ButtonBuilder::new_for_action()
+                .text("Accordion")
+                .action(ShowcaseAction::ShowElement(ShowcaseElement::Accordion))
+                .spawn(parent, theme, font),
+        )
         // .add_entity(
         //     ButtonBuilder::new_for_action()
         //         .text("Switch")
