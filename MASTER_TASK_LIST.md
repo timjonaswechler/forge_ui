@@ -145,49 +145,49 @@ Diese Datei ist das **Master-Verzeichnis aller UI-Komponenten**, die für das Pr
 
 ## Themed Components
 
-- [ ] **Accessible-Icon**
+- [x] **Accessible-Icon**
   - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/accessible-icon.mdx
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/accessibility-icon.tsx
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/accessible-icon.tsx
-- [ ] **Alert-Dialog**
+- [x] **Alert-Dialog**
   - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/alert-dialog.mdx
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/alert-dialog.css
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/alert-dialog.props.tsx
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/alert-dialog.tsx
-- [ ] **Aspect-Ratio**
+- [x] **Aspect-Ratio**
   - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/aspect-ratio.mdx
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/aspect-ratio.tsx
-- [ ] **Avatar**
+- [x] **Avatar**
   - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/avatar.mdx
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/avatar.css
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/avatar.props.tsx
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/avatar.tsx
-- [ ] **Badge**
+- [x] **Badge**
   - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/badge.mdx
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/badge.css
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/badge.props.tsx
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/badge.tsx
-- [ ] **Blockquote**
+- [x] **Blockquote**
   - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/blockquote.mdx
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/blockquote.css
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/blockquote.props.tsx
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/blockquote.tsx
-- [ ] **Box**
+- [x] **Box**
   - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/box.mdx
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/box.css
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/box.props.tsx
-  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/box.tsx
-- [ ] **Button**
+- https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/box.tsx
+- [x] **Button**
   - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/button.mdx
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/button.css
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/button.props.tsx
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/button.tsx
-- [ ] **Callout**
+- [x] **Callout**
   - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/callout.mdx
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/callout.css
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/callout.props.tsx
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/callout.tsx
-- [ ] **Card**
+- [x] **Card**
   - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/card.mdx
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/card.css
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/card.props.tsx

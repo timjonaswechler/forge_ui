@@ -3,6 +3,7 @@
 - [x] alert_dialog
 - [x] aspect_ratio
 - [x] avatar
+- [x] badge
 - [x] base_button
 - [x] base_card
 - [x] base_checkbox
@@ -10,6 +11,10 @@
 - [x] base_menu
 - [x] base_radio
 - [x] base_tab_list
+- [x] blockquote
+- [x] button
+- [x] callout
+- [x] card
 - [x] checkbox
 - [x] collapsible
 - [x] context_menu
@@ -34,7 +39,8 @@
 - [x] toggle_group
 - [x] toolbar
 - [x] tooltip
- - [x] visually_hidden
+- [x] ui_box
+- [x] visually_hidden
 - [x] form
 - [x] hover_card
 - [x] menubar
