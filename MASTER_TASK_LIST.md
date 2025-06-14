@@ -154,7 +154,7 @@ Diese Datei ist das **Master-Verzeichnis aller UI-Komponenten**, die für das Pr
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/alert-dialog.css
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/alert-dialog.props.tsx
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/alert-dialog.tsx
-- [ ] **Aspect-Ratio**
+- [x] **Aspect-Ratio**
   - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/aspect-ratio.mdx
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/aspect-ratio.tsx
 - [ ] **Avatar**
