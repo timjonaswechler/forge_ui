@@ -3,6 +3,7 @@
 - [x] alert_dialog
 - [x] aspect_ratio
 - [x] avatar
+- [x] badge
 - [x] base_button
 - [x] base_card
 - [x] base_checkbox

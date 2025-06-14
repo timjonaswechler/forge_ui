@@ -143,7 +143,7 @@ Diese Datei ist das **Master-Verzeichnis aller UI-Komponenten**, die für das Pr
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/tooltip.mdx
   - https://github.com/radix-ui/primitives/tree/main/packages/react/tooltip/src/(index.ts, *.tsx)
 
--## Themed Components
+## Themed Components
 
 - [x] **Accessible-Icon**
   - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/accessible-icon.mdx
@@ -162,7 +162,7 @@ Diese Datei ist das **Master-Verzeichnis aller UI-Komponenten**, die für das Pr
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/avatar.css
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/avatar.props.tsx
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/avatar.tsx
-- [ ] **Badge**
+- [x] **Badge**
   - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/badge.mdx
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/badge.css
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/badge.props.tsx
