@@ -192,7 +192,7 @@ Diese Datei ist das **Master-Verzeichnis aller UI-Komponenten**, die für das Pr
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/card.css
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/card.props.tsx
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/card.tsx
-- [ ] **Checkbox**
+- [x] **Checkbox**
   - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/checkbox.mdx
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/checkbox.css
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/checkbox.props.tsx
