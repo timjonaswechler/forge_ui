@@ -149,7 +149,7 @@ Diese Datei ist das **Master-Verzeichnis aller UI-Komponenten**, die für das Pr
   - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/accessible-icon.mdx
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/accessibility-icon.tsx
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/accessible-icon.tsx
-- [ ] **Alert-Dialog**
+- [x] **Alert-Dialog**
   - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/alert-dialog.mdx
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/alert-dialog.css
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/alert-dialog.props.tsx
