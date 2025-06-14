@@ -172,7 +172,7 @@ Diese Datei ist das **Master-Verzeichnis aller UI-Komponenten**, die für das Pr
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/blockquote.css
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/blockquote.props.tsx
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/blockquote.tsx
-- [ ] **Box**
+- [x] **Box**
   - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/box.mdx
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/box.css
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/box.props.tsx

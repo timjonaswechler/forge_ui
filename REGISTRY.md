@@ -36,7 +36,8 @@
 - [x] toggle_group
 - [x] toolbar
 - [x] tooltip
- - [x] visually_hidden
+- [x] ui_box
+- [x] visually_hidden
 - [x] form
 - [x] hover_card
 - [x] menubar
