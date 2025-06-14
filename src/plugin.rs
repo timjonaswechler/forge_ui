@@ -7,9 +7,11 @@ use crate::assets::{FontAssets, IconAssets};
 use crate::camera::CameraPlugin;
 use crate::components::helper::*;
 use crate::components::{
-    accordion::*, button::*, checkbox::*, checkbox_cards::*, radio_cards::*, checkbox_group::*, dialog::*, alert_dialog::*, portal::*, radio::*, radio_group::*,
-    switch::*, toggle::*, toggle_group::*, avatar::*, hover_card::*, menubar::*, navigation_menu::*, popover::*, progress::*, scroll_area::*, select::*, one_time_password_field::*, password_toggle_field::*, toast::*, toolbar::*,
-    tooltip::*,
+    accordion::*, alert_dialog::*, avatar::*, button::*, checkbox::*, checkbox_cards::*,
+    checkbox_group::*, dialog::*, hover_card::*, menubar::*, navigation_menu::*,
+    one_time_password_field::*, password_toggle_field::*, popover::*, portal::*, progress::*,
+    radio::*, radio_cards::*, radio_group::*, scroll_area::*, select::*, switch::*, toast::*,
+    toggle::*, toggle_group::*, toolbar::*, tooltip::*,
 };
 use crate::theme::*;
 
