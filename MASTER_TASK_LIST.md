@@ -176,8 +176,8 @@ Diese Datei ist das **Master-Verzeichnis aller UI-Komponenten**, die für das Pr
   - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/box.mdx
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/box.css
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/box.props.tsx
-  - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/box.tsx
-- [ ] **Button**
+- https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/box.tsx
+- [x] **Button**
   - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/button.mdx
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/button.css
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/button.props.tsx

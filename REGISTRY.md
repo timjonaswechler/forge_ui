@@ -12,6 +12,7 @@
 - [x] base_radio
 - [x] base_tab_list
 - [x] blockquote
+- [x] button
 - [x] checkbox
 - [x] collapsible
 - [x] context_menu
