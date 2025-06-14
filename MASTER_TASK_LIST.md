@@ -182,7 +182,7 @@ Diese Datei ist das **Master-Verzeichnis aller UI-Komponenten**, die für das Pr
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/button.css
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/button.props.tsx
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/button.tsx
-- [ ] **Callout**
+- [x] **Callout**
   - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/callout.mdx
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/callout.css
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/callout.props.tsx

@@ -13,6 +13,7 @@
 - [x] base_tab_list
 - [x] blockquote
 - [x] button
+- [x] callout
 - [x] checkbox
 - [x] collapsible
 - [x] context_menu
