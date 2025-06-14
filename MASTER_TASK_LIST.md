@@ -15,21 +15,23 @@ Diese Datei ist das **Master-Verzeichnis aller UI-Komponenten**, die für das Pr
 
 ---
 ## Internals
+- [ ] **Visually-Hidden**
+  - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/visually-hidden.mdx
 - [x] **Accessible Icon**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/utilities/accessible-icon.mdx
-  - https://github.com/radix-ui/primitives/tree/main/packages/react/accessible-icon/src/(index.ts, *.tsx)
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/accessible-icon/src/*.tsx
 - [x] **Portal**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/utilities/portal.mdx
-  - https://github.com/radix-ui/primitives/tree/main/packages/react/portal/src/(index.ts, *.tsx)
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/portal/src/*.tsx
 - [x] **Slot**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/utilities/slot.mdx
-  - https://github.com/radix-ui/primitives/tree/main/packages/react/slot/src/(index.ts, *.tsx)
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/slot/src/*.tsx
 - [x] **Direction Provider**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/utilities/direction-provider.mdx
-  - https://github.com/radix-ui/primitives/tree/main/packages/react/direction/src/(index.ts, *.tsx)
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/direction/src/*.tsx
 - [x] **Visually Hidden**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/utilities/visually-hidden.mdx
-  - https://github.com/radix-ui/primitives/tree/main/packages/react/visually-hidden/src/(index.ts, *.tsx)
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/visually-hidden/src/*.tsx
 - [x] **Base - Button**
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/_internal/base-button.css
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/_internal/base-button.props.ts
@@ -55,93 +57,93 @@ Diese Datei ist das **Master-Verzeichnis aller UI-Komponenten**, die für das Pr
 
 - [x] **Accordion**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/accordion.mdx
-  - https://github.com/radix-ui/primitives/tree/main/packages/react/accordion/src/(index.ts, *.tsx)
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/accordion/src/*.tsx
 - [x] **Dialog**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/dialog.mdx
-  - https://github.com/radix-ui/primitives/tree/main/packages/react/dialog/src/(index.ts, *.tsx)
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/dialog/src/*.tsx
 - [x] **Alert Dialog**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/alert-dialog.mdx
-  - https://github.com/radix-ui/primitives/tree/main/packages/react/alert-dialog/src/(index.ts, *.tsx)
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/alert-dialog/src/*.tsx
 - [x] **Aspect Ratio**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/aspect-ratio.mdx
-  - https://github.com/radix-ui/primitives/tree/main/packages/react/aspect-ratio/src/(index.ts, *.tsx)
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/aspect-ratio/src/*.tsx
 - [x] **Avatar**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/avatar.mdx
-  - https://github.com/radix-ui/primitives/tree/main/packages/react/avatar/src/(index.ts, *.tsx)
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/avatar/src/*.tsx
 - [x] **Checkbox**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/checkbox.mdx
-  - https://github.com/radix-ui/primitives/tree/main/packages/react/checkbox/src/(index.ts, *.tsx)
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/checkbox/src/*.tsx
 - [x] **Collapsible**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/collapsible.mdx
-  - https://github.com/radix-ui/primitives/tree/main/packages/react/collapsible/src/(index.ts, *.tsx)
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/collapsible/src/*.tsx
 - [x] **Context Menu**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/context-menu.mdx
-  - https://github.com/radix-ui/primitives/tree/main/packages/react/context-menu/src/(index.ts, *.tsx)
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/context-menu/src/*.tsx
 - [x] **Dropdown Menu**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/dropdown-menu.mdx
-  - https://github.com/radix-ui/primitives/tree/main/packages/react/dropdown-menu/src/(index.ts, *.tsx)
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/dropdown-menu/src/*.tsx
 - [x] **Form**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/form.mdx
-  - https://github.com/radix-ui/primitives/tree/main/packages/react/form/src/(index.ts, *.tsx)
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/form/src/*.tsx
 - [x] **Hover Card**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/hover-card.mdx
-  - https://github.com/radix-ui/primitives/tree/main/packages/react/hover-card/src/(index.ts, *.tsx)
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/hover-card/src/*.tsx
 - [x] **Label**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/label.mdx
-  - https://github.com/radix-ui/primitives/tree/main/packages/react/label
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/label/src/*.tsx
 - [x] **Menubar**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/menubar.mdx
-  - https://github.com/radix-ui/primitives/tree/main/packages/react/menubar
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/menubar/src/*.tsx 
 - [x] **Navigation Menu**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/navigation-menu.mdx
-  - https://github.com/radix-ui/primitives/tree/main/packages/react/navigation-menu
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/navigation-menu/src/*.tsx
 - [x] **One Time Password Field**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/one-time-password-field.mdx
-  - https://github.com/radix-ui/primitives/tree/main/packages/react/one-time-password-field
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/one-time-password-field/src/*.tsx 
 - [x] **Password Toggle Field**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/password-toggle-field.mdx
-  - https://github.com/radix-ui/primitives/tree/main/packages/react/password-toggle-field
-  - [x] **Popover**
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/password-toggle-field/src/*.tsx
+- [x] **Popover**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/popover.mdx
-  - https://github.com/radix-ui/primitives/tree/main/packages/react/popover
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/popover/src/*.tsx 
 - [x] **Progress**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/progress.mdx
-  - https://github.com/radix-ui/primitives/tree/main/packages/react/progress
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/progress/src/*.tsx
 - [x] **Radio and Radio Group**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/radio-group.mdx
-  - https://github.com/radix-ui/primitives/tree/main/packages/react/radio-group
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/radio-group/src/*.tsx 
 - [x] **Scroll Area**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/scroll-area.mdx
-  - https://github.com/radix-ui/primitives/tree/main/packages/react/scroll-area
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/scroll-area/src/*.tsx
 - [x] **Select**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/select.mdx
-  - https://github.com/radix-ui/primitives/tree/main/packages/react/select
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/select/src/*.tsx  
 - [x] **Separator**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/separator.mdx
-  - https://github.com/radix-ui/primitives/tree/main/packages/react/separator
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/separator/src/*.tsx
 - [x] **Slider**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/slider.mdx
-  - https://github.com/radix-ui/primitives/tree/main/packages/react/sliderv/src/(index.ts, *.tsx)
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/slider/src/*.tsx
 - [x] **Switch**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/switch.mdx
-  - https://github.com/radix-ui/primitives/tree/main/packages/react/switch/src/(index.ts, *.tsx)
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/switch/src/*.tsx
 - [x] **Tabs**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/tabs.mdx
-  - https://github.com/radix-ui/primitives/tree/main/packages/react/tabs/src/(index.ts, *.tsx)
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/tabs/src/*.tsx
 - [x] **Toast**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/toast.mdx
-  - https://github.com/radix-ui/primitives/tree/main/packages/react/toast/src/(index.ts, *.tsx)
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/toast/src/*.tsx
 - [x] **Toggle**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/toggle.mdx
-  - https://github.com/radix-ui/primitives/tree/main/packages/react/toggle/src/(index.ts, *.tsx)
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/toggle/src/*.tsx
 - [x] **Toggle Group**
-  - https://github.com/radix-ui/primitives/tree/main/packages/react/toggle-group/src/(index.ts, *.tsx)
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/toggle-group/src/*.tsx
 - [x] **Toolbar**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/toolbar.mdx
-  - https://github.com/radix-ui/primitives/tree/main/packages/react/toolbar/src/(index.ts, *.tsx)
-  - [x] **Tooltip**
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/toolbar/src/*.tsx
+- [x] **Tooltip**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/components/tooltip.mdx
-  - https://github.com/radix-ui/primitives/tree/main/packages/react/tooltip/src/(index.ts, *.tsx)
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/tooltip/src/*.tsx
 
 ## Themed Components
 
@@ -412,6 +414,4 @@ Diese Datei ist das **Master-Verzeichnis aller UI-Komponenten**, die für das Pr
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/tooltip.css
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/tooltip.props.tsx
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/tooltip.tsx
-- [ ] **Visually-Hidden**
-  - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/visually-hidden.mdx
 
