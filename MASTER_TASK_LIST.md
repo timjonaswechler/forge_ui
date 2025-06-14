@@ -187,7 +187,7 @@ Diese Datei ist das **Master-Verzeichnis aller UI-Komponenten**, die für das Pr
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/callout.css
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/callout.props.tsx
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/callout.tsx
-- [ ] **Card**
+- [x] **Card**
   - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/card.mdx
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/card.css
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/card.props.tsx

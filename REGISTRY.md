@@ -14,6 +14,7 @@
 - [x] blockquote
 - [x] button
 - [x] callout
+- [x] card
 - [x] checkbox
 - [x] collapsible
 - [x] context_menu
