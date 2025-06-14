@@ -116,14 +116,17 @@ impl<A: Component + Clone + Send + Sync + 'static> ComponentBuilder<A> {
         self.markers.push(Box::new(func)); self
     }
     
-    /// STANDARD SPAWN SIGNATURE (kombiniert Button- und Switch-Logik)
+    /// Erstellt alle Komponenten als [`Bundle`] und folgt damit dem
+    /// `widget.rs`-Ansatz aus dem Beispiel-Repository.
+    ///
+    /// Mit `commands.spawn(builder.bundle(theme, font))` kann die UI-Komponente
+    /// flexibel in beliebige Elternknoten gespawnt werden.
     #[must_use]
-    pub fn spawn<'w, 's>(
+    pub fn bundle(
         self,
-        parent: &'s mut ChildSpawnerCommands<'w>,
         theme: &UiTheme,
         font: &Handle<Font>,
-    ) -> EntityCommands<'s> {
+    ) -> impl Bundle {
         // BEST PRACTICE (von Button): Farbpalette bestimmen
         let color_palette = self.color_palette.clone().unwrap_or_else(|| theme.accent.clone());
         
@@ -143,55 +146,69 @@ impl<A: Component + Clone + Send + Sync + 'static> ComponentBuilder<A> {
         if let Some(h) = self.height { component_style.node.height = h; }
         if let Some(r) = self.border_radius { component_style.border_radius = BorderRadius::all(r); }
 
-        // Haupt-Komponente spawnen
-        let mut cmd = parent.spawn((
+        let action = self.action;
+        let children_defs = self.children_defs;
+        let markers = self.markers;
+        let disabled = self.disabled;
+
+        (
             Button, // PFLICHT für Bevy UI Interaction
             ComponentMarker,
             ComponentState {
                 variant: self.variant,
                 size: self.size,
-                disabled: self.disabled,
-                color_palette: color_palette.clone(), // Geklonte Palette speichern
+                disabled,
+                color_palette: color_palette.clone(),
                 checked: false, // Component-spezifisch anpassen
             },
             // Style-Bundle direkt anwenden
             component_style.clone(),
             // Focus Policy
-            if self.disabled { FocusPolicy::Pass } else { FocusPolicy::Block },
-        ));
-
-        if let Some(action) = self.action {
-            cmd.insert(action);
-        }
-
-        // Children spawnen
-        cmd.with_children(|child_parent| {
-            // BEST PRACTICE (von Button): Durch Child-Definitionen iterieren
-            for child_def in self.children_defs {
-                match child_def {
-                    ComponentChild::Text(text) => {
-                        child_parent.spawn((
-                            Text::new(text, component_style.text_style(font)),
-                            component_style.text_color,
-                        ));
-                    },
-                    ComponentChild::Icon(handle) => {
-                        // Icon-spezifisches Spawning
-                    },
+            if disabled { FocusPolicy::Pass } else { FocusPolicy::Block },
+            // Children spawnen per Closure
+            Children::spawn(SpawnWith(move |parent: &mut ChildSpawner| {
+                for child_def in children_defs {
+                    match child_def {
+                        ComponentChild::Text(text) => {
+                            parent.spawn((
+                                Text::new(text, component_style.text_style(font)),
+                                component_style.text_color,
+                            ));
+                        }
+                        ComponentChild::Icon(handle) => {
+                            parent.spawn(ImageBundle {
+                                image: UiImage::new(handle),
+                                ..default()
+                            });
+                        }
+                    }
                 }
-            }
 
-            // BEST PRACTICE (von Switch): Disabled-Overlay spawnen
-            if self.disabled {
-                spawn_disabled_overlay(child_parent, theme, component_style.border_radius);
-            }
-        });
+                if disabled {
+                    spawn_disabled_overlay(parent, theme, component_style.border_radius);
+                }
+            })),
+            // Zusätzliche Marker und Actions anbringen
+            SpawnWith(move |cmd: &mut EntityCommands| {
+                if let Some(a) = action {
+                    cmd.insert(a);
+                }
+                for f in markers {
+                    f(cmd);
+                }
+            }),
+        )
+    }
 
-        for marker_fn in self.markers {
-            marker_fn(&mut cmd);
-        }
-
-        cmd
+    /// Convenience-Methode zum direkten Spawnen des Bundles und Zurückgeben der
+    /// [`EntityCommands`].
+    pub fn spawn<'w, 's>(
+        self,
+        parent: &'s mut ChildSpawnerCommands<'w>,
+        theme: &UiTheme,
+        font: &Handle<Font>,
+    ) -> EntityCommands<'s> {
+        parent.spawn(self.bundle(theme, font))
     }
 }
 
