@@ -11,6 +11,7 @@
 - [x] base_menu
 - [x] base_radio
 - [x] base_tab_list
+- [x] blockquote
 - [x] checkbox
 - [x] collapsible
 - [x] context_menu
