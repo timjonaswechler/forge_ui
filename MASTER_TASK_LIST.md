@@ -157,7 +157,7 @@ Diese Datei ist das **Master-Verzeichnis aller UI-Komponenten**, die für das Pr
 - [x] **Aspect-Ratio**
   - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/aspect-ratio.mdx
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/aspect-ratio.tsx
-- [ ] **Avatar**
+- [x] **Avatar**
   - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/avatar.mdx
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/avatar.css
   - https://github.com/radix-ui/themes/blob/main/packages/radix-ui-themes/src/components/avatar.props.tsx
