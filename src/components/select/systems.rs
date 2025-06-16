@@ -3,7 +3,7 @@ use bevy::prelude::ChildOf;
 
 use super::components::{
     SelectContentMarker, SelectMarker, SelectOptionMarker, SelectState,
-    SelectTriggerMarker, SelectTriggerTextMarker,
+    SelectTriggerMarker,
 };
 
 /// Toggle select dropdown visibility.

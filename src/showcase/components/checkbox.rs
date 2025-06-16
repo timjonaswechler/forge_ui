@@ -12,9 +12,9 @@ pub fn show_checkbox_variants(
 
     variants_section.with_children(|vc| {
         // Unchecked
-        CheckboxBuilder::new().checked(true).spawn(vc, theme, icons);
+        let _ = CheckboxBuilder::new().checked(true).spawn(vc, theme, icons);
 
-        LabelBuilder::new("Checked")
+        let _ = LabelBuilder::new("Checked")
             .margin(UiRect::left(Val::Px(8.0)))
             .spawn(vc, theme, &theme.font.family.default);
     });
@@ -38,7 +38,7 @@ pub fn show_checkbox_variants(
             TextColor(theme.color.slate.step12),
         ));
 
-        CheckboxBuilder::new()
+        let _ = CheckboxBuilder::new()
             .checked(false)
             .disabled(true)
             .spawn(vc, theme, &icons);
@@ -53,7 +53,7 @@ pub fn show_checkbox_variants(
             TextColor(theme.color.slate.step12),
         ));
 
-        CheckboxBuilder::new()
+        let _ = CheckboxBuilder::new()
             .checked(true)
             .disabled(true)
             .spawn(vc, theme, &icons);

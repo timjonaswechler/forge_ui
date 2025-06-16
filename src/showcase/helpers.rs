@@ -25,6 +25,7 @@ impl Default for ShowcaseAction {
 
 /// Die Demo-Elemente, aus denen die Sidebar wählt
 #[derive(Clone, Debug, PartialEq, Eq, Component)]
+#[allow(dead_code)]
 pub enum ShowcaseElement {
     BaseCard,
     BaseButton,

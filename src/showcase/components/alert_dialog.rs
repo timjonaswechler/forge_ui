@@ -13,9 +13,9 @@ pub fn show_alert_dialog_example(
         let builder = AlertDialogBuilder::new_unique("Delete item")
             .description("Are you sure you want to delete this item?");
 
-        builder.spawn_trigger(vc, theme, font, "Open Alert");
+        let _ = builder.spawn_trigger(vc, theme, font, "Open Alert");
 
         let mut cmds = vc.commands_mut();
-        builder.spawn(&mut cmds, theme, font, None);
+        let _ = builder.spawn(&mut cmds, theme, font, None);
     });
 }

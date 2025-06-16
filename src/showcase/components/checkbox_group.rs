@@ -12,7 +12,7 @@ pub fn show_checkbox_group_variants(
     let mut vertical_section = create_variant_section(parent, "Vertical Checkbox Group", theme, font);
 
     vertical_section.with_children(|vc| {
-        CheckboxGroupBuilder::new()
+        let _ = CheckboxGroupBuilder::new()
             .orientation(CheckboxGroupOrientation::Vertical)
             .option("one", "Option One")
             .option("two", "Option Two")
@@ -24,7 +24,7 @@ pub fn show_checkbox_group_variants(
     // Horizontal group example
     let mut horizontal_section = create_variant_section(parent, "Horizontal Checkbox Group", theme, font);
     horizontal_section.with_children(|vc| {
-        CheckboxGroupBuilder::new()
+        let _ = CheckboxGroupBuilder::new()
             .orientation(CheckboxGroupOrientation::Horizontal)
             .option("a", "Alpha")
             .option("b", "Beta")

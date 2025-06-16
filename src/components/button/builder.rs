@@ -256,7 +256,7 @@ impl<A: Component + Clone + Send + Sync> ButtonBuilder<A> {
                                 FocusPolicy::Pass,
                             ));
                         }
-                        ButtonChild::Custom(custom) => {
+                        ButtonChild::Custom(_custom) => {
                             parent.spawn(());
                         }
                     }

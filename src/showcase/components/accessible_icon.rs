@@ -16,6 +16,6 @@ pub fn show_accessible_icon_example(
         .clone();
 
     section.with_children(|vc| {
-        AccessibleIconBuilder::new(gear, "Settings").spawn(vc, theme, font);
+        let _ = AccessibleIconBuilder::new(gear, "Settings").spawn(vc, theme, font);
     });
 }

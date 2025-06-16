@@ -89,7 +89,7 @@ impl SwitchBuilder {
         // Extract f32 values from Val::Px for calculation
         let track_h_px = if let Val::Px(v) = track_h { v } else { 24.0 };
         let thumb_sz_px = if let Val::Px(v) = thumb_sz { v } else { 16.0 };
-        let thumb_radius = track_radius - (track_h_px - thumb_sz_px) / 2.0;
+        let _thumb_radius = track_radius - (track_h_px - thumb_sz_px) / 2.0;
 
         let mut cmd = parent.spawn((
             SwitchMarker,

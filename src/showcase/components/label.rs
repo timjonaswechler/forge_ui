@@ -11,37 +11,37 @@ pub fn show_label_variants(
 
     variants_section.with_children(|vc| {
         // Standard Label
-        LabelBuilder::new("Standard Label").spawn(vc, theme, font);
+        let _ = LabelBuilder::new("Standard Label").spawn(vc, theme, font);
 
         // Colored Label
-        LabelBuilder::new("Colored Label")
+        let _ = LabelBuilder::new("Colored Label")
             .color(theme.color.crimson.step10)
             .spawn(vc, theme, font);
 
         // Different Font Sizes
-        LabelBuilder::new("Small Font")
+        let _ = LabelBuilder::new("Small Font")
             .font_size(theme.font.size.sm)
             .spawn(vc, theme, font);
 
-        LabelBuilder::new("Large Font")
+        let _ = LabelBuilder::new("Large Font")
             .font_size(theme.font.size.xl)
             .spawn(vc, theme, font);
 
         // Text Alignment
-        LabelBuilder::new("Left Aligned")
+        let _ = LabelBuilder::new("Left Aligned")
             .align(JustifyText::Left)
             .spawn(vc, theme, font);
 
-        LabelBuilder::new("Right Aligned")
+        let _ = LabelBuilder::new("Right Aligned")
             .align(JustifyText::Right)
             .spawn(vc, theme, font);
 
-        LabelBuilder::new("Center Aligned")
+        let _ = LabelBuilder::new("Center Aligned")
             .align(JustifyText::Center)
             .spawn(vc, theme, font);
 
         // Mit Margin
-        LabelBuilder::new("Label with Margin")
+        let _ = LabelBuilder::new("Label with Margin")
             .margin(UiRect::all(Val::Px(10.0)))
             .spawn(vc, theme, font);
     });

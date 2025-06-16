@@ -89,7 +89,7 @@ impl AlertDialogBuilder {
         let cancel_label = self.cancel_label.clone();
         let id = self.id;
 
-        let footer = DialogFooterBuilder::new().add_custom_content(move |p, theme, font| {
+        let footer = DialogFooterBuilder::new().add_custom_content(move |_p, theme, font| {
             let _ = ButtonBuilder::<AlertDialogAction>::new("alert_dialog_cancel")
                 .text(cancel_label.clone())
                 .variant(ButtonVariant::Soft)

@@ -331,7 +331,6 @@ pub fn hot_reload_theme_system(
     }
 }
 
-#[cfg(debug_assertions)]
 pub fn save_theme_system(theme: Res<UiTheme>, config: Res<UiConfig>) {
     info!("Attempting to save theme...");
     // Hole die effektiven Werte aus dem Theme

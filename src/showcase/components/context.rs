@@ -5,7 +5,7 @@ use bevy::prelude::*;
 pub fn show_context_example(parent: &mut ChildSpawnerCommands, theme: &UiTheme, font: &Handle<Font>) {
     let mut section = create_variant_section(parent, "Context", theme, font);
     section.with_children(|vc| {
-        ContextProviderBuilder::new(String::from("Provided value"))
+        let _ = ContextProviderBuilder::new(String::from("Provided value"))
             .content(|p, value, t, f| {
                 p.spawn((
                     Text::new(value.clone()),

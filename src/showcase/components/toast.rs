@@ -5,6 +5,6 @@ use bevy::prelude::*;
 pub fn show_toast_example(parent: &mut ChildSpawnerCommands, theme: &UiTheme, font: &Handle<Font>) {
     let mut section = create_variant_section(parent, "Toast", theme, font);
     section.with_children(|vc| {
-        ToastBuilder::new("Hello from Toast").duration(2.0).spawn(vc, theme, font);
+        let _ = ToastBuilder::new("Hello from Toast").duration(2.0).spawn(vc, theme, font);
     });
 }

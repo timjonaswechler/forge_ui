@@ -13,7 +13,7 @@ pub fn show_dialog_variants(
     dialog_section.with_children(|vc| {
         let dialog_id = DialogId::new_unique();
 
-        DialogTriggerBuilder::new(dialog_id)
+        let _ = DialogTriggerBuilder::new(dialog_id)
             .text("Open Dialog")
             .variant(ButtonVariant::Solid)
             .spawn(vc, theme, font);
@@ -44,7 +44,7 @@ pub fn show_dialog_variants(
             );
 
         let mut cmds = vc.commands_mut();
-        DialogBuilder::new(dialog_id)
+        let _ = DialogBuilder::new(dialog_id)
             .content(content)
             .spawn(&mut cmds, theme, font, None);
     });

@@ -5,7 +5,7 @@ use bevy::prelude::*;
 pub fn show_direction_provider_example(parent: &mut ChildSpawnerCommands, theme: &UiTheme, font: &Handle<Font>) {
     let mut section = create_variant_section(parent, "Direction Provider", theme, font);
     section.with_children(|vc| {
-        DirectionProviderBuilder::new(ReadingDirection::Rtl)
+        let _ = DirectionProviderBuilder::new(ReadingDirection::Rtl)
             .content(|p, dir, t, f| {
                 p.spawn((
                     Text::new(format!("Direction: {:?}", dir)),

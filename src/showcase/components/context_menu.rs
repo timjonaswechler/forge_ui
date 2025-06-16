@@ -5,7 +5,7 @@ use bevy::prelude::*;
 pub fn show_context_menu_example(parent: &mut ChildSpawnerCommands, theme: &UiTheme, font: &Handle<Font>) {
     let mut section = create_variant_section(parent, "Context Menu", theme, font);
     section.with_children(|vc| {
-        ContextMenuBuilder::new()
+        let _ = ContextMenuBuilder::new()
             .item("First")
             .item("Second")
             .item("Third")

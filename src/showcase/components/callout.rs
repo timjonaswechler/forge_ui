@@ -10,7 +10,7 @@ pub fn show_callout_example(
     let mut section = create_variant_section(parent, "Callout", theme, font);
 
     section.with_children(|vc| {
-        CalloutBuilder::new("Something went wrong")
+        let _ = CalloutBuilder::new("Something went wrong")
             .variant(CalloutVariant::Error)
             .spawn(vc, theme, font);
     });

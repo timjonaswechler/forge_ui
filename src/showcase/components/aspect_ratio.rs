@@ -5,7 +5,7 @@ use bevy::prelude::*;
 pub fn show_aspect_ratio_example(parent: &mut ChildSpawnerCommands, theme: &UiTheme, font: &Handle<Font>) {
     let mut section = create_variant_section(parent, "Aspect Ratio", theme, font);
     section.with_children(|vc| {
-        AspectRatioBuilder::new(16.0 / 9.0)
+        let _ = AspectRatioBuilder::new(16.0 / 9.0)
             .content(|p, t, _| {
                 p.spawn((
                     Node {

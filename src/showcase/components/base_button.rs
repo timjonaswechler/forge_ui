@@ -5,7 +5,7 @@ use bevy::prelude::*;
 pub fn show_base_button_example(parent: &mut ChildSpawnerCommands, theme: &UiTheme, font: &Handle<Font>) {
     let mut section = create_variant_section(parent, "Base Button", theme, font);
     section.with_children(|vc| {
-        BaseButtonBuilder::new()
+        let _ = BaseButtonBuilder::new()
             .content(|cb, t, f| {
                 cb.spawn((
                     Text::new("Click me"),

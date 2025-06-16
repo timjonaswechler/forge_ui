@@ -5,7 +5,7 @@ use bevy::prelude::*;
 pub fn show_switch_variants(
     parent: &mut ChildSpawnerCommands,
     theme: &UiTheme,
-    icons: &Res<IconAssets>,
+    _icons: &Res<IconAssets>,
 ) {
     let mut variants_section =
         create_variant_section(parent, "Switch States", theme, &theme.font.family.default);
@@ -22,7 +22,7 @@ pub fn show_switch_variants(
             TextColor(theme.color.slate.step12),
         ));
 
-        SwitchBuilder::new().checked(false).spawn(vc, theme);
+        let _ = SwitchBuilder::new().checked(false).spawn(vc, theme);
 
         // On
         vc.spawn((
@@ -35,7 +35,7 @@ pub fn show_switch_variants(
             TextColor(theme.color.slate.step12),
         ));
 
-        SwitchBuilder::new().checked(true).spawn(vc, theme);
+        let _ = SwitchBuilder::new().checked(true).spawn(vc, theme);
     });
 
     // Disabled Switches
@@ -57,7 +57,7 @@ pub fn show_switch_variants(
             TextColor(theme.color.slate.step12),
         ));
 
-        SwitchBuilder::new()
+        let _ = SwitchBuilder::new()
             .checked(false)
             .disabled(true)
             .with_radius(10.0)
@@ -73,7 +73,7 @@ pub fn show_switch_variants(
             TextColor(theme.color.slate.step12),
         ));
 
-        SwitchBuilder::new()
+        let _ = SwitchBuilder::new()
             .checked(true)
             .disabled(true)
             .spawn(vc, theme);
@@ -84,13 +84,13 @@ pub fn show_switch_variants(
         create_variant_section(parent, "Custom Switches", theme, &theme.font.family.default);
 
     custom_section.with_children(|vc| {
-        SwitchBuilder::new()
+        let _ = SwitchBuilder::new()
             .with_radius(8.0)
             .with_color(theme.color.amber.step09)
             .checked(true)
             .spawn(vc, theme);
 
-        SwitchBuilder::new()
+        let _ = SwitchBuilder::new()
             .with_radius(12.0)
             .with_color(theme.color.crimson.step09)
             .checked(true)

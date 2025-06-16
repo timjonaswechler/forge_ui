@@ -77,6 +77,7 @@ pub struct DialogContentBundle {
 
 impl DialogContentBundle {
     // Konstruktor, um es einfacher zu machen
+    #[allow(dead_code)]
     pub fn new(
         node: Node,
         background_color: BackgroundColor,

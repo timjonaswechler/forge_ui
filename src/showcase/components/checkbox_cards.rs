@@ -13,10 +13,10 @@ pub fn show_checkbox_card_variants(
     let mut section = create_variant_section(parent, "Checkbox Cards", theme, font);
 
     section.with_children(|vc| {
-        CheckboxCardBuilder::new("First")
+        let _ = CheckboxCardBuilder::new("First")
             .spawn(vc, theme, font, icons);
 
-        CheckboxCardBuilder::new("Second")
+        let _ = CheckboxCardBuilder::new("Second")
             .checked(true)
             .spawn(vc, theme, font, icons);
     });

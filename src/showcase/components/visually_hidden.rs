@@ -10,6 +10,6 @@ pub fn show_visually_hidden_example(
     let mut section = create_variant_section(parent, "Visually Hidden", theme, font);
 
     section.with_children(|vc| {
-        VisuallyHiddenBuilder::new("Hidden text").spawn(vc, theme, font);
+        let _ = VisuallyHiddenBuilder::new("Hidden text").spawn(vc, theme, font);
     });
 }

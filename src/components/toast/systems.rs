@@ -11,7 +11,7 @@ pub fn update_toast_timers(
     for (entity, mut timer) in query.iter_mut() {
         timer.0.tick(time.delta());
         if timer.0.finished() {
-            commands.entity(entity).despawn_recursive();
+            commands.entity(entity).despawn();
         }
     }
 }

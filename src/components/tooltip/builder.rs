@@ -51,7 +51,7 @@ impl<'w, 's> UiBuilder<'w, 's> for TooltipBuilder {
                 FocusPolicy::Block,
             ))
             .with_children(|tc| {
-                LabelBuilder::new(self.trigger.clone()).spawn(tc, theme, font);
+                let _ = LabelBuilder::new(self.trigger.clone()).spawn(tc, theme, font);
             });
 
             let mut content = cb.spawn((
@@ -61,7 +61,7 @@ impl<'w, 's> UiBuilder<'w, 's> for TooltipBuilder {
             ));
 
             content.with_children(|cc| {
-                LabelBuilder::new(tooltip_text).spawn(cc, theme, font);
+                let _ = LabelBuilder::new(tooltip_text).spawn(cc, theme, font);
             });
         });
 

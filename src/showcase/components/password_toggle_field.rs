@@ -5,7 +5,7 @@ use bevy::prelude::*;
 pub fn show_password_toggle_field_example(parent: &mut ChildSpawnerCommands, theme: &UiTheme, font: &Handle<Font>) {
     let mut section = create_variant_section(parent, "Password Toggle Field", theme, font);
     section.with_children(|vc| {
-        PasswordToggleFieldBuilder::new().spawn(vc, theme, font);
+        let _ = PasswordToggleFieldBuilder::new().spawn(vc, theme, font);
     });
 }
 

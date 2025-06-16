@@ -5,7 +5,7 @@ use bevy::prelude::*;
 pub fn show_container_example(parent: &mut ChildSpawnerCommands, theme: &UiTheme, font: &Handle<Font>) {
     let mut section = create_variant_section(parent, "Container", theme, font);
     section.with_children(|vc| {
-        ContainerBuilder::new()
+        let _ = ContainerBuilder::new()
             .width(Val::Px(400.0))
             .content(|p, t, f| {
                 p.spawn((

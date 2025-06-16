@@ -5,7 +5,7 @@ use bevy::prelude::*;
 pub fn show_dropdown_menu_example(parent: &mut ChildSpawnerCommands, theme: &UiTheme, font: &Handle<Font>) {
     let mut section = create_variant_section(parent, "Dropdown Menu", theme, font);
     section.with_children(|vc| {
-        DropdownMenuBuilder::new("Options")
+        let _ = DropdownMenuBuilder::new("Options")
             .item("First")
             .item("Second")
             .item("Third")

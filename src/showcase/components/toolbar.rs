@@ -9,7 +9,7 @@ pub fn show_toolbar_example(
 ) {
     let mut section = create_variant_section(parent, "Toolbar", theme, font);
     section.with_children(|vc| {
-        ToolbarBuilder::new()
+        let _ = ToolbarBuilder::new()
             .item(|p, t, f| {
                 p.spawn(
                     ButtonBuilder::<NoAction>::new("item_1")
@@ -30,7 +30,7 @@ pub fn show_toolbar_example(
                     .length(Val::Px(20.0))
                     .spawn(p, t, f);
             })
-            .item(|p, t, f| {
+            .item(|p, t, _f| {
                 ToggleGroupBuilder::<NoAction>::new_with_action_type()
                     .add_item("Bold")
                     .add_item("Italic")

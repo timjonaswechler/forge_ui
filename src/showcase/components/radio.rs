@@ -11,7 +11,7 @@ pub fn show_radio_group_variants(
     let mut vertical_section = create_variant_section(parent, "Vertical Radio Group", theme, font);
 
     vertical_section.with_children(|vc| {
-        RadioGroupBuilder::new("vertical-demo")
+        let _ = RadioGroupBuilder::new("vertical-demo")
             .orientation(RadioGroupOrientation::Vertical)
             .option("one", "Option One")
             .option("two", "Option Two")
@@ -25,7 +25,7 @@ pub fn show_radio_group_variants(
         create_variant_section(parent, "Horizontal Radio Group", theme, font);
 
     horizontal_section.with_children(|vc| {
-        RadioGroupBuilder::new("horizontal-demo")
+        let _ = RadioGroupBuilder::new("horizontal-demo")
             .orientation(RadioGroupOrientation::Horizontal)
             .option("a", "Option A")
             .option("b", "Option B")
@@ -38,7 +38,7 @@ pub fn show_radio_group_variants(
     let mut disabled_section = create_variant_section(parent, "Disabled Radio Group", theme, font);
 
     disabled_section.with_children(|vc| {
-        RadioGroupBuilder::new("disabled-demo")
+        let _ = RadioGroupBuilder::new("disabled-demo")
             .orientation(RadioGroupOrientation::Vertical)
             .option("yes", "Yes")
             .option("no", "No")

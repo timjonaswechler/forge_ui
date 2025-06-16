@@ -4,7 +4,7 @@
 //! and visual updates. It registers the necessary systems and events for basic
 //! button functionality with the default `NoAction` type.
 use crate::components::button::{
-    handle_button_press, handle_button_release, update_button_visuals, ButtonClickedEvent,
+    handle_button_release, update_button_visuals, ButtonClickedEvent,
 };
 use crate::components::helper::NoAction;
 use crate::plugin::UiState;
