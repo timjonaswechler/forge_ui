@@ -2,7 +2,7 @@ use bevy::prelude::*;
 
 use crate::plugin::UiState;
 use crate::prelude::handle_button_release;
-use crate::prelude::ButtonClickedEvent; // Falls du eine globale UI-State-Machine nutzt
+use crate::prelude::{ButtonClickedEvent, ButtonPlugin}; // Falls du eine globale UI-State-Machine nutzt
 
 use super::events::*;
 use super::helpers::*;
@@ -22,6 +22,7 @@ pub struct ShowcasePlugin;
 impl Plugin for ShowcasePlugin {
     fn build(&self, app: &mut App) {
         app.init_state::<ShowcaseState>()
+            .add_plugins(ButtonPlugin::<ShowcaseAction>::default())
             // Events ---------------------------------------------------------
             .add_event::<ToggleShowcaseEvent>()
             .add_event::<ButtonClickedEvent<ShowcaseAction>>()

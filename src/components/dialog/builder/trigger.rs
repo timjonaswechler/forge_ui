@@ -75,7 +75,7 @@ impl DialogTriggerBuilder {
         theme: &UiTheme,
         font_handle: &Handle<Font>,
     ) -> EntityCommands<'s> {
-        let mut button_builder = ButtonBuilder::<DialogAction>::new_for_action()
+        let mut button_builder = ButtonBuilder::<DialogAction>::new("alert_dialog_close")
             .action(DialogAction::Open(self.target_dialog_id))
             .variant(self.variant)
             .size(self.size);
@@ -90,17 +90,6 @@ impl DialogTriggerBuilder {
         for config_fn in self.custom_button_setup {
             (config_fn)(&mut button_builder);
         }
-
-        // Wichtig: Die `add_marker` vom ButtonBuilder selbst wird hier für die Payload `OpenDialogActionPayload` nicht benötigt,
-        // da wir die Action direkt setzen. Die `add_marker` hier im `DialogTriggerBuilder`
-        // ist für zusätzliche, benutzerdefinierte Marker auf der Button-Entität.
-        // Um Verwirrung zu vermeiden und die `add_marker`-Logik klar zu trennen:
-        // Der ButtonBuilder hat seine eigene `add_marker`. Wenn wir Marker für den DialogTrigger-Button
-        // außerhalb der `OpenDialogActionPayload`-Komponente hinzufügen wollen, können wir das so machen:
-        let mut entity_cmds = button_builder.spawn(parent, theme, font_handle);
-        for marker_fn in self.markers {
-            (marker_fn)(&mut entity_cmds);
-        }
-        entity_cmds
+        parent.spawn((button_builder.build(theme, font_handle), ButtonMarker))
     }
 }

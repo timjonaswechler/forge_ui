@@ -179,10 +179,12 @@ pub fn build_sidebar(
         //         .spawn(parent, theme, font),
         // )
         .add_entity(
-            ButtonBuilder::new_for_action()
-                .text("Accordion")
-                .action(ShowcaseAction::ShowElement(ShowcaseElement::Accordion))
-                .spawn(parent, theme, font),
+            parent.spawn(
+                ButtonBuilder::new("accordion")
+                    .text("Accordion")
+                    .action(ShowcaseAction::ShowElement(ShowcaseElement::Accordion))
+                    .build(theme, font),
+            ),
         )
         // .add_entity(
         //     ButtonBuilder::new_for_action()
@@ -227,134 +229,176 @@ pub fn build_sidebar(
         //         .spawn(parent, theme, font),
         // )
         .add_entity(
-            ButtonBuilder::new_for_action()
-                .text("Collapsible")
-                .action(ShowcaseAction::ShowElement(ShowcaseElement::Collapsible))
-                .spawn(parent, theme, font),
+            parent.spawn(
+                ButtonBuilder::new("collapsible")
+                    .text("Collapsible")
+                    .action(ShowcaseAction::ShowElement(ShowcaseElement::Collapsible))
+                    .build(theme, font),
+            ),
         )
         .add_entity(
-            ButtonBuilder::new_for_action()
-                .text("Collection")
-                .action(ShowcaseAction::ShowElement(ShowcaseElement::Collection))
-                .spawn(parent, theme, font),
+            parent.spawn(
+                ButtonBuilder::new("collection")
+                    .text("Collection")
+                    .action(ShowcaseAction::ShowElement(ShowcaseElement::Collection))
+                    .build(theme, font),
+            ),
         )
         .add_entity(
-            ButtonBuilder::new_for_action()
-                .text("Container")
-                .action(ShowcaseAction::ShowElement(ShowcaseElement::Container))
-                .spawn(parent, theme, font),
+            parent.spawn(
+                ButtonBuilder::new("container")
+                    .text("Container")
+                    .action(ShowcaseAction::ShowElement(ShowcaseElement::Container))
+                    .build(theme, font),
+            ),
         )
         .add_entity(
-            ButtonBuilder::new_for_action()
-                .text("Context")
-                .action(ShowcaseAction::ShowElement(ShowcaseElement::Context))
-                .spawn(parent, theme, font),
+            parent.spawn(
+                ButtonBuilder::new("context")
+                    .text("Context")
+                    .action(ShowcaseAction::ShowElement(ShowcaseElement::Context))
+                    .build(theme, font),
+            ),
         )
         .add_entity(
-            ButtonBuilder::new_for_action()
-                .text("Visually Hidden")
-                .action(ShowcaseAction::ShowElement(ShowcaseElement::VisuallyHidden))
-                .spawn(parent, theme, font),
+            parent.spawn(
+                ButtonBuilder::new("visually_hidden")
+                    .text("Visually Hidden")
+                    .action(ShowcaseAction::ShowElement(ShowcaseElement::VisuallyHidden))
+                    .build(theme, font),
+            ),
         )
         .add_entity(
-            ButtonBuilder::new_for_action()
-                .text("Accessible Icon")
-                .action(ShowcaseAction::ShowElement(ShowcaseElement::AccessibleIcon))
-                .spawn(parent, theme, font),
+            parent.spawn(
+                ButtonBuilder::new("accessible_icon")
+                    .text("Accessible Icon")
+                    .action(ShowcaseAction::ShowElement(ShowcaseElement::AccessibleIcon))
+                    .build(theme, font),
+            ),
         )
         .add_entity(
-            ButtonBuilder::new_for_action()
-                .text("Hover Card")
-                .action(ShowcaseAction::ShowElement(ShowcaseElement::HoverCard))
-                .spawn(parent, theme, font),
+            parent.spawn(
+                ButtonBuilder::new("hover_card")
+                    .text("Hover Card")
+                    .action(ShowcaseAction::ShowElement(ShowcaseElement::HoverCard))
+                    .build(theme, font),
+            ),
         )
         .add_entity(
-            ButtonBuilder::new_for_action()
-                .text("Menubar")
-                .action(ShowcaseAction::ShowElement(ShowcaseElement::Menubar))
-                .spawn(parent, theme, font),
+            parent.spawn(
+                ButtonBuilder::new("menubar")
+                    .text("Menubar")
+                    .action(ShowcaseAction::ShowElement(ShowcaseElement::Menubar))
+                    .build(theme, font),
+            ),
         )
         .add_entity(
-            ButtonBuilder::new_for_action()
-                .text("Navigation Menu")
-                .action(ShowcaseAction::ShowElement(ShowcaseElement::NavigationMenu))
-                .spawn(parent, theme, font),
+            parent.spawn(
+                ButtonBuilder::new("navigation_menu")
+                    .text("Navigation Menu")
+                    .action(ShowcaseAction::ShowElement(ShowcaseElement::NavigationMenu))
+                    .build(theme, font),
+            ),
         )
         .add_entity(
-            ButtonBuilder::new_for_action()
-                .text("Popover")
-                .action(ShowcaseAction::ShowElement(ShowcaseElement::Popover))
-                .spawn(parent, theme, font),
+            parent.spawn(
+                ButtonBuilder::new("popover")
+                    .text("Popover")
+                    .action(ShowcaseAction::ShowElement(ShowcaseElement::Popover))
+                    .build(theme, font),
+            ),
         )
         .add_entity(
-            ButtonBuilder::new_for_action()
-                .text("Progress")
-                .action(ShowcaseAction::ShowElement(ShowcaseElement::Progress))
-                .spawn(parent, theme, font),
+            parent.spawn(
+                ButtonBuilder::new("progress")
+                    .text("Progress")
+                    .action(ShowcaseAction::ShowElement(ShowcaseElement::Progress))
+                    .build(theme, font),
+            ),
         )
         .add_entity(
-            ButtonBuilder::new_for_action()
-                .text("Scroll Area")
-                .action(ShowcaseAction::ShowElement(ShowcaseElement::ScrollArea))
-                .spawn(parent, theme, font),
+            parent.spawn(
+                ButtonBuilder::new("scroll_area")
+                    .text("Scroll Area")
+                    .action(ShowcaseAction::ShowElement(ShowcaseElement::ScrollArea))
+                    .build(theme, font),
+            ),
         )
         .add_entity(
-            ButtonBuilder::new_for_action()
-                .text("Select")
-                .action(ShowcaseAction::ShowElement(ShowcaseElement::Select))
-                .spawn(parent, theme, font),
+            parent.spawn(
+                ButtonBuilder::new("select")
+                    .text("Select")
+                    .action(ShowcaseAction::ShowElement(ShowcaseElement::Select))
+                    .build(theme, font),
+            ),
         )
         .add_entity(
-            ButtonBuilder::new_for_action()
-                .text("Separator")
-                .action(ShowcaseAction::ShowElement(ShowcaseElement::Separator))
-                .spawn(parent, theme, font),
+            parent.spawn(
+                ButtonBuilder::new("separator")
+                    .text("Separator")
+                    .action(ShowcaseAction::ShowElement(ShowcaseElement::Separator))
+                    .build(theme, font),
+            ),
         )
         .add_entity(
-            ButtonBuilder::new_for_action()
-                .text("Slider")
-                .action(ShowcaseAction::ShowElement(ShowcaseElement::Slider))
-                .spawn(parent, theme, font),
+            parent.spawn(
+                ButtonBuilder::new("slider")
+                    .text("Slider")
+                    .action(ShowcaseAction::ShowElement(ShowcaseElement::Slider))
+                    .build(theme, font),
+            ),
         )
         .add_entity(
-            ButtonBuilder::new_for_action()
-                .text("Tabs")
-                .action(ShowcaseAction::ShowElement(ShowcaseElement::Tabs))
-                .spawn(parent, theme, font),
+            parent.spawn(
+                ButtonBuilder::new("tabs")
+                    .text("Tabs")
+                    .action(ShowcaseAction::ShowElement(ShowcaseElement::Tabs))
+                    .build(theme, font),
+            ),
         )
         .add_entity(
-            ButtonBuilder::new_for_action()
-                .text("Toast")
-                .action(ShowcaseAction::ShowElement(ShowcaseElement::Toast))
-                .spawn(parent, theme, font),
+            parent.spawn(
+                ButtonBuilder::new("toast")
+                    .text("Toast")
+                    .action(ShowcaseAction::ShowElement(ShowcaseElement::Toast))
+                    .build(theme, font),
+            ),
         )
         .add_entity(
-            ButtonBuilder::new_for_action()
-                .text("Toolbar")
-                .action(ShowcaseAction::ShowElement(ShowcaseElement::Toolbar))
-                .spawn(parent, theme, font),
+            parent.spawn(
+                ButtonBuilder::new("toolbar")
+                    .text("Toolbar")
+                    .action(ShowcaseAction::ShowElement(ShowcaseElement::Toolbar))
+                    .build(theme, font),
+            ),
         )
         .add_entity(
-            ButtonBuilder::new_for_action()
-                .text("Tooltip")
-                .action(ShowcaseAction::ShowElement(ShowcaseElement::Tooltip))
-                .spawn(parent, theme, font),
+            parent.spawn(
+                ButtonBuilder::new("tooltip")
+                    .text("Tooltip")
+                    .action(ShowcaseAction::ShowElement(ShowcaseElement::Tooltip))
+                    .build(theme, font),
+            ),
         )
         .add_entity(
-            ButtonBuilder::new_for_action()
-                .text("OTP Field")
-                .action(ShowcaseAction::ShowElement(
-                    ShowcaseElement::OneTimePasswordField,
-                ))
-                .spawn(parent, theme, font),
+            parent.spawn(
+                ButtonBuilder::new("otp_field")
+                    .text("OTP Field")
+                    .action(ShowcaseAction::ShowElement(
+                        ShowcaseElement::OneTimePasswordField,
+                    ))
+                    .build(theme, font),
+            ),
         )
         .add_entity(
-            ButtonBuilder::new_for_action()
-                .text("Password Toggle")
-                .action(ShowcaseAction::ShowElement(
-                    ShowcaseElement::PasswordToggleField,
-                ))
-                .spawn(parent, theme, font),
+            parent.spawn(
+                ButtonBuilder::new("password_toggle")
+                    .text("Password Toggle")
+                    .action(ShowcaseAction::ShowElement(
+                        ShowcaseElement::PasswordToggleField,
+                    ))
+                    .build(theme, font),
+            ),
         )
         .spawn(parent)
         .id()

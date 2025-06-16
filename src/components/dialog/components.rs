@@ -14,6 +14,11 @@ pub enum DialogAction {
     Open(DialogId),
     Close(DialogId),
 }
+impl Default for DialogAction {
+    fn default() -> Self {
+        DialogAction::Close(DialogId::default())
+    }
+}
 
 #[derive(Component, Debug, Default, Clone, Copy)]
 pub struct DialogRootMarker;

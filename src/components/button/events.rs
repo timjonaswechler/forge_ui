@@ -38,7 +38,7 @@ use std::fmt::Debug;
 /// Siehe auch [`handle_button_press`](crate::components::button::handle_button_press)
 /// und [`handle_button_release`](crate::components::button::handle_button_release).
 #[derive(Event, Clone)]
-pub struct ButtonClickedEvent<A: Component + Clone + Send + Sync + 'static> {
+pub struct ButtonClickedEvent<A: Component + Clone + Send + Sync> {
     /// Die Entität des Buttons, der geklickt wurde.
     pub source_entity: Entity,
     /// Die optionale anwendungsspezifische Aktion, die mit diesem Button verknüpft ist.
@@ -50,7 +50,7 @@ pub struct ButtonClickedEvent<A: Component + Clone + Send + Sync + 'static> {
 // Manuelle Debug-Implementierung, die nicht versucht, A zu debuggen,
 // falls A nicht Debug implementiert. Dies verhindert Kompilierfehler,
 // wenn A kein Debug-Trait hat, und ist nützlich für Bibliotheks-Code.
-impl<A: Component + Clone + Send + Sync + 'static> Debug for ButtonClickedEvent<A> {
+impl<A: Component + Clone + Send + Sync> Debug for ButtonClickedEvent<A> {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("ButtonClickedEvent")
             .field("source_entity", &self.source_entity)

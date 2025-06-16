@@ -41,12 +41,12 @@ pub fn update_button_visuals(
 /// **only if the button is not disabled.**
 ///
 /// # Type Parameters
-/// * `A` - Component type that represents the action associated with the button
+/// * `A` - Component type that represents the action associated with the button; must also implement Debug for logging.
 ///
 /// # Parameters
 /// * `writer` - Event writer for dispatching button click events
 /// * `query` - Query that selects buttons with changed interaction state, their action components, and their `ButtonState`.
-pub fn handle_button_press<A: Component + Clone>(
+pub fn handle_button_press<A: Component + Clone + std::fmt::Debug>(
     mut writer: EventWriter<ButtonClickedEvent<A>>,
     query: Query<
         (Entity, &Interaction, &A, &ButtonState),
@@ -80,7 +80,7 @@ pub fn handle_button_press<A: Component + Clone>(
 /// * `writer` - Event writer for dispatching button click events
 /// * `prev` - Local storage for tracking previous interaction states per entity
 /// * `query` - Query that selects buttons with their current interaction state, action components, and their `ButtonState`.
-pub fn handle_button_release<A: Component + Clone>(
+pub fn handle_button_release<A: Component + Clone + std::fmt::Debug>(
     mut writer: EventWriter<ButtonClickedEvent<A>>,
     mut prev: Local<HashMap<Entity, Interaction>>,
     query: Query<(Entity, &Interaction, &A, &ButtonState), With<ButtonMarker>>,
@@ -99,6 +99,7 @@ pub fn handle_button_release<A: Component + Clone>(
                 source_entity: entity,
                 action_id: Some(action.clone()),
             });
+            info!("Button clicked: {:?}", action);
         }
         prev.insert(entity, *interaction);
     }

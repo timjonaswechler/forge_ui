@@ -31,13 +31,17 @@ pub fn show_dialog_variants(
                     TextColor(theme.color.slate.step12),
                 ));
             }))
-            .footer(DialogFooterBuilder::new().add_custom_content(move |p, theme, font| {
-                ButtonBuilder::<DialogAction>::new_for_action()
-                    .text("Close")
-                    .variant(ButtonVariant::Soft)
-                    .action(DialogAction::Close(dialog_id))
-                    .spawn(p, theme, font);
-            }));
+            .footer(
+                DialogFooterBuilder::new().add_custom_content(move |p, theme, font| {
+                    p.spawn(
+                        ButtonBuilder::<DialogAction>::new("Close Button")
+                            .text("Close")
+                            .variant(ButtonVariant::Soft)
+                            .action(DialogAction::Close(dialog_id))
+                            .build(theme, font),
+                    );
+                }),
+            );
 
         let mut cmds = vc.commands_mut();
         DialogBuilder::new(dialog_id)

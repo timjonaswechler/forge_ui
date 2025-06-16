@@ -100,7 +100,7 @@ impl Plugin for ForgeUiPlugin {
                 .run_if(in_state(UiState::LoadingTheme)),
             )
             // endregion
-            .add_plugins(ButtonNoActionPlugin::default())
+            .add_plugins(ButtonPlugin::<NoAction>::default())
             .add_plugins(DialogPlugin)
             .add_plugins(AlertDialogPlugin)
             .add_plugins(AccordionPlugin)

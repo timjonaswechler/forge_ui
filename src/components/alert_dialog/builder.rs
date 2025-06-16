@@ -90,17 +90,17 @@ impl AlertDialogBuilder {
         let id = self.id;
 
         let footer = DialogFooterBuilder::new().add_custom_content(move |p, theme, font| {
-            let _ = ButtonBuilder::<AlertDialogAction>::new_for_action()
+            let _ = ButtonBuilder::<AlertDialogAction>::new("alert_dialog_cancel")
                 .text(cancel_label.clone())
                 .variant(ButtonVariant::Soft)
                 .action(AlertDialogAction::Cancel(id))
-                .spawn(p, theme, font);
+                .build(theme, font);
 
-            let _ = ButtonBuilder::<AlertDialogAction>::new_for_action()
+            let _ = ButtonBuilder::<AlertDialogAction>::new("alert_dialog_confirm")
                 .text(confirm_label.clone())
                 .variant(ButtonVariant::Solid)
                 .action(AlertDialogAction::Confirm(id))
-                .spawn(p, theme, font);
+                .build(theme, font);
         });
 
         let content = DialogContentBuilder::new()

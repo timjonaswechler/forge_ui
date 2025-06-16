@@ -118,23 +118,25 @@ impl DialogHeaderBuilder {
 
             // ── right close button ──────────────────────────────────────────
             if show_close {
-                let btn = ButtonBuilder::<DialogAction>::new_for_action()
+                let btn = ButtonBuilder::<DialogAction>::new("alert_dialog_close")
                     .action(DialogAction::Close(dialog_id))
                     .variant(ButtonVariant::Soft)
-                    .color(theme.color.red.clone());
+                    .color(theme.color.red.clone())
+                    .build(theme, font);
 
                 // btn = btn.icon(close_icon);
 
-                let mut btn_cmd = btn.spawn(row, theme, font);
-                // push to the far right & top
-                btn_cmd.insert(Node {
-                    align_self: AlignSelf::FlexStart,
-                    margin: UiRect {
-                        left: Val::Auto,
+                row.spawn((
+                    btn,
+                    Node {
+                        align_self: AlignSelf::FlexStart,
+                        margin: UiRect {
+                            left: Val::Auto, // push to the far right
+                            ..default()
+                        },
                         ..default()
                     },
-                    ..default()
-                });
+                ));
             }
         });
     }

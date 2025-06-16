@@ -11,61 +11,79 @@ pub fn show_button_variants(
 
     variants_section.with_children(|vc| {
         // Standard Buttons in verschiedenen Varianten
-        let _ = ButtonBuilder::new()
-            .text("Solid")
-            .variant(ButtonVariant::Solid)
-            .spawn(vc, &theme, font);
+        vc.spawn(
+            ButtonBuilder::<NoAction>::new("Solid")
+                .text("Solid")
+                .variant(ButtonVariant::Solid)
+                .build(&theme, font),
+        );
 
-        let _ = ButtonBuilder::new()
-            .text("Soft")
-            .variant(ButtonVariant::Soft)
-            .spawn(vc, &theme, font);
+        vc.spawn(
+            ButtonBuilder::<NoAction>::new("Soft")
+                .text("Soft")
+                .variant(ButtonVariant::Soft)
+                .build(&theme, font),
+        );
 
-        let _ = ButtonBuilder::new()
-            .text("Outline")
-            .variant(ButtonVariant::Outline)
-            .spawn(vc, &theme, font);
+        vc.spawn(
+            ButtonBuilder::<NoAction>::new("Outline")
+                .text("Outline")
+                .variant(ButtonVariant::Outline)
+                .build(&theme, font),
+        );
 
-        let _ = ButtonBuilder::new()
-            .text("Ghost")
-            .variant(ButtonVariant::Ghost)
-            .spawn(vc, &theme, font);
+        vc.spawn(
+            ButtonBuilder::<NoAction>::new("Ghost")
+                .text("Ghost")
+                .variant(ButtonVariant::Ghost)
+                .build(&theme, font),
+        );
     });
 
     // Button Sizes
     let mut sizes_section = create_variant_section(parent, "Button Sizes", &theme, font);
 
     sizes_section.with_children(|vc| {
-        ButtonBuilder::new()
-            .text("Small")
-            .size(ButtonSize::Small)
-            .spawn(vc, &theme, font);
+        vc.spawn(
+            ButtonBuilder::<NoAction>::new("Small")
+                .text("Small")
+                .size(ButtonSize::Small)
+                .build(&theme, font),
+        );
 
-        ButtonBuilder::new()
-            .text("Medium")
-            .size(ButtonSize::Default)
-            .spawn(vc, &theme, font);
+        vc.spawn(
+            ButtonBuilder::<NoAction>::new("Medium")
+                .text("Medium")
+                .size(ButtonSize::Default)
+                .build(&theme, font),
+        );
 
-        ButtonBuilder::new()
-            .text("Large")
-            .size(ButtonSize::Large)
-            .spawn(vc, &theme, font);
+        vc.spawn(
+            ButtonBuilder::<NoAction>::new("Large")
+                .text("Large")
+                .size(ButtonSize::Large)
+                .build(&theme, font),
+        );
     });
 
     // Disabled Buttons
     let mut disabled_section = create_variant_section(parent, "Disabled Buttons", &theme, font);
 
     disabled_section.with_children(|vc| {
-        ButtonBuilder::new()
-            .text("Disabled Primary")
-            .variant(ButtonVariant::Solid)
-            .disabled(true)
-            .spawn(vc, &theme, font);
+        vc.spawn(
+            ButtonBuilder::<NoAction>::new("Disabled Primary")
+                .text("Disabled Primary")
+                .variant(ButtonVariant::Solid)
+                .disabled(true)
+                .build(&theme, font),
+        );
 
-        ButtonBuilder::new()
-            .text("Disabled Secondary")
-            .variant(ButtonVariant::Soft)
-            .disabled(true)
-            .spawn(vc, &theme, font);
+        vc.spawn(
+            ButtonBuilder::<NoAction>::new("Disabled Secondary")
+                .text("Disabled Secondary")
+                .variant(ButtonVariant::Soft)
+                .disabled(true)
+                .build(&theme, font),
+        );
     });
 }

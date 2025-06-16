@@ -6,117 +6,37 @@ use super::{
 };
 
 use crate::components::helper::NoAction;
-use crate::layout::VerticalStackBuilder;
 use crate::theme::{UiColorPalette, UiTheme};
 
+use bevy::ecs::spawn::SpawnWith;
 use bevy::ecs::system::EntityCommands;
 use bevy::prelude::*;
 use bevy::ui::FocusPolicy;
 
-/// A flexible builder for creating and configuring UI buttons.
-///
-/// ## Overview
-/// `ButtonBuilder<A>` allows creating buttons with various variants, sizes, and content
-/// (text and/or icons). They can optionally be disabled to prevent clicks.
-///
-/// The builder is generic over the action type `A: Component + Clone + Send + Sync + 'static`,
-/// allowing application-specific logic to be type-safely linked with button click events.
-///
-/// ## Generic Action Type
-/// - By default, `A = NoAction` is used when no specific action is needed.
-/// - Use `.action(action_instance)` to set an instance of `A`.
-/// - On click, a `ButtonClickedEvent<A>` is triggered, with its field `action_id: Option<A>`
-///   containing a clone of the provided action (or `None` if none was set).
-///
-/// ## Key Methods
-/// - `ButtonBuilder::new()`  
-///   Creates a builder for buttons without application-specific action (`NoAction`).
-/// - `ButtonBuilder::<MyAction>::new_for_action()`  
-///   Explicitly sets the builder to the action type `MyAction` (if `MyAction` doesn't implement `Default` etc.).
-/// - `.variant(ButtonVariant)`  
-///   Selects the appearance (e.g., `Solid`, `Outline`).
-/// - `.size(ButtonSize)`  
-///   Determines padding, minimum height, and font size.
-/// - `.text("…")` / `.child(...)` / `.vertical_stack(...)`  
-///   Adds content to the button.
-/// - `.disabled(true)`  
-///   Disables clicks and adjusts styling.
-/// - `.border_radius(px)` / `.border_radius_val(Val)`  
-///   Overrides the corner radius from the theme.
-/// - `.width(Val)` / `.height(Val)`  
-///   Sets explicit dimensions.
-/// - `.add_marker(...)`  
-///   Attaches arbitrary components or markers to the button entity.
-///
-/// ## Example
-/// ```rust
-/// use bevy::prelude::*;
-/// use forge_ui::components::button::{
-///     ButtonBuilder, ButtonVariant, ButtonSize, NoAction, ButtonClickedEvent
-/// };
-///
-/// #[derive(Component, Clone, Debug, PartialEq, Eq)]
-/// enum MyGameAction { StartGame, OpenSettings }
-///
-/// fn setup_ui(
-///     mut commands: Commands,
-///     theme: Res<UiTheme>,
-///     font: Res<FontHandle>,
-/// ) {
-///     commands.spawn(NodeBundle::default()).with_children(|parent| {
-///         // Standard button without action
-///         ButtonBuilder::new()
-///             .text("Standard")
-///             .spawn(parent, &theme, &font);
-///
-///         // Button with a custom action
-///         ButtonBuilder::<MyGameAction>::new_for_action()
-///             .text("Start Game")
-///             .variant(ButtonVariant::Solid)
-///             .action(MyGameAction::StartGame)
-///             .spawn(parent, &theme, &font);
-///     });
-/// }
-///
-/// fn on_click(mut events: EventReader<ButtonClickedEvent<MyGameAction>>) {
-///     for evt in events.iter() {
-///         if let Some(action) = &evt.action_id {
-///             match action {
-///                 MyGameAction::StartGame => info!("StartGame pressed"),
-///                 MyGameAction::OpenSettings => info!("OpenSettings pressed"),
-///             }
-///         }
-///     }
-/// }
-/// ```
-///
-/// See also [`NoAction`] and [`ButtonClickedEvent`].
-pub struct ButtonBuilder<A: Component + Clone + Send + Sync + 'static = NoAction> {
+pub struct ButtonBuilder<A: Component + Clone + Send + Sync = NoAction> {
+    name: String, // Optional name for the button, useful for debugging
     variant: ButtonVariant,
     color_palette: UiColorPalette,
     size: ButtonSize,
     disabled: bool,
     children_defs: Vec<ButtonChild>,
-    action: Option<A>, // Speichert die Aktion vom Typ A
+    action: A,
     width: Option<Val>,
     height: Option<Val>,
     border_radius: Option<Val>,
     markers: Vec<Box<dyn FnOnce(&mut EntityCommands) + Send + Sync>>,
 }
 
-// Default-Implementierung für ButtonBuilder<NoAction>
-impl Default for ButtonBuilder<NoAction> {
-    /// Creates a `ButtonBuilder` with default values and action type `NoAction`.
-    /// `action` is initially `None`, meaning no `NoAction` component is added to the
-    /// entity by default, unless `.action(NoAction)` is explicitly called.
+impl<A: Component + Clone + Send + Sync + Default> Default for ButtonBuilder<A> {
     fn default() -> Self {
         Self {
+            name: "Button".to_string(),
             variant: ButtonVariant::Solid,
             color_palette: UiColorPalette::default(),
             size: ButtonSize::Default,
             disabled: false,
             children_defs: Vec::new(),
-            action: None,
+            action: A::default(),
             width: None,
             height: None,
             border_radius: None,
@@ -125,31 +45,14 @@ impl Default for ButtonBuilder<NoAction> {
     }
 }
 
-impl<A: Component + Clone + Send + Sync + 'static> ButtonBuilder<A> {
-    pub fn new() -> Self
+impl<A: Component + Clone + Send + Sync> ButtonBuilder<A> {
+    pub fn new(name: impl Into<String>) -> Self
     where
         ButtonBuilder<A>: Default,
     {
-        Default::default()
-    }
-    /// Creates a new builder intended for a specific action type `A`.
-    ///
-    /// This is useful for explicitly setting the type signature for the builder
-    /// when `A` is not `NoAction`, or when `A` doesn't implement `Default`.
-    /// The actual action instance is set using the `.action()` method.
-    pub fn new_for_action() -> Self {
-        ButtonBuilder {
-            variant: ButtonVariant::Solid,
-            color_palette: UiColorPalette::default(),
-            size: ButtonSize::Default,
-            disabled: false,
-            children_defs: Vec::new(),
-            action: None,
-            width: None,
-            height: None,
-            border_radius: None,
-            markers: Vec::new(),
-        }
+        let mut builder = Self::default();
+        builder.name = name.into();
+        builder
     }
 
     /// Sets the visual variant of the button.
@@ -201,30 +104,16 @@ impl<A: Component + Clone + Send + Sync + 'static> ButtonBuilder<A> {
         self
     }
 
-    /// Adds a custom closure as a child.
-    pub fn child(
-        mut self,
-        f: impl FnOnce(&mut ChildSpawnerCommands) + Send + Sync + 'static,
-    ) -> Self {
-        self.children_defs.push(ButtonChild::Custom(Box::new(f)));
-        self
-    }
-
-    /// Directly spawns a VerticalStackBuilder in the button.
-    pub fn vertical_stack(mut self, vsb: VerticalStackBuilder) -> Self {
-        self.children_defs
-            .push(ButtonChild::Custom(Box::new(move |parent| {
-                let _ = vsb.spawn(parent);
-            })));
-        self
-    }
     /// Associates a specific action instance `A` with this button.
     ///
     /// This `action_instance` is added as a component to the button entity.
     /// On click, a clone of this instance is sent in the [`ButtonClickedEvent<A>`]
     /// in the `action_id` field.
-    pub fn action(mut self, action_instance: A) -> Self {
-        self.action = Some(action_instance);
+    pub fn action(mut self, action_instance: A) -> Self
+    where
+        A: Component + Clone + Send + Sync,
+    {
+        self.action = action_instance;
         self
     }
 
@@ -283,28 +172,20 @@ impl<A: Component + Clone + Send + Sync + 'static> ButtonBuilder<A> {
     /// The `#[must_use]` hint reminds that `EntityCommands` is typically
     /// used further (e.g., to get the ID or attach more children).
     #[must_use]
-    pub fn spawn<'w, 's>(
-        self,
-        parent: &'s mut ChildSpawnerCommands<'w>,
-        theme: &UiTheme,
-        font_family: &Handle<Font>,
-    ) -> EntityCommands<'s> {
+    pub fn build(self, theme: &UiTheme, font_family: &Handle<Font>) -> impl Bundle {
         let mut color_palette = self.color_palette.clone();
-
         if color_palette == UiColorPalette::default() {
             color_palette = theme.accent.clone();
         }
 
-        // FocusPolicy für den Button selbst
         let button_focus_policy = if self.disabled {
             FocusPolicy::Pass
         } else {
             FocusPolicy::Block
         };
 
-        //  Interaktionsstatus
         let interaction = if self.disabled {
-            Interaction::None // Verhindert Hover-Effekte etc. direkt bei Deaktivierung
+            Interaction::None
         } else {
             Interaction::default()
         };
@@ -312,17 +193,14 @@ impl<A: Component + Clone + Send + Sync + 'static> ButtonBuilder<A> {
         let button_style =
             ButtonStyle::new(self.variant, self.size, &color_palette, interaction, theme);
 
-        let text_style = button_style.text_style.clone();
-        let font_size = text_style.font_size;
-
-        // Node aus dem Style übernehmen und optionale Overrides anwenden
-        let mut node = button_style.node.clone();
+        // Node-Style aus dem Theme übernehmen und optionale Overrides anwenden
+        let mut final_style = button_style.node.clone();
         if let Some(w) = self.width {
-            node.width = w;
+            final_style.width = w;
         }
         if let Some(h) = self.height {
-            node.height = h;
-            node.min_height = h;
+            final_style.height = h;
+            final_style.min_height = h;
         }
 
         // Border-Radius ggf. überschreiben
@@ -332,13 +210,28 @@ impl<A: Component + Clone + Send + Sync + 'static> ButtonBuilder<A> {
             button_style.border_radius
         };
 
-        let mut cmd = parent.spawn((
+        // --- Werte für die 'static Closure klonen ---
+        let cloned_name = self.name.clone();
+        let cloned_children = self.children_defs;
+        let cloned_disabled = self.disabled;
+        let overlay_bg_color: Color = theme.color.black.step08.into();
+        let text_color = ButtonStyle::text_color(&color_palette, self.variant);
+        let font_handle = font_family.clone();
+        let font_size = button_style.text_style.font_size;
+        let cloned_border_radius = border_radius;
+        // Wichtig: Die Aktion wird hier nicht behandelt, da sie nicht Teil des
+        // visuellen Bundles ist. Sie muss nach dem Spawnen separat eingefügt werden.
+
+        (
+            // --- Komponenten für den Haupt-Button-Knoten ---
+            Name::new(self.name.clone()),
             Button,
-            node,
+            final_style,
             button_style.background_color,
             button_style.border_color,
-            border_radius,
+            interaction,
             button_focus_policy,
+            border_radius,
             ButtonMarker,
             ButtonState {
                 variant: self.variant,
@@ -346,82 +239,51 @@ impl<A: Component + Clone + Send + Sync + 'static> ButtonBuilder<A> {
                 color_palette: color_palette.clone(),
                 disabled: self.disabled,
             },
-        ));
-
-        // 5. OnClick Komponente
-        if let Some(action_instance) = self.action {
-            cmd.insert(action_instance);
-        }
-
-        // 6. Marker anwenden
-        for marker_fn in self.markers {
-            marker_fn(&mut cmd);
-        }
-
-        // 7. Kinder spawnen
-        let children_defs_empty = self.children_defs.is_empty();
-        let children_defs = self.children_defs;
-        cmd.with_children(|cb| {
-            for child_def in children_defs {
-                match child_def {
-                    ButtonChild::Text(text) => {
-                        cb.spawn((
-                            Text::new(text),
-                            TextFont {
-                                font: font_family.clone(),
-                                font_size,
-                                ..default()
-                            },
-                            ButtonStyle::text_color(&color_palette, self.variant),
-                        ));
-                    }
-
-                    ButtonChild::Custom(func) => {
-                        (func)(cb);
+            // --- Definition der Kinder ---
+            Children::spawn(SpawnWith(move |parent: &mut ChildSpawner| {
+                // 1. Spawne den Inhalt (Text)
+                for child_def in &cloned_children {
+                    match child_def {
+                        ButtonChild::Text(text) => {
+                            parent.spawn((
+                                Text::new(text),
+                                TextFont {
+                                    font: font_handle.clone(),
+                                    font_size,
+                                    ..default()
+                                },
+                                text_color.clone(),
+                                FocusPolicy::Pass,
+                            ));
+                        }
+                        ButtonChild::Custom(custom) => {
+                            parent.spawn(());
+                        }
                     }
                 }
-            }
 
-            // Fallback: Wenn keine Kinder definiert wurden, zumindest einen leeren Text hinzufügen
-            if children_defs_empty {
-                cb.spawn((
-                    Text::new(""),
-                    TextFont {
-                        font: font_family.clone(),
-                        font_size,
-                        ..default()
-                    },
-                    ButtonStyle::text_color(&color_palette, self.variant),
-                ));
-            }
-        });
-
-        // Overlay für Disabled-Status
-        if self.disabled {
-            spawn_disabled_overlay(&mut cmd, theme, border_radius);
-        }
-        cmd
+                // 2. Spawne das Overlay darüber, wenn der Button deaktiviert ist
+                if cloned_disabled {
+                    let _ = parent.spawn((
+                        Name::new(format!("{}_Overlay", cloned_name)),
+                        ButtonDisabledOverlayMarker,
+                        Node {
+                            position_type: PositionType::Absolute,
+                            width: Val::Percent(100.0),
+                            height: Val::Percent(100.0),
+                            left: Val::Px(0.0),
+                            top: Val::Px(0.0),
+                            ..default()
+                        },
+                        BackgroundColor(overlay_bg_color),
+                        cloned_border_radius,
+                        FocusPolicy::Block, // Blockiert keine Klicks
+                    ));
+                } else {
+                    let _ = parent.spawn(());
+                }
+            })),
+            self.action,
+        )
     }
-}
-
-/// Hilfsfunktion zum Spawnen eines Disabled-Overlays
-fn spawn_disabled_overlay(cmd: &mut EntityCommands, theme: &UiTheme, border_radius: BorderRadius) {
-    cmd.with_children(|parent| {
-        parent.spawn((
-            Node {
-                position_type: PositionType::Absolute,
-                left: Val::Px(0.0),
-                top: Val::Px(0.0),
-                width: Val::Percent(100.0),
-                height: Val::Percent(100.0),
-                ..default()
-            },
-            BackgroundColor(theme.color.black.step08),
-            ButtonDisabledOverlayMarker,
-            FocusPolicy::Block,
-            Visibility::Visible,
-            ZIndex(1),
-            border_radius,
-        ));
-    });
 }

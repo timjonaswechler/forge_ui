@@ -18,20 +18,20 @@ use std::marker::PhantomData;
 /// `NoAction` button type. For custom action types, users must register
 /// additional events and systems themselves.
 /// Generisches Plugin zur Registrierung der Button-Systeme für einen Aktionstyp `A`.
-pub struct ButtonPlugin<A: Component + Clone + Send + Sync + 'static = NoAction>(PhantomData<A>);
+pub struct ButtonPlugin<A: Component + Clone + Send + Sync = NoAction>(PhantomData<A>);
 
-impl<A: Component + Clone + Send + Sync + 'static> Default for ButtonPlugin<A> {
+impl<A: Component + Clone + Send + Sync> Default for ButtonPlugin<A> {
     fn default() -> Self {
         Self(PhantomData)
     }
 }
 
-impl<A: Component + Clone + Send + Sync + 'static> Plugin for ButtonPlugin<A> {
+impl<A: Component + Clone + Send + Sync + std::fmt::Debug> Plugin for ButtonPlugin<A> {
     fn build(&self, app: &mut App) {
         app.add_event::<ButtonClickedEvent<A>>().add_systems(
             Update,
             (
-                handle_button_press::<A>,
+                // handle_button_press::<A>,
                 handle_button_release::<A>,
                 update_button_visuals,
             )

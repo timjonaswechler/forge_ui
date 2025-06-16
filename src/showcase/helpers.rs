@@ -17,6 +17,11 @@ pub enum ShowcaseAction {
     /// Ein bestimmtes Demo-Element zeigen
     ShowElement(ShowcaseElement),
 }
+impl Default for ShowcaseAction {
+    fn default() -> Self {
+        ShowcaseAction::Toggle
+    }
+}
 
 /// Die Demo-Elemente, aus denen die Sidebar wählt
 #[derive(Clone, Debug, PartialEq, Eq, Component)]
