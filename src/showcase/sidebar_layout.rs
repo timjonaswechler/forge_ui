@@ -8,7 +8,7 @@ use bevy::prelude::*;
 
 /// Erzeugt beim Start die Root-Nodes: Sidebar (links) + Content-Container (rechts).
 pub fn setup_ui(mut commands: Commands, theme: Res<UiTheme>, font: Res<FontAssets>) {
-    let root = UiRoot::spawn(&mut commands, &theme);
+    let root = commands.spawn(UiRoot::bundle(&theme)).id();
     commands
         .entity(root)
         .insert((ShowcaseMarker, Name::new("Showcase UI")));
