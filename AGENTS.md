@@ -74,7 +74,7 @@ Dieser Prozess wird mit einem **aktuellen Ziel** gestartet.
 
 #### **Schritt C: Validierung & Abschluss**
 
-1.  **Projekt prüfen:** Stelle sicher, dass das gesamte Projekt nach deinen Änderungen mit `cargo check` ohne Fehler oder Warnungen kompiliert.
+1.  **Projekt prüfen:** Führe vor dem Commit `cargo fmt` aus und stelle sicher, dass das gesamte Projekt nach deinen Änderungen mit `cargo check` ohne Fehler oder Warnungen kompiliert.
 2.  **Ziel abschließen:** Öffne `MASTER_TASK_LIST.md` und markiere den Eintrag für dein **aktuelles Ziel** mit `- [x]`.
 3.  Wenn du in einem rekursiven Aufruf warst, kehre nun zum pausierten, übergeordneten Ziel zurück und fahre dort fort.
 
