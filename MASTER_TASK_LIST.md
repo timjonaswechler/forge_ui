@@ -15,8 +15,6 @@ Diese Datei ist das **Master-Verzeichnis aller UI-Komponenten**, die für das Pr
 
 ---
 ## Internals
-- [ ] **Visually-Hidden**
-  - https://github.com/radix-ui/website/blob/main/data/themes/docs/components/visually-hidden.mdx
 - [x] **Accessible Icon**
   - https://github.com/radix-ui/website/blob/main/data/primitives/docs/utilities/accessible-icon.mdx
   - https://github.com/radix-ui/primitives/tree/main/packages/react/accessible-icon/src/*.tsx
