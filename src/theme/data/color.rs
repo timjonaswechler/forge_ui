@@ -5,161 +5,159 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Debug, Clone, Reflect)]
 pub struct UiColorPalettesData {
-    #[serde(default)]
     pub white: UiColorPaletteData,
-    #[serde(default)]
+
     pub black: UiColorPaletteData,
-    #[serde(default)]
+
     pub gray: UiColorPaletteData,
-    #[serde(default)]
+
     pub gray_a: UiColorPaletteData,
-    #[serde(default)]
+
     pub mauve: UiColorPaletteData,
-    #[serde(default)]
+
     pub mauve_a: UiColorPaletteData,
-    #[serde(default)]
+
     pub slate: UiColorPaletteData,
-    #[serde(default)]
+
     pub slate_a: UiColorPaletteData,
-    #[serde(default)]
+
     pub sage: UiColorPaletteData,
-    #[serde(default)]
+
     pub sage_a: UiColorPaletteData,
-    #[serde(default)]
+
     pub olive: UiColorPaletteData,
-    #[serde(default)]
+
     pub olive_a: UiColorPaletteData,
-    #[serde(default)]
+
     pub sand: UiColorPaletteData,
-    #[serde(default)]
+
     pub sand_a: UiColorPaletteData,
-    #[serde(default)]
+
     pub tomato: UiColorPaletteData,
-    #[serde(default)]
+
     pub tomato_a: UiColorPaletteData,
-    #[serde(default)]
+
     pub red: UiColorPaletteData,
-    #[serde(default)]
+
     pub red_a: UiColorPaletteData,
-    #[serde(default)]
+
     pub ruby: UiColorPaletteData,
-    #[serde(default)]
+
     pub ruby_a: UiColorPaletteData,
-    #[serde(default)]
+
     pub crimson: UiColorPaletteData,
-    #[serde(default)]
+
     pub crimson_a: UiColorPaletteData,
-    #[serde(default)]
+
     pub pink: UiColorPaletteData,
-    #[serde(default)]
+
     pub pink_a: UiColorPaletteData,
-    #[serde(default)]
+
     pub plum: UiColorPaletteData,
-    #[serde(default)]
+
     pub plum_a: UiColorPaletteData,
-    #[serde(default)]
+
     pub purple: UiColorPaletteData,
-    #[serde(default)]
+
     pub purple_a: UiColorPaletteData,
-    #[serde(default)]
+
     pub violet: UiColorPaletteData,
-    #[serde(default)]
+
     pub violet_a: UiColorPaletteData,
-    #[serde(default)]
+
     pub iris: UiColorPaletteData,
-    #[serde(default)]
+
     pub iris_a: UiColorPaletteData,
-    #[serde(default)]
+
     pub indigo: UiColorPaletteData,
-    #[serde(default)]
+
     pub indigo_a: UiColorPaletteData,
-    #[serde(default)]
+
     pub blue: UiColorPaletteData,
-    #[serde(default)]
+
     pub blue_a: UiColorPaletteData,
-    #[serde(default)]
+
     pub cyan: UiColorPaletteData,
-    #[serde(default)]
+
     pub cyan_a: UiColorPaletteData,
-    #[serde(default)]
+
     pub teal: UiColorPaletteData,
-    #[serde(default)]
+
     pub teal_a: UiColorPaletteData,
-    #[serde(default)]
+
     pub jade: UiColorPaletteData,
-    #[serde(default)]
+
     pub jade_a: UiColorPaletteData,
-    #[serde(default)]
+
     pub green: UiColorPaletteData,
-    #[serde(default)]
+
     pub green_a: UiColorPaletteData,
-    #[serde(default)]
+
     pub grass: UiColorPaletteData,
-    #[serde(default)]
+
     pub grass_a: UiColorPaletteData,
-    #[serde(default)]
+
     pub bronze: UiColorPaletteData,
-    #[serde(default)]
+
     pub bronze_a: UiColorPaletteData,
-    #[serde(default)]
+
     pub gold: UiColorPaletteData,
-    #[serde(default)]
+
     pub gold_a: UiColorPaletteData,
-    #[serde(default)]
+
     pub brown: UiColorPaletteData,
-    #[serde(default)]
+
     pub brown_a: UiColorPaletteData,
-    #[serde(default)]
+
     pub orange: UiColorPaletteData,
-    #[serde(default)]
+
     pub orange_a: UiColorPaletteData,
-    #[serde(default)]
+
     pub amber: UiColorPaletteData,
-    #[serde(default)]
+
     pub amber_a: UiColorPaletteData,
-    #[serde(default)]
+
     pub yellow: UiColorPaletteData,
-    #[serde(default)]
+
     pub yellow_a: UiColorPaletteData,
-    #[serde(default)]
+
     pub lime: UiColorPaletteData,
-    #[serde(default)]
+
     pub lime_a: UiColorPaletteData,
-    #[serde(default)]
+
     pub mint: UiColorPaletteData,
-    #[serde(default)]
+
     pub mint_a: UiColorPaletteData,
-    #[serde(default)]
+
     pub sky: UiColorPaletteData,
-    #[serde(default)]
+
     pub sky_a: UiColorPaletteData,
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone, Reflect)]
 pub struct UiColorPaletteData {
-    #[serde(default)]
     pub step01: [f32; 4],
-    #[serde(default)]
+
     pub step02: [f32; 4],
-    #[serde(default)]
+
     pub step03: [f32; 4],
-    #[serde(default)]
+
     pub step04: [f32; 4],
-    #[serde(default)]
+
     pub step05: [f32; 4],
-    #[serde(default)]
+
     pub step06: [f32; 4],
-    #[serde(default)]
+
     pub step07: [f32; 4],
-    #[serde(default)]
+
     pub step08: [f32; 4],
-    #[serde(default)]
+
     pub step09: [f32; 4],
-    #[serde(default)]
+
     pub step10: [f32; 4],
-    #[serde(default)]
+
     pub step11: [f32; 4],
-    #[serde(default)]
+
     pub step12: [f32; 4],
 }
 impl Default for UiColorPaletteData {
